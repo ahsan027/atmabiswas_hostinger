@@ -1,0 +1,297 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.navbar {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  background-color: #ffffff;
+
+  border-bottom: 2px solid #0073e6;
+}
+
+.navbar .top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+}
+
+.navbar .top-row a {
+  color: #0073e6;
+
+  text-decoration: none;
+  margin: 0 10px;
+  padding: 3px 10px;
+  transition: background-color 0.3s, color 0.3s;
+  border-radius: 15px;
+}
+
+.navbar .top-row .bars a:hover {
+  background-color: #0073e6;
+  /* Blue hover effect */
+  color: #ffffff;
+}
+
+.navbar .top-row .bars a.active {
+  background-color: #1c8eff;
+  color: white;
+}
+
+.navbar .top-row .logo a img {
+  height: 70px;
+  width: 320px;
+}
+
+.navbar .bottom-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.navbar .bottom-row a {
+  color: #0073e6;
+  text-decoration: none;
+  padding: 10px 15px;
+  transition: background-color 0.3s, color 0.3s;
+  border-radius: 10px;
+}
+
+.navbar .bottom-row a:hover {
+  background-color: #0073e6;
+  color: #ffffff;
+}
+
+.navbar .bottom-row a.active {
+  background-color: #1c8eff;
+  color: white;
+}
+
+.navbar .top-row a.active {
+  background-color: #1c8eff;
+  color: white;
+}
+
+/* Style for the dropdown container */
+.dropdown {
+  position: relative;
+}
+
+/* Style for the maindrop link */
+.maindrop {
+  display: flex;
+  gap: 0.7rem;
+}
+
+.maindrop {
+  color: #0073e6;
+  text-decoration: none;
+  padding: 10px 15px;
+  display: inline-flex;
+  align-items: center;
+  transition: background-color 0.3s, color 0.3s;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+/* Add hover effect for the maindrop */
+
+/* Initially hide the dropdown content */
+.dropdown-content {
+  display: none;
+  /* Hidden by default */
+  flex-direction: column;
+  position: absolute;
+  top: 100%;
+  /* Align dropdown just below the maindrop */
+  left: 0;
+  background-color: #ffffff;
+  min-width: 200px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Style for dropdown links */
+.dropdown-content a {
+  color: #0073e6;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  transition: background-color 0.3s, color 0.3s;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+/* Remove border for the last link in the dropdown */
+.dropdown-content a:last-child {
+  border-bottom: none;
+}
+
+/* Hover effect for dropdown links */
+.dropdown-content a:hover {
+  background-color: #0073e6;
+  color: #ffffff;
+}
+
+/* Display dropdown-content on hover */
+.dropdown:hover .dropdown-content {
+  display: flex;
+  /* Show the dropdown content */
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column; /* Stack items vertically */
+    align-items: flex-start; /* Align items to the start */
+    padding: 10px 20px; /* Adjusted padding */
+  }
+
+  .navbar .top-row {
+    width: 100%; /* Make top row full width */
+    justify-content: space-between; /* Space out logo and toggle */
+    align-items: center;
+  }
+
+  .navbar .top-row .logo a img {
+    height: 50px; /* Adjusted logo height */
+    width: auto; /* Allow width to adjust */
+    margin-left: 0; /* Removed margin */
+  }
+
+  .navbar .top-row .bars a {
+    display: none; /* Hide standard top-row links */
+  }
+
+  .navbar .top-row .menu-toggle {
+    display: flex; /* Show menu toggle */
+    cursor: pointer;
+    font-size: 2rem; /* Adjusted size */
+    color: #0073e6;
+    margin-right: 0; /* Removed margin */
+  }
+
+  .navbar .bottom-row {
+    display: none; /* Hide bottom row by default */
+    flex-direction: column;
+    width: 100%; /* Make menu full width when shown */
+    text-align: center; /* Center text */
+  }
+
+  .navbar .bottom-row.active {
+    display: flex; /* Show bottom row when active */
+  }
+
+  .navbar .bottom-row a {
+    padding: 12px 0; /* Adjusted padding */
+    border-bottom: 1px solid #eee; /* Add border between links */
+    width: 100%; /* Make links full width */
+    border-radius: 0; /* Remove border radius */
+  }
+
+  .navbar .bottom-row a:last-child {
+    border-bottom: none; /* Remove border for last link */
+  }
+
+  /* Dropdown specific styles for mobile */
+  .dropdown {
+    width: 100%; /* Full width for dropdown in mobile */
+  }
+
+  .maindrop {
+    width: 100%; /* Full width for maindrop */
+    justify-content: center; /* Center maindrop text */
+    padding: 12px 0; /* Adjusted padding */
+    border-bottom: 1px solid #eee; /* Add border */
+    border-radius: 0; /* Remove border radius */
+  }
+
+  .dropdown-content {
+    position: static; /* Change position to static */
+    box-shadow: none; /* Remove box shadow */
+    min-width: auto; /* Remove min-width */
+    width: 100%; /* Full width */
+    background-color: #f9f9f9; /* Slightly different background */
+    border-radius: 0; /* Remove border radius */
+    padding-left: 10px; /* Add some indentation */
+  }
+
+  .dropdown-content a {
+    padding: 10px 0 10px 20px; /* Adjusted padding for indentation */
+    border-bottom: 1px solid #eee; /* Add border */
+  }
+
+  .dropdown-content a:last-child {
+    border-bottom: none; /* Remove border for last link */
+  }
+}
+
+@media (min-width: 769px) {
+  .navbar .top-row .menu-toggle {
+    display: none;
+  }
+
+  .navbar .top-row a {
+    display: inline;
+  }
+}
+
+@media (min-width) {
+  .logo {
+    font-size: 1.5rem;
+    color: #0073e6;
+  }
+}
+
+.mobile-header {
+  display: none; /* Hidden by default */
+  width: 100%;
+  padding: 10px 20px;
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  margin-bottom: 15px; /* Added bottom margin for spacing */
+}
+
+.mobile-header .logo img {
+  height: 40px; /* Adjust logo size as needed */
+}
+
+.mobile-header .menu-toggle {
+  display: flex; /* Ensure menu toggle is visible within the header on mobile */
+  width: 30px;
+  height: 24px;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.mobile-header .menu-toggle .bar {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background-color: #333; /* Color for the menu bars */
+  transition: all 0.3s ease;
+}
+
+.mobile-header .menu-toggle.active .bar:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.mobile-header .menu-toggle.active .bar:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-header .menu-toggle.active .bar:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}

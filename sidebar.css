@@ -1,0 +1,193 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap");
+
+.sidenav {
+  z-index: 100;
+  overflow-y: auto;
+  font-family: "Montserrat", Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  background-color: #0d47a1; /* Solid dark blue background */
+  width: 280px;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0; /* Position at 0 and use transform for sliding */
+  transform: translateX(-100%); /* Initially hidden off-screen */
+  transition: transform 0.5s ease; /* Transition the transform property */
+  padding: 20px 0;
+  box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1); /* Softer shadow */
+  border-top-right-radius: 20px; /* More rounded corners */
+  border-bottom-right-radius: 20px;
+}
+
+.sidenav.active {
+  transform: translateX(0); /* Slide into view */
+}
+
+.sidelogo {
+  display: flex;
+  align-items: center;
+  padding: 0 20px 20px 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* White separator line with transparency */
+}
+
+.sidelogo img {
+  width: 70px;
+  height: 70px;
+  margin-right: 15px;
+}
+
+#close-btn {
+  position: absolute;
+  top: 31px;
+  right: 15px;
+  color: #ffffff; /* White color for close button */
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 5px;
+}
+
+#close-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+}
+
+.sidenav a {
+  font-family: "Montserrat", Arial, sans-serif;
+  font-weight: 400;
+  text-decoration: none;
+  color: #ffffff; /* White text for all links */
+  font-size: 1rem;
+  padding: 12px 20px; /* Consistent padding for main links */
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+.sidenav a i {
+  margin-right: 15px;
+  font-size: 1.2rem;
+  color: #ffffff; /* White icon color for all icons */
+}
+
+.sidenav a:hover {
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.1
+  ); /* Hover effect with white transparency */
+}
+
+.sidedrop .mainsidedrop a {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* Style for the main dropdown link when active or specifically styled */
+.sidedrop .mainsidedrop.activities-main a, /* Example for Activities */
+.sidedrop.active .mainsidedrop a {
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.2
+  ); /* Darker shade for active/highlighted main links */
+}
+
+.sidedropContent {
+  display: none;
+  flex-direction: column;
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.1
+  ); /* Slightly transparent white background for dropdown */
+}
+
+.sidedropContent a {
+  font-family: "Montserrat", Arial, sans-serif; /* Ensure same font */
+  font-weight: 400; /* Ensure same font weight */
+  color: #ffffff; /* White text for dropdown links */
+  padding: 8px 20px 8px 40px; /* Indent dropdown items with slightly less vertical padding */
+  font-size: 0.95rem; /* Slightly smaller font size for dropdown items */
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+.sidedropContent a i {
+  color: #ffffff; /* White icon color for dropdown icons */
+  margin-right: 15px; /* Consistent icon spacing */
+}
+
+.sidedropContent a:hover {
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.2
+  ); /* Slightly more opaque hover background */
+  color: #ffffff; /* White text on hover */
+}
+
+.sidedrop.active .sidedropContent {
+  display: flex;
+}
+
+.sidenav > a:last-child {
+  margin-top: auto;
+  margin-bottom: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.2); /* White separator line with transparency */
+  padding-top: 15px;
+}
+
+/* Mobile-first approach: Hide top navbar, show side navbar toggle and mobile header */
+@media (max-width: 768px) {
+  .navbar {
+    display: none;
+  }
+  .mobile-header {
+    display: flex;
+  }
+  .sidenav {
+    display: flex;
+  }
+  /* Add padding to the body when the sidenav is open */
+  body.sidenav-open {
+    padding-top: 80px; /* Increased padding for the mobile header */
+  }
+  /* Add margin to main content when sidebar is active */
+  /* Adjust main content using transform as well for smoother animation */
+  .sidenav.active ~ .main-content {
+    margin-left: 280px; /* Keep margin-left for layout */
+    transform: translateX(280px); /* Use transform for smooth movement */
+    transition: margin-left 0.5s ease, transform 0.5s ease; /* Transition both */
+  }
+}
+
+/* Desktop: Show top navbar, hide side navbar toggle, mobile header, and side navbar */
+@media (min-width: 769px) {
+  .navbar {
+    display: flex !important; /* Ensure desktop navbar is visible */
+  }
+  .mobile-header {
+    display: none !important;
+  }
+  .menu-toggle {
+    display: none !important;
+  }
+  .sidenav {
+    display: none !important;
+  }
+  /* Ensure no margin/padding/transform on main content on desktop */
+  .main-content {
+    margin-left: 0;
+    padding-top: 0;
+    transform: translateX(0);
+  }
+}

@@ -1,0 +1,319 @@
+.toggle-btn {
+  width: 80%;
+  background-color: #ffffff;
+  border: 2px solid #0073e6;
+  color: #0073e6;
+  padding: 10px 20px;
+
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 20px;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+
+.toggle-btn:hover {
+  background-color: rgb(230, 230, 230);
+  color: #005bb5;
+}
+.newnewdiv {
+  border-right: #0073e6 5px solid;
+}
+/* Contact card styles */
+.contact-card {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.5s, transform 0.5s;
+  transform: translateY(20px);
+  width: 80%;
+  margin: 20px auto;
+  background-color: #ffffff;
+  border: 1px solid #0073e6;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.contact-card.active {
+  display: flex;
+  gap: 1rem;
+  opacity: 1;
+  transform: translateY(0);
+}
+.newnewdiv,
+.oldnewdiv {
+  width: 50%;
+}
+.filterbars {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.5s, transform 0.5s;
+  transform: translateY(20px);
+  width: 80%;
+  margin: 20px auto;
+  background-color: #ffffff;
+  padding: 1rem;
+  height: 0;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.regbranch {
+  cursor: pointer;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.5s, transform 0.5s;
+  transform: translateY(20px);
+  width: 80%;
+  margin: 20px auto;
+  background-color: #ffffff;
+  padding: 1rem;
+  height: 0;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.regbranch.active {
+  display: flex;
+  opacity: 1;
+  height: auto;
+  transform: translateY(0);
+}
+
+.filterbars.active {
+  display: flex;
+  opacity: 1;
+  height: auto;
+  transform: translateY(0);
+}
+
+.contact-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 20px;
+  color: #0073e6;
+}
+
+.contact-info .btn button {
+  font-family: "monoserrat";
+  font-size: 1rem;
+  padding: 0.5rem;
+  color: #ffffff;
+  border: none;
+  border-radius: 15px;
+  background-color: #0073e6;
+  cursor: pointer;
+  transition: transform 0.3s ease-in;
+}
+
+.contact-info .btn a:hover button {
+  transform: scale(1.1);
+  background-color: #005bb5;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .contact-info .btn button {
+    padding: 0.8rem;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .contact-info {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+  }
+
+  .contact-info .btn button {
+    padding: 0.6rem;
+    font-size: 1rem;
+    width: 100%;
+    /* Make the button take the full width */
+    margin-top: 10px;
+  }
+}
+
+.contact-info h2 {
+  margin: 0;
+  color: #005bb5;
+}
+
+.contact-info p {
+  margin: 5px 0;
+}
+
+.map-container {
+  height: 300px;
+}
+
+.map-container iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+@media (max-width: 768px) {
+  .navbar .bottom-row {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.mainbody {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+/* Contact Card and Select Fields */
+
+.branches {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 600px) {
+  .branches {
+    width: 100%;
+  }
+}
+
+.filterbars {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.filterbars form {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.filterbars select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 80%;
+  max-width: 300px;
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .contact-card {
+    width: 90%;
+  }
+
+  .filterbars select {
+    width: 90%;
+  }
+}
+
+/* Table */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  background: white;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+thead {
+  background: #2e1f45;
+  color: white;
+}
+
+th,
+td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+tbody tr:hover {
+  background: #f5f5f5;
+}
+
+@media (max-width: 768px) {
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
+
+  thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  tr {
+    margin: 0 0 1rem 0;
+    padding: 10px 0;
+  }
+
+  tr:nth-child(odd) {
+    background: #f9f9f9;
+  }
+
+  td {
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 50%;
+
+    text-align: right;
+  }
+
+  td:before {
+    position: absolute;
+    top: 10px;
+    left: 6px;
+    width: 40%;
+    padding-right: 10px;
+
+    content: attr(data-label);
+    font-weight: bold;
+    text-align: left;
+  }
+}
+
+@media (max-width: 480px) {
+  .table-container {
+    overflow-x: scroll;
+  }
+}
+@media (max-width: 768px) {
+  .contact-card {
+    gap: 10rem;
+    width: 95%;
+    flex-direction: column;
+  }
+
+  .newnewdiv,
+  .oldnewdiv {
+    width: 100%;
+  }
+  .newnewdiv {
+    border-bottom: #0073e6 5px solid;
+    border-right: none;
+  }
+}
