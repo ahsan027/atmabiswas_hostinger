@@ -79,8 +79,8 @@ body {
     var(--primary-dark) 100%
   );
   color: var(--light);
-  padding: 2rem 0;
-  margin-bottom: 2rem;
+  padding: 1rem 0;
+  margin-bottom: 1rem;
   box-shadow: var(--shadow-lg);
   position: relative;
   overflow: hidden;

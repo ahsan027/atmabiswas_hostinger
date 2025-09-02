@@ -58,11 +58,7 @@ $blogData = $blogStmt->fetch(PDO::FETCH_ASSOC);
             <h1><i class="fas fa-image"></i> Update Blog Image</h1>
             <p class="page-subtitle">Update the cover image and details for your blog post</p>
           </div>
-          <div class="header-actions">
-            <a href="dashboard.php" class="btn btn-secondary">
-              <i class="fas fa-arrow-left"></i> Back to Dashboard
-            </a>
-          </div>
+
         </div>
       </div>
 
