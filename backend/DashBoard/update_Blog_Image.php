@@ -1,13 +1,13 @@
 <?php
-include '../Database/db.php';
+require_once '../Database/db.php';
 session_start();
 if (!isset($_SESSION['username'])) {
   header("Location: ../login/loging.php");
   exit();
 }
 
-$db = new Db();
-$connection = $db->connect();
+// Use the centralized database connection
+$connection = getDB();
 
 $coverid = isset($_GET['id']) && is_numeric($_GET['id']) ? (int) $_GET['id'] : null;
 
