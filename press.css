@@ -89,12 +89,13 @@ header p {
 
 .press-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(300px, 1fr));
   gap: 2rem;
   width: 100%;
   margin: 2rem 0;
   align-items: stretch;
   padding: 0;
+  justify-items: start;
 }
 
 .press-card {
@@ -977,9 +978,10 @@ a {
 
 @media (max-width: 1024px) {
   .press-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(280px, 1fr));
     gap: 1.5rem;
     margin: 1.5rem 0;
+    justify-items: start;
   }
 
   .press-card {
@@ -997,9 +999,10 @@ a {
   }
 
   .press-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(250px, 1fr));
     gap: 1.5rem;
     margin: 1.5rem 0;
+    justify-items: start;
   }
 
   .press-card {
@@ -1052,6 +1055,7 @@ a {
     grid-template-columns: 1fr;
     gap: 1rem;
     margin: 1rem 0;
+    justify-items: start;
   }
 
   .press-card {
