@@ -11,8 +11,8 @@ class Db
     private $dbname = "atmabiswas";
     private $pdo;
 
-    // Private constructor to prevent direct instantiation
-    private function __construct()
+    // Public constructor for backward compatibility
+    public function __construct()
     {
         $this->initializeConnection();
     }
