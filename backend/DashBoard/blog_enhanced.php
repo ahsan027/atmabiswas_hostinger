@@ -25,49 +25,72 @@ require_once '../../config.php';
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary: #000000;
-            --secondary: #0073e6;
-            --accent: #0073e6;
-            --success: #0073e6;
-            --warning: #0073e6;
-            --light: #ffffff;
-            --dark: #000000;
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #2ecc71;
         }
 
         body {
             font-family: 'Montserrat', sans-serif;
-            background: #ffffff;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             min-height: 100vh;
+            padding: 20px;
+            color: var(--dark);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            text-align: center;
+            margin-bottom: 25px;
+            color: var(--primary);
+            font-size: 2.5rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+            border-bottom: 3px solid var(--secondary);
+            padding-bottom: 15px;
         }
 
         .main-header {
-            background: #0073e6;
-            color: white;
+            background: white;
+            color: #000000;
             padding: 2rem 0;
             margin-bottom: 2rem;
             border-radius: 0 0 20px 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
         .main-header h1 {
             font-family: 'Playfair Display', serif;
             font-size: 2.5rem;
             margin: 0;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+            border-bottom: 3px solid var(--secondary);
+            padding-bottom: 15px;
         }
 
         .card {
-            border: none;
+            background: white;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            margin-bottom: 2rem;
-            overflow: hidden;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: none;
         }
 
         .card-header {
-            background: #ffffff;
-            color: #000000;
-            border: 2px solid #000000;
+            background: var(--light);
+            color: var(--primary);
+            border: 1px solid #eee;
             padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
         }
 
         .card-header h5 {
@@ -77,89 +100,152 @@ require_once '../../config.php';
 
         .form-control,
         .form-select {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1rem;
+            border: 1px solid #ddd;
             border-radius: 8px;
-            border: 2px solid #000000;
-            padding: 0.75rem 1rem;
-            transition: all 0.3s ease;
+            margin-bottom: 25px;
+            transition: all 0.3s;
+            font-family: 'Montserrat', sans-serif;
         }
 
         .form-control:focus,
         .form-select:focus {
-            border-color: #0073e6;
-            box-shadow: 0 0 0 0.2rem rgba(0, 115, 230, 0.25);
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            outline: none;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            transition: all 0.3s;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            outline: none;
         }
 
         .toolbar {
-            background: #ffffff;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: var(--light);
             border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            border: 2px solid #000000;
+            border: 1px solid #eee;
+            align-items: center;
         }
 
+
+
         .toolbar .btn {
-            margin: 0.2rem;
+            background: white;
+            border: 1px solid #ddd;
             border-radius: 6px;
-            transition: all 0.2s ease;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.2s;
+            min-width: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .toolbar .btn:hover {
-            transform: translateY(-1px);
+            background: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
         }
 
         .editor-content {
-            min-height: 400px;
-            border: 2px solid #000000;
+            min-height: 300px;
+            border: 1px solid #ddd;
             border-radius: 8px;
-            padding: 1.5rem;
+            padding: 20px;
+            font-size: 16px;
+            line-height: 1.6;
             background: white;
-            transition: all 0.3s ease;
+            margin-bottom: 30px;
+            transition: all 0.3s;
         }
 
         .editor-content:focus {
-            border-color: #0073e6;
-            box-shadow: 0 0 0 0.2rem rgba(0, 115, 230, 0.25);
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
             outline: none;
         }
 
         .editor-content[contenteditable="true"]:empty:before {
             content: attr(placeholder);
-            color: #000000;
-            font-style: italic;
+            color: #aaa;
+            display: block;
+        }
+
+        .editor-content img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        h1[style*="font-size: 1.2rem"] {
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 10px;
+            color: var(--primary);
+            font-weight: 600;
         }
 
         .btn-publish {
-            background: #0073e6;
+            background: var(--success);
+            color: white;
             border: none;
-            border-radius: 10px;
-            padding: 1rem 2rem;
+            border-radius: 8px;
+            padding: 15px 30px;
             font-size: 1.1rem;
             font-weight: 600;
-            color: white;
-            transition: all 0.3s ease;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            justify-content: center;
+            font-family: 'Montserrat', sans-serif;
         }
 
         .btn-publish:hover {
+            background: #27ae60;
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 115, 230, 0.3);
-            color: white;
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
         }
 
         .word-count {
             font-size: 0.9rem;
-            color: #000000;
+            color: var(--gray-600);
             text-align: right;
             margin-top: 0.5rem;
+            font-family: 'Montserrat', sans-serif;
         }
 
         .word-count.low {
-            color: #0073e6;
+            color: var(--secondary);
             font-weight: 600;
         }
 
         .drag-over {
-            background-color: rgba(0, 115, 230, 0.1) !important;
-            border: 2px dashed #0073e6 !important;
+            background-color: rgba(52, 152, 219, 0.1) !important;
+            border: 2px dashed var(--secondary) !important;
         }
 
         .notification {
@@ -168,13 +254,14 @@ require_once '../../config.php';
             right: 20px;
             padding: 1rem 1.5rem;
             border-radius: 10px;
-            background: #0073e6;
+            background: var(--success);
             color: white;
             font-weight: 600;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
             transform: translateX(200%);
             transition: transform 0.3s ease;
             z-index: 1050;
+            font-family: 'Montserrat', sans-serif;
         }
 
         .notification.show {
@@ -182,11 +269,11 @@ require_once '../../config.php';
         }
 
         .notification.error {
-            background: #0073e6;
+            background: var(--accent);
         }
 
         .notification.warning {
-            background: #0073e6;
+            background: var(--warning);
         }
 
         .preview-mode {
@@ -194,13 +281,13 @@ require_once '../../config.php';
             border-radius: 8px;
             padding: 2rem;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
         }
 
         .preview-mode h1 {
-            color: #000000;
+            color: var(--primary);
+            font-family: 'Playfair Display', serif;
             margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #0073e6;
         }
 
         .preview-mode .meta {
@@ -330,6 +417,21 @@ require_once '../../config.php';
         .badge.bg-warning {
             background-color: #0073e6 !important;
         }
+
+        /* Back to Dashboard button styling */
+        .btn-outline-light {
+            color: black !important;
+            border-color: black !important;
+            background-color: transparent !important;
+        }
+
+        .btn-outline-light:hover {
+            color: black !important;
+            border-color: black !important;
+            background-color: transparent !important;
+            transform: none !important;
+            box-shadow: none !important;
+        }
     </style>
 </head>
 
@@ -339,11 +441,11 @@ require_once '../../config.php';
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-8">
-                    <h1><i class="fas fa-pen-fancy"></i> Enhanced Blog Editor</h1>
+                    <h1><i class="fas fa-pen-fancy"></i>Blog Editor</h1>
                     <p class="mb-0">Create and manage your blog posts with advanced features</p>
                 </div>
                 <div class="col-md-4 text-end">
-                    <a href="dashboard.php" class="btn btn-outline-light">
+                    <a href="dashboard.php" class="btn btn-outline-light" style="color: black; text-decoration: none;">
                         <i class="fas fa-arrow-left"></i> Back to Dashboard
                     </a>
                 </div>
@@ -386,67 +488,63 @@ require_once '../../config.php';
 
                                 <!-- Rich Text Toolbar -->
                                 <div class="toolbar">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <select class="form-select form-select-sm d-inline-block w-auto" onchange="changeFont(this.value)">
-                                                <option value="Arial">Arial</option>
-                                                <option value="Times New Roman">Times New Roman</option>
-                                                <option value="Georgia">Georgia</option>
-                                                <option value="Courier New">Courier New</option>
-                                                <option value="Verdana">Verdana</option>
-                                            </select>
+                                    <!-- Font Controls -->
+                                    <select class="form-select form-select-sm" onchange="changeFont(this.value)">
+                                        <option value="Arial">Arial</option>
+                                        <option value="Times New Roman">Times New Roman</option>
+                                        <option value="Georgia">Georgia</option>
+                                        <option value="Courier New">Courier New</option>
+                                        <option value="Verdana">Verdana</option>
+                                    </select>
 
-                                            <select class="form-select form-select-sm d-inline-block w-auto" onchange="changeFontSize(this.value)">
-                                                <option value="1">Small</option>
-                                                <option value="2">Medium</option>
-                                                <option value="3" selected>Large</option>
-                                                <option value="4">Extra Large</option>
-                                                <option value="5">XXL</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <!-- Formatting buttons -->
-                                            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="formatText('bold')" title="Bold">
-                                                <i class="fas fa-bold"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="formatText('italic')" title="Italic">
-                                                <i class="fas fa-italic"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="formatText('underline')" title="Underline">
-                                                <i class="fas fa-underline"></i>
-                                            </button>
+                                    <select class="form-select form-select-sm" onchange="changeFontSize(this.value)">
+                                        <option value="1">Small</option>
+                                        <option value="2">Medium</option>
+                                        <option value="3" selected>Large</option>
+                                        <option value="4">Extra Large</option>
+                                        <option value="5">XXL</option>
+                                    </select>
 
-                                            <input type="color" class="form-control form-control-sm d-inline-block w-auto" onchange="changeColor(this.value)" title="Text Color">
+                                    <!-- Formatting buttons -->
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="formatText('bold')" title="Bold">
+                                        <i class="fas fa-bold"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="formatText('italic')" title="Italic">
+                                        <i class="fas fa-italic"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="formatText('underline')" title="Underline">
+                                        <i class="fas fa-underline"></i>
+                                    </button>
 
-                                            <!-- Alignment -->
-                                            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="alignText('left')" title="Align Left">
-                                                <i class="fas fa-align-left"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="alignText('center')" title="Align Center">
-                                                <i class="fas fa-align-center"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="alignText('right')" title="Align Right">
-                                                <i class="fas fa-align-right"></i>
-                                            </button>
+                                    <input type="color" class="form-control form-control-sm" onchange="changeColor(this.value)" title="Text Color" style="width: 50px; height: 38px; padding: 2px;">
 
-                                            <!-- Lists -->
-                                            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="formatText('insertUnorderedList')" title="Bullet List">
-                                                <i class="fas fa-list-ul"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="formatText('insertOrderedList')" title="Numbered List">
-                                                <i class="fas fa-list-ol"></i>
-                                            </button>
+                                    <!-- Alignment -->
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="alignText('left')" title="Align Left">
+                                        <i class="fas fa-align-left"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="alignText('center')" title="Align Center">
+                                        <i class="fas fa-align-center"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="alignText('right')" title="Align Right">
+                                        <i class="fas fa-align-right"></i>
+                                    </button>
 
-                                            <!-- Link & Image -->
-                                            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="createLink()" title="Insert Link">
-                                                <i class="fas fa-link"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="triggerUpload()" title="Insert Image">
-                                                <i class="fas fa-image"></i>
-                                            </button>
-                                            <input type="file" id="imageUpload" style="display: none;" accept="image/*">
-                                        </div>
-                                    </div>
+                                    <!-- Lists -->
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="formatText('insertUnorderedList')" title="Bullet List">
+                                        <i class="fas fa-list-ul"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="formatText('insertOrderedList')" title="Numbered List">
+                                        <i class="fas fa-list-ol"></i>
+                                    </button>
+
+                                    <!-- Link & Image -->
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="createLink()" title="Insert Link">
+                                        <i class="fas fa-link"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="triggerUpload()" title="Insert Image">
+                                        <i class="fas fa-image"></i>
+                                    </button>
+                                    <input type="file" id="imageUpload" style="display: none;" accept="image/*">
                                 </div>
 
                                 <!-- Summary Section -->
@@ -488,9 +586,6 @@ require_once '../../config.php';
 
                                 <!-- Action Buttons -->
                                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                    <button type="button" class="btn btn-outline-secondary" onclick="saveDraft()">
-                                        <i class="fas fa-save"></i> Save Draft
-                                    </button>
                                     <button type="submit" class="btn btn-publish">
                                         <i class="fas fa-paper-plane"></i> Publish Post
                                     </button>

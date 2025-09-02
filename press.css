@@ -107,7 +107,7 @@ header p {
   display: flex;
   flex-direction: column;
   padding: 1.5rem;
-  min-height: 380px;
+  min-height: 420px;
   height: 100%;
 }
 
@@ -168,13 +168,16 @@ header p {
   margin-bottom: 1.5rem;
   line-height: 1.6;
   text-align: left;
+  flex-grow: 1;
 }
 
 .press-actions {
   display: flex;
   gap: 10px;
   align-items: center;
+  justify-content: flex-start;
   margin-top: auto;
+  flex-wrap: wrap;
 }
 
 .press-button.read-more {
@@ -216,7 +219,8 @@ header p {
   .press-summary {
     font-size: 0.98rem;
   }
-  .press-button.read-more {
+  .press-button.read-more,
+  .press-button.update {
     font-size: 1rem;
     padding: 10px 18px;
   }
@@ -457,10 +461,31 @@ header p {
   transition: background 0.3s ease;
 }
 
-.press-button.update,
 .press-button.update {
   background-color: #f1f1f1;
   color: #333;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+}
+
+.press-button.update:hover {
+  background-color: #e5e5e5;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.press-button.update:active {
+  transform: translateY(0);
 }
 
 .press-button i {
@@ -1072,7 +1097,8 @@ a {
     gap: 0.5rem;
   }
 
-  .press-button.read-more {
+  .press-button.read-more,
+  .press-button.update {
     width: 100%;
     justify-content: center;
   }
