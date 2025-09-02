@@ -38,10 +38,12 @@ $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <header>
         <div class="navbar">
             <div class="logo">
-                <img src="https://atmabiswas.org/wp-content/uploads/2024/10/cropped-Monogram-web.webp" alt="Logo">
+                <a href="../../index.php">
+                    <img src="https://atmabiswas.org/wp-content/uploads/2024/10/cropped-Monogram-web.webp" alt="Logo">
+                </a>
             </div>
             <ul class="menu">
-                <li><a href="../../frontend/career.php">Home</a></li>
+                <li><a href="../../index.php">Home</a></li>
                 <li><a href="availableJobs.php">Available Jobs</a></li>
                 <li><a href="../login/login.php">Login</a></li>
             </ul>
@@ -89,31 +91,31 @@ $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
     <script>
-    function filterJobs() {
-        const searchInput = document.getElementById('searchInput').value.toLowerCase();
-        const locationFilter = document.getElementById('locationFilter').value;
-        const jobCards = document.querySelectorAll('.job-card');
+        function filterJobs() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const locationFilter = document.getElementById('locationFilter').value;
+            const jobCards = document.querySelectorAll('.job-card');
 
-        jobCards.forEach(card => {
-            const title = card.querySelector('.job-title').textContent.toLowerCase();
-            const company = card.querySelector('.company').textContent.toLowerCase();
-            const location = card.querySelector('.location').textContent;
+            jobCards.forEach(card => {
+                const title = card.querySelector('.job-title').textContent.toLowerCase();
+                const company = card.querySelector('.company').textContent.toLowerCase();
+                const location = card.querySelector('.location').textContent;
 
-            const matchesSearch = title.includes(searchInput) || company.includes(searchInput);
-            const matchesLocation = locationFilter === '' || location === locationFilter;
+                const matchesSearch = title.includes(searchInput) || company.includes(searchInput);
+                const matchesLocation = locationFilter === '' || location === locationFilter;
 
-            card.style.display = matchesSearch && matchesLocation ? 'block' : 'none';
-        });
-    }
+                card.style.display = matchesSearch && matchesLocation ? 'block' : 'none';
+            });
+        }
 
-    function clearFilters() {
-        document.getElementById('searchInput').value = '';
-        document.getElementById('locationFilter').value = '';
-        filterJobs();
-    }
+        function clearFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('locationFilter').value = '';
+            filterJobs();
+        }
 
-    document.getElementById('searchInput').addEventListener('input', filterJobs);
-    document.getElementById('locationFilter').addEventListener('change', filterJobs);
+        document.getElementById('searchInput').addEventListener('input', filterJobs);
+        document.getElementById('locationFilter').addEventListener('change', filterJobs);
     </script>
 </body>
 

@@ -28,22 +28,21 @@ $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Create Job - Admin Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/admin-sidebar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="stylesheet" href="css/createjob.css">
     <link rel="icon" type="image/png" href="../images/logo/logo.png">
 </head>
 
-<body class="bg-gray-100 overflow-x-hidden">
-    <div class="flex h-screen">
+<body class="bg-gray-50">
+    <div class="dashboard-container">
         <!-- Sidebar -->
-        <?php include 'sidebar.php' ?>
+        <div class="sidebar-container">
+            <?php include 'sidebar.php' ?>
+        </div>
 
         <!-- Main Content -->
-        <div class="flex-1 flex flex-col">
-            <!-- Top Navbar -->
-
-
-
+        <div class="main-content">
             <!-- Content Area -->
             <div class="container">
                 <form method="POST" action="Actions/jobreq.php">
@@ -54,7 +53,7 @@ $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <div class="fields">
                                 <!-- Job title -->
 
-                                            <div class="input-field">
+                                <div class="input-field">
                                     <label>Job Sector</label>
                                     <select name="job_dept" required>
                                         <option disabled selected>Select Sector</option>

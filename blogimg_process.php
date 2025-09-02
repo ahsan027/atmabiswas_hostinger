@@ -1,6 +1,6 @@
 <?php
 
-include 'Database/db.php';
+include 'backend/Database/db.php';
 
 $db = new Db();
 $connection = $db->connect();

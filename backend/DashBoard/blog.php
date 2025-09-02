@@ -5,6 +5,10 @@ if (!isset($_SESSION['username'])) {
     header("Location: ../login/loging.php");
     exit();
 }
+
+// Redirect to enhanced blog editor
+header("Location: blog_enhanced.php");
+exit();
 ?>
 
 <!DOCTYPE html>

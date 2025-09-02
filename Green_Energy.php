@@ -2,11 +2,19 @@
 <html lang="en">
 
 <head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EZVV9DWWY7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-EZVV9DWWY7');
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Green Energy - ATMABISWAS </title>
     <link rel="stylesheet" href="green.css">
-    
     <link rel="icon" type="image/png" href="LOGO/NGO_logo_monogram.png">            
 </head>
 
@@ -25,7 +33,7 @@
     </div>
     <div class="container">
         <div class="card">
-            <img src="Bondhu Chula/bondhu_chula1.jpeg" alt="Bondhu Chula">
+            <img src="Bondhu Chula/bondhu_chula1.jpg" loading="lazy" alt="Bondhu Chula">
             <div class="card-content">
                 <h3>ATMABISWAS Bondhu Chula</h3>
                 <p>A cleaner, more efficient cooking stove reducing indoor pollution and improving rural household
@@ -33,7 +41,7 @@
             </div>
         </div>
         <div class="card">
-            <img src="Bondhu Chula/bondhu_chula2.avif" alt="Souro Shokti">
+            <img src="Bondhu Chula/bondhu_chula2.jpg" loading="lazy" alt="Souro Shokti">
             <div class="card-content">
                 <h3>ATMABISWAS Souro Shokti</h3>
                 <p>Harnessing solar energy to provide sustainable and affordable electricity to remote communities.</p>
@@ -46,12 +54,12 @@
             <p>Supporting sustainable practices through solar energy and traditional clean cooking methods.</p>
         </div>
         <div class="pic">
-            <img src="Bondhu Chula/bondhu_chula2.jpg" alt="Project Image 1">
-            <img src="Bondhu Chula/bondhu_chula3.jpg" alt="Project Image 2">
-            <img src="Bondhu Chula/bondhu_chula4.jpeg" alt="Project Image 1">
-            <img src="Bondhu Chula/bondhu_chula5.jpeg" alt="Project Image 2">
-            <img src="Bondhu Chula/bondhu_chula6.jpeg" alt="Project Image 1">
-            <img src="Bondhu Chula/bondhu_chula7.jpeg" alt="Project Image 2">
+            <img src="Bondhu Chula/bondhu_chula2.jpg" loading="lazy" alt="Project Image 1">
+            <img src="Bondhu Chula/bondhu_chula3.jpg" loading="lazy" alt="Project Image 2">
+            <img src="Bondhu Chula/bondhu_chula4.jpg" loading="lazy" alt="Project Image 1">
+            <img src="Bondhu Chula/bondhu_chula5.jpg" loading="lazy" alt="Project Image 2">
+            <img src="Bondhu Chula/bondhu_chula6.jpg" loading="lazy" alt="Project Image 1">
+            <img src="Bondhu Chula/bondhu_chula7.jpg" loading="lazy" alt="Project Image 2">
 
         </div>
 

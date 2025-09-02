@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['division'])) {
         return $result;
     }
 
-    include '../Database/db.php';
+    include '../backend/Database/db.php';
     $db = new Db();
     $conn = $db->connect();
     $result = getResult($conn, $division);

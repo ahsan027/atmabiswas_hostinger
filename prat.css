@@ -36,13 +36,14 @@ h1 {
 }
 
 .carousel img {
-    width: 80px;
-    height: 80px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
     border: 2px solid #2c3e50;
     cursor: pointer;
     transition: transform 0.5s ease, border-color 0.3s;
     margin: 0 1rem;
+    object-fit: cover;
 }
 
 .carousel img.selected {
@@ -91,6 +92,7 @@ h1 {
 }
 
 .content p {
+    display: block;
     font-size: 1rem;
     line-height: 1.5;
     color: floralwhite;
@@ -139,12 +141,40 @@ h1 {
 }
 
 @media (max-width: 768px) {
-    .container {
-        gap:2rem;
-height: 100%;
+    .Partnercontainer {
+        height: auto;
+        padding-bottom: 2rem;
     }
-    .container h1{
+    
+    
+    .content p{
+        display: none;
+    }
+
+
+    h1 {
+        font-size: 1.5rem;
         margin-top: 1rem;
+    }
+
+    .carousel-container {
+        height: 150px; /* control container height */
+    }
+
+    .carousel {
+        height: 100%;
+    }
+
+    .carousel img {
+        width: 80px;
+        height: 80px;
+        margin: 0 0.5rem;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .carousel img.selected {
+        transform: scale(1.2);
     }
 
     .content {
@@ -152,13 +182,6 @@ height: 100%;
         height: auto;
     }
 
-    .carousel-container .carousel{
-        display: flex;
-        height: 15vh;
-position: relative;
-
-        
-    }
     .content .logo-section {
         border-right: none;
         border-bottom: 2px solid white;
@@ -167,25 +190,30 @@ position: relative;
 
     .content .info-section {
         padding: 10px;
-    }        
-
-    .carousel img {
-        width: 90px;
-        height: 65%;
     }
 
     .explore-button {
         padding: 8px 16px;
         font-size: 0.9rem;
     }
-
-    h1 {
-        font-size: 1.5rem;
-    }
 }
+
 
 @media (max-width: 480px) {
+    .carousel img {
+        width: 70px;
+        height: 70px;
+        margin: 0 0.4rem;
+    }
+
+    .carousel img.selected {
+        transform: scale(1.1);
+    }
+
+   
+    
     .content p {
-        font-size: 1.2rem;
+        display: none;
     }
 }
+

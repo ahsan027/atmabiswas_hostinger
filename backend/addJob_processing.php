@@ -52,5 +52,5 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
 
-    header("Location: Dashboard/dashboard.php");
+    header("Location: DashBoard/dashboard.php");
 }

@@ -1,3 +1,4 @@
+<?php require_once 'config.php'; ?>
 <link rel="stylesheet" href="foot.css">
 
 
@@ -12,17 +13,17 @@
         <div class="footer-links">
             <h5>Important links</h5>
             <ul>
-                <li><a href="notice.php">Notice</a></li>
-                <li><a href="career.php">Career</a></li>
-                <li><a href="aboutus.php">About us</a></li>
-                <li><a href="press.php">Press</a></li>
+                <li><a href="<?php echo NOTICE_PATH; ?>">Notice</a></li>
+                <li><a href="<?php echo CAREER_PATH; ?>">Career</a></li>
+                <li><a href="<?php echo ABOUTUS_PATH; ?>">About us</a></li>
+                <li><a href="<?php echo PRESS_PATH; ?>">Press</a></li>
             </ul>
         </div>
         <div class="footer-links">
             <h5>Other links</h5>
             <ul>
                 <!-- <li><a href="#">IT Developers</a></li> -->
-                <li><a href="contact.php">ATMABISWAS Branchs</a></li>
+                <li><a href="<?php echo CONTACT_PATH; ?>">ATMABISWAS Branchs</a></li>
                 <li><a href="https://maps.app.goo.gl/DajPmrm3CR8adaNc8">Head Office google map location</a></li>
 
             </ul>
@@ -49,6 +50,21 @@
     </div>
 
 </footer>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EZVV9DWWY7"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'G-EZVV9DWWY7');
+</script>
+
 <script>
     // Get the button
     const scrollToTopBtn = document.getElementById('scrollToTopBtn');

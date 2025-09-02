@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EZVV9DWWY7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-EZVV9DWWY7');
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Founder - ATMABISWAS </title>
@@ -115,7 +124,7 @@
 
     <div class="founder-section">
         <div class="founder-card">
-            <img src="photos/ED_sir.jpg" alt="Akramul Haque Biswas">
+            <img src="photos/ED_sir.jpg" loading="lazy" alt="Akramul Haque Biswas">
             <div class="founder-details">
                 <h2>Akramul Haque Biswas</h2>
                 <p>Founder & Executive Director</p>

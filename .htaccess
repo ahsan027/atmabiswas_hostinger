@@ -1,0 +1,91 @@
+# ----------------------------------------
+# ✅ GZIP COMPRESSION
+# ----------------------------------------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/plain
+  AddOutputFilterByType DEFLATE text/html
+  AddOutputFilterByType DEFLATE text/xml
+  AddOutputFilterByType DEFLATE text/css
+  AddOutputFilterByType DEFLATE application/xml
+  AddOutputFilterByType DEFLATE application/xhtml+xml
+  AddOutputFilterByType DEFLATE application/rss+xml
+  AddOutputFilterByType DEFLATE application/javascript
+  AddOutputFilterByType DEFLATE application/x-javascript
+  AddOutputFilterByType DEFLATE image/svg+xml
+  AddOutputFilterByType DEFLATE application/font-woff
+  AddOutputFilterByType DEFLATE application/font-woff2
+  AddOutputFilterByType DEFLATE font/ttf
+  AddOutputFilterByType DEFLATE font/otf
+</IfModule>
+
+# ----------------------------------------
+# ✅ FORCE NON-WWW + HTTPS (Canonical URL)
+# ----------------------------------------
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^www\.atmabiswas\.org [NC]
+RewriteRule ^(.*)$ https://atmabiswas.org/$1 [L,R=301]
+
+# ----------------------------------------
+# ✅ BROWSER CACHING (Expires)
+# ----------------------------------------
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 month"
+
+  # Images
+  ExpiresByType image/jpg "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/gif "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  
+  # CSS, JavaScript
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+  ExpiresByType application/x-javascript "access plus 1 month"
+
+  # Fonts
+  ExpiresByType font/ttf "access plus 1 year"
+  ExpiresByType font/otf "access plus 1 year"
+  ExpiresByType font/woff "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
+
+# ----------------------------------------
+# ✅ DISABLE ETAG TO AVOID CACHE ISSUES
+# ----------------------------------------
+<IfModule mod_headers.c>
+  FileETag None
+  Header unset ETag
+</IfModule>
+
+# ----------------------------------------
+# ✅ ENABLE HSTS (Strict Transport Security)
+# ----------------------------------------
+<IfModule mod_headers.c>
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+</IfModule>
+
+# ----------------------------------------
+# ✅ CUSTOM 404 ERROR PAGE
+# ----------------------------------------
+ErrorDocument 404 /404.html
+
+# ----------------------------------------
+# ✅ CACHING HEADERS FOR STATIC FILES
+# ----------------------------------------
+<IfModule mod_headers.c>
+  # Remove deprecated headers
+  Header unset Pragma
+
+  # Static Assets
+  <FilesMatch "\.(jpg|jpeg|png|gif|webp|css|js|woff2|woff|ttf|otf|svg|eot)$">
+      Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # HTML and PHP
+  <FilesMatch "\.(html|php)$">
+      Header set Cache-Control "public, max-age=3600, must-revalidate"
+  </FilesMatch>
+</IfModule>

@@ -25,6 +25,7 @@ if ($article_id !== null && isset($press_items[$article_id])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,6 +38,14 @@ if ($article_id !== null && isset($press_items[$article_id])) {
 
 
 <body>
+    <?php if (!$current_article): ?>
+        <?php include 'Navbar.php'; ?>
+
+        <header>
+            <h1>Press & Media – ATMABISWAS</h1>
+            <p>Showcasing our work through national and regional media—covering our impact, initiatives, and stories that inspire social transformation.</p>
+        </header>
+    <?php endif; ?>
     <div class="container">
 
         <?php if ($current_article): ?>
@@ -48,7 +57,7 @@ if ($article_id !== null && isset($press_items[$article_id])) {
                 <div class="article-header">
                     <h1 class="article-title"><?php echo $current_article['blog_title']; ?></h1>
                     <div class="article-meta">
-                        <span><?php echo $current_article["upload_date"]; ?></span>
+                        <span><?php echo explode(" ", $current_article["upload_date"])[0]; ?></span>
                         <span>|</span>
                         <span><i class="fas fa-newspaper"></i> <?php echo $current_article['blog_author']; ?></span>
                     </div>
@@ -69,7 +78,7 @@ if ($article_id !== null && isset($press_items[$article_id])) {
                 if (!empty($videoId)): ?>
                     <div class="article-video">
                         <iframe src="https://www.youtube.com/embed/<?php echo htmlspecialchars($videoId); ?>"
-                                allowfullscreen></iframe>
+                            allowfullscreen></iframe>
                         <h1><?php echo htmlspecialchars($current_article['image_title'] ?? ''); ?></h1>
                     </div>
                 <?php elseif (!empty($current_article['cover_img'])): ?>
@@ -96,11 +105,7 @@ if ($article_id !== null && isset($press_items[$article_id])) {
 
 
         <?php else: ?>
-            <?php include 'Navbar.php'; ?>
-            <header>
-                <h1>Press & Media – ATMABISWAS</h1>
-                <p>Showcasing our work through national and regional media—covering our impact, initiatives, and stories that inspire social transformation.</p>
-            </header>
+
 
             <div class="filters">
                 <button class="filter-btn active" data-year="all">All Coverage</button>
@@ -120,30 +125,39 @@ if ($article_id !== null && isset($press_items[$article_id])) {
                     <?php foreach ($press_items as $id => $item): ?>
                         <a href="?article=<?php echo $id; ?>" class="press-card-link">
                             <div class="press-card" data-year="<?php echo $item['year']; ?>">
-                           
-                                <div class="card-image">
-<?php
-if (!empty($item["cover_img"])) {
-    $imgPath = $item["cover_img"];
 
-    echo '<img src="' . $imgPath . '" alt="' . htmlspecialchars($item["blog_title"]) . '" style="max-width:100%; height:100%;">';
-} else {
-    echo '<div style="padding: 10px; background-color: #f2f2f2; color: #555; border: 1px dashed #ccc; text-align: center; border-radius: 4px;">
+                                <div class="card-image">
+                                    <?php
+                                    if (!empty($item["cover_img"])) {
+                                        $imgPath = $item["cover_img"];
+
+                                        echo '<img src="' . $imgPath . '" alt="' . htmlspecialchars($item["blog_title"]) . '" style="max-width:100%; height:100%;">';
+                                    } else {
+                                        echo '<div style="padding: 10px; background-color: #f2f2f2; color: #555; border: 1px dashed #ccc; text-align: center; border-radius: 4px;">
         No image has been uploaded for this News.
     </div>';
-}
-?>
+                                    }
+                                    ?>
 
 
                                 </div>
                                 <div class="card-content">
-                                    <span class="press-date"><?php echo $item["upload_date"]; ?></span>
+                                    <span class="press-date"><?php echo explode(" ", $item["upload_date"])[0]; ?></span>
                                     <h3 class="press-title"><?php echo $item['blog_title']; ?></h3>
                                     <div class="press-source">
                                         <i class="fas fa-newspaper"></i>
                                         <span><?php echo $item['blog_author']; ?></span>
                                     </div>
-                                    <p class="press-summary"><?php echo $item['summary']; ?></p>
+                                    <p class="press-summary"><?php
+                                                                $summary = $item['summary'];
+                                                                $words = explode(' ', $summary);
+                                                                if (count($words) > 20) {
+                                                                    $truncated = array_slice($words, 0, 20);
+                                                                    echo implode(' ', $truncated) . '...';
+                                                                } else {
+                                                                    echo $summary;
+                                                                }
+                                                                ?></p>
 
                                     <div class="press-actions">
                                         <?php if (isset($_SESSION['username'])): ?>
@@ -204,4 +218,5 @@ if (!empty($item["cover_img"])) {
         });
     </script>
 </body>
+
 </html>

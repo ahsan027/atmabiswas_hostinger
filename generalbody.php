@@ -2,6 +2,17 @@
 <html lang="en">
 
 <head>
+    <link rel="canonical" href="https://atmabiswas.org/" />
+
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EZVV9DWWY7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-EZVV9DWWY7');
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>General Body - ATMABISWAS </title>
@@ -278,7 +289,7 @@
         <section class="executive-section">
             <div class="mdsir">
                 <div class="executive-card">
-                    <img src="photos/Salma_Asif.png" alt="Mises Salma Asif">
+                    <img src="photos/Salma_Asif.jpg" loading="lazy" alt="Mises Salma Asif">
                     <h2>Miss Salma Asif</h2>
                     <p><strong>President</strong></p>
                     <p>A visionary leader since 1991, guiding ATMABISWAS with commitment to social empowerment.</p>
@@ -289,14 +300,14 @@
 
             <div class="oth">
                 <div class="executive-card">
-                    <img src="photos/AfrozaBegum.png" alt="Mst. Afroza Begum" style="object-position: top;">
+                    <img src="photos/AfrozaBegum.jpg" loading="lazy" alt="Mst. Afroza Begum" style="object-position: top;">
                     <h2>Mst. Afroza Begum</h2>
                     <p><strong>Vice President</strong></p>
                     <p>Bringing extensive experience in social work to support strategic growth since 1991.</p>
                 </div>
 
                 <div class="executive-card">
-                    <img src="photos/edsir.png" alt="Md. Akramul Haque Biswas">
+                    <img src="photos/edsir.jpg" loading="lazy" alt="Md. Akramul Haque Biswas">
                     <h2>Md. Akramul Haque Biswas</h2>
                     <p><strong>Secretary / Executive Director</strong></p>
                     <p>Ensuring effective project implementation and leadership at ATMABISWAS.</p>
@@ -309,7 +320,7 @@
 
         <div class="othermembers">
             <div class="card">
-                <img src="photos/ranabiswas.png" alt="Md. Iktiar Uddin">
+                <img src="photos/ranabiswas.jpg" loading="lazy" alt="Md. Iktiar Uddin">
                 <div class="card-body">
                     <h2>Md. Iktiar Uddin</h2>
                     <h3>Treasurer</h3>
@@ -317,7 +328,7 @@
             </div>
 
             <div class="card">
-                <img src="photos/nazma.png" alt="Nazma Shaheen">
+                <img src="photos/nazma.jpg" loading="lazy" alt="Nazma Shaheen">
                 <div class="card-body">
                     <h2>Nazma Shaheen</h2>
                     <h3>Executive Member</h3>
@@ -325,7 +336,7 @@
             </div>
 
             <div class="card">
-                <img src="photos/Shahana.png" alt="Mst. Shahana Pervin">
+                <img src="photos/Shahana.jpg" loading="lazy" alt="Mst. Shahana Pervin">
                 <div class="card-body">
                     <h2>Mst. Shahana Pervin</h2>
                     <h3>Executive Member</h3>
@@ -334,7 +345,7 @@
             </div>
 
             <div class="card">
-                <img src="photos/alo.png" alt="Md. Nazrul Islam Alo">
+                <img src="photos/alo.jpg" loading="lazy" alt="Md. Nazrul Islam Alo">
                 <div class="card-body">
                     <h2>Md. Nazrul Islam Alo</h2>
                     <h3>Executive Member</h3>
@@ -342,7 +353,7 @@
                 </div>
             </div>
             <div class="card">
-                <img src="generalbody/asadulbiswas.jpg" alt="Md. Asadul Haque Biswas">
+                <img src="generalbody/asadulbiswas.jpg" loading="lazy" alt="Md. Asadul Haque Biswas">
                 <div class="card-body">
                     <h2>Md. Asadul Haque Biswas</h2>
                     <h3>Member</h3>
@@ -350,49 +361,49 @@
                 </div>
             </div>
             <div class="card">
-                <img src="generalbody/malaka.png" alt="Mst.Malaka Parvin">
+                <img src="generalbody/malaka.jpg" loading="lazy" alt="Mst.Malaka Parvin">
                 <div class="card-body">
                     <h2>Mst. Malaka Parvin</h2>
                     <h3>Member</h3>
                 </div>
             </div>
             <div class="card">
-                <img src="generalbody/vola.png" alt="Obaidul Haque Bhola">
+                <img src="generalbody/vola.jpg" loading="lazy" alt="Obaidul Haque Bhola">
                 <div class="card-body">
                     <h2>Obaidul Haque Bhola</h2>
                     <h3>Member</h3>
                 </div>
             </div> 
             <div class="card">
-                <img src="generalbody/murtoza.png" alt="Salahuddin Mohammad Mortaza">
+                <img src="generalbody/murtoza.jpg" loading="lazy" alt="Salahuddin Mohammad Mortaza">
                 <div class="card-body">
                     <h2>Salahuddin Mohammad Mortaza</h2>
                     <h3>Member</h3>
                 </div>
             </div>
             <div class="card">
-                <img src="generalbody/zaharul.png" alt="Md. Zahurul Islam Joarddar">
+                <img src="generalbody/zaharul.jpg" loading="lazy" alt="Md. Zahurul Islam Joarddar">
                 <div class="card-body">
                     <h2>Md. Zahurul Islam Joarddarn</h2>
                     <h3>Member</h3>
                 </div>
             </div>
             <div class="card">
-                <img src="generalbody/malik.png" alt="Md. Humayun Kabir Malik">
+                <img src="generalbody/malik.jpg" loading="lazy" alt="Md. Humayun Kabir Malik">
                 <div class="card-body">
                     <h2>Md. Humayun Kabir Malik</h2>
                     <h3> Member</h3>
                 </div>
             </div>
             <div class="card">
-                <img src="generalbody/manik.png" alt="Md. Aman Ullah">
+                <img src="generalbody/manik.jpg" loading="lazy" alt="Md. Aman Ullah">
                 <div class="card-body">
                     <h2>Md. Aman Ullah</h2>
                     <h3>Member</h3>
                 </div>
             </div>
             <div class="card">
-                <img src="generalbody/billal.png" alt="Advocate Md. Belal Hossain">
+                <img src="generalbody/billal.jpg" loading="lazy" alt="Advocate Md. Belal Hossain">
                 <div class="card-body">
                     <h2>Advocate Md. Belal Hossain</h2>
                     <h3>Member</h3>
@@ -400,7 +411,7 @@
             </div>     
 
             <div class="card">
-                <img src="generalbody/rasel.png" alt="Md. Amirul Haque (Rasel)">
+                <img src="generalbody/rasel.jpg" loading="lazy" alt="Md. Amirul Haque (Rasel)">
                 <div class="card-body">
                     <h2>Md. Amirul Haque Rasel</h2>
                     <h3>Member</h3>
@@ -409,7 +420,7 @@
             </div>
 
             <div class="card">
-                <img src="LOGO/NGO_logo_monogram.png" alt="Salauddin Biswas Mona">
+                <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Salauddin Biswas Mona">
                 <div class="card-body">
                     <h2>Salauddin Biswas Mona</h2>
                     <h3>Member</h3>
@@ -418,7 +429,7 @@
             </div>
 
             <div class="card">
-                <img src="LOGO/NGO_logo_monogram.png" alt="Md. Rizik Biswas">
+                <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Md. Rizik Biswas">
                 <div class="card-body">
                     <h2>Md. Rizik Biswas</h2>
                     <h3>Member</h3>
@@ -426,7 +437,7 @@
                 </div>
             </div>
             <div class="card">
-                <img src="LOGO/NGO_logo_monogram.png" alt="Md. Tipu Sultan Biswas">
+                <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Md. Tipu Sultan Biswas">
                 <div class="card-body">
                     <h2>Md. Tipu Sultan Biswas</h2>
                     <h3>Member</h3>
@@ -434,7 +445,7 @@
                 </div>
             </div>
             <div class="card">
-                <img src="LOGO/NGO_logo_monogram.png" alt="Md. Milton Biswas">
+                <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Md. Milton Biswas">
                 <div class="card-body">
                     <h2>Md. Milton Biswas</h2>
                     <h3>Member</h3>
@@ -443,7 +454,7 @@
             </div>
 
             <div class="card">
-                <img src="LOGO/NGO_logo_monogram.png" alt="Md. Shahin Biswas">
+                <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Md. Shahin Biswas">
                 <div class="card-body">
                     <h2>Md. Shahin Biswas</h2>
                     <h3>Member</h3>

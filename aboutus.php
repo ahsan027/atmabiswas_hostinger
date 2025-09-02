@@ -1,9 +1,23 @@
-5<!DOCTYPE html>
+
 <html lang="en">
 <head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EZVV9DWWY7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-EZVV9DWWY7');
+</script>
+<link rel="canonical" href="https://atmabiswas.org/" />
+
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us - ATMABISWAS</title>
+    <link rel="icon" type="image/png" href="LOGO/NGO_logo_monogram.png">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -200,7 +214,7 @@
         <div class="section">
             <h2>About Us</h2>
             <div class="image-section">
-            <img src="office_pic/office_pic.jpg" alt="logo" style="width: 25%; float: left;">
+            <img src="office_pic/office_pic.jpg" loading="lazy" alt="logo" style="width: 25%; float: left;">
 
                 <p>ATMABISWAS is a non-governmental, non-profit, voluntary, and development-focused organization committed to creating meaningful social change and fostering sustainable development. Established in January 1991 under the Department of Social Welfare, ATMABISWAS has dedicated over three decades to empowering communities across Bangladesh. The organization primarily focuses on serving the disadvantaged populations, striving to uplift their living standards and enhance their access to essential resources and opportunities. <br> <br> Since its inception, ATMABISWAS has worked tirelessly to support marginalized individuals and communities, with an initial emphasis on the district of Chuadanga. Through a range of social welfare programs, development projects, and micro-credit initiatives, the organization has impacted thousands of lives, enabling beneficiaries to break the cycle of poverty and build a better future.</p>
             </div>
@@ -233,7 +247,7 @@
         <div class="section">
             <h2>Our Team</h2>
             <div class="image-section">
-            <img src="office_pic/00000.jpg" alt="with_pksf" style="width: 25%; float: left;">
+            <img src="office_pic/00000.jpg" loading="lazy" alt="with_pksf" style="width: 25%; float: left;">
 
                 <p>Our team consists of dedicated professionals who are passionate about making a difference. We collaborate to create a positive impact and support each other in our mission to empower communities and foster sustainable development. <br> Our team members come from diverse backgrounds, bringing a wealth of experience and expertise to the organization. We are united by our shared commitment to social justice, equality, and sustainable development. Each member of our team plays a crucial role in driving our mission forward, from field workers to administrative staff, project managers, and volunteers. Together, we strive to create a positive and lasting impact on the communities we serve.</p>
             </div>

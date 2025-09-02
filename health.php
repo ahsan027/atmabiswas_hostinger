@@ -2,6 +2,15 @@
 <html lang="en">
 
 <head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EZVV9DWWY7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-EZVV9DWWY7');
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Health and Nutrition - ATMABISWAS </title>
@@ -326,7 +335,7 @@
             <div class="services">
                 <!-- Service Card 1: Household Sanitation Facilities -->
                 <div class="service-card" data-aos="zoom-in" data-aos-duration="800">
-                    <img src="toilet/toiletpic1.jpeg" alt="Household Sanitation Facilities">
+                    <img src="toilet/toiletpic1.jpg" loading="lazy" alt="Household Sanitation Facilities">
                     <h3>Household Sanitation Facilities</h3>
                     <p>
                         We construct modern toilets and provide safe sanitation facilities. We also distribute sanitary
@@ -335,7 +344,7 @@
                 </div>
                 <!-- Service Card 2: Free Medicine -->
                 <div class="service-card" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="200">
-                    <img src="Health/health_pic2.jpeg" alt="Free Medicine">
+                    <img src="Health/health_pic2.jpg" loading="lazy" alt="Free Medicine">
                     <h3>Free Medicine</h3>
                     <p>
                         Essential medicines are provided free of charge, ensuring every community member receives timely
@@ -344,7 +353,7 @@
                 </div>
                 <!-- Service Card 3: Awareness Campaign & Training -->
                 <div class="service-card" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="400">
-                    <img src="Health/health_pic1.jpeg" alt="Awareness Campaign & Training">
+                    <img src="Health/helath_pic7.jpg" loading="lazy" alt="Awareness Campaign & Training">
                     <h3>Awareness Campaign & Training</h3>
                     <p>
                         Our outreach programs educate villagers on nutrition, hygiene, and the correct usage of sanitary
@@ -359,7 +368,7 @@
             <h2>Health Care Campaigning</h2>
             <div class="two-col">
                 <div data-aos="fade-right" data-aos-duration="800">
-                    <img src="Health/health_pic4.jpeg" alt="Health Care Campaign">
+                    <img src="Health/health_pic4.jpg" loading="lazy" alt="Health Care Campaign">
                 </div>
                 <div data-aos="fade-left" data-aos-duration="800">
                     <h3>Supporting Rural Communities During the Pandemic</h3>
@@ -376,7 +385,7 @@
             <h2>Become a Volunteer</h2>
             <div class="two-col">
                 <div data-aos="fade-right" data-aos-duration="800">
-                    <img src="Health/health_pic5.jpg" alt="Become a Volunteer">
+                    <img src="Health/health_pic5.jpg" loading="lazy" alt="Become a Volunteer">
                 </div>
                 <div data-aos="fade-left" data-aos-duration="800">
                     <h3>Make a Lasting Impact</h3>
@@ -414,12 +423,12 @@
         <div class="card" data-aos="fade-up" data-aos-duration="1000">
             <h2>Gallery</h2>
             <div class="gallery">
-                <img src="rmpt/rmpt_pic1.jpeg" alt="Gallery Image 1">
-                <img src="Health/helath_pic7.jpeg" alt="Gallery Image 2">
-                <img src="wash/wash_pic1.jpeg" alt="Gallery Image 3">
-                <img src="toilet/toiletpic2.jpeg" alt="Gallery Image 4">
-                <img src="toilet/toiletpic3.jpeg" alt="Gallery Image 5">
-                <img src="awarness/awarness_pic6.jpeg" alt="Gallery Image 6">
+                <img src="rmpt/rmpt_pic1.jpg" loading="lazy" alt="Gallery Image 1">
+                <img src="Health/helath_pic7.jpg"  loading="lazy" alt="Gallery Image 2">
+                <img src="Wash/wash_pic1.jpg"  loading="lazy" alt="Gallery Image 3">
+                <img src="toilet/toiletpic1.jpg" loading="lazy" alt="Gallery Image 4">
+                <img src="toilet/toiletpic3.jpg" loading="lazy" alt="Gallery Image 5">
+                <img src="Awarness/awarness_pic7.jpg" loading="lazy" alt="Gallery Image 6">
             </div>
         </div>
     </div>

@@ -1,7 +1,8 @@
 <?php
-
-$pdo = new PDO('mysql:host=localhost;dbname=atmabiswas;charset=utf8mb4', 'root', '');
-$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+// Use centralized database connection
+include '../Database/db.php';
+$db = new Db();
+$pdo = $db->connect();
 
 
 $blog_id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);

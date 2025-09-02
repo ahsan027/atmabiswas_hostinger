@@ -2,6 +2,15 @@
 <html lang="en">
 
 <head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EZVV9DWWY7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-EZVV9DWWY7');
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Executive Body - ATMABISWAS </title>
@@ -278,7 +287,7 @@
         <section class="executive-section">
             <div class="mdsir">
                 <div class="executive-card">
-                    <img src="photos/Salma_Asif.png" alt="Mises Salma Asif">
+                    <img src="photos/Salma_Asif.jpg" loading="lazy" alt="Mises Salma Asif">
                     <h2>Miss Salma Asif</h2>
                     <p><strong>President</strong></p>
                     <p>A visionary leader since 1991, guiding ATMABISWAS with commitment to social empowerment.</p>
@@ -289,14 +298,14 @@
 
             <div class="oth">
                 <div class="executive-card">
-                    <img src="photos/AfrozaBegum.png" alt="Mst. Afroza Begum" style="object-position: top;">
+                    <img src="photos/AfrozaBegum.jpg" loading="lazy" alt="Mst. Afroza Begum" style="object-position: top;">
                     <h2>Mst. Afroza Begum</h2>
                     <p><strong>Vice President</strong></p>
                     <p>Bringing extensive experience in social work to support strategic growth since 1991.</p>
                 </div>
 
                 <div class="executive-card">
-                    <img src="photos/edsir.png" alt="Md. Akramul Haque Biswas">
+                    <img src="photos/edsir.jpg" loading="lazy" alt="Md. Akramul Haque Biswas">
                     <h2>Md. Akramul Haque Biswas</h2>
                     <p><strong>Secretary / Executive Director</strong></p>
                     <p>Ensuring effective project implementation and leadership at ATMABISWAS.</p>
@@ -309,7 +318,7 @@
 
         <div class="othermembers">
             <div class="card">
-                <img src="photos/ranabiswas.png" alt="Md. Iktiar Uddin">
+                <img src="photos/ranabiswas.jpg" loading="lazy" alt="Md. Iktiar Uddin">
                 <div class="card-body">
                     <h2>Md. Iktiar Uddin</h2>
                     <h3>Treasurer</h3>
@@ -318,7 +327,7 @@
             </div>
 
             <div class="card">
-                <img src="photos/nazma.png" alt="Nazma Shaheen">
+                <img src="photos/nazma.jpg" loading="lazy" alt="Nazma Shaheen">
                 <div class="card-body">
                     <h2>Nazma Shaheen</h2>
                     <h3>Executive Member</h3>
@@ -327,7 +336,7 @@
             </div>
 
             <div class="card">
-                <img src="photos/Shahana.png" alt="Mst. Shahana Pervin">
+                <img src="photos/Shahana.jpg" loading="lazy" alt="Mst. Shahana Pervin">
                 <div class="card-body">
                     <h2>Mst. Shahana Pervin</h2>
                     <h3>Executive Member</h3>
@@ -336,7 +345,7 @@
             </div>
 
             <div class="card">
-                <img src="photos/alo.png" alt="Md. Nazrul Islam Alo">
+                <img src="photos/alo.jpg" loading="lazy" alt="Md. Nazrul Islam Alo">
                 <div class="card-body">
                     <h2>Md. Nazrul Islam Alo</h2>
                     <h3>Executive Member</h3>

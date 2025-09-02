@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="canonical" href="https://atmabiswas.org/" />
+
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EZVV9DWWY7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-EZVV9DWWY7');
+</script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Food and Agricultural - ATMABISWAS </title>
@@ -17,7 +28,7 @@
   </header>
   <div class="container">
     <div class="card">
-      <img src="Food/food_pic1.jpeg" alt="Agriculture" />
+      <img src="Food/food_pic1.jpg" loading="lazy" alt="Agriculture" />
       <div class="content">
         <h3>Sustainable Growth: Empowering Communities Through Food and Agriculture</h3>
         <p >
@@ -59,12 +70,12 @@
     <div class="gallery">
    
    
-      <img src="ag/ag_pic1.jpeg" alt="Picture 2" />
-      <img src="FISH/fish_pic3.jpeg" alt="Picture 4" />
-      <img src="FISH/fish_pic6.jpg" alt="Picture 5" />
-      <img src="FISH/fish_pic5.gif" alt="Picture 6" />
-      <img src="ag/ag_pic3.jpeg" alt="Picture 7" />
-      <img src="FISH/fish_pic4.jpg" alt="Picture 8" />
+      <img src="ag/ag_pic1.jpg" loading="lazy" alt="Picture 2" />
+      <img src="Fish/fish_pic3.jpg" loading="lazy" alt="Picture 4" />
+      <img src="Fish/fish_pic6.jpg" loading="lazy" alt="Picture 5" />
+      <img src="Fish/fish_pic5.jpg" loading="lazy" alt="Picture 6" />
+      <img src="ag/ag_pic3.jpg" loading="lazy" alt="Picture 7" />
+      <img src="Fish/fish_pic4.jpg" loading="lazy" alt="Picture 8" />
     </div>
   </div>
   <?php include 'footer.php'?>

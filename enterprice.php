@@ -2,6 +2,15 @@
 <html lang="en">
 
 <head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EZVV9DWWY7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-EZVV9DWWY7');
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enterprise Development - ATMABISWAS</title>
@@ -187,7 +196,7 @@
             </p>
         </div>
         <div class="card">
-            <img src="fish&redy/fish&redy1.jpg" alt="Story of Success">
+            <img src="fish&redy/fish&redy1.jpg" loading="lazy" alt="Story of Success">
             <h2>Our Pride</h2>
             <h3>Success Story: Rana Hamid</h3>
             <p>
@@ -211,7 +220,7 @@
             <h2>Our Services</h2>
             <div class="services">
                 <div class="service-card">
-                    <img src="enterprise_development/enterprice_pic1.jpeg"
+                    <img src="enterprise_development/enterprice_pic1.jpg" loading="lazy"
                         alt="Micro Finance">
                     <h3>Short-Term Loan <br>(Weekly Repayment)</h3>
                     <p>
@@ -219,7 +228,7 @@
                     </p>
                 </div>
                 <div class="service-card">
-                    <img src="enterprise_development/enterprice_pic2.jpeg"
+                    <img src="enterprise_development/enterprice_pic2.jpg" loading="lazy"
                         alt="Training Camp">
                     <h3>Medium-Term Loan <br>(Monthly Repayment)</h3>
                     <p>
@@ -227,7 +236,7 @@
                     </p>
                 </div>
                 <div class="service-card">
-                    <img src="enterprise_development/enterprice_pic5.jpeg"
+                    <img src="enterprise_development/enterprice_pic5.jpg" loading="lazy"
                         alt="Long-term Loans">
                     <h3>Long-Term Loan <br> (6-Month Repayment)</h3>
                     <p>

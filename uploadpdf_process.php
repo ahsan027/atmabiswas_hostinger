@@ -1,7 +1,7 @@
 <?php
 
 
-include 'Database/db.php';
+include 'backend/Database/db.php';
 
 $db = new Db();
 $conn = $db->connect();
@@ -67,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             mkdir($uploadDir, 0755, true);
         }
 
-        $sql = "INSERT INTO pdsFiles (pdf_title,pdf_path) VALUES (:pdf_title,:pdf_path)";
+        $sql = "INSERT INTO pdsfiles (pdf_title,pdf_path) VALUES (:pdf_title,:pdf_path)";
         $stmt = $conn->prepare($sql);
 
         $stmt->bindParam(":pdf_title", $pdf_title);

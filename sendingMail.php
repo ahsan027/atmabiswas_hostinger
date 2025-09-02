@@ -84,13 +84,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'arafat.haque.biswas@g.bracu.ac.bd'; // Your Gmail address
-        $mail->Password   = 'hyfzqivhgrzjnztc';                  // Your Gmail app password
+        $mail->Username   = 'atmabiswas.org@gmail.com'; // Your Gmail address
+        $mail->Password   = 'fvxccnybrdibkadr';                  // Your Gmail app password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;
 
         $mail->setFrom($email, $fullName);
-        $mail->addAddress('ahsanauddry.ndc@gmail.com', 'Ahsan Auddry');
+        $mail->addAddress('arafatbiswas.edu01@gmail.com', 'Arafat Biswas');
 
         $mail->isHTML(true);
         $mail->Subject = "Application for Position: {$jobTitle} - Job ID: {$jobId} - From {$fullName}";
@@ -105,7 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $mail->addAttachment($cvFile);
 
         if ($mail->send()) {
-            header("Location: backend/career/availablejobs.php");
+            header("Location: backend/career/availableJobs.php");
             exit();
         } else {
             echo "Failed to send email.";

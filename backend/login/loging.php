@@ -49,154 +49,232 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ATMABISWAS - Login</title>
-    <!-- Font Awesome CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <link rel="stylesheet" href="css/login.css">
-    <link rel="stylesheet" type="text/css" href="../Assets/css/login-signup.css">
-  
+    <title>ATMABISWAS - Admin Login</title>
+    <meta name="description" content="Secure admin login for ATMABISWAS dashboard">
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Modern CSS -->
+    <link rel="stylesheet" href="css/modern-login.css">
+
+    <!-- Favicon -->
     <link rel="icon" type="image/png" href="../images/logo/logo.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
-
-    <style>
-    .error {
-        color: #fff;
-        background-color: rgba(255, 0, 0, 0.8);
-        width: 40%;
-        font-size: 16px;
-        margin-top: 5px;
-        padding: 10px;
-        border-radius: 4px;
-        text-align: center;
-        font-weight: bold;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-
-        /* Add transition for smooth movement */
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    /* On hover (for desktop) */
-    .error:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    }
-
-    /* On active/touch (mobile-friendly) */
-    .error:active {
-        transform: scale(0.95);
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-    }
-    </style>
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style">
 </head>
 
 <body>
-    <div id="notificationBar" style="
-    position: fixed;
-    top: -100px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #1e1e1e;
-    color: white;
-    padding: 15px 25px;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-    z-index: 9999;
-    font-family: Arial, sans-serif;
-    transition: top 0.6s ease-in-out;
-    min-width: 280px;
-    max-width: 90%;
-    text-align: center;
-">
-    <span>
-        📧 Contact <strong>ATMABISWAS IT</strong> via <a href="mailto:support@atmabiswas.org" style="color: #4da6ff; text-decoration: underline;">support@atmabiswas.org</a>
-    </span>
-    <span onclick="hideNotification()" style="cursor: pointer; margin-left: 15px; font-weight: bold;">&times;</span>
-</div>
-    <div class="wrapper">
-        <div class="box">
-            <form action="" method="POST">
-                <img src="../images/logo/logo.png">
-                <h1>Welcome to, ATMABISWAS Dashboard</h1>
-                <div class="username">
-                    <input type="text" name="username" placeholder="Email" value="">
-                    <i class="fa-regular fa-envelope"></i>
-                    <?php
-                    if (strlen($usernameErr) !== 0) {
-                        echo "<p class='error'>$usernameErr</p>";
-                    }
-                    ?>
+    <!-- Notification Bar -->
+    <div id="notificationBar" class="notification-bar">
+        <div class="notification-content">
+            <i class="fas fa-envelope"></i>
+            <span>
+                Contact <strong>ATMABISWAS IT</strong> via
+                <a href="mailto:support@atmabiswas.org" class="notification-link">support@atmabiswas.org</a>
+            </span>
+        </div>
+        <button class="notification-close" onclick="hideNotification()" aria-label="Close notification">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <!-- Main Login Container -->
+    <div class="login-container">
+        <!-- Header Section -->
+        <div class="login-header">
+            <div class="logo-container">
+                <img src="../images/logo/logo.png" alt="ATMABISWAS Logo" class="logo">
+            </div>
+            <h1 class="login-title">Welcome Back</h1>
+            <p class="login-subtitle">Sign in to your admin dashboard</p>
+        </div>
+
+        <!-- Form Section -->
+        <form class="login-form" action="" method="POST" novalidate>
+            <!-- Email Field -->
+            <div class="form-group">
+                <label for="username" class="form-label">Email Address</label>
+                <div class="input-container">
+                    <input
+                        type="email"
+                        id="username"
+                        name="username"
+                        class="form-input"
+                        placeholder="Enter your email"
+                        value="<?php echo htmlspecialchars($_POST['username'] ?? ''); ?>"
+                        required
+                        autocomplete="email"
+                        autofocus>
+                    <i class="fas fa-envelope input-icon"></i>
                 </div>
-                <div class="password">
-                    <input id="password" type="password" name="password" placeholder="Password" value="">
-                    <i class="fa-solid fa-lock"></i>
-                    <?php
-                    if (strlen($passErr) !== 0) {
-                        echo "<p class='error'>$passErr</p>";
-                    }
-                    ?>
-                    <span id="togglePassword" style="
-                    position: absolute;
-                    top: 50%;
-                    right: 10px;
-                    transform: translateY(-50%);
-                    cursor: pointer;">
-                        <i class="fa-solid fa-eye" id="eyeIcon"></i>
-                    </span>
+                <?php if (!empty($usernameErr)): ?>
+                    <div class="error-message">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span><?php echo htmlspecialchars($usernameErr); ?></span>
+                    </div>
+                <?php endif; ?>
+            </div>
+
+            <!-- Password Field -->
+            <div class="form-group">
+                <label for="password" class="form-label">Password</label>
+                <div class="input-container">
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        class="form-input"
+                        placeholder="Enter your password"
+                        required
+                        autocomplete="current-password">
+                    <i class="fas fa-lock input-icon"></i>
+                    <button type="button" class="password-toggle" onclick="togglePassword()" aria-label="Toggle password visibility">
+                        <i class="fas fa-eye" id="eyeIcon"></i>
+                    </button>
                 </div>
-                <?php
-                if (strlen($invalid) !== 0) {
-                    echo "<p class='error'>$invalid</p>";
-                }
-                ?>
+                <?php if (!empty($passErr)): ?>
+                    <div class="error-message">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span><?php echo htmlspecialchars($passErr); ?></span>
+                    </div>
+                <?php endif; ?>
+            </div>
 
-                <button id="btn" type="submit">Login</button>
-                <div style="margin-top: 10px; text-align: center; display: block;">
-    <a href="#" onclick="showNotification()" style="color: white; text-decoration: none; display: block; margin-bottom: 10px;">
-    <i class="fa-solid fa-key"></i> Forgot Password?
-</a>
+            <!-- General Error Message -->
+            <?php if (!empty($invalid)): ?>
+                <div class="error-message">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span><?php echo htmlspecialchars($invalid); ?></span>
+                </div>
+            <?php endif; ?>
 
-    <a href="../../index.php" style="color: white; text-decoration: none; display: block;">
-        <i class="fa-solid fa-house"></i> Back To Home
-    </a>
-</div>
+            <!-- Login Button -->
+            <button type="submit" class="login-button" id="loginBtn">
+                <span>Sign In</span>
+            </button>
+        </form>
 
-
-
-            </form>
+        <!-- Links Section -->
+        <div class="login-links">
+            <a href="#" onclick="showNotification()" class="login-link">
+                <i class="fas fa-key"></i>
+                <span>Forgot Password?</span>
+            </a>
+            <a href="../../index.php" class="login-link">
+                <i class="fas fa-home"></i>
+                <span>Back to Home</span>
+            </a>
         </div>
     </div>
+    <!-- JavaScript -->
     <script>
-  function showNotification() {
-    const bar = document.getElementById("notificationBar");
-    bar.style.top = "30px"; // Slide down
+        // Password Toggle Functionality
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eyeIcon');
 
-    // Auto-hide after 5 seconds
-    setTimeout(() => {
-      hideNotification();
-    }, 10000);
-  }
-
-  function hideNotification() {
-    const bar = document.getElementById("notificationBar");
-    bar.style.top = "-100px"; // Slide up
-  }
-</script>
-    <script>
-    document.getElementById('togglePassword').addEventListener('click', function() {
-        const passwordInput = document.getElementById('password');
-        const eyeIcon = document.getElementById('eyeIcon');
-
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-            eyeIcon.classList.remove('fa-eye');
-            eyeIcon.classList.add('fa-eye-slash');
-        } else {
-            passwordInput.type = 'password';
-            eyeIcon.classList.remove('fa-eye-slash');
-            eyeIcon.classList.add('fa-eye');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
         }
-    });
+
+        // Notification Functions
+        function showNotification() {
+            const bar = document.getElementById('notificationBar');
+            bar.classList.add('show');
+
+            // Auto-hide after 10 seconds
+            setTimeout(() => {
+                hideNotification();
+            }, 10000);
+        }
+
+        function hideNotification() {
+            const bar = document.getElementById('notificationBar');
+            bar.classList.remove('show');
+        }
+
+        // Form Enhancement
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('.login-form');
+            const loginBtn = document.getElementById('loginBtn');
+            const inputs = document.querySelectorAll('.form-input');
+
+            // Add loading state to form submission
+            form.addEventListener('submit', function(e) {
+                loginBtn.classList.add('loading');
+                loginBtn.disabled = true;
+                loginBtn.innerHTML = '<span>Signing In...</span>';
+            });
+
+            // Enhanced input interactions
+            inputs.forEach(input => {
+                // Add focus/blur effects
+                input.addEventListener('focus', function() {
+                    this.parentElement.classList.add('focused');
+                });
+
+                input.addEventListener('blur', function() {
+                    this.parentElement.classList.remove('focused');
+                });
+
+                // Real-time validation
+                input.addEventListener('input', function() {
+                    if (this.checkValidity()) {
+                        this.style.borderColor = 'var(--success)';
+                    } else {
+                        this.style.borderColor = 'var(--gray-200)';
+                    }
+                });
+            });
+
+            // Auto-focus first empty field
+            const firstEmptyField = Array.from(inputs).find(input => !input.value);
+            if (firstEmptyField) {
+                firstEmptyField.focus();
+            }
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                // Enter key on password field submits form
+                if (e.key === 'Enter' && e.target.id === 'password') {
+                    form.submit();
+                }
+            });
+        });
+
+        // Accessibility improvements
+        document.addEventListener('keydown', function(e) {
+            // Escape key closes notification
+            if (e.key === 'Escape') {
+                hideNotification();
+            }
+        });
+
+        // Auto-hide error messages after 5 seconds
+        setTimeout(function() {
+            const errorMessages = document.querySelectorAll('.error-message');
+            errorMessages.forEach(function(error) {
+                error.style.opacity = '0';
+                setTimeout(function() {
+                    error.style.display = 'none';
+                }, 300);
+            });
+        }, 5000);
+
+        // Prevent form resubmission on page refresh
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
     </script>
 
 </body>

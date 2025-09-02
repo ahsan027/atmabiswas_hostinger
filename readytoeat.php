@@ -232,7 +232,7 @@
             <h2 class="center-text">Our Services</h2>
             <div class="card-grid">
                 <div class="card">
-                    <img src="fish&redy/14.jpg" alt="Training">
+                    <img src="fish&redy/14.jpg" loading="lazy" alt="Training">
                     <div class="card-content">
                         <h3>Training and Empowerment for Fishermen</h3>
                         <p>We provide comprehensive support to fishermen and entrepreneurs, offering tailored training,
@@ -240,7 +240,7 @@
                     </div>
                 </div>
                 <div class="card">
-                    <img src="fish&redy/ABS_04.JPG" alt="Entrepreneurship">
+                    <img src="fish&redy/ABS_04.jpg" loading="lazy" alt="Entrepreneurship">
                     <div class="card-content">
                         <h3>Building Future Entrepreneurs</h3>
                         <p>We empower new entrepreneurs in the fishery industry by providing hands-on training,
@@ -248,7 +248,7 @@
                     </div>
                 </div>
                 <div class="card">
-                    <img src="fish&redy/ABS_06.jpeg" alt="Market Expansion">
+                    <img src="fish&redy/ABS_06.jpg" loading="lazy" alt="Market Expansion">
                     <div class="card-content">
                         <h3>Market Expansion Opportunities</h3>
                         <p>We support entrepreneurs in creating retail outlets and shops dedicated to selling
@@ -273,7 +273,7 @@
 
             <div class="card-grid">
                 <div class="card">
-                    <img src="fish&redy/ABS_7.JPG" alt="Training">
+                    <img src="fish&redy/ABS_7.jpg"loading="lazy" alt="Training">
                     <div class="card-content">
                         <h3>Training for Fishermen</h3>
                         <p>Our program begins with comprehensive training sessions designed to enhance the skills and
@@ -281,7 +281,7 @@
                     </div>
                 </div>
                 <div class="card">
-                    <img src="fish&redy/BS_10.jpg" alt="Implementation">
+                    <img src="fish&redy/BS_10.jpg" loading="lazy" alt="Implementation">
                     <div class="card-content">
                         <h3>Fishermen Apply the Training</h3>
                         <p>After completing the training, fishermen implement the techniques learned, focusing on
@@ -289,7 +289,7 @@
                     </div>
                 </div>
                 <div class="card">
-                    <img src="fish&redy/ABS_01.jpg" alt="Entrepreneurs">
+                    <img src="fish&redy/ABS_01.jpg" loading="lazy" alt="Entrepreneurs">
                     <div class="card-content">
                         <h3>Nurturing New Entrepreneurs</h3>
                         <p>We support aspiring entrepreneurs in processing fish products, providing essential resources,
@@ -297,7 +297,7 @@
                     </div>
                 </div>
                 <div class="card">
-                    <img src="fish&redy/ABS_07.JPG" alt="Market Opportunities">
+                    <img src="fish&redy/ABS_07.jpg" loading="lazy" alt="Market Opportunities">
                     <div class="card-content">
                         <h3>Sales and Market Opportunities</h3>
                         <p>Finally, we help entrepreneurs create retail channels and connect with new markets to

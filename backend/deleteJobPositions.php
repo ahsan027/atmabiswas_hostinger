@@ -15,7 +15,7 @@ $stmt = $conn->prepare($sql);
 $stmt->bindParam(":jobid", $jobId);
 
 if ($stmt->execute()) {
-    header("Location: Dashboard/dashboard.php");
+    header("Location: DashBoard/dashboard.php");
 } else {
     echo "Unable to delete Job position of id {$jobId}";
 }

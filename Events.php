@@ -2,6 +2,15 @@
 <html lang="en">
 
 <head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EZVV9DWWY7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-EZVV9DWWY7');
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Page - ATMABISWAS </title>
@@ -92,28 +101,28 @@
             <h2>Scholarship Events</h2>
             <div class="card-grid">
                 <div class="card">
-                    <img src="Scholarship/pic1.jpeg" alt="Scholarship Event">
+                    <img src="Scholarship/pic1.jpg" loading="lazy" alt="Scholarship Event">
                     <div class="card-content">
                         <h3>Scholarship Event </h3>
                         <p>PKSF was a partner in providing the scholarship.</p>
                     </div>
                 </div>
                 <div class="card">
-                    <img src="Scholarship/pic2.jpeg" alt="Scholarship Event">
+                    <img src="Scholarship/pic2.jpg" loading="lazy" alt="Scholarship Event">
                     <div class="card-content">
                         <h3>Scholarship Event</h3>
                         <p>Empowering students through education.</p>
                     </div>
                 </div>
                 <div class="card">
-                    <img src="Scholarship/pic3.jpeg" alt="Scholarship Event">
+                    <img src="Scholarship/pic3.jpg" loading="lazy" alt="Scholarship Event">
                     <div class="card-content">
                         <h3>Scholarship </h3>
                         <p>Providing opportunities for bright minds.</p>
                     </div>
                 </div>
                 <div class="card">
-                    <img src="Scholarship/pic4.jpeg" alt="Scholarship Event">
+                    <img src="Scholarship/pic4.jpg" loading="lazy" alt="Scholarship Event">
                     <div class="card-content">
                         <h3>Scholarship </h3>
                         <p>Providing opportunities for bright minds.</p>
@@ -135,21 +144,21 @@
             <h2>Women Rights Events </h2>
             <div class="card-grid">
                 <div class="card">
-                    <img src="women/women_pic1.jpeg" alt="Women Rights Event">
+                    <img src="women/women_pic1.jpg" loading="lazy" alt="Women Rights Event">
                     <div class="card-content">
                         <h3>Celebrate Women's Day!</h3>
                         <p>Advocating for equal rights.</p>
                     </div>
                 </div>
                 <div class="card">
-                    <img src="women/women_pic2.jpeg" alt="Women Rights Event">
+                    <img src="women/women_pic2.jpg" loading="lazy" alt="Women Rights Event">
                     <div class="card-content">
                         <h3>Equality Campaign</h3>
                         <p>We are campaigning in the village for gender equality between women and men.</p>
                     </div>
                 </div>
                 <div class="card">
-                    <img src="women/women_pic3.jpeg" alt="Women Rights Event">
+                    <img src="women/women_pic3.jpg" loading="lazy" alt="Women Rights Event">
                     <div class="card-content">
                         <h3>Equality Campaign</h3>
                         <p>We are campaigning in the city to promote gender equality between women and men.</p>
@@ -188,7 +197,7 @@
             <h2>Employee Conference </h2>
             <div class="card-grid">
                 <div class="card">
-                    <img src="meeting/meeting_pic2.jpeg" alt="Conference Event">
+                    <img src="meeting/meeting_pic2.jpg" loading="lazy" alt="Conference Event">
                     <div class="card-content">
                         <h3>Best Employee Award</h3>
                         <p>We are proud to present the Best Employee Award, recognizing outstanding performance and
@@ -197,7 +206,7 @@
                 </div>
 
                 <div class="card">
-                    <img src="exam_hall/exam_hall_pic1.jpeg" alt="Conference Event">
+                    <img src="exam_hall/exam_hall_pic1.jpg" loading="lazy" alt="Conference Event">
                     <div class="card-content">
                         <h3>Bi-Monthly Meetings with Managers for Guidance and Improvement</h3>
                         <p>We hold bi-monthly meetings with one or two managers to provide guidance on how we can
@@ -206,7 +215,7 @@
                 </div>
 
                 <div class="card">
-                    <img src="meeting/meeting_pic1.jpeg" alt="Conference Event">
+                    <img src="meeting/meeting_pic1.jpg" loading="lazy" alt="Conference Event">
                     <div class="card-content">
                         <h3>Annual Conference with Managers at Head Office</h3>
                         <p>Our team conducts an annual conference at the head office, where we meet with each manager to
@@ -221,42 +230,42 @@
             <h2>Winter Events </h2>
             <div class="card-grid">
                 <div class="card">
-                    <img src="winter/winter_pic1.png" alt="Winterfest Event">
+                    <img src="winter/winter_pic1.jpg" loading="lazy" alt="Winterfest Event">
                     <div class="card-content">
                         <h3>Winter Fest Celebration</h3>
                         <p>Enjoying the spirit of winter together.</p>
                     </div>
                 </div>
-                <div class="card">
-                    <img src="winter/winter_pic2.png" alt="Winterfest Event">
-                    <div class="card-content">
-                        <h3>Winter Fest Celebration</h3>
-                        <p>Enjoying the spirit of winter together.</p>
-                    </div>
-                </div>
+                <!--<div class="card">-->
+                <!--    <img src="winter/winter_pic2.jpg" loading="lazy" alt="Winterfest Event">-->
+                <!--    <div class="card-content">-->
+                <!--        <h3>Winter Fest Celebration</h3>-->
+                <!--        <p>Enjoying the spirit of winter together.</p>-->
+                <!--    </div>-->
+                <!--</div>-->
 
                 <div class="card">
-                    <img src="winter/winter_pic3.png" alt="Winter-fest Event">
+                    <img src="winter/winter_pic3.jpg" loading="lazy" alt="Winter-fest Event">
                     <div class="card-content">
                         <h3>Winter Clothes Distribution Program</h3>
                         <p>Festive fun and togetherness.</p>
                     </div>
                 </div>
                 <div class="card">
-                    <img src="winter/winter_pic6.png" alt="Winterfest Event">
+                    <img src="winter/winter_pic6.jpg" loading="lazy" alt="Winterfest Event">
                     <div class="card-content">
                         <h3>Winter Clothes Distribution Program</h3>
                         <p>Celebration winter together.</p>
                     </div>
                 </div>
 
-                <div class="card">
-                    <img src="winter/winter_pic5.png" alt="Winterfest Event">
-                    <div class="card-content">
-                        <h3>Winter Clothes Distribution Program</h3>
-                        <p>Making winter memories.</p>
-                    </div>
-                </div>
+                <!--<div class="card">-->
+                <!--    <img src="winter/winter_pic5.jpg" loading="lazy" alt="Winterfest Event">-->
+                <!--    <div class="card-content">-->
+                <!--        <h3>Winter Clothes Distribution Program</h3>-->
+                <!--        <p>Making winter memories.</p>-->
+                <!--    </div>-->
+                <!--</div>-->
             </div>
         </div>
 
@@ -265,35 +274,35 @@
             <h2>Awareness Events</h2>
             <div class="card-grid">
                 <div class="card">
-                    <img src="awarness/awarness_pic1.jpeg" alt="Awareness Event">
+                    <img src="Awarness/awarness_pic1.jpg" loading="lazy" alt="Awareness Event">
                     <div class="card-content">
                         <h3>Disability Awareness Campaign</h3>
                         <p>Spreading Inclusion & Empowerment.</p>
                     </div>
                 </div>
                 <div class="card">
-                    <img src="awarness/awarness_pic2.jpeg" alt="Awareness Event">
+                    <img src="Awarness/awarness_pic2.jpg" loading="lazy" alt="Awareness Event">
                     <div class="card-content">
                         <h3>Anti-Corruption Campaign</h3>
                         <p>Join the fight against corruption. Together, we can build a transparent and just society!</p>
                     </div>
                 </div>
                 <div class="card">
-                    <img src="Health/health_pic3.jpeg" alt="Awareness Event">
+                    <img src="Health/health_pic3.jpg" loading="lazy" alt="Awareness Event">
                     <div class="card-content">
                         <h3>Health Awareness</h3>
                         <p>Promoting healthy living for a better tomorrow!</p>
                     </div>
                 </div>
                 <div class="card">
-                    <img src="awarness/awarness_pic5.jpeg" alt="Awareness Event">
+                    <img src="Awarness/awarness_pic5.jpg" loading="lazy" alt="Awareness Event">
                     <div class="card-content">
                         <h3>Fire Safety Awareness for Students</h3>
                         <p>Know the steps to stay safe when fire strikes, stay calm, exit quickly and call for help.</p>
                     </div>
                 </div>
                 <div class="card">
-                    <img src="awarness/awarness_pic4.jpeg" alt="Awareness Event">
+                    <img src="Awarness/awarness_pic4.jpg" loading="lazy" alt="Awareness Event">
                     <div class="card-content">
                         <h3>First Aid Awareness for Students</h3>
                         <p>Stay calm and act fast—know how to assist someone who falls sick until help arrives!</p>
@@ -306,14 +315,14 @@
             <h2>Others Events </h2>
             <div class="card-grid">
                 <div class="card">
-                    <img src="training/training_pic1.jpeg" alt="Winterfest Event">
+                    <img src="training/training_pic1.jpg" loading="lazy" alt="Winterfest Event">
                     <div class="card-content">
                         <h3>Training</h3>
                         <p>We are providing BD wash training to our employees. </p>
                     </div>
                 </div>
                 <div class="card">
-                    <img src="rmpt/rmpt_pic1.jpeg" alt="Winterfest Event">
+                    <img src="rmpt/rmpt_pic1.jpg" loading="lazy" alt="Winterfest Event">
                     <div class="card-content">
                         <h3>Village BD Rural WASH Camp for HCD Project</h3>
                         <p>We are conducting a rural WASH (Water, Sanitation, and Hygiene) camp in a village in
@@ -322,7 +331,7 @@
                 </div>
 
                 <div class="card">
-                    <img src="rmpt/rmpt_pic2.jpeg" alt="Winterfest Event">
+                    <img src="rmpt/rmpt_pic2.jpg" loading="lazy" alt="Winterfest Event">
                     <div class="card-content">
                         <h3>Free Fertilizer Distribution for Farmers</h3>
                         <p>We are providing free fertilizer to farmers to support agricultural growth and
@@ -330,7 +339,7 @@
                     </div>
                 </div>
                 <div class="card">
-                    <img src="Fish/fish_pic2.jpeg" alt="Winterfest Event">
+                    <img src="Fish/fish_pic2.jpg" loading="lazy" alt="Winterfest Event">
                     <div class="card-content">
                         <h3>Field Day Celebration to Support Farmers</h3>
                         <p>We celebrated Field Day to educate farmers about sustainable fish farming, crop management,
@@ -339,7 +348,7 @@
                 </div>
 
                 <div class="card">
-                    <img src="Fish/fish_pic1.jpeg" alt="Winterfest Event">
+                    <img src="Fish/fish_pic1.jpg" loading="lazy" alt="Winterfest Event">
                     <div class="card-content">
                         <h3>Celebrating Nutrition Day with Village Communities</h3>
                         <p>We are celebrating Nutrition Day with the village community, promoting healthy eating and
@@ -347,14 +356,14 @@
                     </div>
                 </div>
 
-                <div class="card">
-                    <img src="Health/health_pic1.jpeg" alt="Winterfest Event">
-                    <div class="card-content">
-                        <h3>Free Health Camp for Village Communities</h3>
-                        <p>We are organizing a free health camp for village residents, providing essential medical care
-                            and health services.</p>
-                    </div>
-                </div>
+                <!--<div class="card">-->
+                <!--    <img src="Health/health_pic1.jpg" loading="lazy" alt="Winterfest Event">-->
+                <!--    <div class="card-content">-->
+                <!--        <h3>Free Health Camp for Village Communities</h3>-->
+                <!--        <p>We are organizing a free health camp for village residents, providing essential medical care-->
+                <!--            and health services.</p>-->
+                <!--    </div>-->
+                <!--</div>-->
             </div>
         </div>
     </div>

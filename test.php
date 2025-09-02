@@ -105,8 +105,8 @@ if (count($photos) > 0) {
 .card h3 {
     margin: 0 0 12px 0;
     color: #333;
-    font-size: 1.4em;
-    font-weight: 700;
+    font-size: 1em;
+    font-weight: 500;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -179,7 +179,7 @@ if (count($photos) > 0) {
     }
 
     .card h3 {
-        font-size: 1.1em;
+        font-size: 0.9rem;
     }
 
     .card-text {
