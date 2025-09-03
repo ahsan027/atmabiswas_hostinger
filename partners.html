@@ -168,13 +168,22 @@
             Bangladesh by undertaking multidimensional human-centered
             development programmes.
           </p>
-          <button
-            class="explore-button"
-            id="explore-button"
-            aria-label="Explore partnership details"
-          >
-            Explore Partnership
-          </button>
+          <div class="button-group">
+            <button
+              class="explore-button"
+              id="explore-button"
+              aria-label="Read more about partnership"
+            >
+              Read More
+            </button>
+            <button
+              class="visit-website-button"
+              id="visit-website-button"
+              aria-label="Visit partner website"
+            >
+              Visit Website
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -189,6 +198,9 @@
         const description = document.getElementById("partner-description");
         const logo = document.getElementById("partner-logo");
         const exploreButton = document.getElementById("explore-button");
+        const visitWebsiteButton = document.getElementById(
+          "visit-website-button"
+        );
 
         const partners = [
           {
@@ -373,17 +385,45 @@
           };
           newImg.src = partner.logo;
 
-          // Update button functionality
+          // Update button functionality for read more
           exploreButton.onclick = function () {
+            const description = document.getElementById("partner-description");
+            const isExpanded = description.classList.contains("expanded");
+
+            if (isExpanded) {
+              // Collapse text
+              description.classList.remove("expanded");
+              exploreButton.textContent = "Read More";
+              exploreButton.setAttribute(
+                "aria-label",
+                "Read more about partnership"
+              );
+            } else {
+              // Expand text
+              description.classList.add("expanded");
+              exploreButton.textContent = "Read Less";
+              exploreButton.setAttribute(
+                "aria-label",
+                "Read less about partnership"
+              );
+            }
+          };
+
+          // Update visit website button functionality
+          visitWebsiteButton.onclick = function () {
             if (partner.url && partner.url !== "#") {
               window.open(partner.url, "_blank", "noopener,noreferrer");
             }
           };
 
-          // Update button aria-label
+          // Update button aria-labels
           exploreButton.setAttribute(
             "aria-label",
-            `Explore partnership with ${partner.title}`
+            "Read more about partnership"
+          );
+          visitWebsiteButton.setAttribute(
+            "aria-label",
+            `Visit ${partner.title} website`
           );
         }
 

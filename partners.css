@@ -136,9 +136,16 @@
   margin-bottom: 1rem;
 }
 
+/* Button Group */
+.button-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
 /* Explore Button */
 .explore-button {
-  margin-top: 20px;
   padding: 12px 24px;
   border: 2px solid white;
   color: white;
@@ -148,8 +155,23 @@
   font-size: 1rem;
   font-weight: 600;
   transition: all 0.3s ease;
-  align-self: flex-start;
   font-family: "Times New Roman", Times, serif;
+  min-width: 120px;
+}
+
+/* Visit Website Button */
+.visit-website-button {
+  padding: 12px 24px;
+  border: 2px solid #f39c12;
+  color: #f39c12;
+  background-color: transparent;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  font-family: "Times New Roman", Times, serif;
+  min-width: 120px;
 }
 
 .explore-button:hover {
@@ -159,9 +181,21 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
+.visit-website-button:hover {
+  background-color: #f39c12;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(243, 156, 18, 0.3);
+}
+
 .explore-button:focus {
   outline: none;
   box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+}
+
+.visit-website-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.3);
 }
 
 /* Navigation Buttons */
@@ -330,12 +364,24 @@
     overflow: hidden;
     text-overflow: ellipsis;
     max-height: 4.5em;
+    transition: all 0.3s ease;
   }
 
-  .explore-button {
+  .content p.expanded {
+    -webkit-line-clamp: unset;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .button-group {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .explore-button,
+  .visit-website-button {
     padding: 10px 20px;
     font-size: 0.9rem;
-    align-self: center;
     width: 100%;
     max-width: 200px;
   }
@@ -402,9 +448,17 @@
     overflow: hidden;
     text-overflow: ellipsis;
     max-height: 4.5em;
+    transition: all 0.3s ease;
   }
 
-  .explore-button {
+  .content p.expanded {
+    -webkit-line-clamp: unset;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .explore-button,
+  .visit-website-button {
     padding: 8px 16px;
     font-size: 0.85rem;
   }

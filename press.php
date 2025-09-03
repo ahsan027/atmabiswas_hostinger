@@ -225,7 +225,7 @@ if ($article_id !== null && isset($press_items[$article_id])) {
                 <button class="filter-btn" data-year="2023">2023</button>
             </div>
 
-            <div class="press-grid">
+            <div class="press-grid <?php echo isset($_SESSION['username']) ? 'admin-view' : ''; ?>">
                 <?php if (empty($press_items)): ?>
                     <div class="empty-state">
                         <i class="far fa-newspaper"></i>
@@ -235,7 +235,7 @@ if ($article_id !== null && isset($press_items[$article_id])) {
                 <?php else: ?>
                     <?php foreach ($press_items as $id => $item): ?>
                         <a href="?article=<?php echo $id; ?>" class="press-card-link">
-                            <div class="press-card" data-year="<?php echo $item['year']; ?>">
+                            <div class="press-card <?php echo isset($_SESSION['username']) ? 'admin-view' : ''; ?>" data-year="<?php echo $item['year']; ?>">
 
                                 <div class="card-image">
                                     <?php
@@ -259,24 +259,24 @@ if ($article_id !== null && isset($press_items[$article_id])) {
                                         <i class="fas fa-newspaper"></i>
                                         <span><?php echo $item['blog_author']; ?></span>
                                     </div>
-                                    <p class="press-summary"><?php
-                                                                $summary = $item['summary'];
-                                                                $words = explode(' ', $summary);
-                                                                if (count($words) > 20) {
-                                                                    $truncated = array_slice($words, 0, 20);
-                                                                    echo implode(' ', $truncated) . '...';
-                                                                } else {
-                                                                    echo $summary;
-                                                                }
-                                                                ?></p>
+                                    <p class="press-summary" id="summary-<?php echo $id; ?>" data-full-text="<?php echo htmlspecialchars($item['summary'], ENT_QUOTES); ?>"><?php
+                                                                                                                                                                            $summary = $item['summary'];
+                                                                                                                                                                            $words = explode(' ', $summary);
+                                                                                                                                                                            if (count($words) > 20) {
+                                                                                                                                                                                $truncated = array_slice($words, 0, 20);
+                                                                                                                                                                                echo htmlspecialchars_decode(implode(' ', $truncated)) . '...';
+                                                                                                                                                                            } else {
+                                                                                                                                                                                echo htmlspecialchars_decode($summary);
+                                                                                                                                                                            }
+                                                                                                                                                                            ?></p>
 
                                     <div class="press-actions">
                                         <?php if (isset($_SESSION['username'])): ?>
-                                            <a class="press-button update" href="<?php echo UPDATE_BLOG_IMAGE_PATH; ?>?id=<?php echo $item['blog_id']; ?>" class="press-button update">
-                                                <i style="margin-right:2px;" class="fas fa-sync-alt"></i> Update
+                                            <a class="press-button update" href="<?php echo UPDATE_BLOG_IMAGE_PATH; ?>?id=<?php echo $item['blog_id']; ?>">
+                                                <i class="fas fa-sync-alt"></i> Update
                                             </a>
                                         <?php endif; ?>
-                                        <button class="press-button read-more">
+                                        <button class="press-button read-more" onclick="toggleReadMore(<?php echo $id; ?>)">
                                             Read More <i class="fas fa-arrow-right"></i>
                                         </button>
                                     </div>
@@ -292,6 +292,31 @@ if ($article_id !== null && isset($press_items[$article_id])) {
     <?php include 'footer.php'; ?>
 
     <script>
+        // Read More functionality
+        function toggleReadMore(id) {
+            const summaryElement = document.getElementById('summary-' + id);
+            const button = event.target.closest('.read-more');
+            const fullText = summaryElement.getAttribute('data-full-text');
+
+            if (summaryElement.classList.contains('expanded')) {
+                // Collapse text
+                const words = fullText.split(' ');
+                if (words.length > 20) {
+                    const truncated = words.slice(0, 20).join(' ') + '...';
+                    summaryElement.innerHTML = truncated;
+                } else {
+                    summaryElement.innerHTML = fullText;
+                }
+                summaryElement.classList.remove('expanded');
+                button.innerHTML = 'Read More <i class="fas fa-arrow-right"></i>';
+            } else {
+                // Expand text
+                summaryElement.innerHTML = fullText;
+                summaryElement.classList.add('expanded');
+                button.innerHTML = 'Read Less <i class="fas fa-arrow-up"></i>';
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             <?php if (!$current_article): ?>
                 // Filter functionality
