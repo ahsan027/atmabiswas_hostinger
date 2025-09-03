@@ -19,6 +19,7 @@ define('BASE_URL', $protocol . $host . $script_dir);
 // Define common paths
 define('LOGIN_PATH', BASE_URL . '/backend/login/prelogin.php');
 define('DASHBOARD_PATH', BASE_URL . '/backend/DashBoard/dashboard.php');
+define('UPDATE_BLOG_IMAGE_PATH', BASE_URL . '/backend/DashBoard/update_Blog_Image.php');
 define('HOME_PATH', BASE_URL . '/index.php');
 
 // Define main page paths
