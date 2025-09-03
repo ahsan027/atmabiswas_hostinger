@@ -161,10 +161,7 @@ $blogData = $blogStmt->fetch(PDO::FETCH_ASSOC);
                 Update Blog Image
               </button>
 
-              <div class="form-actions">
-                <a href="dashboard.php" class="btn btn-outline">Cancel</a>
-                <button type="reset" class="btn btn-outline">Reset Form</button>
-              </div>
+
             </div>
           </form>
         </div>
