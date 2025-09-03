@@ -90,7 +90,7 @@ $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 value="<?php echo isset($_GET['searchItem']) ? htmlspecialchars($_GET['searchItem']) : ''; ?>">
                             <button type="submit">
                                 <i class="fas fa-search"></i>
-                                <span>Search</span>
+
                             </button>
                         </div>
                     </form>
