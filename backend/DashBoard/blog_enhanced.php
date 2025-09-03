@@ -17,9 +17,7 @@ require_once '../../config.php';
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ATMABISWAS - Enhanced Blog Editor</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
-        rel="stylesheet" />
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="icon" type="image/png" href="../images/logo/logo.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -34,7 +32,7 @@ require_once '../../config.php';
         }
 
         body {
-            font-family: 'Montserrat', sans-serif;
+            font-family: "Times New Roman", Times, serif;
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             min-height: 100vh;
             padding: 20px;
@@ -47,7 +45,7 @@ require_once '../../config.php';
         }
 
         h1 {
-            font-family: 'Playfair Display', serif;
+            font-family: "Times New Roman", Times, serif;
             text-align: center;
             margin-bottom: 25px;
             color: var(--primary);

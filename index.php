@@ -26,31 +26,34 @@
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EZVV9DWWY7"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-EZVV9DWWY7');
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'G-EZVV9DWWY7');
     </script>
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "ATMABISWAS",
-      "url": "https://atmabiswas.org/",
-      "logo": "https://atmabiswas.org/LOGO/NGO_logo_monogram.png",
-      "sameAs": [
-        "https://www.facebook.com/people/ATMABISWAS-Ngo/61573032346859/",
-        "https://www.youtube.com/@ATMABISWAS01"
-      ],
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+880-1713302930",
-        "contactType": "Customer Service",
-        "areaServed": "BD"
-      }
-    }
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "ATMABISWAS",
+            "url": "https://atmabiswas.org/",
+            "logo": "https://atmabiswas.org/LOGO/NGO_logo_monogram.png",
+            "sameAs": [
+                "https://www.facebook.com/people/ATMABISWAS-Ngo/61573032346859/",
+                "https://www.youtube.com/@ATMABISWAS01"
+            ],
+            "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": "+880-1713302930",
+                "contactType": "Customer Service",
+                "areaServed": "BD"
+            }
+        }
     </script>
 </head>
 
@@ -103,7 +106,7 @@
 
 
     <?php include 'joinwithus.php' ?>
-    <?php include 'prat.html' ?>
+    <?php include 'partners.html' ?>
 
     <?php include 'footer.php' ?>
 

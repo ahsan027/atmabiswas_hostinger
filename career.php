@@ -206,7 +206,7 @@ $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </main>
 
     <script>
-        // Simple working image slider
+        // Enhanced image slider with error handling
         let currentSlide = 0;
         const slides = document.querySelectorAll('.slide');
         const indicators = document.querySelectorAll('.indicator');
@@ -215,6 +215,12 @@ $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         // Function to show a specific slide
         function showSlide(index) {
+            if (!slides || slides.length === 0) return;
+
+            // Ensure index is within bounds
+            if (index < 0) index = slides.length - 1;
+            if (index >= slides.length) index = 0;
+
             // Hide all slides
             slides.forEach(slide => {
                 slide.style.display = 'none';
@@ -222,42 +228,61 @@ $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
             });
 
             // Remove active class from all indicators
-            indicators.forEach(indicator => {
-                indicator.classList.remove('active');
-            });
+            if (indicators) {
+                indicators.forEach(indicator => {
+                    indicator.classList.remove('active');
+                });
+            }
 
             // Show the current slide
-            slides[index].style.display = 'block';
-            slides[index].classList.add('active');
+            if (slides[index]) {
+                slides[index].style.display = 'block';
+                slides[index].classList.add('active');
+            }
 
             // Activate the current indicator
-            indicators[index].classList.add('active');
+            if (indicators && indicators[index]) {
+                indicators[index].classList.add('active');
+            }
+
+            currentSlide = index;
         }
 
         // Function to go to next slide
         function nextSlide() {
-            currentSlide = (currentSlide + 1) % slides.length;
-            showSlide(currentSlide);
+            if (slides && slides.length > 0) {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            }
         }
 
         // Function to go to previous slide
         function previousSlide() {
-            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-            showSlide(currentSlide);
+            if (slides && slides.length > 0) {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(currentSlide);
+            }
         }
 
         // Add event listeners when page loads
         document.addEventListener('DOMContentLoaded', function() {
+            // Check if elements exist before proceeding
+            if (!slides || slides.length === 0) {
+                console.warn('No slides found');
+                return;
+            }
+
             // Show first slide initially
             showSlide(0);
 
             // Add click events to indicators
-            indicators.forEach((indicator, index) => {
-                indicator.addEventListener('click', () => {
-                    currentSlide = index;
-                    showSlide(currentSlide);
+            if (indicators) {
+                indicators.forEach((indicator, index) => {
+                    indicator.addEventListener('click', () => {
+                        showSlide(index);
+                    });
                 });
-            });
+            }
 
             // Add click events to navigation buttons
             if (prevBtn) {
@@ -269,12 +294,16 @@ $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
 
             // Auto-play functionality
-            setInterval(nextSlide, 5000);
+            if (slides.length > 1) {
+                setInterval(nextSlide, 3000);
+            }
 
             // Add counter animation
             const counter = document.querySelector('.num');
             if (counter) {
                 const finalValue = parseInt(counter.textContent);
+                if (isNaN(finalValue)) return;
+
                 let currentValue = 0;
 
                 const animateCounter = () => {

@@ -1,5 +1,5 @@
-/* Import FontAwesome */
-@import "~@fortawesome/fontawesome-free/css/all.css";
+/* Import FontAwesome - Fixed import */
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css");
 
 /* CSS Variables for Modern Design */
 :root {
@@ -41,7 +41,7 @@ body {
   line-height: 1.6;
   color: var(--gray-700);
   background-color: var(--gray-50);
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Times New Roman", Times, serif;
 }
 
 a {
@@ -196,6 +196,11 @@ i {
   display: flex;
   justify-content: space-between;
   padding: 0 30px;
+  pointer-events: none; /* Allow clicks to pass through to slides */
+}
+
+.nav-btn {
+  pointer-events: auto; /* Re-enable clicks for buttons */
 }
 
 .nav-btn {
@@ -232,6 +237,7 @@ i {
   display: flex;
   gap: 15px;
   z-index: 3;
+  pointer-events: auto;
 }
 
 .indicator {
@@ -267,6 +273,12 @@ i {
   backdrop-filter: blur(15px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  /* Fixed positioning - center by default */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 1000px;
 }
 
 .hero .overlay .leftside,
@@ -732,18 +744,24 @@ i {
   }
 
   .hero .overlay {
+    height: 50%;
+    min-height: 200px;
+  }
+
+  .hero .overlay {
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 25px 15px;
+    padding: 20px 12px;
     background: rgba(20, 20, 40, 0.9);
     /* Keep overlay centered on mobile */
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 90%;
-    max-width: none;
+    width: 85%;
+    max-width: 350px;
+    border-radius: 15px;
   }
 
   .hero .overlay .leftside,
@@ -826,9 +844,15 @@ i {
 
   .hero .overlay {
     border-radius: 15px;
-    top: 60%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     margin-bottom: 1rem;
-    padding: 20px 15px;
+    padding: 15px 10px;
+    width: 80%;
+    max-width: 300px;
+    height: 50%;
+    min-height: 180px;
   }
 
   .hero .overlay .leftside,
@@ -915,9 +939,9 @@ i {
     justify-content: space-between;
     padding: 40px 50px;
     width: 80%;
-    left: 10%;
+    left: 50%;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translate(-50%, -50%);
     border-radius: 20px;
     text-align: left;
   }

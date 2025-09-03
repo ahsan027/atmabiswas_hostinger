@@ -1,9 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap");
-
 .sidenav {
   z-index: 100;
   overflow-y: auto;
-  font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Times New Roman", Times, serif;
   display: flex;
   flex-direction: column;
   background-color: #0d47a1; /* Solid dark blue background */
