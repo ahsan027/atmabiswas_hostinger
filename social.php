@@ -128,7 +128,7 @@
                     <img src="training/automachinic.jpeg" loading="lazy" alt="automachinic Training">
                     <div class="card-content">
                         <h3>ATMABISWAS Auto Mechanic Training Center </h3>
-                        <!-- <p>PKSF was a partner in providing the scholarship.</p> -->
+                        <p>ATMABISWAS Auto Mechanic Training Center equips individuals with practical skills for better job opportunities and improved livelihoods.</p>
                     </div>
                 </div>
                 <div class="card">
@@ -142,29 +142,20 @@
                     <img src="training/cooking.jpeg"loading="lazy" alt="ATMABISWAS Cooking Training Center">
                     <div class="card-content">
                         <h3>ATMABISWAS Cooking Training Center </h3>
-                        <!-- <p>Providing opportunities for bright minds.</p> -->
+                        <p>ATMABISWAS Cooking Training Center empowers individuals with culinary skills for self-reliance and employment.</p>
                     </div>
                 </div>
                 <div class="card">
                     <img src="training/fashion.jpeg"loading="lazy" alt="ATMABISWAS Fashion Training Center">
                     <div class="card-content">
                         <h3>ATMABISWAS Fashion Training Center</h3>
-                        <!-- <p>Providing opportunities for bright minds.</p> -->
+                        <p>ATMABISWAS Fashion Training Center offers skill-based training in tailoring and design for self-employment.</p>
                     </div>
                 </div>                                
 
             </div>
         </div>
-                        <div class="segment">
-            <h2>Empowering Women </h2>
-            <div class="card-grid">
-                <div class="card">
-                    <img src="COW/cow_pic1.jpg" loading="lazy" alt="Conference Event">
-                    <div class="card-content">
-                        <h3>Empowering Women </h3>
-                        <p>ATMABISWAS supports women by providing livestock for sustainable livelihoods.</p>
-                    </div>
-                </div>
+        
 
                 <!-- Scholarship Segment -->
         <div class="segment">
