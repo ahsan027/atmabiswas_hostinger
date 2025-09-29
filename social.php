@@ -135,7 +135,7 @@
                     <img src="training/bevarag.jpeg" loading="lazy" alt="Beverage Training Center">
                     <div class="card-content">
                         <h3>ATMABISWAS Food & Beverage Training Center </h3>
-                        <!-- <p>Empowering students through education.</p> -->
+                        <p>ATMABISWAS provides hands-on food and beverage training for skill development and employment.</p>
                     </div>
                 </div>
                 <div class="card">
