@@ -4,6 +4,7 @@
 
 class Db
 {
+    // New lines added
     private static $instance = null;
     private $hostname = "localhost";
     private $user = "u106340611_arafat";
