@@ -155,6 +155,16 @@
 
             </div>
         </div>
+                        <div class="segment">
+            <h2>Empowering Women </h2>
+            <div class="card-grid">
+                <div class="card">
+                    <img src="COW/cow_pic1.jpg" loading="lazy" alt="Conference Event">
+                    <div class="card-content">
+                        <h3>Empowering Women </h3>
+                        <p>ATMABISWAS supports women by providing livestock for sustainable livelihoods.</p>
+                    </div>
+                </div>
 
                 <!-- Scholarship Segment -->
         <div class="segment">
