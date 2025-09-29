@@ -122,6 +122,42 @@
         </div>
         <!-- Scholarship Segment -->
         <div class="segment">
+            <h2>ATMABISWAS Training Center</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <img src="training/automachinic.jpeg" loading="lazy" alt="automachinic Training">
+                    <div class="card-content">
+                        <h3>ATMABISWAS Auto Mechanic Training Center </h3>
+                        <!-- <p>PKSF was a partner in providing the scholarship.</p> -->
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="training/bevarag.jpeg" loading="lazy" alt="Beverage Training Center">
+                    <div class="card-content">
+                        <h3>ATMABISWAS Food & Beverage Training Center/h3>
+                        <!-- <p>Empowering students through education.</p> -->
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="training/cooking.jpeg"loading="lazy" alt="ATMABISWAS Cooking Training Center">
+                    <div class="card-content">
+                        <h3>ATMABISWAS Cooking Training Center </h3>
+                        <!-- <p>Providing opportunities for bright minds.</p> -->
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="training/fashion.jpeg"loading="lazy" alt="ATMABISWAS Fashion Training Center">
+                    <div class="card-content">
+                        <h3>ATMABISWAS Fashion Training Center</h3>
+                        <!-- <p>Providing opportunities for bright minds.</p> -->
+                    </div>
+                </div>                                
+
+            </div>
+        </div>
+
+                <!-- Scholarship Segment -->
+        <div class="segment">
             <h2>ATMABISWAS Daycare</h2>
             <div class="card-grid">
                 <div class="card">
@@ -155,7 +191,6 @@
 
             </div>
         </div>
-
  
         <!-- ATMABISWAS Pathshala -->
         <div class="segment">
