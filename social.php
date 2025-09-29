@@ -151,7 +151,21 @@
                         <h3>ATMABISWAS Fashion Training Center</h3>
                         <p>ATMABISWAS Fashion Training Center offers skill-based training in tailoring and design for self-employment.</p>
                     </div>
-                </div>                                
+                </div>     
+                                <div class="card">
+                    <img src="training/pksf_fashion.jpeg"loading="lazy" alt="ATMABISWAS Fashion Training Center">
+                    <div class="card-content">
+                        <h3>PKSF Team Visited ATMABISWAS Fashion Training Center</h3>
+                        <p>PKSF team visited ATMABISWAS Fashion Training Center to observe and encourage skill development initiatives.</p>
+                    </div>
+                </div>  
+                <div class="card">
+                    <img src="training/pksfvisitcooking.jpeg"loading="lazy" alt="ATMABISWAS Fashion Training Center">
+                    <div class="card-content">
+                        <h3>PKSF Team Visited ATMABISWAS Cooking Training Center</h3>
+                        <p>PKSF team visited ATMABISWAS Cooking Training Center to inspire and support skill development initiatives.</p>
+                    </div>
+                </div>                             
 
             </div>
         </div>
