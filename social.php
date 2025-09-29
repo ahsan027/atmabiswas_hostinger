@@ -175,13 +175,7 @@
         <div class="segment">
             <h2>ATMABISWAS Daycare</h2>
             <div class="card-grid">
-                <div class="card">
-                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="ATMABISWAS Daycare">
-                    <div class="card-content">
-                        <h3>ATMABISWAS Daycare </h3>
-                        <!-- <p>PKSF was a partner in providing the scholarship.</p> -->
-                    </div>
-                </div>
+
                 <div class="card">
                     <img src="daycare/daycare.jpeg" loading="lazy" alt="ATMABISWAS Daycare">
                     <div class="card-content">
