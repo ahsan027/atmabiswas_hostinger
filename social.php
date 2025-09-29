@@ -134,7 +134,7 @@
                 <div class="card">
                     <img src="training/bevarag.jpeg" loading="lazy" alt="Beverage Training Center">
                     <div class="card-content">
-                        <h3>ATMABISWAS Food & Beverage Training Center/h3>
+                        <h3>ATMABISWAS Food & Beverage Training Center </h3>
                         <!-- <p>Empowering students through education.</p> -->
                     </div>
                 </div>
