@@ -24,6 +24,7 @@
     <title>About Us - ATMABISWAS</title>
     <link rel="icon" type="image/png" href="LOGO/NGO_logo_monogram.png">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="LOGO/NGO_logo_monogram.png">
     <style>
 body {
     margin: 0;
