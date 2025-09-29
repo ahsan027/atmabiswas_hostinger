@@ -5,7 +5,7 @@
             <img src="toilet/toiletpic1.jpg" loading="lazy" alt="Slide 1">
         </div>
         <div class="item">
-            <img src="FISH/FISH_pic6.jpg" loading="lazy"alt="Slide 2">
+            <img src="FISH/fish_pic6.jpg" loading="lazy"alt="Slide 2">
         </div>
         <div class="item">
             <img src="Awarness/awarness_pic6.jpg" loading="lazy" alt="Slide 3">
@@ -14,7 +14,7 @@
             <img src="Awarness/awarness_pic7.jpg" loading="lazy" alt="Slide 4">
         </div>
         <div class="item">
-            <img src="FISH/FISH_pic4.jpg" loading="lazy" alt="Slide 5">
+            <img src="FISH/fish_pic4.jpg" loading="lazy" alt="Slide 5">
         </div>
     </div>
     <div class="buttons">
