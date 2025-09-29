@@ -25,266 +25,225 @@
     <link rel="icon" type="image/png" href="LOGO/NGO_logo_monogram.png">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            margin: 0;
-            color: #333;
-            background-color: #f4f4f4;
-            overflow-x: hidden;
-        }
+body {
+    margin: 0;
+    color: #333;
+    background-color: #f4f4f4;
+    overflow-x: hidden;
+}
 
+header {
+    text-align: center;
+    background: linear-gradient(90deg, #0a58ca, #176cc6);
+    color: white;
+    padding: 50px 20px;
+}
 
+header h1 {
+    margin: 0;
+    font-size: 2.8rem;
+    font-weight: 700;
+}
 
-        header {
-            text-align: center;
-            background: linear-gradient(90deg, #0a58ca, #176cc6);
-            color: white;
-            padding: 50px 20px;
+header p {
+    margin: 10px 0;
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
 
-        }
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
 
-        header h1 {
-            margin: 0;
-            font-size: 2.8rem;
-            font-weight: 700;
-        }
+.section {
+    margin-bottom: 40px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
 
-        header p {
-            margin: 10px 0;
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
+.section h2 {
+    color: #276a7b;
+    margin-bottom: 20px;
+    position: relative;
+    animation: slideInLeft 1.5s ease-in-out;
+}
 
+.section p,
+.section ul {
+    line-height: 1.6;
+    animation: fadeIn 1.5s ease-in-out;
+}
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+.values-list,
+.get-involved-list {
+    list-style-type: none;
+    padding: 0;
+}
 
-        .section {
-            margin-bottom: 40px;
-            padding: 20px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
+.values-list li,
+.get-involved-list li {
+    margin: 10px 0;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-left: 5px solid #4CAF50;
+    border-radius: 5px;
+    animation: fadeInUp 1.5s ease-in-out;
+}
 
-        .section h2 {
-            color: #276a7b;
-            margin-bottom: 20px;
-            position: relative;
-            animation: slideInLeft 1.5s ease-in-out;
-        }
+.image-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
 
-        .section p,
-        .section ul {
-            line-height: 1.6;
-            animation: fadeIn 1.5s ease-in-out;
-        }
+.image-section img {
+    flex: 1 1 100%;
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
 
-        .values-list,
-        .get-involved-list {
-            list-style-type: none;
-            padding: 0;
-        }
+.image-section img:hover {
+    transform: scale(1);
+}
 
-        .values-list li,
-        .get-involved-list li {
-            margin: 10px 0;
-            padding: 15px;
-            background-color: #f9f9f9;
-            border-left: 5px solid #4CAF50;
-            border-radius: 5px;
-            animation: fadeInUp 1.5s ease-in-out;
-        }
+.image-section p {
+    flex: 1 1 100%;
+    margin: 0;
+}
 
-        .image-section {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
+@media (min-width: 768px) {
+    .image-section img {
+        flex: 1 1 45%;
+    }
 
-        .video-section {
-            margin-top: 40px;
-        }
+    .image-section p {
+        flex: 1 1 45%;
+    }
+}
 
-        .video-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
+/* Video Section */
+.video-section {
+    margin-top: 40px;
+}
 
-        .video-item {
-            position: relative;
-            width: 100%;
-            height: 0;
-            padding-bottom: 56.25%;
-            /* 16:9 aspect ratio */
-        }
+.video-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
 
-        .video-item iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
+.video-item {
+    flex: 1 1 300px;
+    max-width: 500px;
+    aspect-ratio: 16 / 9; /* rectangle shape */
+    border: 2px solid #ccc;
+    border-radius: 0; /* remove rounded corners */
+    overflow: hidden;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    position: relative;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2rem;
-            }
+.video-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
 
-            header p {
-                font-size: 1rem;
-            }
+.video-item iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
 
-            .container {
-                padding: 15px;
-            }
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #4c98af;
+    color: white;
+    animation: fadeInUp 2s ease-in-out;
+}
 
-            .section {
-                padding: 15px;
-            }
+/* Responsive Design */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2rem;
+    }
 
-            .image-section img {
-                width: 100% !important;
-                float: none !important;
-                margin-bottom: 15px;
-            }
+    header p {
+        font-size: 1rem;
+    }
 
-            .video-grid {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-        }
+    .container {
+        padding: 15px;
+    }
 
-        @media (max-width: 480px) {
-            header h1 {
-                font-size: 1.5rem;
-            }
+    .section {
+        padding: 15px;
+    }
 
-            .container {
-                padding: 10px;
-            }
+    .image-section img,
+    .image-section p {
+        flex: 1 1 100%;
+        margin-bottom: 15px;
+    }
 
-            .section {
-                padding: 10px;
-            }
-        }
+    .video-grid {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
 
-        .image-section img {
-            flex: 1 1 100%;
-            max-width: 100%;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            transform: scale(0.95);
-            transition: transform 0.3s ease;
-        }
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.5rem;
+    }
 
-        .image-section img:hover {
-            transform: scale(1);
-        }
+    .container {
+        padding: 10px;
+    }
 
-        .image-section p {
-            flex: 1 1 100%;
-            margin: 0;
-        }
+    .section {
+        padding: 10px;
+    }
+}
 
-        @media (min-width: 768px) {
-            .image-section img {
-                flex: 1 1 45%;
-            }
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
 
-            .image-section p {
-                flex: 1 1 45%;
-            }
-        }
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
-        .video-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-        }
+@keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
 
-        .video-item {
-            flex: 1 1 300px;
-            max-width: 500px;
-            aspect-ratio: 16 / 9;
-            overflow: hidden;
-            position: relative;
-        }
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
-        .video-item iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            background-color: #4c98af;
-            color: white;
-            animation: fadeInUp 2s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
     </style>
 </head>
 
