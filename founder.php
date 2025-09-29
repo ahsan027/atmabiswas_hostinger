@@ -125,14 +125,14 @@
     <div class="founder-section">
         <div class="founder-card">
             <img src="Photos/ED_sir.jpg" loading="lazy" alt="Akramul Haque Biswas">
-            <div class="founder-details">
+            <!-- <div class="founder-details">
                 <h2>Akramul Haque Biswas</h2>
                 <p>Founder & Executive Director</p>
                 <br>
                 <p>Akramul Haque Biswas is the founder and Executive Director of ATMABISWAS. He has been actively working to address poverty, inequality and environmental sustainability, focusing on solutions that create long-term impact. His efforts center around sustainable development, gender justice and green energy, ensuring that communities have the resources and opportunities to grow while maintaining ecological balance.
                 
                 Through ATMABISWAS, he has led various initiatives that promote renewable energy, economic empowerment, and social justice, aiming to build a society where everyone has equal access to opportunities. His work emphasizes collaboration and community-driven solutions, believing that progress comes from collective effort and sustainable practices. With a commitment to equity, environmental protection and progressive social transformation, he continues to advocate for a more just and sustainable future.</p>
-            </div>
+            </div> -->
         </div>
     </div>
     <?php include 'footer.php'; ?>
