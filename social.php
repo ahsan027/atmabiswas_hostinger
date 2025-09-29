@@ -183,17 +183,17 @@
                     </div>
                 </div>
                 <div class="card">
-                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="ATMABISWAS Daycare">
+                    <img src="daycare/daycare.jpeg" loading="lazy" alt="ATMABISWAS Daycare">
                     <div class="card-content">
                         <h3>ATMABISWAS Daycare</h3>
-                        <!-- <p>Empowering students through education.</p> -->
+                        <p>ATMABISWAS Daycare provides a safe and nurturing environment for children while their parents work.</p>
                     </div>
                 </div>
                 <div class="card">
-                    <img src="LOGO/NGO_logo_monogram.png"loading="lazy" alt="ATMABISWAS Daycare">
+                    <img src="daycare/daycare2.png"loading="lazy" alt="ATMABISWAS Daycare">
                     <div class="card-content">
                         <h3>ATMABISWAS Daycare</h3>
-                        <!-- <p>Providing opportunities for bright minds.</p> -->
+                        <p>ATMABISWAS Daycare fosters early childhood development in a caring environment.</p>
                     </div>
                 </div>
                 <div class="card">
