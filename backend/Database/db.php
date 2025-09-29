@@ -6,9 +6,9 @@ class Db
 {
     private static $instance = null;
     private $hostname = "localhost";
-    private $user = "root";
-    private $pswd = "";
-    private $dbname = "atmabiswas";
+    private $user = "u106340611_arafat";
+    private $pswd = "MacBook@007Arafat";
+    private $dbname = "u106340611_arafatbiswas";
     private $pdo;
 
     // Public constructor for backward compatibility
