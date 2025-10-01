@@ -170,7 +170,7 @@
     <section class="executive-section">
       <div class="mdsir">
         <div class="executive-card">
-          <img src="Photos/edsir.jpg" loading="lazy" alt="Akramul Haque Biswas">
+          <img src="photos/edsir.jpg" loading="lazy" alt="Akramul Haque Biswas">
           <h2>Akramul Haque Biswas</h2>
           <p><strong>Executive Director, ATMABISWAS</strong></p>
           <p>The founder and Executive Director of ATMABISWAS, Akramul Haque Biswas has dedicated his life to creating a world where justice, equality, and environmental harmony are realities for all. His leadership and vision continue to inspire and empower communities through sustainable development and advocacy.</p>
@@ -188,7 +188,7 @@
         </div>
 
         <div class="executive-card">
-          <img src="Photos/ddsir.jpg" loading="lazy" alt="Rafiqul Hasan Joarder">
+          <img src="photos/ddsir.jpg" loading="lazy" alt="Rafiqul Hasan Joarder">
           <h2>Rafiqul Hasan Joarder</h2>
           <p><strong>Director, ATMABISWAS</strong></p>
           <p>Rafiqul Hasan Joarder plays a key role in strategic planning, operational management, and policy implementation at ATMABISWAS. His dedication to sustainable development and financial inclusion has helped countless individuals and communities thrive.</p>
@@ -200,15 +200,15 @@
     </section>
     <h1>Assistant Director (Microfinance)</h1>
     <section class="profile-grid">
-      <div class="profile"> <img src="Photos/Akkas_PP.jpg" loading="lazy" alt="Akkas Ali">
+      <div class="profile"> <img src="photos/Akkas_PP.jpg" loading="lazy" alt="Akkas Ali">
         <h2>Akkas Ali</h2>
         <p>Assistant Director</p>
       </div>
-      <div class="profile"> <img src="Photos/Hasan_PP.jpg" loading="lazy" alt="MD. Hassanur Jamman">
+      <div class="profile"> <img src="photos/Hasan_PP.jpg" loading="lazy" alt="MD. Hassanur Jamman">
         <h2>MD. Hassanur Jamman</h2>
         <p>Assistant Director</p>
       </div>
-      <div class="profile"> <img src="Photos/rimusir.jpg" loading="lazy" alt="Rimu Sir">
+      <div class="profile"> <img src="photos/rimusir.jpg" loading="lazy" alt="Rimu Sir">
         <h2>MD: Abu Sadat Rimu</h2>
         <p>Assistant Director</p>
       </div>
@@ -219,15 +219,15 @@
 
     <!-- <h1>Accounts Officers</h1>
     <section class="profile-grid">
-      <div class="profile"> <img src="Photos/kumkum.png" alt="Mst.Nargis Parvin">
+      <div class="profile"> <img src="photos/kumkum.png" alt="Mst.Nargis Parvin">
         <h2>Mst. Nargis Parvin</h2>
         <p>Accounts Officer</p>
       </div>
-      <div class="profile"> <img src="Photos/rita.png" alt="Rita">
+      <div class="profile"> <img src="photos/rita.png" alt="Rita">
         <h2>Mst. Sharmin Sultana (Rita)</h2>
         <p>Accounts Officer</p>
       </div>
-      <div class="profile"> <img src="Photos/hena.png" alt="Jesmin Ara Hena">
+      <div class="profile"> <img src="photos/hena.png" alt="Jesmin Ara Hena">
         <h2>Mst. Jesmin Ara Hena</h2>
         <p>Accounts Officer</p>
       </div>
@@ -238,16 +238,16 @@
 
     <h1>Managers / Officers</h1>
     <section class="profile-grid">
-      <div class="profile"> <img src="Photos/Zahangir.JPG" alt="Zahangir">
+      <div class="profile"> <img src="photos/Zahangir.JPG" alt="Zahangir">
         <h2>Md.Zahangir Alom</h2>
         <p>Manager (MIS)</p>
       </div>
 
-      <div class="profile"> <img src="Photos/Jinnah.png" alt="Abu Mohammad Jinnah">
+      <div class="profile"> <img src="photos/Jinnah.png" alt="Abu Mohammad Jinnah">
         <h2>Abu Mohammad Jinnah</h2>
         <p>Co-Manager (MIS)</p>
       </div>
-      <div class="profile"> <img src="Photos/Sharmin.png" alt="Sharmin Aktar">
+      <div class="profile"> <img src="photos/Sharmin.png" alt="Sharmin Aktar">
         <h2>Mst. Sharmin Aktar</h2>
         <p>Officer (MIS)</p>
       </div>
@@ -258,27 +258,27 @@
 
     <h1>Other Officers</h1>
     <section class="profile-grid">
-      <div class="profile"> <img src="Photos/Firoze.png" alt="Md. Firoze Biswas">
+      <div class="profile"> <img src="photos/Firoze.png" alt="Md. Firoze Biswas">
         <h2>Md. Firoze Biswas</h2>
         <p>Branch Manager</p>
       </div>
-      <div class="profile"> <img src="Photos/MD.SHAH ALAM ALO-IT OFFICER, PIN-481.jpg" alt="Shah Alam Alo">
+      <div class="profile"> <img src="photos/MD.SHAH ALAM ALO-IT OFFICER, PIN-481.jpg" alt="Shah Alam Alo">
         <h2>Md. Shah Alam Alo</h2>
         <p>Assistant HR Officer</p>
       </div>
-      <div class="profile"> <img src="Photos/roksona.png" alt="Roksana Parvin">
+      <div class="profile"> <img src="photos/roksona.png" alt="Roksana Parvin">
         <h2>Mst. Roksana Parvin</h2>
         <p>Computer Operator</p>
       </div>
-      <div class="profile"> <img src="Photos/rana.png" alt="Yatab Ali Rana">
+      <div class="profile"> <img src="photos/rana.png" alt="Yatab Ali Rana">
         <h2>Md. Yatab Ali Rana</h2>
         <p>Assistant Legal Coordinator</p>
       </div>
-      <div class="profile"> <img src="Photos/arongo.png" alt="Arongo Biswas">
+      <div class="profile"> <img src="photos/arongo.png" alt="Arongo Biswas">
         <h2>Md. Arongo Biswas</h2>
         <p>Assistant Administrative Officer</p>
       </div>
-      <div class="profile"> <img src="Photos/shanin.png" alt="Shahin Akter">
+      <div class="profile"> <img src="photos/shanin.png" alt="Shahin Akter">
         <h2>Mst. Shahin Akter</h2>
         <p>Receptionist</p>
       </div>
