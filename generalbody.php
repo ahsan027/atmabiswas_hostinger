@@ -287,7 +287,7 @@
         <h1>Executive Committee of ATMABISWAS NGO</h1>
         <p>Empowering communities and driving sustainable development </p>
     </header>
-
+    
     <div class="container">
         <section class="executive-section">
             <div class="mdsir">
