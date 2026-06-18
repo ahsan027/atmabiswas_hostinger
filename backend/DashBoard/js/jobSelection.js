@@ -2,15 +2,16 @@ window.onload = function () {
   fetch("../get_job_position.php")
     .then((res) => res.json())
     .then((data) => {
+      if (!Array.isArray(data)) return;
       const position = document.getElementById("jobPosition");
-
       data.forEach((element) => {
         const opt = document.createElement("option");
         opt.value = element;
         opt.textContent = element;
         position.appendChild(opt);
       });
-    });
+    })
+    .catch((err) => console.error("Failed to load job positions:", err));
 };
 
 const position = document.getElementById("jobPosition");

@@ -1,13 +1,12 @@
 <?php
 
-include "Database/db.php";
+header('Content-Type: application/json');
 
-$positions = [];
+include "Database/db.php";
 
 $database = new Db();
 
 $conn = $database->connect();
-
 
 $sql = "SELECT JobTitle FROM jobcodes";
 
@@ -17,10 +16,9 @@ $stmt->execute();
 
 $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+$positions = [];
 foreach ($jobs as $job) {
-    $postion[] = $job["JobTitle"];
+    $positions[] = $job["JobTitle"];
 }
 
-
-echo json_encode($postion);
-// To send data from php to javascript fetch function;
+echo json_encode($positions);
