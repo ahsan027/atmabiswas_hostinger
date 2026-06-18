@@ -66,10 +66,11 @@ $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 </div>
 
                                 <div class="input-field">
-                                    <label>Job Position</label>
+                                    <label>Job Position
+                                        <a href="addJobPosition.php" target="_blank" style="font-size:11px;color:#4f46e5;margin-left:8px;font-weight:400;">+ Add New</a>
+                                    </label>
                                     <select id="jobPosition" name="job_title" required>
                                         <option value="">Select Position..</option>
-
                                     </select>
                                 </div>
 
@@ -158,6 +159,24 @@ $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <script src="js/dashboard.js"></script>
     <script src="js/createjob.js"></script>
     <script src="js/jobSelection.js"></script>
+    <script>
+        document.querySelector('form').addEventListener('submit', function (e) {
+            const pos     = document.getElementById('jobPosition').value;
+            const jobCode = document.getElementById('jobcode').value;
+
+            if (!pos) {
+                e.preventDefault();
+                alert('Please select a Job Position.\n\nIf the position is not listed, go to "Add Job Position" to create it first.');
+                document.getElementById('jobPosition').focus();
+                return;
+            }
+            if (!jobCode) {
+                e.preventDefault();
+                alert('Job code is missing. Please re-select the Job Position.');
+                document.getElementById('jobPosition').focus();
+            }
+        });
+    </script>
 
 </body>
 

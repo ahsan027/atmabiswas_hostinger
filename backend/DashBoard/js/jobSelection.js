@@ -19,15 +19,24 @@ const position = document.getElementById("jobPosition");
 position.addEventListener("change", function () {
   const currentPosition = this.value;
   const jobCode = document.getElementById("jobcode");
-  jobCode.value = "No Job position Selected yet...";
 
-  if (currentPosition) {
-    fetch(
-      `../get_job_code.php?job_title=${encodeURIComponent(currentPosition)}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        jobCode.value = data[0]["JobCode"];
-      });
+  if (!currentPosition) {
+    jobCode.value = "";
+    return;
   }
+
+  fetch(`../get_job_code.php?job_title=${encodeURIComponent(currentPosition)}`)
+    .then((res) => res.json())
+    .then((data) => {
+      if (Array.isArray(data) && data.length > 0) {
+        jobCode.value = data[0]["JobCode"];
+      } else {
+        jobCode.value = "";
+        console.warn("No job code found for:", currentPosition);
+      }
+    })
+    .catch((err) => {
+      console.error("Failed to load job code:", err);
+      jobCode.value = "";
+    });
 });

@@ -1,25 +1,22 @@
 <?php
+header('Content-Type: application/json');
+header('Cache-Control: no-cache, no-store, must-revalidate');
 
 include "Database/db.php";
 
-
 $database = new Db();
-
 $conn = $database->connect();
 
-$jobtitle = htmlspecialchars($_GET["job_title"]);
+$jobtitle = trim($_GET["job_title"] ?? '');
 
-// $job_title = "Full Stack Developer";
+if (empty($jobtitle)) {
+    echo json_encode([]);
+    exit();
+}
 
-$sql = "SELECT JobCode FROM jobcodes WHERE JobTitle = :job_title";
-
+$sql = "SELECT JobCode FROM jobcodes WHERE JobTitle = :job_title LIMIT 1";
 $stmt = $conn->prepare($sql);
-
 $stmt->bindParam(":job_title", $jobtitle);
-
 $stmt->execute();
 
-$res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-echo json_encode($res);
-// print_r($res);
+echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
