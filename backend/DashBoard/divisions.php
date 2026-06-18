@@ -66,10 +66,10 @@ if (isset($_GET['msg'])) {
 
 try {
     $stmt = $conn->query(
-        "SELECT d.id, d.name, d.status, d.display_order,
+        "SELECT d.id, d.name, d.status,
                 (SELECT COUNT(*) FROM branches WHERE division = d.name) AS branch_count
          FROM divisions d
-         ORDER BY d.display_order ASC, d.name ASC"
+         ORDER BY d.name ASC"
     );
     $divisions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
@@ -139,7 +139,6 @@ try {
                         <tr>
                             <th>#</th>
                             <th>Division Name</th>
-                            <th>Order</th>
                             <th>Active Branches</th>
                             <th>Status</th>
                             <th>Actions</th>
@@ -147,7 +146,7 @@ try {
                     </thead>
                     <tbody>
                     <?php if (empty($divisions)): ?>
-                        <tr><td colspan="6">
+                        <tr><td colspan="5">
                             <div class="cm-empty">
                                 <i class="fas fa-layer-group"></i>
                                 No divisions yet. Add one to get started.
@@ -160,7 +159,6 @@ try {
                             <td>
                                 <strong><?= htmlspecialchars($d['name']) ?></strong>
                             </td>
-                            <td><?= (int)$d['display_order'] ?></td>
                             <td>
                                 <?php if ($d['branch_count'] > 0): ?>
                                     <span class="cm-branch-count"><?= (int)$d['branch_count'] ?></span>

@@ -14,7 +14,7 @@ try {
         $stmt = $conn->query(
             "SELECT name FROM divisions
              WHERE status = 1
-             ORDER BY display_order ASC, name ASC"
+             ORDER BY name ASC"
         );
         $divisions = $stmt->fetchAll(PDO::FETCH_COLUMN);
     } catch (Exception $e) {

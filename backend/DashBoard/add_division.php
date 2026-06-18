@@ -12,15 +12,14 @@ $db   = new Db();
 $conn = $db->connect();
 
 $errors = [];
-$values = ['name' => '', 'status' => 1, 'display_order' => 0];
+$values = ['name' => '', 'status' => 1];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!csrf_verify()) {
         $errors[] = 'Invalid security token. Please try again.';
     } else {
-        $values['name']          = trim($_POST['name'] ?? '');
-        $values['status']        = (int)($_POST['status'] ?? 1);
-        $values['display_order'] = (int)($_POST['display_order'] ?? 0);
+        $values['name']   = trim($_POST['name'] ?? '');
+        $values['status'] = (int)($_POST['status'] ?? 1);
 
         if ($values['name'] === '') {
             $errors[] = 'Division name is required.';
@@ -37,12 +36,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (empty($errors)) {
             $stmt = $conn->prepare(
-                "INSERT INTO divisions (name, status, display_order) VALUES (:name, :status, :display_order)"
+                "INSERT INTO divisions (name, status) VALUES (:name, :status)"
             );
             $stmt->execute([
-                ':name'          => $values['name'],
-                ':status'        => $values['status'],
-                ':display_order' => $values['display_order'],
+                ':name'   => $values['name'],
+                ':status' => $values['status'],
             ]);
             header('Location: divisions.php?msg=' . rawurlencode('Division "' . $values['name'] . '" added successfully.') . '&type=success');
             exit();
@@ -98,21 +96,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <div class="cm-form-hint">Must be unique. This name will appear in the Branch dropdown and on the Contact page.</div>
                     </div>
 
-                    <div class="cm-form-row">
-                        <div class="cm-form-group">
-                            <label>Display Order</label>
-                            <input class="cm-form-control" type="number" name="display_order"
-                                   min="0" value="<?= (int)$values['display_order'] ?>">
-                            <div class="cm-form-hint">Lower number appears first. 0 means alphabetical.</div>
-                        </div>
-                        <div class="cm-form-group">
-                            <label>Status</label>
-                            <select class="cm-form-control" name="status">
-                                <option value="1" <?= $values['status'] ? 'selected' : '' ?>>Active</option>
-                                <option value="0" <?= !$values['status'] ? 'selected' : '' ?>>Inactive</option>
-                            </select>
-                            <div class="cm-form-hint">Inactive divisions are hidden from the Contact page.</div>
-                        </div>
+                    <div class="cm-form-group">
+                        <label>Status</label>
+                        <select class="cm-form-control" name="status">
+                            <option value="1" <?= $values['status'] ? 'selected' : '' ?>>Active</option>
+                            <option value="0" <?= !$values['status'] ? 'selected' : '' ?>>Inactive</option>
+                        </select>
+                        <div class="cm-form-hint">Inactive divisions are hidden from the Contact page.</div>
                     </div>
 
                     <div class="cm-form-actions">

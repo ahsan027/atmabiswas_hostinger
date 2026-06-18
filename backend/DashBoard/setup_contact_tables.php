@@ -121,15 +121,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             $conn->exec("
                 CREATE TABLE `divisions` (
-                    `id`            INT AUTO_INCREMENT PRIMARY KEY,
-                    `name`          VARCHAR(100)  NOT NULL,
-                    `status`        TINYINT(1)    NOT NULL DEFAULT 1,
-                    `display_order` INT           NOT NULL DEFAULT 0,
-                    `created_at`    TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                    `updated_at`    TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                    UNIQUE KEY `uq_name`          (`name`),
-                    INDEX `idx_status`            (`status`),
-                    INDEX `idx_display_order`     (`display_order`)
+                    `id`         INT          AUTO_INCREMENT PRIMARY KEY,
+                    `name`       VARCHAR(100) NOT NULL,
+                    `status`     TINYINT(1)   NOT NULL DEFAULT 1,
+                    `created_at` TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    `updated_at` TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                    UNIQUE KEY `uq_name` (`name`),
+                    INDEX `idx_status`   (`status`)
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
             ");
             $messages[] = '✅ Table <strong>divisions</strong> created.';
@@ -137,8 +135,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Seed from existing branch data
             if ($br_exists || tableExists($conn, 'branches')) {
                 $seeded = $conn->exec("
-                    INSERT IGNORE INTO `divisions` (`name`, `status`, `display_order`)
-                    SELECT DISTINCT division, 1, 0
+                    INSERT IGNORE INTO `divisions` (`name`, `status`)
+                    SELECT DISTINCT division, 1
                     FROM `branches`
                     WHERE division IS NOT NULL AND division != ''
                 ");
