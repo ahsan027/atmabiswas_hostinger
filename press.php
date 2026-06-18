@@ -13,27 +13,24 @@ function extractYouTubeId(string $url): string {
     return '';
 }
 
-function getCardMedia(array $item): array {
-    if (!empty($item['cover_img'])) {
-        return ['type' => 'image', 'url' => $item['cover_img']];
-    }
+function getThumbnailUrl(array $item): string {
+    if (!empty($item['cover_img'])) return $item['cover_img'];
     $ytId = extractYouTubeId($item['source_link'] ?? '');
-    if ($ytId) {
-        return ['type' => 'youtube', 'id' => $ytId, 'url' => "https://img.youtube.com/vi/{$ytId}/hqdefault.jpg"];
-    }
-    return ['type' => 'none'];
+    if ($ytId) return "https://img.youtube.com/vi/{$ytId}/hqdefault.jpg";
+    return '';
 }
 
-function getCategoryInfo(string $cat): array {
+function getCategoryLabel(string $cat): string {
     $map = [
-        'media'        => ['label' => 'Media',        'class' => 'pr-badge--media'],
-        'announcement' => ['label' => 'Announcement', 'class' => 'pr-badge--announcement'],
-        'press'        => ['label' => 'Press Release', 'class' => 'pr-badge--press'],
+        'news'         => 'News',
+        'media'        => 'Media',
+        'announcement' => 'Announcement',
+        'press'        => 'Press Release',
     ];
-    return $map[$cat] ?? ['label' => 'News', 'class' => 'pr-badge--news'];
+    return $map[$cat] ?? 'News';
 }
 
-// Fetch all published posts
+// Fetch all posts
 $indexed = [];
 try {
     $db   = new Db();
@@ -45,21 +42,20 @@ try {
     $indexed = [];
 }
 
-// Determine view mode
+// View mode
 $article_id      = isset($_GET['article']) ? (int)$_GET['article'] : null;
 $current_article = ($article_id !== null && isset($indexed[$article_id])) ? $indexed[$article_id] : null;
 
-// Build filter options from live data
+// Filter options from live data
 $available_years      = [];
 $available_categories = [];
 foreach ($indexed as $item) {
     if (!empty($item['year'])) $available_years[$item['year']] = true;
-    $cat = $item['category'] ?? 'news';
-    $available_categories[$cat] = true;
+    $available_categories[$item['category'] ?? 'news'] = true;
 }
 krsort($available_years);
 
-// Related articles for article view
+// Related articles
 $related_articles = [];
 if ($current_article) {
     foreach ($indexed as $rid => $ritem) {
@@ -93,12 +89,11 @@ if ($current_article) {
 <?php include 'Navbar.php'; ?>
 
 <?php if ($current_article):
-    // ═══════════════════════════════════════════
+    // ═══════════════════════════════════════════════
     // ARTICLE VIEW
-    // ═══════════════════════════════════════════
-    $cat_info  = getCategoryInfo($current_article['category'] ?? 'news');
-    $media     = getCardMedia($current_article);
-    $yt_id     = ($media['type'] === 'youtube') ? $media['id'] : '';
+    // ═══════════════════════════════════════════════
+    $cat_label = getCategoryLabel($current_article['category'] ?? 'news');
+    $yt_id     = extractYouTubeId($current_article['source_link'] ?? '');
     $date_fmt  = !empty($current_article['upload_date'])
                     ? date('F j, Y', strtotime($current_article['upload_date'])) : '';
 ?>
@@ -106,12 +101,12 @@ if ($current_article) {
     <a href="press.php" class="pr-back-btn">
         <i class="fas fa-arrow-left"></i> Back to Press
     </a>
-    <span class="pr-hero-label"><?= htmlspecialchars($cat_info['label']) ?></span>
     <h1><?= htmlspecialchars($current_article['blog_title']) ?></h1>
     <div class="pr-article-meta">
         <?php if ($date_fmt): ?>
         <span><i class="far fa-calendar-alt"></i> <?= $date_fmt ?></span>
         <?php endif; ?>
+        <span><?= htmlspecialchars($cat_label) ?></span>
         <?php if (!empty($current_article['blog_author'])): ?>
         <span><i class="far fa-user"></i> <?= htmlspecialchars($current_article['blog_author']) ?></span>
         <?php endif; ?>
@@ -120,19 +115,16 @@ if ($current_article) {
 
 <div class="pr-article-wrap">
 
-    <?php if ($yt_id): ?>
-    <div class="pr-article-media">
-        <div class="pr-article-video">
-            <iframe src="https://www.youtube.com/embed/<?= htmlspecialchars($yt_id) ?>"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen></iframe>
-        </div>
+    <?php if ($yt_id && empty($current_article['cover_img'])): ?>
+    <div class="pr-article-video">
+        <iframe src="https://www.youtube.com/embed/<?= htmlspecialchars($yt_id) ?>"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
     </div>
     <?php elseif (!empty($current_article['cover_img'])): ?>
-    <div class="pr-article-media">
-        <img src="<?= htmlspecialchars($current_article['cover_img']) ?>"
-             alt="<?= htmlspecialchars($current_article['image_title'] ?? $current_article['blog_title']) ?>">
-    </div>
+    <img class="pr-article-img"
+         src="<?= htmlspecialchars($current_article['cover_img']) ?>"
+         alt="<?= htmlspecialchars($current_article['image_title'] ?? $current_article['blog_title']) ?>">
     <?php endif; ?>
 
     <div class="pr-article-body">
@@ -144,37 +136,23 @@ if ($current_article) {
         <div class="pr-related-heading">More Press Updates</div>
         <div class="pr-related-grid">
             <?php foreach ($related_articles as $rid => $rel):
-                $rel_media    = getCardMedia($rel);
-                $rel_cat_info = getCategoryInfo($rel['category'] ?? 'news');
+                $rel_thumb    = getThumbnailUrl($rel);
+                $rel_cat      = getCategoryLabel($rel['category'] ?? 'news');
                 $rel_date     = !empty($rel['upload_date']) ? date('M j, Y', strtotime($rel['upload_date'])) : '';
             ?>
             <a href="press.php?article=<?= $rid ?>" class="press-card-link">
                 <div class="press-card">
-                    <div class="pr-card-media">
-                        <?php if ($rel_media['type'] !== 'none'): ?>
-                            <img src="<?= htmlspecialchars($rel_media['url']) ?>"
-                                 alt="<?= htmlspecialchars($rel['blog_title']) ?>"
-                                 loading="lazy">
-                            <?php if ($rel_media['type'] === 'youtube'): ?>
-                            <div class="yt-play-overlay">
-                                <div class="yt-play-btn"><i class="fas fa-play"></i></div>
-                            </div>
-                            <?php endif; ?>
-                        <?php else: ?>
-                            <div class="pr-card-media-empty"><i class="far fa-newspaper"></i></div>
-                        <?php endif; ?>
-                    </div>
-                    <div class="pr-card-body">
-                        <div class="pr-card-header">
-                            <span class="pr-badge <?= $rel_cat_info['class'] ?>"><?= $rel_cat_info['label'] ?></span>
-                            <span class="pr-card-date"><?= $rel_date ?></span>
-                        </div>
-                        <div class="pr-card-title"><?= htmlspecialchars($rel['blog_title']) ?></div>
-                        <div class="pr-card-footer">
-                            <span></span>
-                            <span class="pr-read-more">Read <i class="fas fa-arrow-right"></i></span>
-                        </div>
-                    </div>
+                    <?php if ($rel_thumb): ?>
+                    <img class="pr-card-img"
+                         src="<?= htmlspecialchars($rel_thumb) ?>"
+                         alt="<?= htmlspecialchars($rel['blog_title']) ?>"
+                         loading="lazy">
+                    <?php else: ?>
+                    <div class="pr-card-img-empty"><i class="far fa-newspaper"></i></div>
+                    <?php endif; ?>
+                    <div class="pr-card-title"><?= htmlspecialchars($rel['blog_title']) ?></div>
+                    <div class="pr-card-meta"><?= $rel_date ?><?= ($rel_date && $rel_cat) ? ' · ' : '' ?><?= htmlspecialchars($rel_cat) ?></div>
+                    <span class="pr-read-more">Read More <i class="fas fa-arrow-right"></i></span>
                 </div>
             </a>
             <?php endforeach; ?>
@@ -185,13 +163,12 @@ if ($current_article) {
 </div>
 
 <?php else:
-    // ═══════════════════════════════════════════
+    // ═══════════════════════════════════════════════
     // LIST VIEW
-    // ═══════════════════════════════════════════
+    // ═══════════════════════════════════════════════
 ?>
 <div class="pr-hero">
-    <span class="pr-hero-label">ATMABISWAS — Press &amp; Media</span>
-    <h1>Press &amp; News Room</h1>
+    <h1>Press &amp; Media</h1>
     <p>Updates, announcements, and media coverage from ATMABISWAS Bangladesh</p>
 </div>
 
@@ -204,9 +181,8 @@ if ($current_article) {
             <span class="pr-filter-label">Category</span>
             <div class="pr-filter-pills" id="categoryPills">
                 <button class="pr-pill active" data-filter-cat="all">All</button>
-                <?php foreach (array_keys($available_categories) as $cat):
-                    $ci = getCategoryInfo($cat); ?>
-                <button class="pr-pill" data-filter-cat="<?= htmlspecialchars($cat) ?>"><?= htmlspecialchars($ci['label']) ?></button>
+                <?php foreach (array_keys($available_categories) as $cat): ?>
+                <button class="pr-pill" data-filter-cat="<?= htmlspecialchars($cat) ?>"><?= htmlspecialchars(getCategoryLabel($cat)) ?></button>
                 <?php endforeach; ?>
             </div>
         </div>
@@ -233,50 +209,30 @@ if ($current_article) {
     <?php else: ?>
     <div class="pr-grid" id="pressGrid">
         <?php foreach ($indexed as $idx => $item):
-            $media    = getCardMedia($item);
-            $cat_info = getCategoryInfo($item['category'] ?? 'news');
+            $thumb    = getThumbnailUrl($item);
+            $cat_lbl  = getCategoryLabel($item['category'] ?? 'news');
             $date_fmt = !empty($item['upload_date']) ? date('M j, Y', strtotime($item['upload_date'])) : '';
-            $cat_val  = htmlspecialchars($item['category'] ?? 'news');
-            $year_val = (int)($item['year'] ?? 0);
-            $summary  = !empty($item['summary']) ? mb_substr(strip_tags($item['summary']), 0, 130) : '';
+            $summary  = !empty($item['summary']) ? mb_substr(strip_tags($item['summary']), 0, 140) : '';
         ?>
         <a href="press.php?article=<?= $idx ?>"
            class="press-card-link"
-           data-year="<?= $year_val ?>"
-           data-category="<?= $cat_val ?>">
+           data-year="<?= (int)($item['year'] ?? 0) ?>"
+           data-category="<?= htmlspecialchars($item['category'] ?? 'news') ?>">
             <div class="press-card">
-                <div class="pr-card-media">
-                    <?php if ($media['type'] !== 'none'): ?>
-                        <img src="<?= htmlspecialchars($media['url']) ?>"
-                             alt="<?= htmlspecialchars($item['blog_title']) ?>"
-                             loading="lazy">
-                        <?php if ($media['type'] === 'youtube'): ?>
-                        <div class="yt-play-overlay">
-                            <div class="yt-play-btn"><i class="fas fa-play"></i></div>
-                        </div>
-                        <?php endif; ?>
-                    <?php else: ?>
-                        <div class="pr-card-media-empty"><i class="far fa-newspaper"></i></div>
-                    <?php endif; ?>
-                </div>
-                <div class="pr-card-body">
-                    <div class="pr-card-header">
-                        <span class="pr-badge <?= $cat_info['class'] ?>"><?= $cat_info['label'] ?></span>
-                        <?php if ($date_fmt): ?>
-                        <span class="pr-card-date"><?= $date_fmt ?></span>
-                        <?php endif; ?>
-                    </div>
-                    <div class="pr-card-title"><?= htmlspecialchars($item['blog_title']) ?></div>
-                    <?php if ($summary): ?>
-                    <div class="pr-card-summary"><?= htmlspecialchars($summary) ?>…</div>
-                    <?php endif; ?>
-                    <div class="pr-card-footer">
-                        <?php if (!empty($item['blog_author'])): ?>
-                        <span class="pr-card-author"><i class="far fa-user"></i> <?= htmlspecialchars($item['blog_author']) ?></span>
-                        <?php endif; ?>
-                        <span class="pr-read-more">Read more <i class="fas fa-arrow-right"></i></span>
-                    </div>
-                </div>
+                <?php if ($thumb): ?>
+                <img class="pr-card-img"
+                     src="<?= htmlspecialchars($thumb) ?>"
+                     alt="<?= htmlspecialchars($item['blog_title']) ?>"
+                     loading="lazy">
+                <?php else: ?>
+                <div class="pr-card-img-empty"><i class="far fa-newspaper"></i></div>
+                <?php endif; ?>
+                <div class="pr-card-title"><?= htmlspecialchars($item['blog_title']) ?></div>
+                <div class="pr-card-meta"><?= $date_fmt ?><?= ($date_fmt && $cat_lbl) ? ' · ' : '' ?><?= htmlspecialchars($cat_lbl) ?></div>
+                <?php if ($summary): ?>
+                <div class="pr-card-summary"><?= htmlspecialchars($summary) ?></div>
+                <?php endif; ?>
+                <span class="pr-read-more">Read More <i class="fas fa-arrow-right"></i></span>
             </div>
         </a>
         <?php endforeach; ?>
@@ -298,10 +254,8 @@ if ($current_article) {
         var links   = document.querySelectorAll('#pressGrid .press-card-link');
         var visible = 0;
         links.forEach(function (link) {
-            var cat  = link.dataset.category || 'news';
-            var year = link.dataset.year     || '0';
-            var show = (activeCat  === 'all' || cat  === activeCat) &&
-                       (activeYear === 'all' || year === activeYear);
+            var show = (activeCat  === 'all' || link.dataset.category === activeCat) &&
+                       (activeYear === 'all' || link.dataset.year     === activeYear);
             link.style.display = show ? '' : 'none';
             if (show) visible++;
         });
@@ -309,16 +263,16 @@ if ($current_article) {
         if (noRes) noRes.style.display = (visible === 0) ? 'block' : 'none';
     }
 
-    function bindPills(containerId, prop) {
-        var wrap = document.getElementById(containerId);
+    function bindPills(id, key) {
+        var wrap = document.getElementById(id);
         if (!wrap) return;
         wrap.addEventListener('click', function (e) {
             var btn = e.target.closest('.pr-pill');
             if (!btn) return;
             wrap.querySelectorAll('.pr-pill').forEach(function (p) { p.classList.remove('active'); });
             btn.classList.add('active');
-            if (prop === 'cat')  activeCat  = btn.dataset.filterCat  || 'all';
-            if (prop === 'year') activeYear = btn.dataset.filterYear || 'all';
+            if (key === 'cat')  activeCat  = btn.dataset.filterCat  || 'all';
+            if (key === 'year') activeYear = btn.dataset.filterYear || 'all';
             applyFilters();
         });
     }
