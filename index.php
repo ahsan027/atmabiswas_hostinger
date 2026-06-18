@@ -14,7 +14,12 @@
     <meta property="og:description" content="Discover ATMABISWAS – a non-governmental organization driving progress through innovation and inclusion.">
     <meta property="og:image" content="https://atmabiswas.org/LOGO/NGO_logo_monogram.png">
     <meta property="og:url" content="https://atmabiswas.org/">
+    <meta property="og:type" content="website">
+    <link rel="canonical" href="https://atmabiswas.org/">
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ATMABISWAS - Empowering Lives in Rural Bangladesh">
+    <meta name="twitter:description" content="ATMABISWAS empowers communities in Bangladesh through microfinance, solar energy, agriculture, and enterprise development.">
+    <meta name="twitter:image" content="https://atmabiswas.org/LOGO/NGO_logo_monogram.png">
 
     <title>ATMABISWAS - Homepage</title>
     <link rel="icon" type="image/png" href="LOGO/NGO_logo_monogram.png">

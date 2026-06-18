@@ -20,7 +20,8 @@ $pdfs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notice - ATMABISWAS</title>
+    <title>Official Notices &amp; Announcements - ATMABISWAS</title>
+    <?php include 'seo.php'; ?>
     <link rel="stylesheet" href="notice.css">
     
     <link rel="icon" type="image/png" href="LOGO/NGO_logo_monogram.png">

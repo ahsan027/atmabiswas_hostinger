@@ -16,12 +16,10 @@
 
         gtag('config', 'G-EZVV9DWWY7');
     </script>
-    <link rel="canonical" href="https://atmabiswas.org/" />
-
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - ATMABISWAS</title>
+    <title>About ATMABISWAS - Bangladesh NGO | Mission & Vision</title>
+    <?php include 'seo.php'; ?>
     <link rel="icon" type="image/png" href="LOGO/NGO_logo_monogram.png">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="LOGO/NGO_logo_monogram.png">

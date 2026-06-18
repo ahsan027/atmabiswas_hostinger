@@ -12,7 +12,7 @@ require_once __DIR__ . '/config.php';
 <!-- Desktop Navbar -->
 <div class="navbar desktop-only">
     <div class="top-row">
-        <div class="logo"><a href="<?php echo HOME_PATH; ?>"><img src="logoBg.png" loading="lazy" alt=""></a></div>
+        <div class="logo"><a href="<?php echo HOME_PATH; ?>"><img src="logoBg.png" loading="lazy" alt="ATMABISWAS NGO"></a></div>
         <div class="bars">
             <a href="<?php echo NOTICE_PATH; ?>">Notice</a>
             <a target="_blank" href="<?php echo CAREER_PATH; ?>">Career</a>
@@ -62,7 +62,7 @@ require_once __DIR__ . '/config.php';
 
 <!-- Mobile Header -->
 <div class="mobile-header mobile-only">
-    <div class="logo"><a href="<?php echo HOME_PATH; ?>"><img src="logoBg.png" loading="lazy" alt=""></a></div>
+    <div class="logo"><a href="<?php echo HOME_PATH; ?>"><img src="logoBg.png" loading="lazy" alt="ATMABISWAS NGO"></a></div>
     <div class="menu-toggle" id="menu-toggleId">
         <span class="bar"></span>
         <span class="bar"></span>

@@ -12,7 +12,8 @@
 </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Branchs Location - ATMABISWAS </title>
+    <title>Branch Locations - ATMABISWAS Bangladesh</title>
+    <?php include 'seo.php'; ?>
     <style>
         body {
             font-family: Arial, sans-serif;

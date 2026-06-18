@@ -3,8 +3,6 @@
 <html lang="en">
 
 <head>
-    <link rel="canonical" href="https://atmabiswas.org/" />
-
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EZVV9DWWY7"></script>
     <script>
@@ -19,7 +17,8 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>General Body - ATMABISWAS </title>
+    <title>General Body &amp; Executive Committee - ATMABISWAS Bangladesh</title>
+    <?php include 'seo.php'; ?>
 
     <link rel="icon" type="image/png" href="LOGO/NGO_logo_monogram.png">
     <style>

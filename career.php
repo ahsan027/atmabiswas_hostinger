@@ -14,10 +14,10 @@ $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <html lang="en">
 
 <head>
-    <link rel="canonical" href="https://atmabiswas.org/" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Career - ATMABISWAS</title>
+    <title>Jobs &amp; Career Opportunities - ATMABISWAS Bangladesh</title>
+    <?php include 'seo.php'; ?>
     <link rel="stylesheet" href="career.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="icon" type="image/png" href="LOGO/NGO_logo_monogram.png">

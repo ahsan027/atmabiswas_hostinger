@@ -9,8 +9,6 @@ $conn = $db->connect();
 <html lang="en">
 
 <head>
-    <link rel="canonical" href="https://atmabiswas.org/" />
-
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EZVV9DWWY7"></script>
     <script>
@@ -25,7 +23,8 @@ $conn = $db->connect();
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ATMABISWAS - Contact</title>
+    <title>Contact ATMABISWAS - Get in Touch</title>
+    <?php include 'seo.php'; ?>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="icon" type="image/png" href="LOGO/NGO_logo_monogram.png">
