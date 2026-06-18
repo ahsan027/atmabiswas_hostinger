@@ -124,7 +124,7 @@
     </div>
 
     <?php include 'footer.php' ?>
-    <script src="locations.js"></script>
+    <script src="locations.js?v=<?= filemtime(__DIR__ . '/locations.js') ?>"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </body>
 
