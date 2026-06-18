@@ -20,10 +20,15 @@ try {
   $pdo = $db->connect();
 
   // Validate and sanitize input
-  $title = trim($_POST['blog_title'] ?? '');
-  $content = $_POST['blog_content'] ?? '';
-  $summary = $_POST['summary_content'] ?? '';
-  $author = $_SESSION['username'] ?? 'ATMABISWAS';
+  $title       = trim($_POST['blog_title']    ?? '');
+  $content     = $_POST['blog_content']       ?? '';
+  $summary     = $_POST['summary_content']    ?? '';
+  $author      = $_SESSION['username']        ?? 'ATMABISWAS';
+  $category    = trim($_POST['category']      ?? 'news');
+  $source_link = trim($_POST['source_link']   ?? '');
+
+  $allowed_categories = ['news', 'media', 'announcement', 'press'];
+  if (!in_array($category, $allowed_categories, true)) $category = 'news';
 
   // Validation
   if (empty($title)) {
@@ -52,14 +57,16 @@ try {
   }
 
   $stmt = $pdo->prepare("
-        INSERT INTO blogs (blog_title, blog_content, summary, blog_author, upload_date, year)
-        VALUES (:title, :content, :summary, :author, NOW(), YEAR(NOW()))
+        INSERT INTO blogs (blog_title, blog_content, summary, blog_author, upload_date, year, category, source_link)
+        VALUES (:title, :content, :summary, :author, NOW(), YEAR(NOW()), :category, :source_link)
     ");
 
-  $stmt->bindParam(':title', $title, PDO::PARAM_STR);
-  $stmt->bindParam(':content', $content, PDO::PARAM_STR);
-  $stmt->bindParam(':summary', $summary, PDO::PARAM_STR);
-  $stmt->bindParam(':author', $author, PDO::PARAM_STR);
+  $stmt->bindParam(':title',       $title,       PDO::PARAM_STR);
+  $stmt->bindParam(':content',     $content,     PDO::PARAM_STR);
+  $stmt->bindParam(':summary',     $summary,     PDO::PARAM_STR);
+  $stmt->bindParam(':author',      $author,      PDO::PARAM_STR);
+  $stmt->bindParam(':category',    $category,    PDO::PARAM_STR);
+  $stmt->bindParam(':source_link', $source_link, PDO::PARAM_STR);
 
   if ($stmt->execute()) {
     echo json_encode([

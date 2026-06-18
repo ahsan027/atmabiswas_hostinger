@@ -582,6 +582,29 @@ require_once '../../config.php';
                                 <input type="hidden" id="sanitizedSummary" name="summary_content">
                                 <input type="hidden" id="postStatus" name="status" value="published">
 
+                                <!-- Category & Source Link -->
+                                <div class="row mb-4">
+                                    <div class="col-md-5">
+                                        <label for="postCategory" class="form-label">
+                                            <i class="fas fa-tag"></i> Category *
+                                        </label>
+                                        <select class="form-select" id="postCategory" name="category" required>
+                                            <option value="news" selected>News</option>
+                                            <option value="media">Media Coverage</option>
+                                            <option value="announcement">Announcement</option>
+                                            <option value="press">Press Release</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <label for="sourceLink" class="form-label">
+                                            <i class="fas fa-link"></i> YouTube / Source Link
+                                        </label>
+                                        <input type="url" class="form-control" id="sourceLink" name="source_link"
+                                               placeholder="https://youtube.com/watch?v=... or article URL">
+                                        <div class="form-text">YouTube links auto-generate a thumbnail on the press page.</div>
+                                    </div>
+                                </div>
+
                                 <!-- Action Buttons -->
                                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                                     <button type="submit" class="btn btn-publish">
