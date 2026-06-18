@@ -165,18 +165,20 @@ $_d = $_seo_data[$_seo_page] ?? [
       "name": "ATMABISWAS",
       "alternateName": [
         "Atmabiswas",
-        "atmabiswas",
-        "ATMA BISWAS",
         "Atma Biswas",
-        "atma biswas",
+        "Atto Biswas",
+        "AtmaBiswas",
+        "Atmabiswash",
+        "AtmaBishwas",
+        "Atmavishwas",
+        "attobiswas",
+        "atmobiswas",
         "atma-biswas",
-        "Atma-Biswas",
         "আত্মবিশ্বাস",
+        "আত্ম বিশ্বাস",
+        "আত্তো বিশ্বাস",
         "আত্মা বিশ্বাস",
-        "আত্মবিশ্বাস এনজিও",
-        "Atmabiswas NGO",
-        "ATMABISWAS NGO",
-        "ATMABISWAS Bangladesh"
+        "আত্নবিশ্বাস"
       ],
       "url": "https://atmabiswas.org/",
       "logo": {
@@ -191,7 +193,7 @@ $_d = $_seo_data[$_seo_page] ?? [
       "image": {
         "@id": "https://atmabiswas.org/#logo"
       },
-      "description": "ATMABISWAS (আত্মবিশ্বাস) is a registered non-governmental organization in Bangladesh established in January 1991 under the Department of Social Welfare. Committed to poverty alleviation, rural development, microfinance, solar energy, agriculture, and enterprise development across Bangladesh.",
+      "description": "ATMABISWAS is a Bangladesh NGO established in 1991 working in rural development, microfinance, agriculture, solar energy, health, and social welfare.",
       "foundingDate": "1991",
       "foundingLocation": {
         "@type": "Place",
@@ -223,11 +225,12 @@ $_d = $_seo_data[$_seo_page] ?? [
         "name": "Bangladesh"
       },
       "knowsAbout": [
-        "Microfinance", "Rural Development", "Solar Energy",
-        "Sustainable Agriculture", "Community Development",
-        "Women Empowerment", "Health and Nutrition",
-        "Enterprise Development", "Ready To Eat Food",
-        "Social Welfare", "PKSF Programs"
+        "Microfinance",
+        "Rural Development",
+        "Agriculture",
+        "Solar Energy",
+        "Health",
+        "Social Welfare"
       ],
       "sameAs": [
         "https://www.facebook.com/people/ATMABISWAS-Ngo/61573032346859/",
