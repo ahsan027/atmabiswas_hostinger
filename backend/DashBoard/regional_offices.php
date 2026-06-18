@@ -68,7 +68,7 @@ try {
     $total = (int)$count_stmt->fetchColumn();
     $total_pages = max(1, ceil($total / $per_page));
 
-    $stmt = $conn->prepare("SELECT * FROM regional_offices $where ORDER BY display_order ASC, id ASC LIMIT :limit OFFSET :offset");
+    $stmt = $conn->prepare("SELECT * FROM regional_offices $where ORDER BY id ASC LIMIT :limit OFFSET :offset");
     if ($search) {
         $stmt->bindValue(':search',  "%$search%", PDO::PARAM_STR);
         $stmt->bindValue(':search2', "%$search%", PDO::PARAM_STR);
@@ -151,14 +151,13 @@ try {
                             <th>Address</th>
                             <th>Designation</th>
                             <th>Phone</th>
-                            <th>Order</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                     <?php if (empty($offices)): ?>
-                        <tr><td colspan="8">
+                        <tr><td colspan="7">
                             <div class="cm-empty">
                                 <i class="fas fa-map-marker-alt"></i>
                                 No regional offices found.
@@ -172,7 +171,6 @@ try {
                             <td><?= htmlspecialchars($o['address']) ?></td>
                             <td><?= htmlspecialchars($o['designation']) ?></td>
                             <td><?= htmlspecialchars($o['phone']) ?></td>
-                            <td><?= (int)$o['display_order'] ?></td>
                             <td>
                                 <?php if ($o['status']): ?>
                                     <span class="badge-active">Active</span>

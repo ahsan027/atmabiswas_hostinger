@@ -12,12 +12,11 @@ $db   = new Db();
 $conn = $db->connect();
 
 $errors = [];
-$values = ['branch_name' => '', 'address' => '', 'division' => '', 'district' => '', 'display_order' => 0, 'status' => 1];
+$values = ['branch_name' => '', 'address' => '', 'division' => '', 'district' => '', 'status' => 1];
 
-// Fetch active divisions from the divisions table (with fallback)
 $divisions = [];
 try {
-    $div_stmt  = $conn->query("SELECT name FROM divisions WHERE status = 1 ORDER BY display_order ASC, name ASC");
+    $div_stmt  = $conn->query("SELECT name FROM divisions WHERE status = 1 ORDER BY name ASC");
     $divisions = $div_stmt->fetchAll(PDO::FETCH_COLUMN);
 } catch (PDOException $e) {
     try {
@@ -32,12 +31,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!csrf_verify()) {
         $errors[] = 'Invalid security token. Please try again.';
     } else {
-        $values['branch_name']   = trim($_POST['branch_name']   ?? '');
-        $values['address']       = trim($_POST['address']       ?? '');
-        $values['division']      = trim($_POST['division']      ?? '');
-        $values['district']      = trim($_POST['district']      ?? '');
-        $values['display_order'] = (int)($_POST['display_order'] ?? 0);
-        $values['status']        = (int)($_POST['status']       ?? 1);
+        $values['branch_name'] = trim($_POST['branch_name'] ?? '');
+        $values['address']     = trim($_POST['address']     ?? '');
+        $values['division']    = trim($_POST['division']    ?? '');
+        $values['district']    = trim($_POST['district']    ?? '');
+        $values['status']      = (int)($_POST['status']     ?? 1);
 
         if ($values['branch_name'] === '') $errors[] = 'Branch name is required.';
         if ($values['address']     === '') $errors[] = 'Address is required.';
@@ -46,16 +44,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (empty($errors)) {
             $stmt = $conn->prepare(
-                "INSERT INTO branches (branch_name, address, division, district, display_order, status)
-                 VALUES (:branch_name, :address, :division, :district, :display_order, :status)"
+                "INSERT INTO branches (branch_name, address, division, district, status)
+                 VALUES (:branch_name, :address, :division, :district, :status)"
             );
             $stmt->execute([
-                ':branch_name'   => $values['branch_name'],
-                ':address'       => $values['address'],
-                ':division'      => $values['division'],
-                ':district'      => $values['district'],
-                ':display_order' => $values['display_order'],
-                ':status'        => $values['status'],
+                ':branch_name' => $values['branch_name'],
+                ':address'     => $values['address'],
+                ':division'    => $values['division'],
+                ':district'    => $values['district'],
+                ':status'      => $values['status'],
             ]);
             header('Location: branches.php?msg=' . rawurlencode('Branch added successfully.') . '&type=success');
             exit();
@@ -137,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <option value="">No divisions available</option>
                             </select>
                             <?php else: ?>
-                            <select class="cm-form-control" name="division" required>
+                            <select class="cm-form-control" id="divisionSelect" name="division" required>
                                 <option value="">— Select Division —</option>
                                 <?php foreach ($divisions as $div): ?>
                                 <option value="<?= htmlspecialchars($div) ?>"
@@ -154,31 +151,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                             <?php endif; ?>
                         </div>
+
                         <div class="cm-form-group">
                             <label>District <span class="required">*</span></label>
-                            <input class="cm-form-control" type="text" name="district" required
-                                   maxlength="100" placeholder="e.g. Chuadanga"
-                                   value="<?= htmlspecialchars($values['district']) ?>">
+                            <select class="cm-form-control" id="districtSelect" name="district" required disabled>
+                                <option value="">— Select division first —</option>
+                            </select>
+                            <input class="cm-form-control" id="districtText" type="text"
+                                   maxlength="100" placeholder="Type district name"
+                                   style="display:none; margin-top:.4rem;">
+                            <div class="cm-form-hint" id="districtHint">
+                                Select a division to load available districts.
+                            </div>
                         </div>
                     </div>
 
                     <div class="cm-form-section">Settings</div>
 
-                    <div class="cm-form-row">
-                        <div class="cm-form-group">
-                            <label>Display Order</label>
-                            <input class="cm-form-control" type="number" name="display_order" min="0"
-                                   value="<?= (int)$values['display_order'] ?>">
-                            <div class="cm-form-hint">Lower number appears first in the list.</div>
-                        </div>
-                        <div class="cm-form-group">
-                            <label>Status</label>
-                            <select class="cm-form-control" name="status">
-                                <option value="1" <?= $values['status'] ? 'selected' : '' ?>>Active</option>
-                                <option value="0" <?= !$values['status'] ? 'selected' : '' ?>>Inactive</option>
-                            </select>
-                            <div class="cm-form-hint">Inactive branches are hidden from the Contact page.</div>
-                        </div>
+                    <div class="cm-form-group">
+                        <label>Status</label>
+                        <select class="cm-form-control" name="status">
+                            <option value="1" <?= $values['status'] ? 'selected' : '' ?>>Active</option>
+                            <option value="0" <?= !$values['status'] ? 'selected' : '' ?>>Inactive</option>
+                        </select>
+                        <div class="cm-form-hint">Inactive branches are hidden from the Contact page.</div>
                     </div>
 
                     <div class="cm-form-actions">
@@ -194,5 +190,102 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 </div>
+<script>
+(function () {
+    var divisionSel  = document.getElementById('divisionSelect');
+    var districtSel  = document.getElementById('districtSelect');
+    var districtText = document.getElementById('districtText');
+    var districtHint = document.getElementById('districtHint');
+    var preselect    = '<?= htmlspecialchars(addslashes($values['district']), ENT_QUOTES) ?>';
+
+    if (!divisionSel || !districtSel) return;
+
+    function showSelectMode(districts, pre) {
+        districtSel.innerHTML = '';
+        var ph = document.createElement('option');
+        ph.value = ''; ph.textContent = '— Select District —';
+        districtSel.appendChild(ph);
+
+        districts.forEach(function (d) {
+            var opt = document.createElement('option');
+            opt.value = d; opt.textContent = d;
+            if (pre && d === pre) opt.selected = true;
+            districtSel.appendChild(opt);
+        });
+
+        var other = document.createElement('option');
+        other.value = '__other__';
+        other.textContent = '— Other (type manually) —';
+        districtSel.appendChild(other);
+
+        districtSel.name = 'district'; districtSel.required = true; districtSel.disabled = false;
+        districtSel.style.display = '';
+        districtText.name = ''; districtText.required = false; districtText.style.display = 'none';
+        districtHint.textContent = 'Districts under this division. Choose "Other" to enter a new one.';
+    }
+
+    function showTextMode(pre) {
+        districtSel.name = ''; districtSel.required = false; districtSel.style.display = 'none';
+        districtText.name = 'district'; districtText.required = true;
+        districtText.style.display = ''; districtText.value = pre || '';
+        districtText.focus();
+        districtHint.innerHTML = 'No existing districts — type a new name. '
+            + '<a href="#" id="backToList" class="cm-add-link">Back to list</a>';
+        var back = document.getElementById('backToList');
+        if (back) back.addEventListener('click', function (e) {
+            e.preventDefault(); loadDistricts(divisionSel.value, null);
+        });
+    }
+
+    function loadDistricts(division, pre) {
+        if (!division) {
+            districtSel.innerHTML = '<option value="">— Select division first —</option>';
+            districtSel.name = 'district'; districtSel.required = true;
+            districtSel.disabled = true; districtSel.style.display = '';
+            districtText.name = ''; districtText.required = false; districtText.style.display = 'none';
+            districtHint.textContent = 'Select a division to load available districts.';
+            return;
+        }
+
+        districtSel.innerHTML = '<option value="">Loading…</option>';
+        districtSel.disabled = true; districtSel.style.display = '';
+        districtText.style.display = 'none';
+        districtHint.textContent = 'Loading districts…';
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '../../Action/get_districts.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function () {
+            if (xhr.status !== 200) {
+                districtSel.innerHTML = '<option value="">Error loading</option>'; return;
+            }
+            try {
+                var list = JSON.parse(xhr.responseText);
+                if (list.length > 0) {
+                    showSelectMode(list, pre);
+                } else {
+                    showTextMode(pre);
+                }
+            } catch (e) {
+                districtSel.innerHTML = '<option value="">Error</option>';
+            }
+        };
+        xhr.onerror = function () {
+            districtSel.innerHTML = '<option value="">Network error</option>';
+        };
+        xhr.send('division=' + encodeURIComponent(division));
+    }
+
+    districtSel.addEventListener('change', function () {
+        if (this.value === '__other__') showTextMode('');
+    });
+
+    divisionSel.addEventListener('change', function () {
+        loadDistricts(this.value, null);
+    });
+
+    if (divisionSel.value) loadDistricts(divisionSel.value, preselect);
+}());
+</script>
 </body>
 </html>

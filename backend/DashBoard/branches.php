@@ -181,14 +181,13 @@ $query_string = http_build_query(array_filter(['search' => $search, 'division' =
                             <th>Address</th>
                             <th>Division</th>
                             <th>District</th>
-                            <th>Order</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                     <?php if (empty($branches)): ?>
-                        <tr><td colspan="8">
+                        <tr><td colspan="7">
                             <div class="cm-empty">
                                 <i class="fas fa-code-branch"></i>
                                 No branches found.
@@ -202,7 +201,6 @@ $query_string = http_build_query(array_filter(['search' => $search, 'division' =
                             <td><?= htmlspecialchars($b['address']) ?></td>
                             <td><?= htmlspecialchars($b['division']) ?></td>
                             <td><?= htmlspecialchars($b['district']) ?></td>
-                            <td><?= (int)$b['display_order'] ?></td>
                             <td>
                                 <?php if ($b['status']): ?>
                                     <span class="badge-active">Active</span>

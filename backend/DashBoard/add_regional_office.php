@@ -9,7 +9,7 @@ require_once __DIR__ . '/../Database/db.php';
 require_once __DIR__ . '/csrf_helper.php';
 
 $errors = [];
-$values = ['region_name' => '', 'address' => '', 'designation' => 'Regional Manager', 'phone' => '', 'display_order' => 0, 'status' => 1];
+$values = ['region_name' => '', 'address' => '', 'designation' => 'Regional Manager', 'phone' => '', 'status' => 1];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!csrf_verify()) {
@@ -19,8 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $values['address']       = trim($_POST['address']       ?? '');
         $values['designation']   = trim($_POST['designation']   ?? 'Regional Manager');
         $values['phone']         = trim($_POST['phone']         ?? '');
-        $values['display_order'] = (int)($_POST['display_order'] ?? 0);
-        $values['status']        = isset($_POST['status']) ? 1 : 0;
+        $values['status'] = isset($_POST['status']) ? 1 : 0;
 
         if ($values['region_name'] === '') $errors[] = 'Region name is required.';
         if ($values['address']     === '') $errors[] = 'Address is required.';
@@ -30,16 +29,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $db   = new Db();
             $conn = $db->connect();
             $stmt = $conn->prepare(
-                "INSERT INTO regional_offices (region_name, address, designation, phone, display_order, status)
-                 VALUES (:region_name, :address, :designation, :phone, :display_order, :status)"
+                "INSERT INTO regional_offices (region_name, address, designation, phone, status)
+                 VALUES (:region_name, :address, :designation, :phone, :status)"
             );
             $stmt->execute([
-                ':region_name'   => $values['region_name'],
-                ':address'       => $values['address'],
-                ':designation'   => $values['designation'],
-                ':phone'         => $values['phone'],
-                ':display_order' => $values['display_order'],
-                ':status'        => $values['status'],
+                ':region_name' => $values['region_name'],
+                ':address'     => $values['address'],
+                ':designation' => $values['designation'],
+                ':phone'       => $values['phone'],
+                ':status'      => $values['status'],
             ]);
             header('Location: regional_offices.php?msg=' . urlencode('Regional office added successfully.') . '&type=success');
             exit();
@@ -114,19 +112,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
                     </div>
 
-                    <div class="cm-form-row">
-                        <div class="cm-form-group">
-                            <label>Display Order</label>
-                            <input class="cm-form-control" type="number" name="display_order" min="0"
-                                   value="<?= (int)$values['display_order'] ?>">
-                        </div>
-                        <div class="cm-form-group">
-                            <label>Status</label>
-                            <select class="cm-form-control" name="status">
-                                <option value="1" <?= $values['status'] ? 'selected' : '' ?>>Active</option>
-                                <option value="0" <?= !$values['status'] ? 'selected' : '' ?>>Inactive</option>
-                            </select>
-                        </div>
+                    <div class="cm-form-group">
+                        <label>Status</label>
+                        <select class="cm-form-control" name="status">
+                            <option value="1" <?= $values['status'] ? 'selected' : '' ?>>Active</option>
+                            <option value="0" <?= !$values['status'] ? 'selected' : '' ?>>Inactive</option>
+                        </select>
                     </div>
 
                     <div class="cm-form-actions">
