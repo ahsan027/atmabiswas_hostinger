@@ -1,4 +1,3 @@
-<?php include 'Navbar.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,7 +16,8 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Executive Body - ATMABISWAS </title>
+    <title>Executive Committee - ATMABISWAS Bangladesh</title>
+    <?php include 'seo.php'; ?>
 
     <link rel="icon" type="image/png" href="LOGO/NGO_logo_monogram.png">
     <style>
@@ -281,6 +281,7 @@
 </head>
 
 <body>
+    <?php include 'Navbar.php'; ?>
     <header>
         <h1>Executive Committee of ATMABISWAS NGO</h1>
         <p>Empowering communities and driving sustainable development </p>

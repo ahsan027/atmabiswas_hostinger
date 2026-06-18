@@ -51,7 +51,7 @@
     </div>
     <div class="latest-pictures">
         <div class="picInfo">
-            <h1 style="text-align: center; color:  #0a58ca;">OUR WORK IN ACTION</h1>
+            <h2 style="text-align: center; color:  #0a58ca;">OUR WORK IN ACTION</h2>
             <p>Supporting sustainable practices through solar energy and traditional clean cooking methods.</p>
         </div>
         <div class="pic">

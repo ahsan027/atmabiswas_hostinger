@@ -303,7 +303,8 @@
     </form>
   </div>
   <div class="container">
-    <h1>Senior Management</h1>
+    <h1>Our Team</h1>
+    <h2>Senior Management</h2>
     <div class="profile-row">
       <div class="profile">
         <img src="https://t4.ftcdn.net/jpg/07/08/47/75/360_F_708477508_DNkzRIsNFgibgCJ6KoTgJjjRZNJD4mb4.jpg" alt="Syed Ferhat Anwar">
@@ -335,7 +336,7 @@
         <p>Dean, School of General Education, BRAC University</p>
       </div>
     </section>
-    <h1>Head of Schools</h1> <!-- Add this title -->
+    <h2>Head of Schools</h2>
     <section class="profile-grid">
       <div class="profile"> <img src="https://t4.ftcdn.net/jpg/07/08/47/75/360_F_708477508_DNkzRIsNFgibgCJ6KoTgJjjRZNJD4mb4.jpg" alt="Mohammad Mujibul Haque">
         <h2>Professor Mohammad Mujibul Haque, PhD</h2>

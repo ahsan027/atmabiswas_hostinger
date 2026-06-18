@@ -1,4 +1,3 @@
-<?php include 'Navbar.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -282,6 +281,7 @@
 </head>
 
 <body>
+    <?php include 'Navbar.php'; ?>
     <header>
         <h1>Executive Committee of ATMABISWAS NGO</h1>
         <p>Empowering communities and driving sustainable development </p>

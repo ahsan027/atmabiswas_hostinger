@@ -1,4 +1,3 @@
-<?php include 'Navbar.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -247,6 +246,7 @@ footer {
 </head>
 
 <body>
+    <?php include 'Navbar.php'; ?>
     <header>
         <h1>Welcome To ATMABISWAS</h1>
         <p class="color" style="color: #FFFF;">Empowering individuals and fostering self-belief</p>
@@ -307,7 +307,7 @@ footer {
         </div>
 
         <div class="video-section">
-            <h1 style="text-align: center; color:  #0a58ca;">OUR WORK IN ACTION</h1>
+            <h2 style="text-align: center; color:  #0a58ca;">OUR WORK IN ACTION</h2>
             <br>
             <br>
 

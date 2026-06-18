@@ -1,4 +1,3 @@
-<?php include 'Navbar.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -233,9 +232,9 @@
 </head>
 
 <body>
-
+    <?php include 'Navbar.php'; ?>
     <header>
-        <h1>ATMABISWAS: Empowering Health & Nutrition</h1>
+        <h1>ATMABISWAS: Empowering Health &amp; Nutrition</h1>
         <p>Championing community wellness through innovative healthcare and nutritional education.</p>
     </header>
 

@@ -35,6 +35,7 @@ $conn = $db->connect();
     <?php include 'Navbar.php' ?>
 
     <div class="mainbody">
+        <h1 style="text-align:center;color:#0a58ca;padding:30px 20px 10px;font-size:2rem;font-weight:700;">Contact ATMABISWAS</h1>
         <button class="toggle-btn" id="toggle-btn">ATMABISWAS HQ & Liaison Office</button>
 
         <!-- Contact Card -->

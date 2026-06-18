@@ -97,6 +97,7 @@
     <?php include 'Navbar.php'?>
 
     <div class="container">
+        <h1 style="text-align:center;color:#0a58ca;padding:30px 20px 10px;font-size:2rem;font-weight:700;">Events &amp; Activities</h1>
         <!-- Scholarship Segment -->
         <div class="segment">
             <h2>Scholarship Events</h2>

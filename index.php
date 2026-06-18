@@ -92,8 +92,9 @@
         </div>
     </div>
 
+    <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;">ATMABISWAS – Empowering Communities in Bangladesh</h1>
     <div class="sectionalparts">
-        <h1>Our Goals</h1>
+        <h2>Our Goals</h2>
         <p>Our mission is to work for progressive social transformation with the aim of institutionalizing a society
             that place <strong>harmony, peace, justice and ecological balance together</strong></p>
 
@@ -102,7 +103,7 @@
 
 
     <div class="sectionalpartsnew">
-        <h1>Latest</h1>
+        <h2>Latest</h2>
         <p><strong>Find the latest news of ATMABISWAS here.</strong></p>
     </div>
 

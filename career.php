@@ -75,7 +75,7 @@ $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="overlay">
                 <div class="leftside">
                     <div class="job-counter">
-                        <h1 class="num"><?php echo count($res) ?></h1>
+                        <span class="num"><?php echo count($res) ?></span>
                         <h1>Available Jobs</h1>
                         <div class="counter-animation"></div>
                     </div>

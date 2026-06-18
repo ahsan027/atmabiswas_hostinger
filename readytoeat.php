@@ -2,6 +2,14 @@
 <html lang="en">
 
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EZVV9DWWY7"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-EZVV9DWWY7');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ready To Eat Products - ATMABISWAS Bangladesh</title>
@@ -270,7 +278,7 @@
 
 
         <section class="section">
-            <h1>Our Journey: From Training to Market</h1>
+            <h2>Our Journey: From Training to Market</h2>
 
             <div class="card-grid">
                 <div class="card">

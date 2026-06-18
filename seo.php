@@ -144,3 +144,26 @@ $_d = $_seo_data[$_seo_page] ?? [
 <meta name="twitter:title" content="<?= htmlspecialchars($_d['title']) ?>">
 <meta name="twitter:description" content="<?= htmlspecialchars($_d['description']) ?>">
 <meta name="twitter:image" content="<?= $_seo_logo ?>">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "NGO",
+  "name": "ATMABISWAS",
+  "alternateName": "Atmabiswas NGO",
+  "url": "https://atmabiswas.org/",
+  "logo": "https://atmabiswas.org/LOGO/NGO_logo_monogram.png",
+  "description": "ATMABISWAS is a non-governmental organization in Bangladesh dedicated to poverty alleviation, rural development, microfinance, solar energy, agriculture, and enterprise development.",
+  "foundingDate": "1991",
+  "address": {
+    "@type": "PostalAddress",
+    "addressCountry": "BD",
+    "addressRegion": "Kushtia"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "general",
+    "url": "https://atmabiswas.org/contact.php"
+  },
+  "sameAs": []
+}
+</script>

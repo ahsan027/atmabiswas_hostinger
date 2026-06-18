@@ -7,7 +7,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Social Development- ATMABISWAS </title>
+    <title>Social Development Programs - ATMABISWAS Bangladesh</title>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EZVV9DWWY7"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-EZVV9DWWY7');
+    </script>
+    <?php include 'seo.php'; ?>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
    
    
@@ -91,6 +100,7 @@
 <?php include 'Navbar.php'?>
 
     <div class="container">
+        <h1 style="text-align:center;color:#0a58ca;padding:30px 20px 10px;font-size:2rem;font-weight:700;">Social Development Programs</h1>
                 <!-- Empowering Women -->
                 <div class="segment">
             <h2>Empowering Women </h2>

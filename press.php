@@ -32,6 +32,14 @@ if ($article_id !== null && isset($press_items[$article_id])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Press &amp; Media Coverage - ATMABISWAS Bangladesh</title>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EZVV9DWWY7"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-EZVV9DWWY7');
+    </script>
     <?php include 'seo.php'; ?>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="press.css">
@@ -53,7 +61,7 @@ if ($article_id !== null && isset($press_items[$article_id])) {
         <!-- Desktop Navbar -->
         <div class="navbar desktop-only">
             <div class="top-row">
-                <div class="logo"><a href="index.php"><img src="logoBg.png" loading="lazy" alt=""></a></div>
+                <div class="logo"><a href="index.php"><img src="logoBg.png" loading="lazy" alt="ATMABISWAS NGO"></a></div>
                 <div class="bars">
                     <a href="notice.php">Notice</a>
                     <a target="_blank" href="career.php">Career</a>
@@ -101,7 +109,7 @@ if ($article_id !== null && isset($press_items[$article_id])) {
 
         <!-- Mobile Header -->
         <div class="mobile-header mobile-only">
-            <div class="logo"><a href="index.php"><img src="logoBg.png" loading="lazy" alt=""></a></div>
+            <div class="logo"><a href="index.php"><img src="logoBg.png" loading="lazy" alt="ATMABISWAS NGO"></a></div>
             <div class="menu-toggle" id="menu-toggleId">
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -167,7 +175,7 @@ if ($article_id !== null && isset($press_items[$article_id])) {
                     <i class="fas fa-arrow-left"></i> Back to Press Coverage
                 </a>
                 <div class="article-header">
-                    <h1 class="article-title"><?php echo $current_article['blog_title']; ?></h1>
+                    <h2 class="article-title"><?php echo $current_article['blog_title']; ?></h2>
                     <div class="article-meta">
                         <span><?php echo explode(" ", $current_article["upload_date"])[0]; ?></span>
                         <span>|</span>
@@ -191,7 +199,7 @@ if ($article_id !== null && isset($press_items[$article_id])) {
                     <div class="article-video">
                         <iframe src="https://www.youtube.com/embed/<?php echo htmlspecialchars($videoId); ?>"
                             allowfullscreen></iframe>
-                        <h1><?php echo htmlspecialchars($current_article['image_title'] ?? ''); ?></h1>
+                        <h2><?php echo htmlspecialchars($current_article['image_title'] ?? ''); ?></h2>
                     </div>
                 <?php elseif (!empty($current_article['cover_img'])): ?>
                     <div class="article-banner">

@@ -2,6 +2,14 @@
 <html lang="en">
 
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EZVV9DWWY7"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-EZVV9DWWY7');
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Senior Management Team - ATMABISWAS Bangladesh</title>
@@ -167,7 +175,7 @@
   </header>
 
   <div class="container">
-    <h1>Senior Management</h1>
+    <h2>Senior Management</h2>
     <section class="executive-section">
       <div class="mdsir">
         <div class="executive-card">
@@ -199,7 +207,7 @@
 
 
     </section>
-    <h1>Assistant Director (Microfinance)</h1>
+    <h2>Assistant Director (Microfinance)</h2>
     <section class="profile-grid">
       <div class="profile"> <img src="photos/Akkas_PP.jpg" loading="lazy" alt="Akkas Ali">
         <h2>Akkas Ali</h2>
@@ -237,7 +245,7 @@
     <br>
 
 
-    <h1>Managers / Officers</h1>
+    <h2>Managers / Officers</h2>
     <section class="profile-grid">
       <div class="profile"> <img src="photos/Zahangir.JPG" alt="Zahangir">
         <h2>Md.Zahangir Alom</h2>
@@ -257,7 +265,7 @@
     <br>
     <br>
 
-    <h1>Other Officers</h1>
+    <h2>Other Officers</h2>
     <section class="profile-grid">
       <div class="profile"> <img src="photos/Firoze.png" alt="Md. Firoze Biswas">
         <h2>Md. Firoze Biswas</h2>
