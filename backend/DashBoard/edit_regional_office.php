@@ -5,8 +5,8 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
-require_once '../Database/db.php';
-require_once 'csrf_helper.php';
+require_once __DIR__ . '/../Database/db.php';
+require_once __DIR__ . '/csrf_helper.php';
 
 $db   = new Db();
 $conn = $db->connect();

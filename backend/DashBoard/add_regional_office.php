@@ -5,8 +5,8 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
-require_once '../Database/db.php';
-require_once 'csrf_helper.php';
+require_once __DIR__ . '/../Database/db.php';
+require_once __DIR__ . '/csrf_helper.php';
 
 $errors = [];
 $values = ['region_name' => '', 'address' => '', 'designation' => 'Regional Manager', 'phone' => '', 'display_order' => 0, 'status' => 1];

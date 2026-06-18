@@ -5,8 +5,8 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
-require_once '../Database/db.php';
-require_once 'csrf_helper.php';
+require_once __DIR__ . '/../Database/db.php';
+require_once __DIR__ . '/csrf_helper.php';
 
 $db   = new Db();
 $conn = $db->connect();
@@ -20,18 +20,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && csrf_verify()) {
     $id     = (int)($_POST['id'] ?? 0);
 
     if ($id > 0) {
-        if ($action === 'delete') {
-            $stmt = $conn->prepare("DELETE FROM regional_offices WHERE id = :id");
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-            $stmt->execute();
-            $msg = 'Regional office deleted successfully.';
-            $msg_type = 'success';
-        } elseif ($action === 'toggle') {
-            $stmt = $conn->prepare("UPDATE regional_offices SET status = 1 - status WHERE id = :id");
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-            $stmt->execute();
-            $msg = 'Status updated.';
-            $msg_type = 'success';
+        try {
+            if ($action === 'delete') {
+                $stmt = $conn->prepare("DELETE FROM regional_offices WHERE id = :id");
+                $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+                $stmt->execute();
+                $msg = 'Regional office deleted successfully.';
+                $msg_type = 'success';
+            } elseif ($action === 'toggle') {
+                $stmt = $conn->prepare("UPDATE regional_offices SET status = 1 - status WHERE id = :id");
+                $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+                $stmt->execute();
+                $msg = 'Status updated.';
+                $msg_type = 'success';
+            }
+        } catch (PDOException $e) {
+            $msg = 'Error: ' . htmlspecialchars($e->getMessage());
+            $msg_type = 'error';
         }
     }
 }
@@ -48,24 +53,30 @@ $page     = max(1, (int)($_GET['page'] ?? 1));
 $search   = trim($_GET['search'] ?? '');
 $offset   = ($page - 1) * $per_page;
 
+$table_missing = false;
 $where  = $search ? "WHERE region_name LIKE :search OR address LIKE :search2 OR phone LIKE :search3" : "";
 $params = $search ? [':search' => "%$search%", ':search2' => "%$search%", ':search3' => "%$search%"] : [];
 
-$count_stmt = $conn->prepare("SELECT COUNT(*) FROM regional_offices $where");
-$count_stmt->execute($params);
-$total = (int)$count_stmt->fetchColumn();
-$total_pages = max(1, ceil($total / $per_page));
+try {
+    $count_stmt = $conn->prepare("SELECT COUNT(*) FROM regional_offices $where");
+    $count_stmt->execute($params);
+    $total = (int)$count_stmt->fetchColumn();
+    $total_pages = max(1, ceil($total / $per_page));
 
-$stmt = $conn->prepare("SELECT * FROM regional_offices $where ORDER BY display_order ASC, id ASC LIMIT :limit OFFSET :offset");
-if ($search) {
-    $stmt->bindValue(':search',  "%$search%", PDO::PARAM_STR);
-    $stmt->bindValue(':search2', "%$search%", PDO::PARAM_STR);
-    $stmt->bindValue(':search3', "%$search%", PDO::PARAM_STR);
+    $stmt = $conn->prepare("SELECT * FROM regional_offices $where ORDER BY display_order ASC, id ASC LIMIT :limit OFFSET :offset");
+    if ($search) {
+        $stmt->bindValue(':search',  "%$search%", PDO::PARAM_STR);
+        $stmt->bindValue(':search2', "%$search%", PDO::PARAM_STR);
+        $stmt->bindValue(':search3', "%$search%", PDO::PARAM_STR);
+    }
+    $stmt->bindValue(':limit',  $per_page, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $offset,   PDO::PARAM_INT);
+    $stmt->execute();
+    $offices = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    $table_missing = true;
+    $total = 0; $total_pages = 1; $offices = [];
 }
-$stmt->bindValue(':limit',  $per_page, PDO::PARAM_INT);
-$stmt->bindValue(':offset', $offset,   PDO::PARAM_INT);
-$stmt->execute();
-$offices = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -87,6 +98,16 @@ $offices = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="main-content">
         <?php include 'navbar.inc.php'; ?>
         <div class="dashboard-main">
+
+            <?php if ($table_missing): ?>
+            <div class="cm-alert cm-alert-error">
+                <i class="fas fa-exclamation-triangle"></i>
+                Database tables are not set up yet.
+                <a href="setup_contact_tables.php" style="color:#991b1b;font-weight:700;text-decoration:underline;margin-left:.5rem;">
+                    Run Setup Now →
+                </a>
+            </div>
+            <?php endif; ?>
 
             <?php if ($msg): ?>
             <div class="cm-alert cm-alert-<?= $msg_type ?>">

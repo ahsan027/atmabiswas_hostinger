@@ -13,7 +13,7 @@ if ($division === '') {
     exit;
 }
 
-require_once '../backend/Database/db.php';
+require_once __DIR__ . '/../backend/Database/db.php';
 
 try {
     $db   = new Db();

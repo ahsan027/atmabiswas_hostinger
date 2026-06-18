@@ -5,8 +5,8 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
-require_once '../Database/db.php';
-require_once 'csrf_helper.php';
+require_once __DIR__ . '/../Database/db.php';
+require_once __DIR__ . '/csrf_helper.php';
 
 $db   = new Db();
 $conn = $db->connect();
@@ -20,18 +20,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && csrf_verify()) {
     $id     = (int)($_POST['id'] ?? 0);
 
     if ($id > 0) {
-        if ($action === 'delete') {
-            $stmt = $conn->prepare("DELETE FROM branches WHERE id = :id");
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-            $stmt->execute();
-            $msg = 'Branch deleted successfully.';
-            $msg_type = 'success';
-        } elseif ($action === 'toggle') {
-            $stmt = $conn->prepare("UPDATE branches SET status = 1 - status WHERE id = :id");
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-            $stmt->execute();
-            $msg = 'Status updated.';
-            $msg_type = 'success';
+        try {
+            if ($action === 'delete') {
+                $stmt = $conn->prepare("DELETE FROM branches WHERE id = :id");
+                $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+                $stmt->execute();
+                $msg = 'Branch deleted successfully.';
+                $msg_type = 'success';
+            } elseif ($action === 'toggle') {
+                $stmt = $conn->prepare("UPDATE branches SET status = 1 - status WHERE id = :id");
+                $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+                $stmt->execute();
+                $msg = 'Status updated.';
+                $msg_type = 'success';
+            }
+        } catch (PDOException $e) {
+            $msg = 'Error: ' . htmlspecialchars($e->getMessage());
+            $msg_type = 'error';
         }
     }
 }
@@ -42,9 +47,13 @@ if (isset($_GET['msg'])) {
     $msg_type = $_GET['type'] ?? 'success';
 }
 
-// Fetch distinct divisions for filter
-$div_stmt = $conn->query("SELECT DISTINCT division FROM branches WHERE division != '' ORDER BY division ASC");
-$divisions = $div_stmt->fetchAll(PDO::FETCH_COLUMN);
+// Fetch distinct divisions for filter (safe — branches table may not exist yet)
+try {
+    $div_stmt  = $conn->query("SELECT DISTINCT division FROM branches WHERE division != '' ORDER BY division ASC");
+    $divisions = $div_stmt->fetchAll(PDO::FETCH_COLUMN);
+} catch (PDOException $e) {
+    $divisions = [];
+}
 
 // Params
 $per_page   = 10;
@@ -68,17 +77,24 @@ if ($filter_div !== '') {
 }
 $where = $conditions ? 'WHERE ' . implode(' AND ', $conditions) : '';
 
-$count_stmt = $conn->prepare("SELECT COUNT(*) FROM branches $where");
-$count_stmt->execute($params);
-$total = (int)$count_stmt->fetchColumn();
-$total_pages = max(1, ceil($total / $per_page));
+$table_missing = false;
 
-$list_stmt = $conn->prepare("SELECT * FROM branches $where ORDER BY division ASC, branch_name ASC LIMIT :limit OFFSET :offset");
-foreach ($params as $k => $v) $list_stmt->bindValue($k, $v, PDO::PARAM_STR);
-$list_stmt->bindValue(':limit',  $per_page, PDO::PARAM_INT);
-$list_stmt->bindValue(':offset', $offset,   PDO::PARAM_INT);
-$list_stmt->execute();
-$branches = $list_stmt->fetchAll(PDO::FETCH_ASSOC);
+try {
+    $count_stmt = $conn->prepare("SELECT COUNT(*) FROM branches $where");
+    $count_stmt->execute($params);
+    $total = (int)$count_stmt->fetchColumn();
+    $total_pages = max(1, ceil($total / $per_page));
+
+    $list_stmt = $conn->prepare("SELECT * FROM branches $where ORDER BY division ASC, branch_name ASC LIMIT :limit OFFSET :offset");
+    foreach ($params as $k => $v) $list_stmt->bindValue($k, $v, PDO::PARAM_STR);
+    $list_stmt->bindValue(':limit',  $per_page, PDO::PARAM_INT);
+    $list_stmt->bindValue(':offset', $offset,   PDO::PARAM_INT);
+    $list_stmt->execute();
+    $branches = $list_stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    $table_missing = true;
+    $total = 0; $total_pages = 1; $branches = [];
+}
 
 $query_string = http_build_query(array_filter(['search' => $search, 'division' => $filter_div]));
 ?>
@@ -102,6 +118,16 @@ $query_string = http_build_query(array_filter(['search' => $search, 'division' =
     <div class="main-content">
         <?php include 'navbar.inc.php'; ?>
         <div class="dashboard-main">
+
+            <?php if ($table_missing): ?>
+            <div class="cm-alert cm-alert-error">
+                <i class="fas fa-exclamation-triangle"></i>
+                Database tables are not set up yet.
+                <a href="setup_contact_tables.php" style="color:#991b1b;font-weight:700;text-decoration:underline;margin-left:.5rem;">
+                    Run Setup Now →
+                </a>
+            </div>
+            <?php endif; ?>
 
             <?php if ($msg): ?>
             <div class="cm-alert cm-alert-<?= $msg_type ?>">
