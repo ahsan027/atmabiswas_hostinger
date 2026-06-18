@@ -1,9 +1,49 @@
 document.addEventListener("DOMContentLoaded", function () {
 
   // -----------------------------------------------------------------------
-  // Branch filter — division select  (Action/get_branches.php)
+  // Division select — load options from DB via AJAX, then wire branch filter
   // -----------------------------------------------------------------------
   const divisionSelect = document.getElementById("divisionSelect");
+
+  function loadDivisions() {
+    if (!divisionSelect) return;
+
+    fetch("Action/get_divisions.php")
+      .then(function (res) {
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        return res.json();
+      })
+      .then(function (divisions) {
+        divisionSelect.innerHTML = "";
+
+        const defaultOpt = document.createElement("option");
+        defaultOpt.value = "";
+        defaultOpt.textContent = "Select Division";
+        divisionSelect.appendChild(defaultOpt);
+
+        if (!Array.isArray(divisions) || divisions.length === 0) {
+          defaultOpt.textContent = "No divisions available";
+          return;
+        }
+
+        divisions.forEach(function (div) {
+          const opt = document.createElement("option");
+          opt.value = div;
+          opt.textContent = div;
+          divisionSelect.appendChild(opt);
+        });
+      })
+      .catch(function () {
+        divisionSelect.innerHTML =
+          '<option value="">Could not load divisions</option>';
+      });
+  }
+
+  loadDivisions();
+
+  // -----------------------------------------------------------------------
+  // Branch filter — fires when a division is selected
+  // -----------------------------------------------------------------------
   if (divisionSelect) {
     divisionSelect.addEventListener("change", function () {
       const division = this.value;

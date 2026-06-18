@@ -1,10 +1,3 @@
-<?php
-include 'backend/Database/db.php';
-$db = new Db();
-$pdo = $db->connect();
-$conn = $db->connect();
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -108,18 +101,7 @@ $conn = $db->connect();
         <button class="toggle-btn" id="filterbutton">ATMABISWAS BRANCHES</button>
         <div class="filterbars" id="filterbars">
             <select name="division" id="divisionSelect">
-                <option value="">Select Division</option>
-                <?php
-                $stmt = $conn->prepare(
-                    "SELECT DISTINCT division FROM branches WHERE status = 1 AND division != '' ORDER BY division ASC"
-                );
-                $stmt->execute();
-                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                foreach ($result as $r) {
-                    echo '<option value="' . htmlspecialchars($r['division']) . '">'
-                        . htmlspecialchars($r['division']) . '</option>';
-                }
-                ?>
+                <option value="">Loading divisions…</option>
             </select>
 
             <div class="branches">
