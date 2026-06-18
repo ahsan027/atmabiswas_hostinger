@@ -128,5 +128,5 @@ require_once __DIR__ . '/config.php';
     ?>
 </div>
 
-<script src="navbar.js"></script>
-<script src="menutoggle.js"></script>
+<script src="navbar.js" defer></script>
+<script src="menutoggle.js" defer></script>

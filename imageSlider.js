@@ -1,38 +1,43 @@
-let slider = document.querySelector(".slider .list");
-let items = document.querySelectorAll(".slider .list .item");
-let next = document.getElementById("next");
-let prev = document.getElementById("prev");
-let dots = document.querySelectorAll(".slider .dots li");
+(function () {
+  const slider = document.querySelector(".slider .list");
+  const items  = document.querySelectorAll(".slider .list .item");
+  const next   = document.getElementById("next");
+  const prev   = document.getElementById("prev");
+  const dots   = document.querySelectorAll(".slider .dots li");
 
-let lengthItems = items.length - 1;
-let active = 0;
+  let active = 0;
+  const last = items.length - 1;
+  let autoPlay;
 
-function reloadSlider() {
-  slider.style.transform = `translateX(-${items[active].offsetLeft}px)`;
+  function showSlide(n) {
+    active = n;
+    // Use window.innerWidth instead of reading offsetLeft — avoids forced layout reflow
+    slider.style.transform = "translateX(-" + (active * window.innerWidth) + "px)";
+    document.querySelector(".slider .dots li.active").classList.remove("active");
+    dots[active].classList.add("active");
+    restartAutoPlay();
+  }
 
-  document.querySelector(".slider .dots li.active").classList.remove("active");
-  dots[active].classList.add("active");
-  clearInterval(refreshInterval);
-  refreshInterval = setInterval(() => next.click(), 3000);
-}
+  function advance() {
+    showSlide(active < last ? active + 1 : 0);
+  }
 
-next.onclick = () => {
-  active = active + 1 <= lengthItems ? active + 1 : 0;
-  reloadSlider();
-};
+  function restartAutoPlay() {
+    clearInterval(autoPlay);
+    autoPlay = setInterval(advance, 3000);
+  }
 
-prev.onclick = () => {
-  active = active - 1 >= 0 ? active - 1 : lengthItems;
-  reloadSlider();
-};
+  next.addEventListener("click", function () { showSlide(active < last ? active + 1 : 0); });
+  prev.addEventListener("click", function () { showSlide(active > 0   ? active - 1 : last); });
 
-let refreshInterval = setInterval(() => next.click(), 3000);
-
-dots.forEach((dot, index) => {
-  dot.addEventListener("click", () => {
-    active = index;
-    reloadSlider();
+  dots.forEach(function (dot, i) {
+    dot.addEventListener("click", function () { showSlide(i); });
   });
-});
 
-window.onresize = reloadSlider;
+  // Recalculate position on resize without reading offsetLeft
+  window.addEventListener("resize", function () {
+    slider.style.transform = "translateX(-" + (active * window.innerWidth) + "px)";
+  });
+
+  restartAutoPlay();
+}());

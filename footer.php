@@ -52,19 +52,6 @@
 </footer>
 
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-EZVV9DWWY7"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-
-    function gtag() {
-        dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
-
-    gtag('config', 'G-EZVV9DWWY7');
-</script>
-
 <script>
     // Get the button
     const scrollToTopBtn = document.getElementById('scrollToTopBtn');
@@ -86,4 +73,3 @@
         }
     });
 </script>
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>

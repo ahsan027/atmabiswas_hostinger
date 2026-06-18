@@ -9,19 +9,29 @@
     <title>ATMABISWAS – Official NGO Bangladesh | আত্মবিশ্বাস | Since 1991</title>
     <link rel="icon" type="image/png" href="LOGO/NGO_logo_monogram.png">
     <?php include 'seo.php'; ?>
+
+    <!-- Preconnect: start TCP handshake for CDNs before body is parsed -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+
+    <!-- LCP preload: hero image must start downloading before the slider markup is parsed -->
+    <link rel="preload" as="image" href="toilet/toiletpic1.jpg" fetchpriority="high">
+
+    <!-- All CSS that body PHP-includes would inject — load here so none of it is render-blocking in body -->
+    <link rel="stylesheet" href="navbar.css">
+    <link rel="stylesheet" href="menutoggle.css">
+    <link rel="stylesheet" href="sidebar.css">
+    <link rel="stylesheet" href="imageSlider.css">
+    <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="index.css">
+        crossorigin="anonymous" referrerpolicy="no-referrer">
 
-    <!-- Google tag (gtag.js) -->
+    <!-- Google Analytics — async so it never blocks rendering -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EZVV9DWWY7"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
+        function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
         gtag('config', 'G-EZVV9DWWY7');
     </script>
@@ -83,10 +93,7 @@
 
 
 
-    <script src="index.js">
-
-
-    </script>
+    <script src="index.js?v=2" defer></script>
 </body>
 
 </html>
