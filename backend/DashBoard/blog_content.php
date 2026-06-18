@@ -25,9 +25,10 @@ if ($blog_id) {
 <html>
 
 <head>
-  <title><?= htmlspecialchars($post['blog_title']) ?></title>
+  <title><?= htmlspecialchars($post['blog_title']) ?> - ATMABISWAS</title>
+  <link rel="icon" type="image/png" href="../images/logo/logo.png">
+  <link rel="stylesheet" href="css/blog_content.css">
 </head>
-<link rel="stylesheet" href="css/blog_content.css">
 
 <body>
   <div class="blog-content">

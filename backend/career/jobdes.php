@@ -27,7 +27,8 @@ $deptCode = $stmt1->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Job Details - Senior Software Engineer</title>
+    <title>Job Details - ATMABISWAS</title>
+    <link rel="icon" type="image/png" href="../../LOGO/NGO_logo_monogram.png">
     <link rel="stylesheet" href="css/jobdes.css">
     <style>
         .bdjobs-button {

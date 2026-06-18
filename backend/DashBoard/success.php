@@ -9,7 +9,8 @@ $successMsg = $successType === 'upload' ? 'File uploaded successfully!' : 'Regis
 
 <head>
   <meta charset="UTF-8">
-  <title>Success</title>
+  <title>Success - ATMABISWAS Admin</title>
+  <link rel="icon" type="image/png" href="../images/logo/logo.png">
   <link rel="stylesheet" href="css/success.css">
 </head>
 

@@ -9,7 +9,8 @@ $successMsg =  'Successfully! Submitted Application.';
 
 <head>
     <meta charset="UTF-8">
-    <title>Success</title>
+    <title>Application Submitted - ATMABISWAS</title>
+    <link rel="icon" type="image/png" href="../images/logo/logo.png">
     <link rel="stylesheet" href="css/success.css">
 </head>
 

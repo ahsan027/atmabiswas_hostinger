@@ -16,7 +16,8 @@ if (!isset($_SESSION['username'])) {
 
 <head>
     <meta charset="UTF-8">
-    <title>Admin Signup</title>
+    <title>Admin Signup - ATMABISWAS</title>
+    <link rel="icon" type="image/png" href="../images/logo/logo.png">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap 5 -->

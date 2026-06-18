@@ -30,7 +30,8 @@ $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Job Board</title>
+    <title>Job Search - ATMABISWAS</title>
+    <link rel="icon" type="image/png" href="../../LOGO/NGO_logo_monogram.png">
     <link rel="stylesheet" href="css/avjobs.css">
 </head>
 

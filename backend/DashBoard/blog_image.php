@@ -26,8 +26,8 @@ if ($coverid === null) {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Dashboard</title>
-
+  <title>Blog Image Upload - ATMABISWAS Admin</title>
+  <link rel="icon" type="image/png" href="../images/logo/logo.png">
   <script src="https://cdn.tailwindcss.com"></script>
 
   <link rel="stylesheet" href="css/uploadfile.css">

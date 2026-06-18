@@ -103,7 +103,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
     <link rel="stylesheet" type="text/css" href="../Assets/css/login-signup.css">
-    <link rel="icon" type="image/x-icon" href="../images/logo/logo.png">
+    <link rel="icon" type="image/png" href="../images/logo/logo.png">
 </head>
 
 <body class="bg-gray-100 overflow-x-hidden">

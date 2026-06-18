@@ -35,7 +35,8 @@ foreach ($migrations as $label => $sql) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Database Migration</title>
+    <title>Database Migration - ATMABISWAS Admin</title>
+    <link rel="icon" type="image/png" href="../../LOGO/NGO_logo_monogram.png">
     <style>
         body  { font-family: sans-serif; max-width: 600px; margin: 60px auto; padding: 0 20px; }
         h2    { color: #1e293b; }
