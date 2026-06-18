@@ -155,6 +155,12 @@
   .sidenav {
     display: flex;
   }
+  /* Push body content below the fixed mobile header so nothing is hidden behind it.
+     menutoggle.js later sets an inline padding-top based on the real header height,
+     but this CSS default eliminates the initial flash of overlapping content. */
+  body {
+    padding-top: 62px;
+  }
   /* Add padding to the body when the sidenav is open */
   body.sidenav-open {
     padding-top: 80px; /* Increased padding for the mobile header */

@@ -35,20 +35,7 @@ $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body>
-    <header>
-        <div class="navbar">
-            <div class="logo">
-                <a href="index.php">
-                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Logo">
-                </a>
-            </div>
-            <ul class="menu">
-                <li><a href="index.php">Home</a></li>
-                <li><a href="backend/career/availableJobs.php">Available Jobs</a></li>
-                <li><a href="backend/login/prelogin.php">Login</a></li>
-            </ul>
-        </div>
-    </header>
+    <?php include 'Navbar.php'; ?>
 
     <main>
         <section class="hero">
@@ -329,6 +316,7 @@ $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
         });
     </script>
+    <?php include 'footer.php'; ?>
 </body>
 
 </html>

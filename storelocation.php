@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-EZVV9DWWY7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-EZVV9DWWY7');
-</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Branch Locations - ATMABISWAS Bangladesh</title>
@@ -21,19 +12,17 @@
             margin: 0;
             padding: 0;
             background-color: #f9f9f9;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
+            min-height: 100vh;
         }
-        .header {
+        .page-title {
             text-align: center;
             padding: 20px;
-            background-color: #4CAF50;
+            background-color: #0d47a1;
             color: white;
         }
         .container {
             display: flex;
-            flex-grow: 1;
+            height: 600px;
         }
         .store-list {
             width: 30%;
@@ -62,24 +51,40 @@
         .store-item button {
             margin-top: 10px;
             padding: 8px 12px;
-            background-color: #4CAF50;
+            background-color: #0d47a1;
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
         }
         .store-item button:hover {
-            background-color: #45a049;
+            background-color: #0a3880;
         }
         #map {
             width: 70%;
             height: 100%;
         }
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                height: auto;
+            }
+            .store-list {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #ddd;
+            }
+            #map {
+                width: 100%;
+                height: 400px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Store Locator</h1>
+    <?php include 'Navbar.php'; ?>
+    <div class="page-title">
+        <h1>Branch Locations</h1>
     </div>
     <div class="container">
         <div class="store-list" id="store-list">
@@ -141,5 +146,6 @@
         }
     </script>
     <script async defer src="https://maps.gomaps.pro/maps/api/js?key=AlzaSy0QJPP-rfRIayVVb2TT8I1Zc8XOqYFcN9h&callback=initMap"></script>
+    <?php include 'footer.php'; ?>
 </body>
 </html>

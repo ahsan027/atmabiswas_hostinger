@@ -362,6 +362,10 @@ if ($article_id !== null && isset($press_items[$article_id])) {
             <?php endif; ?>
         });
     </script>
+    <?php if (!$current_article): ?>
+    <script src="navbar.js"></script>
+    <script src="menutoggle.js"></script>
+    <?php endif; ?>
 </body>
 
 </html>
