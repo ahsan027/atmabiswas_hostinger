@@ -19,10 +19,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $job_req = trim($_POST["job_req"]);
         $job_benefits = trim($_POST["job_benefits"]);
 
-        $vacancy = trim($_POST["vacancy"]);
+        $vacancy       = trim($_POST["vacancy"]);
+        $bdjobs_link   = trim($_POST["bdjobs_link"] ?? '');
+        $apply_enabled = isset($_POST["apply_enabled"]) ? 1 : 0;
 
-        $sql = "INSERT INTO jobs (job_code, job_title, deadline, job_dept, job_location, salary_range, job_experience, job_skillset, job_description, job_req,job_benefits,vacancy) 
-                VALUES (:job_code, :job_title, :deadline, :job_dept, :job_location, :salary_range, :job_experience, :job_skillset, :job_description, :job_req,:job_benefits,:vacancy)";
+        $sql = "INSERT INTO jobs (job_code, job_title, deadline, job_dept, job_location, salary_range, job_experience, job_skillset, job_description, job_req, job_benefits, vacancy, bdjobs_link, apply_enabled)
+                VALUES (:job_code, :job_title, :deadline, :job_dept, :job_location, :salary_range, :job_experience, :job_skillset, :job_description, :job_req, :job_benefits, :vacancy, :bdjobs_link, :apply_enabled)";
 
 
         $stmt = $connection->prepare($sql);
@@ -38,8 +40,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt->bindParam(':job_description', $job_description);
         $stmt->bindParam(':job_req', $job_req);
         $stmt->bindParam(":job_benefits", $job_benefits);
-
         $stmt->bindParam(":vacancy", $vacancy);
+        $stmt->bindParam(":bdjobs_link",   $bdjobs_link);
+        $stmt->bindParam(":apply_enabled", $apply_enabled, PDO::PARAM_INT);
 
         $stmt->execute();
         header("Location: ../dashboard.php");

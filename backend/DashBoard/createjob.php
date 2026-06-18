@@ -139,6 +139,23 @@ $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             placeholder="Use fullstop(.) at the end of a Beneifit."></textarea>
                                     </div>
                                 </div>
+                                <div class="fields">
+                                    <div class="spinput-field">
+                                        <label>BD Jobs Link <span style="font-weight:400;color:#94a3b8;">(optional)</span></label>
+                                        <input name="bdjobs_link" type="url"
+                                            placeholder="https://jobs.bdjobs.com/jobdetails.asp?id=...">
+                                        <small style="color:#94a3b8;">Paste the BDjobs listing URL if this job is posted there.</small>
+                                    </div>
+                                    <div class="spinput-field" style="display:flex;flex-direction:column;justify-content:center;">
+                                        <label>Apply Now Button</label>
+                                        <label style="display:flex;align-items:center;gap:10px;margin-top:8px;cursor:pointer;">
+                                            <input type="checkbox" name="apply_enabled" value="1" checked
+                                                style="width:18px;height:18px;accent-color:#4f46e5;cursor:pointer;">
+                                            <span style="font-size:.9rem;color:#374151;">Enable "Apply Now" on the career page</span>
+                                        </label>
+                                        <small style="color:#94a3b8;margin-top:4px;">Uncheck to hide the Apply Now button publicly.</small>
+                                    </div>
+                                </div>
 
                             </div>
 

@@ -43,8 +43,15 @@ $updatedValue = [
 
     ':job_benefits'   => (isset($_POST['job_benefits']) && $_POST['job_benefits']) ? $_POST['job_benefits'] : $existing[0]['job_benefits'],
 
-    ':vacancy' => (isset($_POST['vacancy']) && $_POST['vacancy']) ? $_POST['vacancy'] : $existing[0]['vacancy']
+    ':vacancy' => (isset($_POST['vacancy']) && $_POST['vacancy']) ? $_POST['vacancy'] : $existing[0]['vacancy'],
 
+    ':bdjobs_link' => ($_SERVER['REQUEST_METHOD'] === 'POST')
+        ? trim($_POST['bdjobs_link'] ?? '')
+        : ($existing[0]['bdjobs_link'] ?? ''),
+
+    ':apply_enabled' => ($_SERVER['REQUEST_METHOD'] === 'POST')
+        ? (isset($_POST['apply_enabled']) ? 1 : 0)
+        : ($existing[0]['apply_enabled'] ?? 1),
 
 ];
 
@@ -199,6 +206,25 @@ if ($stmt1->rowCount() > 0) {
                                             <label>Job Benefits</label>
                                             <textarea name="job_benefits"
                                                 placeholder="Use fullstop(.) at the end of a Beneifit."></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="fields">
+                                        <div class="spinput-field">
+                                            <label>BD Jobs Link <span style="font-weight:400;color:#94a3b8;">(optional)</span></label>
+                                            <input name="bdjobs_link" type="url"
+                                                value="<?php echo htmlspecialchars($existing[0]['bdjobs_link'] ?? ''); ?>"
+                                                placeholder="https://jobs.bdjobs.com/jobdetails.asp?id=...">
+                                            <small style="color:#94a3b8;">Clear the field to remove the Bdjobs button from the career page.</small>
+                                        </div>
+                                        <div class="spinput-field" style="display:flex;flex-direction:column;justify-content:center;">
+                                            <label>Apply Now Button</label>
+                                            <label style="display:flex;align-items:center;gap:10px;margin-top:8px;cursor:pointer;">
+                                                <input type="checkbox" name="apply_enabled" value="1"
+                                                    <?php echo ($existing[0]['apply_enabled'] ?? 1) ? 'checked' : ''; ?>
+                                                    style="width:18px;height:18px;accent-color:#4f46e5;cursor:pointer;">
+                                                <span style="font-size:.9rem;color:#374151;">Enable "Apply Now" on the career page</span>
+                                            </label>
+                                            <small style="color:#94a3b8;margin-top:4px;">Uncheck to hide the Apply Now button publicly.</small>
                                         </div>
                                     </div>
 

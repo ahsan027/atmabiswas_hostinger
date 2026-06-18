@@ -30,6 +30,19 @@ if (isset($_SESSION['username'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="icon" type="image/png" href="../images/logo/logo.png">
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .toggle-row { display:flex; align-items:center; gap:8px; margin-top:10px; }
+        .toggle-row .toggle-label { font-size:.78rem; color:#64748b; }
+        .toggle-switch { position:relative; display:inline-block; width:40px; height:22px; flex-shrink:0; }
+        .toggle-switch input { opacity:0; width:0; height:0; }
+        .slider { position:absolute; cursor:pointer; inset:0; background:#cbd5e1; transition:.3s; border-radius:22px; }
+        .slider:before { position:absolute; content:""; height:16px; width:16px; left:3px; bottom:3px; background:#fff; transition:.3s; border-radius:50%; }
+        .toggle-switch input:checked + .slider { background:#22c55e; }
+        .toggle-switch input:checked + .slider:before { transform:translateX(18px); }
+        .toggle-status { font-size:.75rem; font-weight:600; }
+        .toggle-status.on  { color:#16a34a; }
+        .toggle-status.off { color:#dc2626; }
+    </style>
 </head>
 
 <body class="bg-gray-50">
@@ -147,6 +160,19 @@ if (isset($_SESSION['username'])) {
                                         <i class="fas fa-trash"></i> Delete
                                     </a>
                                 </div>
+                                <?php $applyEnabled = ($r['apply_enabled'] ?? 1) ? true : false; ?>
+                                <div class="toggle-row">
+                                    <span class="toggle-label">Apply Now:</span>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" class="apply-toggle"
+                                            data-jobid="<?php echo (int)$r['job_id']; ?>"
+                                            <?php echo $applyEnabled ? 'checked' : ''; ?>>
+                                        <span class="slider"></span>
+                                    </label>
+                                    <span class="toggle-status <?php echo $applyEnabled ? 'on' : 'off'; ?>">
+                                        <?php echo $applyEnabled ? 'Enabled' : 'Disabled'; ?>
+                                    </span>
+                                </div>
                             </div>
                         </div>
 
@@ -193,6 +219,29 @@ if (isset($_SESSION['username'])) {
         });
     </script>
     <script src="js/dashboard.js"></script>
+    <script>
+    document.querySelectorAll('.apply-toggle').forEach(function (toggle) {
+        toggle.addEventListener('change', function () {
+            const jobId   = this.dataset.jobid;
+            const enabled = this.checked ? 1 : 0;
+            const status  = this.closest('.toggle-row').querySelector('.toggle-status');
+            const formData = new FormData();
+            formData.append('job_id',       jobId);
+            formData.append('apply_enabled', enabled);
+            fetch('Actions/toggle_apply.php', { method: 'POST', body: formData })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        status.textContent = enabled ? 'Enabled' : 'Disabled';
+                        status.className   = 'toggle-status ' + (enabled ? 'on' : 'off');
+                    } else {
+                        this.checked = !this.checked;
+                    }
+                })
+                .catch(() => { this.checked = !this.checked; });
+        });
+    });
+    </script>
 </body>
 
 </html>

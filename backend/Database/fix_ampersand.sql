@@ -20,3 +20,12 @@ ALTER TABLE jobcodes
 --    Run manually in phpMyAdmin if needed.
 -- ============================================================
 -- Example: UPDATE jobcodes SET JobCode = 'FO10' WHERE JobTitle = 'Field Officer' AND JobCode = 'ABN1';
+
+-- ============================================================
+-- 4. Add bdjobs_link and apply_enabled columns to jobs table
+--    Run once. Safe to run if columns already exist (will error
+--    on duplicate column — just ignore that error).
+-- ============================================================
+ALTER TABLE jobs
+    ADD COLUMN bdjobs_link   VARCHAR(500)   DEFAULT NULL,
+    ADD COLUMN apply_enabled TINYINT(1)     NOT NULL DEFAULT 1;

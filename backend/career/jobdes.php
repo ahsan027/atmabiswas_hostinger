@@ -29,6 +29,26 @@ $deptCode = $stmt1->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Job Details - Senior Software Engineer</title>
     <link rel="stylesheet" href="css/jobdes.css">
+    <style>
+        .bdjobs-button {
+            display: block;
+            width: 100%;
+            padding: 12px 20px;
+            margin-bottom: 10px;
+            background: #e65c00;
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background .2s;
+            box-sizing: border-box;
+        }
+        .bdjobs-button:hover { background: #c44f00; color: #fff; }
+        .apply-button-disabled { opacity:.5; cursor:not-allowed; pointer-events:none; }
+    </style>
 </head>
 
 <body>
@@ -164,7 +184,16 @@ echo '<span>Location: ' . htmlspecialchars($jobDes[0]["job_location"]) . '</span
                     </div>
                 </div>
 
-                <button class="apply-button" onclick="openApplyModal()">Apply Now</button>
+                <?php if (!empty($jobDes[0]['bdjobs_link'])): ?>
+                    <a href="<?php echo htmlspecialchars($jobDes[0]['bdjobs_link']); ?>"
+                       target="_blank" rel="noopener noreferrer"
+                       class="bdjobs-button">Bdjobs ↗</a>
+                <?php endif; ?>
+                <?php if ($jobDes[0]['apply_enabled'] ?? 1): ?>
+                    <button class="apply-button" onclick="openApplyModal()">Apply Now</button>
+                <?php else: ?>
+                    <button class="apply-button apply-button-disabled" disabled>Apply Now (Closed)</button>
+                <?php endif; ?>
             </div>
         </div>
     </div>
