@@ -1,4 +1,5 @@
   <?php require_once 'config.php'; ?>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <div class="join-family">
       <h2>JOIN THE WORLD'S BIGGEST FAMILY</h2>
       <div class="family-options">
@@ -30,6 +31,7 @@
           </div>
       </div>
   </div>
+  <script src="script.js"></script>
   <style>
       .join-family {
           text-align: center;

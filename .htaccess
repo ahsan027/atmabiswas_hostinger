@@ -1,5 +1,5 @@
 # ----------------------------------------
-# GZIP COMPRESSION
+# ✅ GZIP COMPRESSION
 # ----------------------------------------
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/plain
@@ -19,52 +19,41 @@
 </IfModule>
 
 # ----------------------------------------
-# BROTLI COMPRESSION (faster than gzip, ~20% better ratio)
-# ----------------------------------------
-<IfModule mod_brotli.c>
-  AddOutputFilterByType BROTLI_COMPRESS text/plain text/html text/xml text/css
-  AddOutputFilterByType BROTLI_COMPRESS application/javascript application/x-javascript
-  AddOutputFilterByType BROTLI_COMPRESS application/json application/xml
-  AddOutputFilterByType BROTLI_COMPRESS image/svg+xml
-  AddOutputFilterByType BROTLI_COMPRESS font/ttf font/otf font/woff font/woff2
-</IfModule>
-
-# ----------------------------------------
-# FORCE NON-WWW + HTTPS (Canonical URL)
+# ✅ FORCE NON-WWW + HTTPS (Canonical URL)
 # ----------------------------------------
 RewriteEngine On
 RewriteCond %{HTTP_HOST} ^www\.atmabiswas\.org [NC]
 RewriteRule ^(.*)$ https://atmabiswas.org/$1 [L,R=301]
 
 # ----------------------------------------
-# BROWSER CACHING (Expires header — 1 year for all static assets)
-# Cache-Control in the FilesMatch block below takes precedence and
-# is the authoritative directive; Expires here is a belt-and-braces
-# fallback for very old proxies that ignore Cache-Control.
+# ✅ BROWSER CACHING (Expires)
 # ----------------------------------------
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresDefault "access plus 1 month"
 
-  # Static assets — 1 year
-  ExpiresByType image/jpg          "access plus 1 year"
-  ExpiresByType image/jpeg         "access plus 1 year"
-  ExpiresByType image/gif          "access plus 1 year"
-  ExpiresByType image/png          "access plus 1 year"
-  ExpiresByType image/webp         "access plus 1 year"
-  ExpiresByType image/avif         "access plus 1 year"
-  ExpiresByType image/svg+xml      "access plus 1 year"
-  ExpiresByType text/css           "access plus 1 year"
-  ExpiresByType application/javascript      "access plus 1 year"
-  ExpiresByType application/x-javascript   "access plus 1 year"
-  ExpiresByType font/ttf           "access plus 1 year"
-  ExpiresByType font/otf           "access plus 1 year"
-  ExpiresByType font/woff          "access plus 1 year"
-  ExpiresByType font/woff2         "access plus 1 year"
+  # Images
+  ExpiresByType image/jpg "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/gif "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  
+  # CSS, JavaScript
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+  ExpiresByType application/x-javascript "access plus 1 month"
+
+  # Fonts
+  ExpiresByType font/ttf "access plus 1 year"
+  ExpiresByType font/otf "access plus 1 year"
+  ExpiresByType font/woff "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
 </IfModule>
 
 # ----------------------------------------
-# DISABLE ETAG (redundant when Cache-Control is set)
+# ✅ DISABLE ETAG TO AVOID CACHE ISSUES
 # ----------------------------------------
 <IfModule mod_headers.c>
   FileETag None
@@ -72,29 +61,33 @@ RewriteRule ^(.*)$ https://atmabiswas.org/$1 [L,R=301]
 </IfModule>
 
 # ----------------------------------------
-# HSTS (Strict Transport Security)
+# ✅ ENABLE HSTS (Strict Transport Security)
 # ----------------------------------------
 <IfModule mod_headers.c>
   Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
 </IfModule>
 
 # ----------------------------------------
-# CUSTOM 404 ERROR PAGE
+# ✅ CUSTOM 404 ERROR PAGE
 # ----------------------------------------
 ErrorDocument 404 /404.html
 
 # ----------------------------------------
-# CACHE-CONTROL FOR STATIC vs DYNAMIC FILES
+# ✅ CACHING HEADERS FOR STATIC FILES
 # ----------------------------------------
 <IfModule mod_headers.c>
+  # Remove deprecated headers
   Header unset Pragma
 
-  # Static assets: 1 year immutable cache — content-addressed by filename on upload
-  <FilesMatch "\.(jpg|jpeg|png|gif|webp|avif|css|js|woff2|woff|ttf|otf|svg|eot|ico)$">
+  # Static Assets (fingerprinted by unique filename on upload — safe to cache long)
+  <FilesMatch "\.(jpg|jpeg|png|gif|webp|css|js|woff2|woff|ttf|otf|svg|eot)$">
       Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
 
-  # PHP and HTML: never cache — content is DB-driven and must always be fresh
+  # HTML and PHP — dynamic content fetched from DB, MUST NOT be cached.
+  # "public, max-age=3600" was causing admin updates to stay invisible for up to
+  # 1 hour in browsers and ISP proxies. Fixed: private + no-store so every
+  # request goes directly to the server and returns fresh DB data.
   <FilesMatch "\.(html|php)$">
       Header always set Cache-Control "no-store, no-cache, must-revalidate, private"
       Header always set Pragma "no-cache"
