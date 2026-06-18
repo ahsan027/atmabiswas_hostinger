@@ -16,8 +16,8 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     exit();
 }
 
-$jobTitle = htmlspecialchars(trim($_POST["jobtitle"] ?? ''));
-$jobSec   = htmlspecialchars(trim($_POST["jobsector"] ?? ''));
+$jobTitle = trim($_POST["jobtitle"] ?? '');
+$jobSec   = trim($_POST["jobsector"] ?? '');
 
 if (empty($jobTitle) && empty($jobSec)) {
     header("Location: /backend/DashBoard/addJobPosition.php?error=empty");

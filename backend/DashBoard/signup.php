@@ -8,13 +8,13 @@ $conn = $database->connect();
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    $fullname = htmlspecialchars($_POST["fullname"]);
+    $fullname = trim($_POST["fullname"]);
 
-    $email = htmlspecialchars($_POST["email"]);
+    $email = trim($_POST["email"]);
 
-    $password = htmlspecialchars($_POST["password"]);
+    $password = $_POST["password"];
 
-    $confirm_password = htmlspecialchars($_POST["confirm_password"]);
+    $confirm_password = $_POST["confirm_password"];
 
     if ($password === $confirm_password) {
         $sql = "INSERT INTO admins (fullname,email,pswd) VALUES (:fullname,:email,:pswd)";

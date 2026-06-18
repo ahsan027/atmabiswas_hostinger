@@ -7,19 +7,19 @@ $connection = $db->connect();
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     try {
-        $job_code = htmlspecialchars($_POST["job_code"]);
-        $job_title = htmlspecialchars($_POST["job_title"]);
-        $deadline = htmlspecialchars($_POST["deadline"]);
-        $job_dept = $_POST["job_dept"];
-        $job_location = htmlspecialchars($_POST["job_location"]);
-        $salary_range = htmlspecialchars($_POST["salary_range"]);
-        $job_experience = htmlspecialchars($_POST["job_experience"]);
-        $job_skillset = $_POST["job_skillset"];
-        $job_description = $_POST["job_description"];
-        $job_req = $_POST["job_req"];
-        $job_benefits = $_POST["job_benefits"];
+        $job_code = trim($_POST["job_code"]);
+        $job_title = trim($_POST["job_title"]);
+        $deadline = trim($_POST["deadline"]);
+        $job_dept = trim($_POST["job_dept"]);
+        $job_location = trim($_POST["job_location"]);
+        $salary_range = trim($_POST["salary_range"]);
+        $job_experience = trim($_POST["job_experience"]);
+        $job_skillset = trim($_POST["job_skillset"]);
+        $job_description = trim($_POST["job_description"]);
+        $job_req = trim($_POST["job_req"]);
+        $job_benefits = trim($_POST["job_benefits"]);
 
-        $vacancy = htmlspecialchars($_POST["vacancy"]);
+        $vacancy = trim($_POST["vacancy"]);
 
         $sql = "INSERT INTO jobs (job_code, job_title, deadline, job_dept, job_location, salary_range, job_experience, job_skillset, job_description, job_req,job_benefits,vacancy) 
                 VALUES (:job_code, :job_title, :deadline, :job_dept, :job_location, :salary_range, :job_experience, :job_skillset, :job_description, :job_req,:job_benefits,:vacancy)";
