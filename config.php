@@ -2,6 +2,15 @@
 // Configuration file for ATMABISWAS website
 // This ensures paths work correctly across different hosting environments
 
+// Belt-and-suspenders: PHP-level no-cache headers for all pages that include
+// this file. The .htaccess covers the full server, but PHP headers guarantee
+// these pages are never served from cache even if .htaccess is bypassed.
+if (!headers_sent()) {
+    header('Cache-Control: no-store, no-cache, must-revalidate, private');
+    header('Pragma: no-cache');
+    header('Expires: 0');
+}
+
 // Get the base directory of the website
 $base_dir = dirname(__FILE__);
 

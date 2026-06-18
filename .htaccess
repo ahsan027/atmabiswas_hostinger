@@ -79,13 +79,18 @@ ErrorDocument 404 /404.html
   # Remove deprecated headers
   Header unset Pragma
 
-  # Static Assets
+  # Static Assets (fingerprinted by unique filename on upload — safe to cache long)
   <FilesMatch "\.(jpg|jpeg|png|gif|webp|css|js|woff2|woff|ttf|otf|svg|eot)$">
       Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
 
-  # HTML and PHP
+  # HTML and PHP — dynamic content fetched from DB, MUST NOT be cached.
+  # "public, max-age=3600" was causing admin updates to stay invisible for up to
+  # 1 hour in browsers and ISP proxies. Fixed: private + no-store so every
+  # request goes directly to the server and returns fresh DB data.
   <FilesMatch "\.(html|php)$">
-      Header set Cache-Control "public, max-age=3600, must-revalidate"
+      Header always set Cache-Control "no-store, no-cache, must-revalidate, private"
+      Header always set Pragma "no-cache"
+      Header always set Expires "0"
   </FilesMatch>
 </IfModule>

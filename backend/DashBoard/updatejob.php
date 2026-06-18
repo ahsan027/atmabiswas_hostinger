@@ -8,66 +8,58 @@ if (!isset($_SESSION['username'])) {
 }
 $db = new Db();
 $connection = $db->connect();
-$connection1 = $db->connect();
-$job_id = $_GET['id'];
+$job_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
+if ($job_id <= 0) {
+    header("Location: updatejobs.php");
+    exit();
+}
 
 $sql = "SELECT * FROM jobs WHERE job_id = :job_id";
 $stmt = $connection->prepare($sql);
-
-$stmt->bindParam(":job_id", $job_id);
-
+$stmt->bindParam(":job_id", $job_id, PDO::PARAM_INT);
 $stmt->execute();
-
 $existing = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-
-$updatedValue = [
-    ':job_title'      => (isset($_POST['job_title']) && $_POST['job_title']) ? $_POST['job_title'] : $existing[0]['job_title'],
-
-    ':deadline'       => (isset($_POST['deadline']) && $_POST['deadline']) ? $_POST['deadline'] : $existing[0]['deadline'],
-
-    ':job_dept'       => (isset($_POST['job_dept']) && $_POST['job_dept']) ? $_POST['job_dept'] : $existing[0]['job_dept'],
-
-    ':job_location'   => (isset($_POST['job_location']) && $_POST['job_location']) ? $_POST['job_location'] : $existing[0]['job_location'],
-
-    ':salary_range'   => (isset($_POST['salary_range']) && $_POST['salary_range']) ? $_POST['salary_range'] : $existing[0]['salary_range'],
-
-    ':job_experience' => (isset($_POST['job_experience']) && $_POST['job_experience']) ? $_POST['job_experience'] : $existing[0]['job_experience'],
-
-    ':job_skillset'   => (isset($_POST['job_skillset']) && $_POST['job_skillset']) ? $_POST['job_skillset'] : $existing[0]['job_skillset'],
-
-    ':job_description' => (isset($_POST['job_description']) && $_POST['job_description']) ? $_POST['job_description'] : $existing[0]['job_description'],
-
-    ':job_req'        => (isset($_POST['job_req']) && $_POST['job_req']) ? $_POST['job_req'] : $existing[0]['job_req'],
-
-    ':job_benefits'   => (isset($_POST['job_benefits']) && $_POST['job_benefits']) ? $_POST['job_benefits'] : $existing[0]['job_benefits'],
-
-    ':vacancy' => (isset($_POST['vacancy']) && $_POST['vacancy']) ? $_POST['vacancy'] : $existing[0]['vacancy'],
-
-    ':bdjobs_link' => ($_SERVER['REQUEST_METHOD'] === 'POST')
-        ? trim($_POST['bdjobs_link'] ?? '')
-        : ($existing[0]['bdjobs_link'] ?? ''),
-
-    ':apply_enabled' => ($_SERVER['REQUEST_METHOD'] === 'POST')
-        ? (isset($_POST['apply_enabled']) ? 1 : 0)
-        : ($existing[0]['apply_enabled'] ?? 1),
-
-];
-
-$newstring = [];
-foreach ($updatedValue as $key => $value) {
-    $field = str_replace(":", '', $key);
-    $newstring[] = "$field" . "=" . ":$field";
+if (empty($existing)) {
+    header("Location: updatejobs.php");
+    exit();
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $updatedValue = [
+        ':job_title'       => !empty($_POST['job_title'])       ? $_POST['job_title']       : $existing[0]['job_title'],
+        ':deadline'        => !empty($_POST['deadline'])         ? $_POST['deadline']         : $existing[0]['deadline'],
+        ':job_dept'        => !empty($_POST['job_dept'])         ? $_POST['job_dept']         : $existing[0]['job_dept'],
+        ':job_location'    => !empty($_POST['job_location'])     ? $_POST['job_location']     : $existing[0]['job_location'],
+        ':salary_range'    => !empty($_POST['salary_range'])     ? $_POST['salary_range']     : $existing[0]['salary_range'],
+        ':job_experience'  => !empty($_POST['job_experience'])   ? $_POST['job_experience']   : $existing[0]['job_experience'],
+        ':job_skillset'    => !empty($_POST['job_skillset'])     ? $_POST['job_skillset']     : $existing[0]['job_skillset'],
+        ':job_description' => !empty($_POST['job_description'])  ? $_POST['job_description']  : $existing[0]['job_description'],
+        ':job_req'         => !empty($_POST['job_req'])          ? $_POST['job_req']          : $existing[0]['job_req'],
+        ':job_benefits'    => !empty($_POST['job_benefits'])     ? $_POST['job_benefits']     : $existing[0]['job_benefits'],
+        ':vacancy'         => !empty($_POST['vacancy'])          ? $_POST['vacancy']          : $existing[0]['vacancy'],
+        ':bdjobs_link'     => trim($_POST['bdjobs_link'] ?? ''),
+        ':apply_enabled'   => isset($_POST['apply_enabled']) ? 1 : 0,
+        ':where_job_id'    => $job_id,
+    ];
 
-$sqli = "UPDATE jobs SET " . implode(", ", $newstring) . " WHERE job_id = $job_id";
+    $newstring = [];
+    foreach ($updatedValue as $key => $value) {
+        if ($key === ':where_job_id') continue;
+        $field = ltrim($key, ':');
+        $newstring[] = "$field = $key";
+    }
 
-$stmt1 = $connection1->prepare($sqli);
-$stmt1->execute($updatedValue);
-if ($stmt1->rowCount() > 0) {
+    $sqli = "UPDATE jobs SET " . implode(", ", $newstring) . " WHERE job_id = :where_job_id";
+    $stmt1 = $connection->prepare($sqli);
+    $stmt1->execute($updatedValue);
+
+    // Always redirect after POST — even if no fields changed, the user expects
+    // to return to the listing. Previously, rowCount() == 0 caused a silent
+    // no-redirect that left the admin stuck on the form with no feedback.
     header("Location: updatejobs.php");
+    exit();
 }
 
 
