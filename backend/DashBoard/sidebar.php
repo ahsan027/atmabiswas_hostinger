@@ -46,6 +46,10 @@
             <i class="fas fa-map-marker-alt"></i>
             <span>Regional Offices</span>
         </a>
+        <a href="divisions.php" class="nav-item">
+            <i class="fas fa-layer-group"></i>
+            <span>Divisions</span>
+        </a>
         <a href="branches.php" class="nav-item">
             <i class="fas fa-code-branch"></i>
             <span>Branches</span>

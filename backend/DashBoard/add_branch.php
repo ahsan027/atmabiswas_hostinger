@@ -14,9 +14,19 @@ $conn = $db->connect();
 $errors = [];
 $values = ['branch_name' => '', 'address' => '', 'division' => '', 'district' => '', 'display_order' => 0, 'status' => 1];
 
-// Fetch existing divisions for datalist
-$div_stmt = $conn->query("SELECT DISTINCT division FROM branches WHERE division != '' ORDER BY division ASC");
-$divisions = $div_stmt->fetchAll(PDO::FETCH_COLUMN);
+// Fetch active divisions from the divisions table (with fallback)
+$divisions = [];
+try {
+    $div_stmt  = $conn->query("SELECT name FROM divisions WHERE status = 1 ORDER BY display_order ASC, name ASC");
+    $divisions = $div_stmt->fetchAll(PDO::FETCH_COLUMN);
+} catch (PDOException $e) {
+    try {
+        $div_stmt  = $conn->query("SELECT DISTINCT division FROM branches WHERE division != '' ORDER BY division ASC");
+        $divisions = $div_stmt->fetchAll(PDO::FETCH_COLUMN);
+    } catch (PDOException $e2) {
+        $divisions = [];
+    }
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!csrf_verify()) {
@@ -47,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ':display_order' => $values['display_order'],
                 ':status'        => $values['status'],
             ]);
-            header('Location: branches.php?msg=' . urlencode('Branch added successfully.') . '&type=success');
+            header('Location: branches.php?msg=' . rawurlencode('Branch added successfully.') . '&type=success');
             exit();
         }
     }
@@ -95,42 +105,71 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <form method="POST">
                     <?= csrf_field() ?>
 
+                    <div class="cm-form-section">Branch Information</div>
+
                     <div class="cm-form-group">
                         <label>Branch Name <span class="required">*</span></label>
                         <input class="cm-form-control" type="text" name="branch_name" required
-                               maxlength="255" value="<?= htmlspecialchars($values['branch_name']) ?>">
+                               maxlength="255" placeholder="e.g. Chuadanga Branch"
+                               value="<?= htmlspecialchars($values['branch_name']) ?>">
                     </div>
 
                     <div class="cm-form-group">
                         <label>Address <span class="required">*</span></label>
                         <textarea class="cm-form-control" name="address" required
-                                  rows="3"><?= htmlspecialchars($values['address']) ?></textarea>
+                                  rows="3" placeholder="Full branch address"><?= htmlspecialchars($values['address']) ?></textarea>
                     </div>
+
+                    <div class="cm-form-section">Location</div>
 
                     <div class="cm-form-row">
                         <div class="cm-form-group">
                             <label>Division <span class="required">*</span></label>
-                            <input class="cm-form-control" type="text" name="division" required
-                                   list="division-list" maxlength="100"
-                                   value="<?= htmlspecialchars($values['division']) ?>">
-                            <datalist id="division-list">
+                            <?php if (empty($divisions)): ?>
+                            <div class="cm-alert cm-alert-error" style="margin-bottom:.5rem;">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                No active divisions found.
+                                <a href="add_division.php" style="font-weight:700;color:#991b1b;text-decoration:underline;margin-left:.25rem;">
+                                    Add a division first →
+                                </a>
+                            </div>
+                            <select class="cm-form-control" name="division" required disabled>
+                                <option value="">No divisions available</option>
+                            </select>
+                            <?php else: ?>
+                            <select class="cm-form-control" name="division" required>
+                                <option value="">— Select Division —</option>
                                 <?php foreach ($divisions as $div): ?>
-                                <option value="<?= htmlspecialchars($div) ?>">
+                                <option value="<?= htmlspecialchars($div) ?>"
+                                        <?= $values['division'] === $div ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($div) ?>
+                                </option>
                                 <?php endforeach; ?>
-                            </datalist>
+                            </select>
+                            <div class="cm-form-hint">
+                                Division not listed?
+                                <a href="add_division.php" class="cm-add-link">
+                                    <i class="fas fa-plus-circle"></i> Add a new division
+                                </a>
+                            </div>
+                            <?php endif; ?>
                         </div>
                         <div class="cm-form-group">
                             <label>District <span class="required">*</span></label>
                             <input class="cm-form-control" type="text" name="district" required
-                                   maxlength="100" value="<?= htmlspecialchars($values['district']) ?>">
+                                   maxlength="100" placeholder="e.g. Chuadanga"
+                                   value="<?= htmlspecialchars($values['district']) ?>">
                         </div>
                     </div>
+
+                    <div class="cm-form-section">Settings</div>
 
                     <div class="cm-form-row">
                         <div class="cm-form-group">
                             <label>Display Order</label>
                             <input class="cm-form-control" type="number" name="display_order" min="0"
                                    value="<?= (int)$values['display_order'] ?>">
+                            <div class="cm-form-hint">Lower number appears first in the list.</div>
                         </div>
                         <div class="cm-form-group">
                             <label>Status</label>
@@ -138,11 +177,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <option value="1" <?= $values['status'] ? 'selected' : '' ?>>Active</option>
                                 <option value="0" <?= !$values['status'] ? 'selected' : '' ?>>Inactive</option>
                             </select>
+                            <div class="cm-form-hint">Inactive branches are hidden from the Contact page.</div>
                         </div>
                     </div>
 
                     <div class="cm-form-actions">
-                        <button class="btn-primary" type="submit">
+                        <button class="btn-primary" type="submit"
+                                <?= empty($divisions) ? 'disabled title="Add a division first"' : '' ?>>
                             <i class="fas fa-save"></i> Save Branch
                         </button>
                         <a href="branches.php" class="btn-secondary">Cancel</a>

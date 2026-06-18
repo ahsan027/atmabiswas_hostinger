@@ -22,6 +22,7 @@ function tableExists(PDO $conn, string $table): bool {
 
 $ro_exists  = tableExists($conn, 'regional_offices');
 $br_exists  = tableExists($conn, 'branches');
+$div_exists = tableExists($conn, 'divisions');
 $messages   = [];
 $errors     = [];
 
@@ -112,11 +113,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $messages[] = 'ℹ️ Table <strong>branches</strong> already exists — skipped.';
     }
+
+    // --------------------------------------------------------
+    // Create & seed divisions (from DISTINCT values in branches)
+    // --------------------------------------------------------
+    if (!$div_exists) {
+        try {
+            $conn->exec("
+                CREATE TABLE `divisions` (
+                    `id`            INT AUTO_INCREMENT PRIMARY KEY,
+                    `name`          VARCHAR(100)  NOT NULL,
+                    `status`        TINYINT(1)    NOT NULL DEFAULT 1,
+                    `display_order` INT           NOT NULL DEFAULT 0,
+                    `created_at`    TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    `updated_at`    TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                    UNIQUE KEY `uq_name`          (`name`),
+                    INDEX `idx_status`            (`status`),
+                    INDEX `idx_display_order`     (`display_order`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+            ");
+            $messages[] = '✅ Table <strong>divisions</strong> created.';
+
+            // Seed from existing branch data
+            if ($br_exists || tableExists($conn, 'branches')) {
+                $seeded = $conn->exec("
+                    INSERT IGNORE INTO `divisions` (`name`, `status`, `display_order`)
+                    SELECT DISTINCT division, 1, 0
+                    FROM `branches`
+                    WHERE division IS NOT NULL AND division != ''
+                ");
+                $div_count = $conn->query("SELECT COUNT(*) FROM divisions")->fetchColumn();
+                $messages[] = "✅ Seeded <strong>$div_count division(s)</strong> from existing branch data.";
+            }
+
+            $div_exists = true;
+        } catch (PDOException $e) {
+            $errors[] = '❌ divisions: ' . htmlspecialchars($e->getMessage());
+        }
+    } else {
+        $messages[] = 'ℹ️ Table <strong>divisions</strong> already exists — skipped.';
+    }
 }
 
 // Current row counts
-$ro_count = $ro_exists ? $conn->query("SELECT COUNT(*) FROM regional_offices")->fetchColumn() : null;
-$br_count = $br_exists ? $conn->query("SELECT COUNT(*) FROM branches")->fetchColumn() : null;
+$ro_count  = $ro_exists  ? $conn->query("SELECT COUNT(*) FROM regional_offices")->fetchColumn() : null;
+$br_count  = $br_exists  ? $conn->query("SELECT COUNT(*) FROM branches")->fetchColumn() : null;
+$div_count = $div_exists ? $conn->query("SELECT COUNT(*) FROM divisions")->fetchColumn() : null;
 $src_count = $conn->query("SELECT COUNT(*) FROM branch")->fetchColumn();
 ?>
 <!DOCTYPE html>
@@ -193,11 +235,29 @@ $src_count = $conn->query("SELECT COUNT(*) FROM branch")->fetchColumn();
                 </div>
 
                 <div class="status-row">
+                    <div>
+                        <code>divisions</code>
+                        <?php if ($div_exists): ?>
+                            <span class="badge-active" style="margin-left:.5rem;">Exists</span>
+                        <?php else: ?>
+                            <span class="badge-inactive" style="margin-left:.5rem;">Missing</span>
+                        <?php endif; ?>
+                    </div>
+                    <div style="color:#6b7280;font-size:.875rem;">
+                        <?php if ($div_exists): ?>
+                            <?= $div_count ?> rows
+                        <?php else: ?>
+                            Will create + seed from <code>branches.division</code>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+                <div class="status-row">
                     <div><code>branch</code> <span style="font-size:.8rem;color:#6b7280;">(source, read-only)</span></div>
                     <div style="color:#6b7280;font-size:.875rem;"><?= $src_count ?> rows</div>
                 </div>
 
-                <?php if (!$ro_exists || !$br_exists): ?>
+                <?php if (!$ro_exists || !$br_exists || !$div_exists): ?>
                 <form method="POST" style="margin-top:1.5rem;">
                     <button class="btn-primary" type="submit" style="font-size:1rem;padding:.75rem 1.5rem;">
                         <i class="fas fa-database"></i>
@@ -208,12 +268,15 @@ $src_count = $conn->query("SELECT COUNT(*) FROM branch")->fetchColumn();
                     </p>
                 </form>
                 <?php else: ?>
-                <div style="margin-top:1.5rem;display:flex;gap:.75rem;">
+                <div style="margin-top:1.5rem;display:flex;gap:.75rem;flex-wrap:wrap;">
                     <a href="regional_offices.php" class="btn-primary">
-                        <i class="fas fa-map-marker-alt"></i> Manage Regional Offices
+                        <i class="fas fa-map-marker-alt"></i> Regional Offices
+                    </a>
+                    <a href="divisions.php" class="btn-primary">
+                        <i class="fas fa-layer-group"></i> Divisions
                     </a>
                     <a href="branches.php" class="btn-primary">
-                        <i class="fas fa-code-branch"></i> Manage Branches
+                        <i class="fas fa-code-branch"></i> Branches
                     </a>
                 </div>
                 <p style="margin-top:.75rem;font-size:.8rem;color:#16a34a;font-weight:600;">

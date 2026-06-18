@@ -362,3 +362,90 @@
 .cm-filter-select:focus {
     border-color: #0073e6;
 }
+
+/* Form card — blue top accent */
+.cm-form-card {
+    border-top: 3px solid #0073e6;
+}
+
+/* Form section headers */
+.cm-form-section {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #9ca3af;
+    border-bottom: 1px solid #f3f4f6;
+    padding-bottom: 0.5rem;
+    margin: 1.75rem 0 1.1rem;
+}
+
+.cm-form-section:first-child {
+    margin-top: 0;
+}
+
+/* Field hint text */
+.cm-form-hint {
+    font-size: 0.78rem;
+    color: #9ca3af;
+    margin-top: 0.3rem;
+    line-height: 1.4;
+}
+
+/* Inline "add new" link inside a field hint */
+.cm-add-link {
+    color: #0073e6;
+    text-decoration: none;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.cm-add-link:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Info box (used on list pages) */
+.cm-info-box {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    color: #1e40af;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.cm-info-box i {
+    margin-top: 1px;
+    flex-shrink: 0;
+}
+
+/* Branch count badge on divisions table */
+.cm-branch-count {
+    background: #dbeafe;
+    color: #1d4ed8;
+    padding: 0.15rem 0.55rem;
+    border-radius: 9999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+/* Responsive form grid */
+@media (max-width: 640px) {
+    .cm-form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .cm-form-card {
+        padding: 1.25rem;
+    }
+
+    .cm-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
