@@ -8,7 +8,7 @@ $press_items = [];
 $database = new Db();
 $conn = $database->connect();
 
-$sql = "SELECT * FROM blogs";
+$sql = "SELECT * FROM blogs ORDER BY upload_date DESC";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -23,6 +23,26 @@ $current_article = null;
 if ($article_id !== null && isset($press_items[$article_id])) {
     $current_article = $press_items[$article_id];
 }
+
+// Collect available years for dynamic filter
+$available_years = [];
+foreach ($press_items as $item) {
+    if (!empty($item['year'])) {
+        $available_years[$item['year']] = true;
+    }
+}
+krsort($available_years);
+
+// Related articles (up to 3, excluding current)
+$related_articles = [];
+if ($current_article) {
+    foreach ($press_items as $rid => $ritem) {
+        if ($rid !== $article_id) {
+            $related_articles[$rid] = $ritem;
+            if (count($related_articles) >= 3) break;
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,7 +51,7 @@ if ($article_id !== null && isset($press_items[$article_id])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $current_article
-        ? htmlspecialchars($current_article['blog_title']) . ' — ATMABISWAS'
+        ? htmlspecialchars($current_article['blog_title']) . ' — ATMABISWAS Press'
         : 'Press &amp; Media Coverage — ATMABISWAS Bangladesh'
     ?></title>
     <!-- Google tag (gtag.js) -->
@@ -156,33 +176,35 @@ if ($article_id !== null && isset($press_items[$article_id])) {
     </div>
 
     <?php if ($current_article): ?>
-        <!-- Article Hero (title + meta + back button) -->
+
+        <!-- ═══ ARTICLE HERO ═══ -->
         <div class="pr-hero pr-article-hero">
-            <a href="?" class="pr-back-btn">
-                <i class="fas fa-arrow-left"></i> Back to Press Coverage
-            </a>
-            <i class="fas fa-newspaper pr-hero-icon"></i>
-            <h1><?= htmlspecialchars($current_article['blog_title']) ?></h1>
-            <div class="pr-article-meta">
-                <span><i class="fas fa-calendar-alt"></i><?= htmlspecialchars(explode(' ', $current_article['upload_date'])[0]) ?></span>
-                <span class="pr-meta-sep">|</span>
-                <span><i class="fas fa-newspaper"></i><?= htmlspecialchars($current_article['blog_author']) ?></span>
+            <div class="pr-hero-inner">
+                <a href="?" class="pr-back-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Newsroom
+                </a>
+                <div class="pr-article-badge">
+                    <i class="fas fa-newspaper"></i> Press Coverage
+                </div>
+                <h1><?= htmlspecialchars($current_article['blog_title']) ?></h1>
+                <div class="pr-article-meta">
+                    <span class="pr-meta-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <?= htmlspecialchars(explode(' ', $current_article['upload_date'])[0]) ?>
+                    </span>
+                    <span class="pr-meta-sep">·</span>
+                    <span class="pr-meta-item">
+                        <i class="fas fa-pen-nib"></i>
+                        <?= htmlspecialchars($current_article['blog_author']) ?>
+                    </span>
+                </div>
             </div>
         </div>
-    <?php else: ?>
-        <!-- Press List Hero -->
-        <div class="pr-hero">
-            <i class="fas fa-newspaper pr-hero-icon"></i>
-            <h1>Press &amp; Media Coverage</h1>
-            <p>Showcasing our work through national and regional media — covering our impact, initiatives, and stories that inspire social transformation.</p>
-        </div>
-    <?php endif; ?>
 
-    <div class="container">
-
-        <?php if ($current_article): ?>
-            <!-- Single Article View -->
+        <!-- ═══ ARTICLE BODY ═══ -->
+        <div class="pr-article-wrap">
             <div class="press-article-card">
+
                 <?php
                 $videoId = '';
                 if (!empty($current_article['source_link'])) {
@@ -198,9 +220,12 @@ if ($article_id !== null && isset($press_items[$article_id])) {
                 if (!empty($videoId)): ?>
                     <div class="article-video">
                         <iframe src="https://www.youtube.com/embed/<?= htmlspecialchars($videoId) ?>"
-                            allowfullscreen></iframe>
+                            allowfullscreen title="<?= htmlspecialchars($current_article['blog_title']) ?>"></iframe>
                         <?php if (!empty($current_article['image_title'])): ?>
-                            <p class="article-video-caption"><?= htmlspecialchars($current_article['image_title']) ?></p>
+                            <p class="article-video-caption">
+                                <i class="fas fa-play-circle"></i>
+                                <?= htmlspecialchars($current_article['image_title']) ?>
+                            </p>
                         <?php endif; ?>
                     </div>
                 <?php elseif (!empty($current_article['cover_img'])): ?>
@@ -219,28 +244,106 @@ if ($article_id !== null && isset($press_items[$article_id])) {
                     <?= $current_article['blog_content'] ?>
                 </div>
 
-                <?php if (!empty($current_article['source_link'])): ?>
-                    <div class="article-source">
-                        <i class="fas fa-external-link-alt"></i> Source:
-                        <a href="<?= htmlspecialchars($current_article['source_link']) ?>"
-                           target="_blank" rel="noopener noreferrer">
-                            <?= htmlspecialchars(parse_url($current_article['source_link'], PHP_URL_HOST)) ?>
-                        </a>
-                    </div>
-                <?php endif; ?>
+                <div class="article-footer">
+                    <?php if (!empty($current_article['source_link'])): ?>
+                        <div class="article-source">
+                            <i class="fas fa-external-link-alt"></i>
+                            <span>Original Source:</span>
+                            <a href="<?= htmlspecialchars($current_article['source_link']) ?>"
+                               target="_blank" rel="noopener noreferrer">
+                                <?= htmlspecialchars(parse_url($current_article['source_link'], PHP_URL_HOST)) ?>
+                                <i class="fas fa-arrow-up-right-from-square" style="font-size:.7rem;"></i>
+                            </a>
+                        </div>
+                    <?php endif; ?>
+                    <a href="?" class="pr-back-link">
+                        <i class="fas fa-arrow-left"></i> Back to all press coverage
+                    </a>
+                </div>
             </div>
+        </div>
 
-        <?php else: ?>
+        <!-- ═══ RELATED ARTICLES ═══ -->
+        <?php if (!empty($related_articles)): ?>
+        <div class="pr-related">
+            <div class="pr-related-header">
+                <h2><i class="fas fa-newspaper"></i> More Press Updates</h2>
+                <a href="?" class="pr-related-all">View all <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="pr-related-grid">
+                <?php foreach ($related_articles as $rid => $ritem): ?>
+                <a href="?article=<?= $rid ?>" class="pr-related-card">
+                    <div class="pr-related-img">
+                        <?php if (!empty($ritem['cover_img'])): ?>
+                            <img src="<?= htmlspecialchars($ritem['cover_img']) ?>"
+                                 alt="<?= htmlspecialchars($ritem['blog_title']) ?>"
+                                 loading="lazy">
+                        <?php else: ?>
+                            <div class="card-no-image"><i class="fas fa-newspaper"></i></div>
+                        <?php endif; ?>
+                    </div>
+                    <div class="pr-related-body">
+                        <span class="press-date">
+                            <i class="fas fa-calendar-alt"></i>
+                            <?= htmlspecialchars(explode(' ', $ritem['upload_date'])[0]) ?>
+                        </span>
+                        <h3><?= htmlspecialchars($ritem['blog_title']) ?></h3>
+                        <span class="pr-related-source">
+                            <i class="fas fa-pen-nib"></i>
+                            <?= htmlspecialchars($ritem['blog_author']) ?>
+                        </span>
+                    </div>
+                </a>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <?php endif; ?>
 
+    <?php else: ?>
+
+        <!-- ═══ NEWS LIST HERO ═══ -->
+        <div class="pr-hero">
+            <div class="pr-hero-inner">
+                <div class="pr-hero-eyebrow">
+                    <i class="fas fa-satellite-dish"></i> ATMABISWAS Newsroom
+                </div>
+                <h1>Press &amp; Media Coverage</h1>
+                <p>Showcasing our work through national and regional media — covering our impact, initiatives, and stories that inspire social transformation across Bangladesh.</p>
+            </div>
+            <?php if (!empty($press_items)): ?>
+            <div class="pr-hero-stats">
+                <div class="pr-stat">
+                    <strong><?= count($press_items) ?>+</strong>
+                    <span>Press Articles</span>
+                </div>
+                <div class="pr-stat-div"></div>
+                <div class="pr-stat">
+                    <strong>National</strong>
+                    <span>Media Presence</span>
+                </div>
+                <div class="pr-stat-div"></div>
+                <div class="pr-stat">
+                    <strong>2018+</strong>
+                    <span>Years of Coverage</span>
+                </div>
+            </div>
+            <?php endif; ?>
+        </div>
+
+        <!-- ═══ STICKY FILTER BAR ═══ -->
+        <div class="filters-wrap" id="filtersWrap">
             <div class="filters">
                 <button class="filter-btn active" data-year="all">
                     <i class="fas fa-layer-group"></i> All Coverage
                 </button>
-                <button class="filter-btn" data-year="2025">2025</button>
-                <button class="filter-btn" data-year="2024">2024</button>
-                <button class="filter-btn" data-year="2023">2023</button>
+                <?php foreach (array_keys($available_years) as $yr): ?>
+                <button class="filter-btn" data-year="<?= $yr ?>"><?= $yr ?></button>
+                <?php endforeach; ?>
             </div>
+        </div>
 
+        <!-- ═══ NEWS GRID ═══ -->
+        <div class="container">
             <div class="press-grid <?= isset($_SESSION['username']) ? 'admin-view' : '' ?>">
                 <?php if (empty($press_items)): ?>
                     <div class="empty-state">
@@ -257,12 +360,17 @@ if ($article_id !== null && isset($press_items[$article_id])) {
                                 <div class="card-image">
                                     <?php if (!empty($item['cover_img'])): ?>
                                         <img src="<?= htmlspecialchars($item['cover_img']) ?>"
-                                             alt="<?= htmlspecialchars($item['blog_title']) ?>">
+                                             alt="<?= htmlspecialchars($item['blog_title']) ?>"
+                                             loading="lazy">
                                     <?php else: ?>
                                         <div class="card-no-image">
                                             <i class="fas fa-newspaper"></i>
                                         </div>
                                     <?php endif; ?>
+                                    <div class="card-overlay-badge">
+                                        <i class="fas fa-newspaper"></i>
+                                        <?= htmlspecialchars($item['blog_author']) ?>
+                                    </div>
                                 </div>
 
                                 <div class="card-content">
@@ -271,10 +379,6 @@ if ($article_id !== null && isset($press_items[$article_id])) {
                                         <?= htmlspecialchars(explode(' ', $item['upload_date'])[0]) ?>
                                     </span>
                                     <h3 class="press-title"><?= htmlspecialchars($item['blog_title']) ?></h3>
-                                    <div class="press-source">
-                                        <i class="fas fa-newspaper"></i>
-                                        <span><?= htmlspecialchars($item['blog_author']) ?></span>
-                                    </div>
                                     <p class="press-summary"
                                        id="summary-<?= $id ?>"
                                        data-full-text="<?= htmlspecialchars($item['summary'], ENT_QUOTES) ?>"><?php
@@ -302,20 +406,21 @@ if ($article_id !== null && isset($press_items[$article_id])) {
                     <?php endforeach; ?>
                 <?php endif; ?>
             </div>
+        </div>
 
-        <?php endif; ?>
-    </div>
+    <?php endif; ?>
 
     <?php include 'footer.php'; ?>
 
     <script src="navbar.js"></script>
     <script src="menutoggle.js"></script>
     <script>
+        /* ── Read More toggle ── */
         function toggleReadMore(id, e) {
             e.preventDefault();
             e.stopPropagation();
-            var el  = document.getElementById('summary-' + id);
-            var btn = e.currentTarget;
+            var el   = document.getElementById('summary-' + id);
+            var btn  = e.currentTarget;
             var full = el.getAttribute('data-full-text');
 
             if (el.classList.contains('expanded')) {
@@ -332,6 +437,8 @@ if ($article_id !== null && isset($press_items[$article_id])) {
 
         document.addEventListener('DOMContentLoaded', function () {
             <?php if (!$current_article): ?>
+
+            /* ── Year filter ── */
             var filterButtons = document.querySelectorAll('.filter-btn');
             var cardLinks     = document.querySelectorAll('.press-card-link');
 
@@ -347,15 +454,29 @@ if ($article_id !== null && isset($press_items[$article_id])) {
                 });
             });
 
+            /* ── Sticky filter detection ── */
+            var wrap = document.getElementById('filtersWrap');
+            if (wrap) {
+                var sentinel = document.createElement('div');
+                sentinel.style.cssText = 'height:1px;pointer-events:none;';
+                wrap.parentNode.insertBefore(sentinel, wrap);
+                var stickyObs = new IntersectionObserver(function (entries) {
+                    wrap.classList.toggle('stuck', !entries[0].isIntersecting);
+                }, { threshold: 1 });
+                stickyObs.observe(sentinel);
+            }
+
+            /* ── Scroll-in animation ── */
             var observer = new IntersectionObserver(function (entries) {
                 entries.forEach(function (entry) {
                     if (entry.isIntersecting) entry.target.classList.add('show');
                 });
-            }, { threshold: 0.1 });
+            }, { threshold: 0.08 });
 
             document.querySelectorAll('.press-card').forEach(function (card) {
                 observer.observe(card);
             });
+
             <?php endif; ?>
         });
     </script>
