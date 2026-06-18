@@ -1,57 +1,65 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // Division selection functionality
+
+  // -----------------------------------------------------------------------
+  // Branch filter — division select  (Action/get_branches.php)
+  // -----------------------------------------------------------------------
   const divisionSelect = document.getElementById("divisionSelect");
   if (divisionSelect) {
     divisionSelect.addEventListener("change", function () {
       const division = this.value;
       if (!division) return;
 
+      const tablebody = document.getElementById("table-body");
+      if (!tablebody) return;
+
+      tablebody.innerHTML =
+        `<tr><td colspan="4" style="text-align:center;padding:20px;color:#666;">
+           Loading branches…
+         </td></tr>`;
+
       const xhr = new XMLHttpRequest();
-      xhr.open("POST", "Action/filter.php", true);
+      xhr.open("POST", "Action/get_branches.php", true);
       xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
       xhr.onload = function () {
-        if (xhr.status === 200) {
-          const tablebody = document.getElementById("table-body");
-          if (!tablebody) return;
+        if (xhr.status !== 200) {
+          tablebody.innerHTML =
+            `<tr><td colspan="4" style="text-align:center;color:#c00;">
+               Request failed (${xhr.status})
+             </td></tr>`;
+          return;
+        }
+        try {
+          const data = JSON.parse(xhr.responseText);
+          tablebody.innerHTML = "";
 
-          try {
-            const obj = JSON.parse(xhr.responseText);
-            tablebody.innerHTML = "";
-
-            if (obj.length === 0) {
-              const row = document.createElement("tr");
-              row.innerHTML = `<td colspan="4" style="text-align:center; padding: 20px; color: #666;">No branches found for this division</td>`;
-              tablebody.appendChild(row);
-              return;
-            }
-
-            obj.forEach((element) => {
-              const row = document.createElement("tr");
-              row.innerHTML = `
-                <td data-label="Branch Name">${element.branchName || "N/A"}</td>
-                <td data-label="Branch Location">${
-                  element.branchLoc || "N/A"
-                }</td>
-                <td data-label="District">${element.dist || "N/A"}</td>
-                <td data-label="Division">${element.division || "N/A"}</td>
-              `;
-              tablebody.appendChild(row);
-            });
-          } catch (error) {
-            console.error("Error parsing response:", error);
-            tablebody.innerHTML = `<tr><td colspan="4" style="text-align:center; color: #ff0000;">Error loading data</td></tr>`;
+          if (!Array.isArray(data) || data.length === 0) {
+            tablebody.innerHTML =
+              `<tr><td colspan="4" style="text-align:center;padding:20px;color:#666;">
+                 No branches found for this division.
+               </td></tr>`;
+            return;
           }
-        } else {
-          console.error("Request failed with status:", xhr.status);
+
+          data.forEach(function (b) {
+            const row = document.createElement("tr");
+            row.innerHTML =
+              `<td data-label="Branch Name">${b.branch_name || "N/A"}</td>
+               <td data-label="Address">${b.address || "N/A"}</td>
+               <td data-label="Division">${b.division || "N/A"}</td>
+               <td data-label="District">${b.district || "N/A"}</td>`;
+            tablebody.appendChild(row);
+          });
+        } catch (e) {
+          tablebody.innerHTML =
+            `<tr><td colspan="4" style="text-align:center;color:#c00;">Error parsing response.</td></tr>`;
         }
       };
 
       xhr.onerror = function () {
-        console.error("Request failed");
-        const tablebody = document.getElementById("table-body");
         if (tablebody) {
-          tablebody.innerHTML = `<tr><td colspan="4" style="text-align:center; color: #ff0000;">Network error</td></tr>`;
+          tablebody.innerHTML =
+            `<tr><td colspan="4" style="text-align:center;color:#c00;">Network error.</td></tr>`;
         }
       };
 
@@ -59,147 +67,129 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Toggle button functionality for contact card
-  const toggleBtn = document.getElementById("toggle-btn");
+  // -----------------------------------------------------------------------
+  // Toggle — HQ & Liaison Office card
+  // -----------------------------------------------------------------------
+  const toggleBtn  = document.getElementById("toggle-btn");
   const contactCard = document.getElementById("contactCard");
 
   if (toggleBtn && contactCard) {
-    toggleBtn.addEventListener("click", () => {
-      if (contactCard.classList.contains("active")) {
-        contactCard.classList.remove("active");
-      } else {
-        contactCard.classList.add("active");
-      }
+    toggleBtn.addEventListener("click", function () {
+      const opening = !contactCard.classList.contains("active");
+      contactCard.classList.toggle("active");
+      if (opening) setTimeout(() => smoothScroll(contactCard), 100);
     });
   }
 
-  // Filter button functionality
-  const filterbtn = document.getElementById("filterbutton");
+  // -----------------------------------------------------------------------
+  // Toggle — Branches section
+  // -----------------------------------------------------------------------
+  const filterbtn  = document.getElementById("filterbutton");
   const filterField = document.getElementById("filterbars");
 
   if (filterbtn && filterField) {
-    filterbtn.addEventListener("click", () => {
+    filterbtn.addEventListener("click", function () {
+      const opening = !filterField.classList.contains("active");
       filterField.classList.toggle("active");
+      if (opening) setTimeout(() => smoothScroll(filterField), 100);
     });
   }
 
-  // Regional offices functionality
-  const newcard = document.getElementById("newcard");
-  const newbody = document.getElementById("reg");
-  const newtablebody = document.getElementById("newtable");
+  // -----------------------------------------------------------------------
+  // Regional Offices — load from Action/get_regional_offices.php
+  // -----------------------------------------------------------------------
+  const newcard       = document.getElementById("newcard");
+  const regSection    = document.getElementById("reg");
+  const newtablebody  = document.getElementById("newtable");
 
-  if (newcard && newbody && newtablebody) {
-    newcard.addEventListener("click", () => {
-      newbody.classList.toggle("active");
+  if (newcard && regSection && newtablebody) {
+    newcard.addEventListener("click", function () {
+      const opening = !regSection.classList.contains("active");
+      regSection.classList.toggle("active");
 
-      // Clear table when closing
-      if (!newbody.classList.contains("active")) {
+      if (!opening) {
         newtablebody.innerHTML = "";
         return;
       }
 
-      // Load regional data
+      setTimeout(() => smoothScroll(regSection), 100);
       loadRegionalData();
     });
   }
 
-  // Function to load regional data
   function loadRegionalData() {
     if (!newtablebody) return;
 
-    // Show loading state
-    newtablebody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding: 20px; color: #666;">Loading regional offices...</td></tr>`;
+    newtablebody.innerHTML =
+      `<tr><td colspan="4" style="text-align:center;padding:20px;color:#666;">
+         Loading regional offices…
+       </td></tr>`;
 
-    axios
-      .get("regional.json")
-      .then((response) => {
-        const object = response.data;
+    fetch("Action/get_regional_offices.php")
+      .then(function (res) {
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        return res.json();
+      })
+      .then(function (data) {
         newtablebody.innerHTML = "";
 
-        if (!Array.isArray(object) || object.length === 0) {
-          newtablebody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding: 20px; color: #666;">No regional offices found</td></tr>`;
+        if (!Array.isArray(data) || data.length === 0) {
+          newtablebody.innerHTML =
+            `<tr><td colspan="4" style="text-align:center;padding:20px;color:#666;">
+               No regional offices found.
+             </td></tr>`;
           return;
         }
 
-        object.forEach((element) => {
+        data.forEach(function (o) {
           const row = document.createElement("tr");
-          row.innerHTML = `
-            <td data-label="Branch Name">${element.region || "N/A"}</td>
-            <td data-label="Branch Location">${element.address || "N/A"}</td>
-            <td data-label="Division">${element.designation || "N/A"}</td>
-            <td data-label="District">${element.mobile || "N/A"}</td>
-          `;
+          row.innerHTML =
+            `<td data-label="Region Name">${o.region_name || "N/A"}</td>
+             <td data-label="Address">${o.address || "N/A"}</td>
+             <td data-label="Designation">${o.designation || "N/A"}</td>
+             <td data-label="Phone">${o.phone || "N/A"}</td>`;
           newtablebody.appendChild(row);
         });
       })
-      .catch((error) => {
-        console.error("Error loading regional data:", error);
-        newtablebody.innerHTML = `<tr><td colspan="4" style="text-align:center; color: #ff0000;">Error loading regional offices</td></tr>`;
+      .catch(function () {
+        newtablebody.innerHTML =
+          `<tr><td colspan="4" style="text-align:center;color:#c00;">
+             Error loading regional offices.
+           </td></tr>`;
       });
   }
 
-  // Add keyboard navigation support
-  document.addEventListener("keydown", function (event) {
-    if (event.key === "Escape") {
-      // Close all open sections when Escape is pressed
-      if (contactCard && contactCard.classList.contains("active")) {
-        contactCard.classList.remove("active");
-      }
-      if (filterField && filterField.classList.contains("active")) {
-        filterField.classList.remove("active");
-      }
-      if (newbody && newbody.classList.contains("active")) {
-        newbody.classList.remove("active");
-        if (newtablebody) newtablebody.innerHTML = "";
-      }
+  // -----------------------------------------------------------------------
+  // Escape key — close all open sections
+  // -----------------------------------------------------------------------
+  document.addEventListener("keydown", function (e) {
+    if (e.key !== "Escape") return;
+    if (contactCard && contactCard.classList.contains("active")) {
+      contactCard.classList.remove("active");
+    }
+    if (filterField && filterField.classList.contains("active")) {
+      filterField.classList.remove("active");
+    }
+    if (regSection && regSection.classList.contains("active")) {
+      regSection.classList.remove("active");
+      if (newtablebody) newtablebody.innerHTML = "";
     }
   });
 
-  // Add focus management for better accessibility
-  const toggleButtons = document.querySelectorAll(".toggle-btn");
-  toggleButtons.forEach((button) => {
-    button.addEventListener("focus", function () {
+  // -----------------------------------------------------------------------
+  // Accessibility — focus outline on toggle buttons
+  // -----------------------------------------------------------------------
+  document.querySelectorAll(".toggle-btn").forEach(function (btn) {
+    btn.addEventListener("focus", function () {
       this.style.outline = "2px solid #0073e6";
       this.style.outlineOffset = "2px";
     });
-
-    button.addEventListener("blur", function () {
+    btn.addEventListener("blur", function () {
       this.style.outline = "none";
     });
   });
 
-  // Add smooth scrolling for better UX
-  const smoothScrollToElement = (element) => {
-    if (element) {
-      element.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-  };
-
-  // Enhance toggle buttons with smooth scrolling
-  if (toggleBtn && contactCard) {
-    toggleBtn.addEventListener("click", () => {
-      if (!contactCard.classList.contains("active")) {
-        setTimeout(() => smoothScrollToElement(contactCard), 100);
-      }
-    });
-  }
-
-  if (filterbtn && filterField) {
-    filterbtn.addEventListener("click", () => {
-      if (!filterField.classList.contains("active")) {
-        setTimeout(() => smoothScrollToElement(filterField), 100);
-      }
-    });
-  }
-
-  if (newcard && newbody) {
-    newcard.addEventListener("click", () => {
-      if (!newbody.classList.contains("active")) {
-        setTimeout(() => smoothScrollToElement(newbody), 100);
-      }
-    });
+  function smoothScroll(el) {
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 });

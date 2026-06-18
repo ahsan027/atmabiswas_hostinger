@@ -110,12 +110,14 @@ $conn = $db->connect();
             <select name="division" id="divisionSelect">
                 <option value="">Select Division</option>
                 <?php
-                $stmt = $pdo->prepare("SELECT DISTINCT division FROM divisions");
+                $stmt = $conn->prepare(
+                    "SELECT DISTINCT division FROM branches WHERE status = 1 AND division != '' ORDER BY division ASC"
+                );
                 $stmt->execute();
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
                 foreach ($result as $r) {
-                    echo "<option value=" . "$r[division]" . ">" . $r['division'] . "</option>";
+                    echo '<option value="' . htmlspecialchars($r['division']) . '">'
+                        . htmlspecialchars($r['division']) . '</option>';
                 }
                 ?>
             </select>

@@ -39,6 +39,17 @@
             <i class="fas fa-user-shield"></i>
             <span>Change Credentials</span>
         </a>
+        <div style="padding:0.5rem 1.5rem;font-size:0.7rem;text-transform:uppercase;letter-spacing:1px;opacity:0.6;margin-top:0.5rem;">
+            Contact Management
+        </div>
+        <a href="regional_offices.php" class="nav-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>Regional Offices</span>
+        </a>
+        <a href="branches.php" class="nav-item">
+            <i class="fas fa-code-branch"></i>
+            <span>Branches</span>
+        </a>
     </nav>
 
     <div class="sidebar-footer">
