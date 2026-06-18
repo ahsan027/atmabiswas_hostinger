@@ -25,17 +25,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && csrf_verify()) {
                 $stmt = $conn->prepare("DELETE FROM branches WHERE id = :id");
                 $stmt->bindParam(':id', $id, PDO::PARAM_INT);
                 $stmt->execute();
-                $msg = 'Branch deleted successfully.';
-                $msg_type = 'success';
+                header("Location: branches.php?msg=" . rawurlencode('Branch deleted successfully.') . "&type=success");
+                exit();
             } elseif ($action === 'toggle') {
-                $stmt = $conn->prepare("UPDATE branches SET status = 1 - status WHERE id = :id");
+                $stmt = $conn->prepare("UPDATE branches SET status = IF(status = 1, 0, 1) WHERE id = :id");
                 $stmt->bindParam(':id', $id, PDO::PARAM_INT);
                 $stmt->execute();
-                $msg = 'Status updated.';
-                $msg_type = 'success';
+                $qs = [];
+                if (!empty($_GET['page']) && (int)$_GET['page'] > 1) $qs['page'] = (int)$_GET['page'];
+                if (!empty($_GET['search'])) $qs['search'] = $_GET['search'];
+                if (!empty($_GET['division'])) $qs['division'] = $_GET['division'];
+                $qs['msg']  = 'Status updated.';
+                $qs['type'] = 'success';
+                header("Location: branches.php?" . http_build_query($qs));
+                exit();
             }
         } catch (PDOException $e) {
-            $msg = 'Error: ' . htmlspecialchars($e->getMessage());
+            $msg      = 'Error: ' . htmlspecialchars($e->getMessage());
             $msg_type = 'error';
         }
     }
