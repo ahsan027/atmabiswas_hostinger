@@ -53,6 +53,7 @@ $deptCode = $stmt1->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body>
+    <?php include '../../Navbar.php'; ?>
     <div class="container">
         <div class="job-header">
             <h1 class="job-title"><?= $jobDes[0]['job_title'] ?></h1>

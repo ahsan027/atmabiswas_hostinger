@@ -14,16 +14,18 @@ if (!headers_sent()) {
 // Get the base directory of the website
 $base_dir = dirname(__FILE__);
 
-// Define base URL - automatically detects the correct URL
+// Define base URL - always points to site root regardless of which script calls this.
+// Using SCRIPT_NAME caused subdirectory pages (e.g. backend/career/*.php) to build
+// wrong paths like https://site.com/backend/career/index.php instead of
+// https://site.com/index.php. We use the host root directly instead.
 $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https://' : 'http://';
-$host = $_SERVER['HTTP_HOST'];
-$script_dir = dirname($_SERVER['SCRIPT_NAME']);
+$host = rtrim($_SERVER['HTTP_HOST'], '/');
 
-// Remove trailing slash if present
-$script_dir = rtrim($script_dir, '/');
+// SITE_ROOT is always the domain root — safe to use from any subdirectory
+define('SITE_ROOT', $protocol . $host);
 
-// Define the base URL
-define('BASE_URL', $protocol . $host . $script_dir);
+// BASE_URL kept as an alias for backward compatibility
+define('BASE_URL', SITE_ROOT);
 
 // Define common paths
 define('LOGIN_PATH', BASE_URL . '/backend/login/prelogin.php');

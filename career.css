@@ -50,8 +50,11 @@ a {
   color: #333;
 }
 
-/* Icon Style */
-i {
+/* Icon Style — scoped to main page content only, never affects the global white navbar */
+main i,
+.hero i,
+.Sector i,
+.available-jobs i {
   color: #1e3a8a;
   font-size: 1.3rem;
   margin-top: 0.2rem;

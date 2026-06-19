@@ -1,10 +1,10 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) session_start();
 require_once __DIR__ . '/config.php';
 ?>
-<link rel="stylesheet" href="navbar.css">
-<link rel="stylesheet" href="menutoggle.css">
-<link rel="stylesheet" href="sidebar.css">
+<link rel="stylesheet" href="<?= SITE_ROOT ?>/navbar.css">
+<link rel="stylesheet" href="<?= SITE_ROOT ?>/menutoggle.css">
+<link rel="stylesheet" href="<?= SITE_ROOT ?>/sidebar.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -12,7 +12,7 @@ require_once __DIR__ . '/config.php';
 <!-- Desktop Navbar -->
 <div class="navbar desktop-only">
     <div class="top-row">
-        <div class="logo"><a href="<?php echo HOME_PATH; ?>"><img src="logoBg.png" loading="lazy" alt="ATMABISWAS NGO"></a></div>
+        <div class="logo"><a href="<?php echo HOME_PATH; ?>"><img src="<?= SITE_ROOT ?>/logoBg.png" loading="lazy" alt="ATMABISWAS NGO"></a></div>
         <div class="bars">
             <a href="<?php echo NOTICE_PATH; ?>">Notice</a>
             <a target="_blank" href="<?php echo CAREER_PATH; ?>">Career</a>
@@ -62,7 +62,7 @@ require_once __DIR__ . '/config.php';
 
 <!-- Mobile Header -->
 <div class="mobile-header mobile-only">
-    <div class="logo"><a href="<?php echo HOME_PATH; ?>"><img src="logoBg.png" loading="lazy" alt="ATMABISWAS NGO"></a></div>
+    <div class="logo"><a href="<?php echo HOME_PATH; ?>"><img src="<?= SITE_ROOT ?>/logoBg.png" loading="lazy" alt="ATMABISWAS NGO"></a></div>
     <div class="menu-toggle" id="menu-toggleId">
         <span class="bar"></span>
         <span class="bar"></span>
@@ -73,7 +73,7 @@ require_once __DIR__ . '/config.php';
 <!-- Mobile Sidebar -->
 <div class="sidenav">
     <div class="sidelogo">
-        <img src="LOGO/Monogram for web only.png" loading="lazy" alt="Logo" class="profile-img">
+        <img src="<?= SITE_ROOT ?>/LOGO/Monogram for web only.png" loading="lazy" alt="Logo" class="profile-img">
         <i id="close-btn" class="fa-solid fa-times"></i>
     </div>
     <a href="<?php echo HOME_PATH; ?>"><i class="fa-solid fa-house-user"></i> Who we are</a>
@@ -128,5 +128,5 @@ require_once __DIR__ . '/config.php';
     ?>
 </div>
 
-<script src="navbar.js"></script>
-<script src="menutoggle.js"></script>
+<script src="<?= SITE_ROOT ?>/navbar.js"></script>
+<script src="<?= SITE_ROOT ?>/menutoggle.js"></script>

@@ -9,58 +9,12 @@
         background-color: #f4f4f4;
     }
 
-    .navbar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: #1e3a8a;
-        color: #fff;
-        padding: 15px 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        flex-wrap: wrap;
-    }
+    /* Navbar styles removed — global white Navbar.php is used instead */
 
-    .navbar .logo img {
-        height: 70px;
-    }
-
-    .navbar .menu {
-        list-style: none;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin-top: 10px;
-        width: 100%;
-    }
-    
     @media (min-width: 768px) {
-        .navbar .menu {
-            width: auto;
-            margin-top: 0;
-            justify-content: flex-end;
-        }
-        .navbar {
-            padding: 15px 30px;
-            flex-wrap: nowrap;
-        }
         .job-title {
             font-size: 1.75rem;
         }
-    }
-
-    .navbar .menu li {
-        margin: 0 15px;
-    }
-
-    .navbar .menu li a {
-        text-decoration: none;
-        color: #fff;
-        font-weight: 500;
-        transition: color 0.3s;
-    }
-
-    .navbar .menu li a:hover {
-        color: #facc15;
     }
 
     .container {

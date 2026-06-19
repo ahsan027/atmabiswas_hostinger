@@ -36,20 +36,7 @@ $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body>
-    <header>
-        <div class="navbar">
-            <div class="logo">
-                <a href="../../index.php">
-                    <img src="https://atmabiswas.org/wp-content/uploads/2024/10/cropped-Monogram-web.webp" alt="Logo">
-                </a>
-            </div>
-            <ul class="menu">
-                <li><a href="../../index.php">Home</a></li>
-                <li><a href="availableJobs.php">Available Jobs</a></li>
-                <li><a href="../login/login.php">Login</a></li>
-            </ul>
-        </div>
-    </header>
+    <?php include '../../Navbar.php'; ?>
 
     <div class="container">
         <div class="search-section">
