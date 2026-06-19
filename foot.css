@@ -212,18 +212,48 @@
   .footer-inner {
     grid-template-columns: 1fr 1fr;
     gap: 36px;
+    padding: 48px 32px 36px;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-inner {
+    padding: 40px 24px 32px;
+    gap: 28px;
+  }
+
+  .footer-bottom {
+    padding: 18px 24px;
   }
 }
 
 @media (max-width: 600px) {
   .footer-inner {
     grid-template-columns: 1fr;
-    padding: 40px 24px 28px;
-    gap: 28px;
+    padding: 36px 20px 24px;
+    gap: 24px;
   }
+
   .footer-bottom {
-    padding: 18px 24px;
+    padding: 16px 20px;
     flex-direction: column;
     text-align: center;
+  }
+}
+
+@media (max-width: 380px) {
+  .footer-brand-name {
+    font-size: 1.6rem;
+  }
+
+  .footer-inner {
+    padding: 28px 16px 20px;
+  }
+
+  #back-to-top {
+    bottom: 16px;
+    right: 16px;
+    width: 38px;
+    height: 38px;
   }
 }

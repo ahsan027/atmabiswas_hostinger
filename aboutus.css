@@ -337,6 +337,19 @@ body {
 }
 
 @media (max-width: 480px) {
-  .about-hero h1 { font-size: 1.4rem; }
-  .ab-card-header h2 { font-size: 1.2rem; }
+  .about-hero h1      { font-size: 1.4rem; }
+  .ab-card-header h2  { font-size: 1.2rem; }
+  .ab-icon-grid       { grid-template-columns: 1fr; }
+  .work-section       { padding: 2.5rem 0.75rem 3rem; }
+  .work-header h2     { font-size: 1.4rem; }
+}
+
+@media (max-width: 380px) {
+  .about-hero          { padding: 36px 14px 30px; }
+  .about-hero h1       { font-size: 1.2rem; }
+  .about-hero p        { font-size: 0.88rem; }
+  .ab-container        { padding: 1.25rem 0.75rem 2.5rem; }
+  .ab-card             { padding: 1.1rem; }
+  .ab-card-header h2   { font-size: 1.05rem; }
+  .ab-card-header i    { width: 38px; height: 38px; font-size: 1.1rem; }
 }

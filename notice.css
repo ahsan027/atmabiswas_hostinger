@@ -19,6 +19,7 @@ body {
   font-family: "Times New Roman", Times, serif;
   background-color: var(--bg);
   color: var(--text);
+  overflow-x: hidden;
 }
 
 /* ── Hero ───────────────────────────────────── */

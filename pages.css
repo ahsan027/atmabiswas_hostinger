@@ -820,7 +820,22 @@ img { max-width: 100%; height: auto; }
 }
 
 @media (max-width: 480px) {
-  .page-hero h1   { font-size: 1.35rem; }
-  .gallery, .pic  { grid-template-columns: 1fr; }
-  .othermembers   { grid-template-columns: 1fr 1fr; }
+  .page-hero h1    { font-size: 1.35rem; }
+  .gallery, .pic   { grid-template-columns: 1fr; }
+  .othermembers    { grid-template-columns: 1fr 1fr; }
+  .card-grid-2     { grid-template-columns: 1fr; }
+  .executive-card  { padding: 1.25rem; }
+  .segment > .card-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 380px) {
+  /* Single column for member cards — two columns too narrow at this size */
+  .othermembers    { grid-template-columns: 1fr; }
+  /* Tighten padding on very small phones */
+  .container       { padding: 1rem 0.75rem 2.5rem; }
+  .page-hero h1    { font-size: 1.2rem; }
+  .page-hero p     { font-size: 0.9rem; }
+  .founder-details { padding: 1rem; }
+  .founder-details h2 { font-size: 1.4rem; }
+  .profile-grid    { grid-template-columns: 1fr 1fr; }
 }

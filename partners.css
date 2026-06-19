@@ -478,6 +478,51 @@
   .next { right: 0.4rem; }
 }
 
+@media (max-width: 360px) {
+  .Partnercontainer {
+    padding: 32px 10px 32px;
+  }
+
+  .partners-header h2 {
+    font-size: 1.1rem;
+  }
+
+  .carousel-container {
+    height: 105px;
+  }
+
+  .carousel img {
+    width: 56px;
+    height: 56px;
+  }
+
+  .content .logo-section {
+    padding: 1rem;
+  }
+
+  .content .logo-section img {
+    width: 64px;
+    height: 64px;
+  }
+
+  .content .info-section {
+    padding: 1rem;
+  }
+
+  .content h2 {
+    font-size: 1rem;
+  }
+
+  .navigation {
+    width: 30px;
+    height: 30px;
+    font-size: 0.78rem;
+  }
+
+  .prev { left: 0.2rem; }
+  .next { right: 0.2rem; }
+}
+
 /* Accessibility */
 @media (prefers-reduced-motion: reduce) {
   .carousel,

@@ -8,6 +8,7 @@ body {
   background: var(--bg-color);
   color: var(--text-color);
   transition: background 0.5s ease, color 0.5s ease;
+  overflow-x: hidden;
 }
 
 h1 {

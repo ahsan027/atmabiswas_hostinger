@@ -342,6 +342,20 @@
   }
 }
 
+/* ── Small desktop: prevent login button overlapping centered links ── */
+@media (min-width: 769px) and (max-width: 960px) {
+  .navbar .bottom-row {
+    padding-left: 12px;
+    padding-right: 116px;
+  }
+
+  .navbar .bottom-row > a,
+  .maindrop {
+    padding: 0 8px;
+    font-size: 0.84rem;
+  }
+}
+
 /* ── Accessibility ──────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .navbar .bottom-row > a::after,

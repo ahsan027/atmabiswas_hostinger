@@ -39,6 +39,7 @@ body {
   color: var(--gray-700);
   background-color: var(--gray-50);
   font-family: "Times New Roman", Times, serif;
+  overflow-x: hidden;
 }
 
 a {
@@ -855,6 +856,22 @@ main i,
 
   .sector-info h3 {
     text-align: center;
+  }
+}
+
+/* Tablet: reduce oversized hero height */
+@media (min-width: 481px) and (max-width: 768px) {
+  .slider-container {
+    height: 440px;
+  }
+
+  .hero {
+    min-height: 440px;
+  }
+
+  .hero .overlay {
+    max-width: 420px;
+    padding: 20px 16px;
   }
 }
 
