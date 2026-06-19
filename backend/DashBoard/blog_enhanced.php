@@ -16,7 +16,7 @@ require_once '../../config.php';
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ATMABISWAS - Enhanced Blog Editor</title>
+    <title>ATMABISWAS - Press Editor</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="icon" type="image/png" href="../images/logo/logo.png">
@@ -439,8 +439,8 @@ require_once '../../config.php';
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-8">
-                    <h1><i class="fas fa-pen-fancy"></i>Blog Editor</h1>
-                    <p class="mb-0">Create and manage your blog posts with advanced features</p>
+                    <h1><i class="fas fa-pen-fancy"></i>Press Editor</h1>
+                    <p class="mb-0">Create and publish press posts for ATMABISWAS</p>
                 </div>
                 <div class="col-md-4 text-end">
                     <a href="dashboard.php" class="btn btn-outline-light" style="color: black; text-decoration: none;">
@@ -475,7 +475,7 @@ require_once '../../config.php';
                                 <!-- Blog Title -->
                                 <div class="mb-4">
                                     <label for="blogTitle" class="form-label">
-                                        <i class="fas fa-heading"></i> Blog Title *
+                                        <i class="fas fa-heading"></i> Press Title *
                                     </label>
                                     <input type="text" class="form-control" id="blogTitle" name="blog_title"
                                         placeholder="Enter an engaging title..." required maxlength="255">
@@ -548,7 +548,7 @@ require_once '../../config.php';
                                 <!-- Summary Section -->
                                 <div class="mb-4">
                                     <label class="form-label">
-                                        <i class="fas fa-file-alt"></i> Blog Summary *
+                                        <i class="fas fa-file-alt"></i> Press Summary *
                                     </label>
                                     <div id="summaryEditor" contenteditable="true"
                                         placeholder="Write a compelling summary (100-1000 characters recommended)..."
@@ -564,10 +564,10 @@ require_once '../../config.php';
                                 <!-- Main Content Section -->
                                 <div class="mb-4">
                                     <label class="form-label">
-                                        <i class="fas fa-newspaper"></i> Blog Content *
+                                        <i class="fas fa-newspaper"></i> Press Content *
                                     </label>
                                     <div id="contentEditor" contenteditable="true"
-                                        placeholder="Start writing your blog post here..."
+                                        placeholder="Start writing your press post here..."
                                         class="editor-content"
                                         ondrop="handleDrop(event)"
                                         ondragover="handleDragOver(event)"
@@ -609,7 +609,7 @@ require_once '../../config.php';
                                 <hr style="margin:1.5rem 0;border-color:#dee2e6;">
                                 <div class="card-header mb-3" style="background:#f8f9fa;border-radius:8px;padding:.85rem 1.25rem;">
                                     <h5 style="margin:0;font-size:1rem;font-weight:700;color:#2c3e50;">
-                                        <i class="fas fa-search-plus"></i> SEO &amp; Article Metadata
+                                        <i class="fas fa-search-plus"></i> SEO &amp; Press Metadata
                                     </h5>
                                 </div>
 
@@ -632,7 +632,7 @@ require_once '../../config.php';
                                             <input class="form-check-input" type="checkbox"
                                                    id="featuredPost" name="featured" value="1">
                                             <label class="form-check-label fw-bold" for="featuredPost">
-                                                <i class="fas fa-star text-warning"></i> Feature Article
+                                                <i class="fas fa-star text-warning"></i> Feature Press Post
                                             </label>
                                             <div class="form-text">Shows in Newsroom hero.</div>
                                         </div>
@@ -648,7 +648,7 @@ require_once '../../config.php';
                                         </label>
                                         <input type="text" class="form-control" id="seoTitle" name="seo_title"
                                                maxlength="60"
-                                               placeholder="Custom search engine title (leave blank = article title)">
+                                               placeholder="Custom search engine title (leave blank = press title)">
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">
@@ -686,7 +686,7 @@ require_once '../../config.php';
                                         <i class="fas fa-save"></i> Save Draft
                                     </button>
                                     <button type="submit" class="btn btn-publish">
-                                        <i class="fas fa-paper-plane"></i> Publish Article
+                                        <i class="fas fa-paper-plane"></i> Publish Press Post
                                     </button>
                                 </div>
 
@@ -730,7 +730,7 @@ require_once '../../config.php';
                         <!-- Preview Tab -->
                         <div id="preview-tab" class="tab-content" style="display: none;">
                             <div class="preview-mode">
-                                <h1 id="previewTitle">Blog Title</h1>
+                                <h1 id="previewTitle">Press Title</h1>
                                 <div class="meta">
                                     <i class="fas fa-user"></i> By <?php echo htmlspecialchars($_SESSION['username']); ?> |
                                     <i class="fas fa-calendar"></i> <span id="previewDate"><?php echo date('F j, Y'); ?></span>
@@ -738,10 +738,10 @@ require_once '../../config.php';
 
                                 <div class="mb-4">
                                     <h5>Summary:</h5>
-                                    <div id="previewSummary" class="text-muted">Blog summary will appear here...</div>
+                                    <div id="previewSummary" class="text-muted">Press summary will appear here...</div>
                                 </div>
 
-                                <div id="previewContent">Blog content will appear here...</div>
+                                <div id="previewContent">Press content will appear here...</div>
                             </div>
                         </div>
                     </div>
@@ -781,7 +781,7 @@ require_once '../../config.php';
                 document.getElementById('titleCount').textContent = count;
 
                 // Update preview
-                document.getElementById('previewTitle').textContent = this.value || 'Blog Title';
+                document.getElementById('previewTitle').textContent = this.value || 'Press Title';
             });
 
             // Form submission
@@ -813,9 +813,9 @@ require_once '../../config.php';
 
         // Update preview
         function updatePreview() {
-            const title = document.getElementById('blogTitle').value || 'Blog Title';
-            const summary = document.getElementById('summaryEditor').innerHTML || 'Blog summary will appear here...';
-            const content = document.getElementById('contentEditor').innerHTML || 'Blog content will appear here...';
+            const title = document.getElementById('blogTitle').value || 'Press Title';
+            const summary = document.getElementById('summaryEditor').innerHTML || 'Press summary will appear here...';
+            const content = document.getElementById('contentEditor').innerHTML || 'Press content will appear here...';
 
             document.getElementById('previewTitle').textContent = title;
             document.getElementById('previewSummary').innerHTML = summary;
@@ -1069,17 +1069,17 @@ require_once '../../config.php';
             const mainContent = document.getElementById('contentEditor').innerHTML.trim();
 
             if (!title) {
-                showNotification('Please enter a blog title.', 'error');
+                showNotification('Please enter a press title.', 'error');
                 return;
             }
 
             if (!summaryContent || summaryContent === '<br>') {
-                showNotification('Please write a summary for your blog.', 'error');
+                showNotification('Please write a press summary.', 'error');
                 return;
             }
 
             if (!mainContent || mainContent === '<br>') {
-                showNotification('Please write the main content for your blog.', 'error');
+                showNotification('Please write the press content.', 'error');
                 return;
             }
 
@@ -1102,7 +1102,7 @@ require_once '../../config.php';
                 const result = await response.json();
 
                 if (result.status === 'success') {
-                    showNotification('Blog published successfully! Redirecting...', 'success');
+                    showNotification('Press post published! Redirecting...', 'success');
                     setTimeout(() => {
                         window.location.href = 'blog_image.php?id=' + result.post_id;
                     }, 2000);

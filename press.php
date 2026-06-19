@@ -354,7 +354,7 @@ $article_url = $current_article
 
     <?php if (!empty($related)): ?>
     <div class="pr-related">
-        <div class="pr-related-heading">More from ATMABISWAS Newsroom</div>
+        <div class="pr-related-heading">More Press Updates</div>
         <div class="pr-related-grid">
             <?php foreach ($related as $rel):
                 $rel_thumb = getThumbnail($rel);
@@ -444,13 +444,13 @@ function copyArticleLink() {
 
 <!-- Hero -->
 <div class="pr-hero">
-    <h1>ATMABISWAS Newsroom</h1>
-    <p>Latest news, press releases, announcements, and media coverage from ATMABISWAS Bangladesh</p>
+    <h1>Press &amp; Media</h1>
+    <p>Latest news, media coverage, announcements, and updates from ATMABISWAS.</p>
     <form class="pr-search" action="press.php" method="GET">
         <div class="pr-search-wrap">
             <i class="fas fa-search pr-search-icon"></i>
             <input type="text" name="search"
-                   placeholder="Search articles, announcements…"
+                   placeholder="Search press posts, announcements…"
                    value="<?= htmlspecialchars($search) ?>"
                    autocomplete="off">
             <?php if ($search): ?>
@@ -468,7 +468,7 @@ function copyArticleLink() {
     "<strong><?= htmlspecialchars($search) ?></strong>"
     <a href="press.php"><i class="fas fa-times-circle"></i> Clear all filters</a>
     <?php else: ?>
-    Showing <strong><?= $total ?></strong> article<?= $total !== 1 ? 's' : '' ?> —
+    Showing <strong><?= $total ?></strong> press post<?= $total !== 1 ? 's' : '' ?> —
     <a href="press.php">View all</a>
     <?php endif; ?>
 </div>
@@ -607,7 +607,7 @@ function copyArticleLink() {
                     <?php endif; ?>
                     <div class="pr-card-foot">
                         <span class="pr-read-time"><i class="far fa-clock"></i> <?= $read_t ?> min read</span>
-                        <span class="pr-read-more">Read More <i class="fas fa-arrow-right"></i></span>
+                        <span class="pr-read-more">Read Full Story <i class="fas fa-arrow-right"></i></span>
                     </div>
                 </div>
             </article>

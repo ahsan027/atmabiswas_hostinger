@@ -424,7 +424,7 @@ try {
                     <div class="section-header">
                         <div class="section-title">
                             <h2>Published News</h2>
-                            <p>Latest published blog posts</p>
+                            <p>Latest published press posts</p>
                         </div>
                         <div class="section-actions">
                             <button onclick="handleButton()" class="btn btn-primary">
@@ -437,8 +437,8 @@ try {
                         <table class="dashboard-table">
                             <thead>
                                 <tr>
-                                    <th>Blog ID</th>
-                                    <th>Blog Title</th>
+                                    <th>Press ID</th>
+                                    <th>Press Title</th>
                                     <th>Author</th>
                                     <th>Published Date</th>
                                     <th>Actions</th>
@@ -455,7 +455,7 @@ try {
                                         </td>
                                         <td>' . $blog['upload_date'] . '</td>
                                         <td>
-                                            <a onclick="return confirm(\'Are you sure you want to delete this blog?\');" 
+                                            <a onclick="return confirm(\'Are you sure you want to delete this press post?\');"
                                                href="../../deleteblog.php?blog_id=' . $blog['blog_id'] . '" 
                                                class="btn btn-danger btn-sm">
                                                 <i class="fas fa-trash"></i>

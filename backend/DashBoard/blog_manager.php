@@ -116,7 +116,7 @@ $flash_type = 'success';
 if (($_GET['action'] ?? '') === 'delete' && ($did = (int)($_GET['id'] ?? 0)) && $pdo) {
     try {
         $pdo->prepare("DELETE FROM blogs WHERE blog_id=?")->execute([$did]);
-        $flash = 'Article deleted.';
+        $flash = 'Press post deleted.';
     } catch (PDOException $e) {
         $flash      = 'Delete failed: ' . htmlspecialchars($e->getMessage());
         $flash_type = 'danger';
@@ -220,7 +220,7 @@ $cat_colors = [
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Article Manager — ATMABISWAS Admin</title>
+<title>Press Manager — ATMABISWAS Admin</title>
 <link rel="icon" type="image/png" href="../images/logo/logo.png">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -283,7 +283,7 @@ body { background: var(--bg); font-family: system-ui,-apple-system,'Segoe UI',sa
 
 /* ── Title cell ── */
 .art-title { font-weight: 700; color: var(--dark); line-height: 1.35;
-             display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+             display:-webkit-box; -webkit-line-clamp:2; line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
              max-width: 240px; }
 .art-title a { text-decoration:none; color:inherit; }
 .art-title a:hover { color: var(--pri); }
@@ -382,12 +382,12 @@ body { background: var(--bg); font-family: system-ui,-apple-system,'Segoe UI',sa
     <div class="container">
         <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
             <div>
-                <h1><i class="fas fa-newspaper me-2"></i>Article Manager</h1>
-                <p>Manage News &amp; Media Articles — ATMABISWAS</p>
+                <h1><i class="fas fa-newspaper me-2"></i>Press Manager</h1>
+                <p>ATMABISWAS Press &amp; Media Center — All Press Posts</p>
             </div>
             <div class="d-flex gap-2">
                 <a href="blog_enhanced.php" class="btn btn-light fw-bold btn-sm">
-                    <i class="fas fa-plus"></i> New Article
+                    <i class="fas fa-plus"></i> New Press Post
                 </a>
                 <a href="dashboard.php" class="btn btn-outline-light btn-sm">
                     <i class="fas fa-th-large"></i> Dashboard
@@ -510,11 +510,11 @@ body { background: var(--bg); font-family: system-ui,-apple-system,'Segoe UI',sa
 <?php if (empty($posts)): ?>
     <div class="empty-state">
         <i class="far fa-file-alt"></i>
-        <h6 class="fw-bold"><?= ($search || $status_f || $cat_f) ? 'No results found' : 'No articles yet' ?></h6>
+        <h6 class="fw-bold"><?= ($search || $status_f || $cat_f) ? 'No results found' : 'No press posts yet' ?></h6>
         <?php if ($search || $status_f || $cat_f): ?>
             <a href="blog_manager.php" class="text-primary small">Clear filters</a>
         <?php else: ?>
-            <a href="blog_enhanced.php" class="btn btn-primary btn-sm mt-2"><i class="fas fa-plus"></i> Write first article</a>
+            <a href="blog_enhanced.php" class="btn btn-primary btn-sm mt-2"><i class="fas fa-plus"></i> Publish first press post</a>
         <?php endif; ?>
     </div>
 <?php else: ?>

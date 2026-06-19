@@ -11,7 +11,7 @@ if (!isset($_SESSION['username'])) {
 $db = new Db();
 
 $conn = $db->connect();
-function concatStrings($blog): string
+function concatStrings(string $blog): string
 {
     $display = "";
     $maximumLength = 80;
@@ -144,7 +144,7 @@ try {
                                     </div>
                                     <div class="stat-item">
                                         <span class="stat-number"><?php echo count($blogs); ?></span>
-                                        <span class="stat-label">Blogs</span>
+                                        <span class="stat-label">Press Posts</span>
                                     </div>
                                     <div class="stat-item">
                                         <span class="stat-number"><?php echo count($cvs); ?></span>
@@ -318,10 +318,10 @@ try {
                     <div class="data-section">
                         <div class="section-header">
                             <h2 class="section-title">
-                                <i class="fas fa-blog"></i>
-                                Published Blogs
+                                <i class="fas fa-newspaper"></i>
+                                Published Press Posts
                             </h2>
-                            <p class="section-subtitle">Manage published blog posts</p>
+                            <p class="section-subtitle">Manage published press posts</p>
                         </div>
                         <div class="table-container">
                             <div class="table-wrapper">
@@ -335,8 +335,8 @@ try {
                                     <table class="data-table">
                                         <thead>
                                             <tr>
-                                                <th>Blog ID</th>
-                                                <th>Blog Title</th>
+                                                <th>Press ID</th>
+                                                <th>Press Title</th>
                                                 <th>Author</th>
                                                 <th>Published Date</th>
                                                 <th>Actions</th>
@@ -352,7 +352,7 @@ try {
                                                     </td>
                                                     <td><?php echo htmlspecialchars($blog['upload_date']); ?></td>
                                                     <td>
-                                                        <a onclick="return confirm('Are you sure you want to delete this blog?');"
+                                                        <a onclick="return confirm('Are you sure you want to delete this press post?');"
                                                             href="../deleteblog.php?blog_id=<?php echo $blog['blog_id']; ?>"
                                                             class="btn btn-danger btn-sm">
                                                             <i class="fas fa-trash"></i> Delete

@@ -93,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $sql = "UPDATE blogs SET " . implode(', ', $sets) . " WHERE blog_id=?";
         $pdo->prepare($sql)->execute($values);
 
-        $success = 'Article updated successfully.';
+        $success = 'Press post updated successfully.';
 
         /* Refresh */
         $stmt = $pdo->prepare("SELECT * FROM blogs WHERE blog_id = ?");
@@ -116,7 +116,7 @@ $cat_options = [
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Edit Article — ATMABISWAS Admin</title>
+<title>Edit Press Post — ATMABISWAS Admin</title>
 <link rel="icon" type="image/png" href="../images/logo/logo.png">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -144,7 +144,7 @@ body { background:#f5f7fa; font-family:system-ui,-apple-system,'Segoe UI',sans-s
 <div class="am-header">
     <div class="container">
         <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
-            <h1><i class="fas fa-edit me-2"></i>Edit Article</h1>
+            <h1><i class="fas fa-edit me-2"></i>Edit Press Post</h1>
             <div class="d-flex gap-2">
                 <a href="../../press.php?id=<?= $blog_id ?>" target="_blank" class="btn btn-outline-light btn-sm">
                     <i class="fas fa-eye"></i> Preview
@@ -179,10 +179,10 @@ body { background:#f5f7fa; font-family:system-ui,-apple-system,'Segoe UI',sans-s
 
             <!-- Title -->
             <div class="panel">
-                <div class="panel-title">Article Title</div>
+                <div class="panel-title">Press Title</div>
                 <input type="text" class="form-control" name="blog_title"
                        value="<?= htmlspecialchars($post['blog_title']) ?>"
-                       placeholder="Article title…" required maxlength="255">
+                       placeholder="Press post title…" required maxlength="255">
             </div>
 
             <!-- Summary -->
@@ -201,7 +201,7 @@ body { background:#f5f7fa; font-family:system-ui,-apple-system,'Segoe UI',sans-s
 
             <!-- Content -->
             <div class="panel">
-                <div class="panel-title">Article Content <span class="text-danger">*</span></div>
+                <div class="panel-title">Press Content <span class="text-danger">*</span></div>
                 <div class="toolbar">
                     <button type="button" class="btn btn-sm btn-outline-secondary" onclick="fmt('bold')"><i class="fas fa-bold"></i></button>
                     <button type="button" class="btn btn-sm btn-outline-secondary" onclick="fmt('italic')"><i class="fas fa-italic"></i></button>
@@ -254,7 +254,7 @@ body { background:#f5f7fa; font-family:system-ui,-apple-system,'Segoe UI',sans-s
                            id="featuredCheck" name="featured" value="1"
                            <?= !empty($post['featured']) ? 'checked' : '' ?>>
                     <label class="form-check-label form-label mb-0" for="featuredCheck">
-                        Featured Article
+                        Feature Press Post
                     </label>
                 </div>
                 <?php endif; ?>
@@ -269,7 +269,7 @@ body { background:#f5f7fa; font-family:system-ui,-apple-system,'Segoe UI',sans-s
 
             <!-- Post Info -->
             <div class="panel">
-                <div class="panel-title">Article Info</div>
+                <div class="panel-title">Press Info</div>
                 <div class="small text-muted">
                     <div class="mb-1"><span class="fw-bold">Author:</span> <?= htmlspecialchars($post['blog_author'] ?? '—') ?></div>
                     <div class="mb-1"><span class="fw-bold">Created:</span>

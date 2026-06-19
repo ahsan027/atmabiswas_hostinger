@@ -28,11 +28,11 @@
         </div>
         <a href="blog_enhanced.php" class="nav-item">
             <i class="fas fa-plus-circle"></i>
-            <span>Add New Article</span>
+            <span>Add Press Post</span>
         </a>
         <a href="blog_manager.php" class="nav-item">
             <i class="fas fa-newspaper"></i>
-            <span>All Articles</span>
+            <span>All Press Posts</span>
         </a>
         <a href="../../press.php" class="nav-item" target="_blank">
             <i class="fas fa-external-link-alt"></i>

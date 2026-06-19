@@ -29,7 +29,7 @@ $blogData = $blogStmt->fetch(PDO::FETCH_ASSOC);
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Update Blog Image - ATMABISWAS Admin</title>
+  <title>Update Press Cover Image — ATMABISWAS Admin</title>
   <link rel="icon" type="image/png" href="../images/logo/logo.png">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -55,8 +55,8 @@ $blogData = $blogStmt->fetch(PDO::FETCH_ASSOC);
       <div class="page-header">
         <div class="header-content">
           <div class="header-left">
-            <h1><i class="fas fa-image"></i> Update Blog Image</h1>
-            <p class="page-subtitle">Update the cover image and details for your blog post</p>
+            <h1><i class="fas fa-image"></i> Update Press Cover Image</h1>
+            <p class="page-subtitle">Update the cover image for your press post</p>
           </div>
 
         </div>
@@ -69,11 +69,11 @@ $blogData = $blogStmt->fetch(PDO::FETCH_ASSOC);
           <div class="blog-info-card">
             <div class="blog-info-header">
               <i class="fas fa-newspaper"></i>
-              <h3>Blog Information</h3>
+              <h3>Press Information</h3>
             </div>
             <div class="blog-info-content">
               <div class="info-item">
-                <span class="info-label">Blog ID:</span>
+                <span class="info-label">Press ID:</span>
                 <span class="info-value">#<?= $coverid ?></span>
               </div>
               <?php if ($blogData): ?>
@@ -121,7 +121,7 @@ $blogData = $blogStmt->fetch(PDO::FETCH_ASSOC);
             <div class="form-section">
               <div class="section-header">
                 <i class="fas fa-edit"></i>
-                <h3>Blog Details</h3>
+                <h3>Press Details</h3>
               </div>
 
               <div class="form-group">
@@ -158,7 +158,7 @@ $blogData = $blogStmt->fetch(PDO::FETCH_ASSOC);
             <div class="form-section submit-section">
               <button type="submit" class="btn btn-primary btn-submit">
                 <i class="fas fa-cloud-upload-alt"></i>
-                Update Blog Image
+                Update Press Cover Image
               </button>
 
 

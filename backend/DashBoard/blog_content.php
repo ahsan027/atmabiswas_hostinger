@@ -17,7 +17,7 @@ if ($blog_id) {
     die("Error fetching post: " . $e->getMessage());
   }
 } else {
-  die("Invalid blog ID");
+  die("Invalid press post ID");
 }
 ?>
 

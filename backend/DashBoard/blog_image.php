@@ -13,7 +13,7 @@ $connection = $db->connect();
 $coverid = isset($_GET['id']) && is_numeric($_GET['id']) ? (int) $_GET['id'] : null;
 
 if ($coverid === null) {
-    echo "Invalid blog ID.";
+    echo "Invalid press post ID.";
     exit();
 }
 
@@ -26,7 +26,7 @@ if ($coverid === null) {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Blog Image Upload - ATMABISWAS Admin</title>
+  <title>Press Cover Image Upload — ATMABISWAS Admin</title>
   <link rel="icon" type="image/png" href="../images/logo/logo.png">
   <script src="https://cdn.tailwindcss.com"></script>
 
