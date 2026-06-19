@@ -56,6 +56,7 @@ try {
 <body>
     <?php include 'Navbar.php'; ?>
 
+    <main>
     <!-- Hero -->
     <section class="about-hero">
         <div class="about-hero-inner">
@@ -285,6 +286,7 @@ try {
         </div>
     </section>
 
+    </main>
     <?php include 'footer.php'; ?>
 </body>
 </html>

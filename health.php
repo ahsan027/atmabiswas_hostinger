@@ -19,6 +19,7 @@
 <body>
     <?php include 'Navbar.php'; ?>
 
+    <main>
     <section class="page-hero">
         <div class="page-hero-inner">
             <h1>ATMABISWAS: Empowering Health &amp; Nutrition</h1>
@@ -116,6 +117,7 @@
 
     </div>
 
+    </main>
     <?php include 'footer.php' ?>
 </body>
 </html>

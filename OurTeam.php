@@ -115,6 +115,7 @@
 
 <body>
   <?php include 'Navbar.php'; ?>
+  <main>
   <div class="container">
     <h1>Our Team</h1>
     <h2>Senior Management</h2>
@@ -165,6 +166,7 @@
       </div>
     </section>
   </div>
+  </main>
   <?php include 'footer.php'; ?>
 </body>
 

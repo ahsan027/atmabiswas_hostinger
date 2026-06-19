@@ -230,16 +230,24 @@ $article_url = $current_article
     <?php include 'seo.php'; ?>
     <?php endif; ?>
     <link rel="icon" type="image/png" href="LOGO/NGO_logo_monogram.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="css/navbar.css?v=<?= filemtime(__DIR__.'/css/navbar.css') ?>">
     <link rel="stylesheet" href="css/menutoggle.css?v=<?= filemtime(__DIR__.'/css/menutoggle.css') ?>">
     <link rel="stylesheet" href="css/sidebar.css?v=<?= filemtime(__DIR__.'/css/sidebar.css') ?>">
     <link rel="stylesheet" href="press.css?v=<?= filemtime(__DIR__.'/press.css') ?>">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EZVV9DWWY7"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-EZVV9DWWY7');
+    </script>
 </head>
 <body>
 
 <?php include 'Navbar.php'; ?>
 
+<main>
 <?php if ($current_article):
 /* ═══════════════════════════════════════════════════════════════
    ARTICLE VIEW
@@ -643,6 +651,7 @@ function copyArticleLink() {
 </div>
 <?php endif; ?>
 
+</main>
 <?php include 'footer.php'; ?>
 </body>
 </html>

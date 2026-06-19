@@ -19,6 +19,7 @@
 <body>
     <?php include 'Navbar.php' ?>
 
+    <main>
     <section class="page-hero">
         <div class="page-hero-inner">
             <h1>Ready To Eat – ATMABISWAS</h1>
@@ -123,6 +124,7 @@
         </section>
     </div>
 
+    </main>
     <?php include 'footer.php' ?>
 </body>
 </html>

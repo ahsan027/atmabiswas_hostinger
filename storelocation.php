@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Branch Locations - ATMABISWAS Bangladesh</title>
+    <title>Branch Locations – ATMABISWAS (আত্মবিশ্বাস) Bangladesh</title>
     <link rel="icon" type="image/png" href="LOGO/NGO_logo_monogram.png">
     <?php include 'seo.php'; ?>
     <style>
@@ -13,6 +13,7 @@
             padding: 0;
             background-color: #f9f9f9;
             min-height: 100vh;
+            overflow-x: hidden;
         }
         .page-title {
             text-align: center;
@@ -79,10 +80,24 @@
                 height: 400px;
             }
         }
+        @media (max-width: 480px) {
+            .page-title { padding: 14px; }
+            .page-title h1 { font-size: 1.35rem; }
+            .store-list { padding: 14px; }
+            .store-item { padding: 12px; }
+            #map { height: 300px; }
+        }
+        @media (max-width: 380px) {
+            .page-title h1 { font-size: 1.15rem; }
+            .store-item h3 { font-size: 16px; }
+            .store-item p { font-size: 13px; }
+            #map { height: 260px; }
+        }
     </style>
 </head>
 <body>
     <?php include 'Navbar.php'; ?>
+    <main>
     <div class="page-title">
         <h1>Branch Locations</h1>
     </div>
@@ -146,6 +161,7 @@
         }
     </script>
     <script async defer src="https://maps.gomaps.pro/maps/api/js?key=AlzaSy0QJPP-rfRIayVVb2TT8I1Zc8XOqYFcN9h&callback=initMap"></script>
+    </main>
     <?php include 'footer.php'; ?>
 </body>
 </html>

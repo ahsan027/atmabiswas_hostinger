@@ -19,6 +19,7 @@
 <body>
     <?php include 'Navbar.php' ?>
 
+    <main>
     <section class="page-hero">
         <div class="page-hero-inner">
             <h1>Advancing Green Energy for a Sustainable Future</h1>
@@ -68,6 +69,7 @@
         </div>
     </div>
 
+    </main>
     <?php include 'footer.php' ?>
 </body>
 </html>

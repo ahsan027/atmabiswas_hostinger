@@ -136,6 +136,9 @@ $_d = $_seo_data[$_seo_page] ?? [
     'canonical'   => 'https://atmabiswas.org/',
 ];
 ?>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com">
+<link rel="preconnect" href="https://www.googletagmanager.com">
+<link rel="dns-prefetch" href="https://www.google-analytics.com">
 <meta name="description" content="<?= htmlspecialchars($_d['description']) ?>">
 <meta name="keywords" content="<?= htmlspecialchars($_d['keywords']) ?>">
 <meta name="robots" content="index, follow">

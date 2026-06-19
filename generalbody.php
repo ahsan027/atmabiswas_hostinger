@@ -19,6 +19,7 @@
 <body>
     <?php include 'Navbar.php'; ?>
 
+    <main>
     <section class="page-hero">
         <div class="page-hero-inner">
             <h1>Executive Committee of ATMABISWAS NGO</h1>
@@ -201,6 +202,7 @@
         </div>
     </div>
 
+    </main>
     <?php include 'footer.php' ?>
 </body>
 </html>

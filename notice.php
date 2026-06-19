@@ -30,6 +30,7 @@ $pdfs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <body>
     <?php include 'Navbar.php'; ?>
 
+    <main>
     <section class="notice-hero">
         <div class="notice-hero-inner">
             <div class="notice-hero-icon">
@@ -72,6 +73,7 @@ $pdfs = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php endif; ?>
     </div>
 
+    </main>
     <?php include 'footer.php'; ?>
 </body>
 </html>

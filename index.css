@@ -228,3 +228,72 @@ body {
   .sectionalparts p,
   .sectionalpartsnew p { font-size: 0.9rem; }
 }
+
+/* ── Join With Us ───────────────────────────────────── */
+.join-family {
+  text-align: center;
+  padding: 50px 20px;
+  font-family: Arial, sans-serif;
+}
+
+.join-family h2 {
+  font-size: 2em;
+  font-weight: bold;
+  color: #0073e6;
+  margin-bottom: 40px;
+}
+
+.family-options {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+
+.family-options a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  gap: 0.5rem;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.option:hover {
+  transform: scale(1.1);
+}
+
+.option img {
+  width: 60px;
+  height: auto;
+}
+
+.option i {
+  font-size: 2rem;
+  color: #0073e6;
+}
+
+.option p {
+  font-size: 1.2em;
+  color: #666;
+}
+
+@media (max-width: 768px) {
+  .family-options {
+    flex-direction: column;
+    gap: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .join-family { padding: 36px 16px; }
+  .join-family h2 { font-size: 1.5em; margin-bottom: 28px; }
+}

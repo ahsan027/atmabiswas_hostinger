@@ -13,10 +13,9 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact ATMABISWAS - Get in Touch</title>
+    <title>Contact ATMABISWAS (আত্মবিশ্বাস) – Chuadanga, Bangladesh</title>
     <?php include 'seo.php'; ?>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <link rel="icon" type="image/png" href="LOGO/NGO_logo_monogram.png">
     <link rel="stylesheet" href="locations.css">
 </head>
@@ -24,6 +23,7 @@
 <body>
     <?php include 'Navbar.php' ?>
 
+    <main>
     <!-- Hero -->
     <div class="ct-hero">
         <i class="fas fa-hands-helping ct-hero-icon"></i>
@@ -178,6 +178,7 @@
 
     </div><!-- /.ct-wrapper -->
 
+    </main>
     <?php include 'footer.php' ?>
 
     <script src="locations.js?v=<?= filemtime(__DIR__ . '/locations.js') ?>"></script>
