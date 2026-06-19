@@ -38,6 +38,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $invalid = "Your account has been disabled. Contact Head Office IT.";
 
+        } elseif (!empty($user['is_suspended'])) {
+
+            $invalid = "Your account has been suspended. Contact Head IT.";
+
         } else {
 
             $_SESSION['username'] = $user['fullname'];

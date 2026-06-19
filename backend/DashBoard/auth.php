@@ -75,6 +75,34 @@ function myRoleLevel(): int {
     return (int)($_SESSION['role_level'] ?? 0);
 }
 
+/* ── Can current admin suspend a specific user? ──────────────────── */
+function canSuspendUser(int $target_admin_id): bool {
+    if (!isset($_SESSION['admin_id'])) return false;
+    if (!can('user.suspend')) return false;
+    // Cannot suspend self
+    if ($target_admin_id === (int)$_SESSION['admin_id']) return false;
+
+    try {
+        require_once __DIR__ . '/../Database/db.php';
+        $pdo  = (new Db())->connect();
+        $stmt = $pdo->prepare("
+            SELECT a.is_owner, a.is_protected, COALESCE(r.role_level, 0) AS role_level
+            FROM admins a
+            LEFT JOIN roles r ON a.role_id = r.id
+            WHERE a.adminId = ?
+        ");
+        $stmt->execute([$target_admin_id]);
+        $target = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$target) return false;
+        // Owner and protected accounts are immune — cannot be suspended by anyone
+        if ($target['is_owner'] || $target['is_protected']) return false;
+        // Strict hierarchy: my level must be greater than target's level
+        return myRoleLevel() > (int)$target['role_level'];
+    } catch (Exception) {
+        return false;
+    }
+}
+
 /* ── Log a permission change ─────────────────────────────────────── */
 function logPermissionChange(int $target_id, string $action, ?string $old, ?string $new): void {
     try {

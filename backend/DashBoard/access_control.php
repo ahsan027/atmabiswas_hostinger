@@ -123,6 +123,9 @@ body { background:#f5f9ff; font-family:system-ui,-apple-system,'Segoe UI',sans-s
         <button class="tab-btn" onclick="showTab('audit')">
             <i class="fas fa-history me-1"></i>Audit Log
         </button>
+        <button class="tab-btn" onclick="showTab('suspensions')">
+            <i class="fas fa-ban me-1"></i>Suspensions
+        </button>
     </div>
 
     <!-- Tab: Users -->
@@ -267,6 +270,113 @@ body { background:#f5f9ff; font-family:system-ui,-apple-system,'Segoe UI',sans-s
         </div>
     </div>
 
+    <!-- Tab: Suspensions -->
+    <div id="tab-suspensions" style="display:none;">
+        <?php
+        $suspended = $pdo->query("
+            SELECT a.adminId, a.fullname, a.email, a.is_suspended,
+                   a.suspended_at, a.suspension_reason,
+                   b.fullname AS suspended_by_name,
+                   r.name AS role_name
+            FROM admins a
+            LEFT JOIN admins b ON b.adminId = a.suspended_by
+            LEFT JOIN roles r ON r.id = a.role_id
+            WHERE a.is_suspended = 1
+            ORDER BY a.suspended_at DESC
+        ")->fetchAll(PDO::FETCH_ASSOC);
+
+        $sus_log = $pdo->query("
+            SELECT pal.*, a1.fullname AS changed_by_name, a2.fullname AS target_name
+            FROM permission_audit_log pal
+            LEFT JOIN admins a1 ON a1.adminId = pal.changed_by
+            LEFT JOIN admins a2 ON a2.adminId = pal.target_admin_id
+            WHERE pal.action IN ('suspend_user','unsuspend_user')
+            ORDER BY pal.created_at DESC
+            LIMIT 100
+        ")->fetchAll(PDO::FETCH_ASSOC);
+        ?>
+
+        <?php if (!empty($suspended)): ?>
+        <div class="panel mb-3">
+            <div class="panel-title">Currently Suspended (<?= count($suspended) ?>)</div>
+            <?php foreach ($suspended as $s): ?>
+            <div class="user-row">
+                <div class="user-avatar" style="background:#fee2e2;color:#b91c1c;">
+                    <?= strtoupper(substr($s['fullname'], 0, 1)) ?>
+                </div>
+                <div class="user-info">
+                    <div class="user-name"><?= htmlspecialchars($s['fullname']) ?></div>
+                    <div class="user-email"><?= htmlspecialchars($s['email']) ?></div>
+                </div>
+                <div class="text-center d-none d-md-block" style="min-width:120px;">
+                    <?php if ($s['role_name']): ?>
+                    <span class="role-badge"><?= htmlspecialchars($s['role_name']) ?></span>
+                    <?php endif; ?>
+                </div>
+                <div style="font-size:.78rem;color:#b91c1c;min-width:140px;">
+                    <div><i class="fas fa-ban me-1"></i>Suspended <?= $s['suspended_at'] ? date('M j, Y', strtotime($s['suspended_at'])) : '—' ?></div>
+                    <?php if ($s['suspended_by_name']): ?>
+                    <div>by <strong><?= htmlspecialchars($s['suspended_by_name']) ?></strong></div>
+                    <?php endif; ?>
+                    <?php if ($s['suspension_reason']): ?>
+                    <div style="color:#6b7280;">"<?= htmlspecialchars($s['suspension_reason']) ?>"</div>
+                    <?php endif; ?>
+                </div>
+                <div>
+                    <?php if (can('user.suspend') && canSuspendUser((int)$s['adminId'])): ?>
+                    <form method="POST" action="manageAdmins.php" style="display:inline;">
+                        <input type="hidden" name="action" value="unsuspend">
+                        <input type="hidden" name="admin_id" value="<?= $s['adminId'] ?>">
+                        <button type="submit" class="btn btn-sm" style="background:#dcfce7;color:#166534;border:1px solid #86efac;font-size:.75rem;">
+                            <i class="fas fa-check-circle"></i> Activate
+                        </button>
+                    </form>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <?php endforeach; ?>
+        </div>
+        <?php else: ?>
+        <div class="panel text-center text-muted py-3 mb-3">
+            <i class="fas fa-check-circle fa-2x mb-2 d-block" style="color:#16a34a;opacity:.5;"></i>
+            No accounts are currently suspended.
+        </div>
+        <?php endif; ?>
+
+        <div class="panel">
+            <div class="panel-title">Suspension Audit History</div>
+            <?php if (empty($sus_log)): ?>
+            <div class="text-muted text-center py-3">No suspension history yet.</div>
+            <?php else: ?>
+            <div class="table-responsive">
+            <table class="table table-sm" style="font-size:.8rem;">
+                <thead>
+                    <tr><th>When</th><th>Action</th><th>By</th><th>Target</th><th>Detail</th><th>IP</th></tr>
+                </thead>
+                <tbody>
+                <?php foreach ($sus_log as $row): ?>
+                <tr>
+                    <td class="text-muted"><?= date('M j, H:i', strtotime($row['created_at'])) ?></td>
+                    <td>
+                        <?php if ($row['action'] === 'suspend_user'): ?>
+                        <span style="color:#b91c1c;font-weight:700;font-size:.72rem;"><i class="fas fa-ban"></i> Suspended</span>
+                        <?php else: ?>
+                        <span style="color:#16a34a;font-weight:700;font-size:.72rem;"><i class="fas fa-check-circle"></i> Activated</span>
+                        <?php endif; ?>
+                    </td>
+                    <td><?= htmlspecialchars($row['changed_by_name'] ?? '—') ?></td>
+                    <td><?= htmlspecialchars($row['target_name'] ?? '—') ?></td>
+                    <td class="text-muted"><?= htmlspecialchars($row['new_value'] ?? '—') ?></td>
+                    <td class="text-muted"><?= htmlspecialchars($row['ip_address'] ?? '—') ?></td>
+                </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+            </div>
+            <?php endif; ?>
+        </div>
+    </div>
+
 </div><!-- /container -->
     </div><!-- /main-content -->
 </div>
@@ -274,11 +384,11 @@ body { background:#f5f9ff; font-family:system-ui,-apple-system,'Segoe UI',sans-s
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 function showTab(name) {
-    ['users','roles','audit'].forEach(t => {
+    ['users','roles','audit','suspensions'].forEach(t => {
         document.getElementById('tab-' + t).style.display = t === name ? '' : 'none';
     });
     document.querySelectorAll('.tab-btn').forEach((btn, i) => {
-        btn.classList.toggle('active', ['users','roles','audit'][i] === name);
+        btn.classList.toggle('active', ['users','roles','audit','suspensions'][i] === name);
     });
 }
 </script>
