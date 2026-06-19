@@ -28,8 +28,9 @@
             box-sizing: border-box;
         }
         body {
+        font-family: "Times New Roman", Times, serif;
         background-color: #e6f2ff;
-        overflow-x:hidden ; 
+        overflow-x: hidden;
         }
 
 
@@ -283,8 +284,6 @@
             </div>
         </div>
 
-
-        </div> 
         <!-- Other Events -->
         <div class="segment">
             <h2>Other Program </h2>

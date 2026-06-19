@@ -23,6 +23,7 @@
         }
 
         html, body {
+            font-family: "Times New Roman", Times, serif;
             width: 100%;
             overflow-x: hidden;
             background: #f5f7fa;

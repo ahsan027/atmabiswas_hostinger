@@ -26,6 +26,7 @@
         }
 
         body {
+            font-family: "Times New Roman", Times, serif;
             background-color: #e3f2fd;
             color: #333;
             overflow-x: hidden;
@@ -83,7 +84,7 @@
         .founder-details {
             flex: 2;
             padding: 50px;
-            background: paperwhite;
+            background: #fffef5;
             border-radius: 0 25px 25px 0;
         }
 

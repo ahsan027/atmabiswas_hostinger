@@ -24,7 +24,7 @@
     }
 
     body {
-
+        font-family: "Times New Roman", Times, serif;
         background-color: #f3f4f6;
         color: #333;
         overflow-x: hidden;

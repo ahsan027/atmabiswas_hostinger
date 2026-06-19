@@ -24,10 +24,9 @@
     }
 
     body {
-
+      font-family: "Times New Roman", Times, serif;
       background-color: #f4f9ff;
       overflow-x: hidden;
-
     }
 
     .container {

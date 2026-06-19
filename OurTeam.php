@@ -9,7 +9,7 @@
   <?php include 'seo.php'; ?>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: "Times New Roman", Times, serif;
       margin: 0;
       padding: 0;
       background-color: #f4f4f4;
@@ -128,7 +128,7 @@
       </div>
       <div class="profile">
         <img src="https://t4.ftcdn.net/jpg/07/08/47/75/360_F_708477508_DNkzRIsNFgibgCJ6KoTgJjjRZNJD4mb4.jpg" alt="Syed Mahfuzul Aziz">
-        <div="text">
+        <div class="text">
           <h2>Professor Syed Mahfuzul Aziz, PhD</h2>
           <p>Pro Vice-Chancellor, BRAC University</p>
         </div>
