@@ -43,9 +43,7 @@
             </div>
             <div class="number-card">
                 <div class="number-icon"><i class="fas fa-hands-helping"></i></div>
-                <div class="newDivDiv">
-                    <h2 id="number2">0</h2><span class="number-suffix">K</span>
-                </div>
+                <h2 id="number2">0</h2>
                 <p>Served Clients</p>
             </div>
             <div class="number-card">

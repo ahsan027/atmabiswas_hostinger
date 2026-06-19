@@ -9,9 +9,9 @@ document.addEventListener("DOMContentLoaded", function () {
   fetch("/backend/getBranchNumber.php").then(res=>res.json()).then(data=>{
    
     const counters = [
-    { id: "number1", end: 1500, duration: 7000 },
-    { id: "number2", end: "100", duration: 5500 },
-    { id: "number3", end: data.value, duration: 4000 },
+    { id: "number1", end: 1500,              duration: 7000 },
+    { id: "number2", end: 100,  suffix: "K", duration: 5500 },
+    { id: "number3", end: data.value,         duration: 4000 },
     { id: "number4", end: currentYear - 1994, duration: 4000 },
   ];
 
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
       );
       document.getElementById(counter.id).innerText = Math.floor(
         progress * counter.end
-      );
+      ) + (counter.suffix || "");
       if (progress < 1) {
         window.requestAnimationFrame(step);
       }
