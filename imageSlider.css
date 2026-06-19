@@ -114,3 +114,8 @@
         padding: 0;
     }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .slider .list { transition: none; }
+  .slider .buttons button, .dots span { transition: none; }
+}

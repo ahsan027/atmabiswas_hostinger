@@ -222,3 +222,7 @@ body {
   .notice-hero h1 { font-size: 1.15rem; }
   .notice-hero { padding: 36px 16px 30px; }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .card-link, .card-badge { transition: none; }
+}

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Social Development Programs - ATMABISWAS Bangladesh</title>
+    <title>Social Development Programs – ATMABISWAS (আত্মবিশ্বাস) Bangladesh</title>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EZVV9DWWY7"></script>
     <script>

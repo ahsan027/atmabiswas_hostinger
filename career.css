@@ -263,7 +263,13 @@ main i,
 
 @media (prefers-reduced-motion: reduce) {
   .counter-animation { animation: none; }
-  .job-card, .sector-card, .hero .search { transition: none; }
+  .job-card, .sector-card, .hero .search, .slide { transition: none; }
+}
+
+@media (max-width: 768px) {
+  .slide-content  { backdrop-filter: none; }
+  .nav-btn        { backdrop-filter: none; }
+  .hero .overlay  { backdrop-filter: none; }
 }
 
 .hero .overlay .rightSide .search,

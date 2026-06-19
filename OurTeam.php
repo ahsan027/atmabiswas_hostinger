@@ -2,9 +2,17 @@
 <html lang="en">
 
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EZVV9DWWY7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-EZVV9DWWY7');
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Our Team - ATMABISWAS</title>
+  <title>Our Team – ATMABISWAS (আত্মবিশ্বাস) Bangladesh NGO</title>
   <link rel="icon" type="image/png" href="LOGO/NGO_logo_monogram.png">
   <?php include 'seo.php'; ?>
   <style>
@@ -14,6 +22,7 @@
       padding: 0;
       background-color: #f4f4f4;
       color: #333;
+      overflow-x: hidden;
     }
 
     .container {
@@ -24,7 +33,7 @@
 
     .profile-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
       gap: 20px;
     }
 
@@ -35,6 +44,7 @@
       background-color: #fff;
       text-align: center;
       transition: box-shadow 0.3s ease;
+      margin-bottom: 20px;
     }
 
     .profile:hover {
@@ -43,9 +53,9 @@
 
     .profile img {
       border-radius: 15px;
-      /* Adjust the radius value for more or less rounded corners */
-      width: 300px;
-      height: 300px;
+      width: 100%;
+      max-width: 300px;
+      height: 240px;
       object-fit: cover;
     }
 
@@ -53,63 +63,60 @@
       font-size: 1.2em;
       margin: 10px 0;
       color: #005B96;
-      margin-right: 3px;
-    }
-
-    .profile-row .profile {
-      margin-bottom: 20px;
-      /* Add this line for gap between rows */
-    }
-
-    .profile {
-      margin-bottom: 20px;
-      /* Add this line for gap between divs */
     }
 
     .profile p {
       font-size: 1em;
       color: #0077C2;
-      margin-right: 3px;
     }
 
     .profile-row {
       display: flex;
       flex-direction: column;
+      gap: 20px;
     }
 
     .profile-row .profile {
       display: flex;
       align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
     }
 
     .profile-row .profile img {
-      margin-right: 20px;
+      flex-shrink: 0;
+      width: min(240px, 100%);
+      height: 200px;
     }
 
     .profile-row .profile:nth-child(2) {
       flex-direction: row-reverse;
     }
 
-    /* Responsive styling */
-    @media (max-width: 1024px) {
-      .profile-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
     @media (max-width: 768px) {
-      .profile-grid {
-        grid-template-columns: 1fr;
+      .profile-row .profile {
+        flex-direction: column !important;
+        align-items: center;
+      }
+
+      .profile-row .profile img {
+        width: 150px;
+        height: 150px;
       }
 
       .profile img {
-        width: 150px;
-        height: 150px;
-
+        height: 180px;
       }
     }
 
+    @media (max-width: 480px) {
+      .container { padding: 12px; }
+      .profile { padding: 14px; }
+    }
 
+    @media (prefers-reduced-motion: reduce) {
+      .profile { transition: none; }
+    }
   </style>
 </head>
 

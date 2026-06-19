@@ -207,6 +207,13 @@
   transform: translateY(-3px);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .footer-list li a,
+  .footer-map,
+  .footer-social a,
+  #back-to-top { transition: none; transform: none !important; }
+}
+
 /* ── Responsive ─────────────────────────────── */
 @media (max-width: 1024px) {
   .footer-inner {

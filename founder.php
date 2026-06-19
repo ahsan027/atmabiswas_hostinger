@@ -11,7 +11,7 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Founder - ATMABISWAS Bangladesh NGO</title>
+    <title>Our Founder – ATMABISWAS (আত্মবিশ্বাস) Bangladesh NGO</title>
     <?php include 'seo.php'; ?>
     <link rel="icon" type="image/png" href="LOGO/NGO_logo_monogram.png">
     <link rel="stylesheet" href="pages.css">

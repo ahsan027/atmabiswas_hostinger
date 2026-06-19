@@ -839,3 +839,18 @@ img { max-width: 100%; height: auto; }
   .founder-details h2 { font-size: 1.4rem; }
   .profile-grid    { grid-template-columns: 1fr 1fr; }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .card-link,
+  .service-card,
+  .video-card,
+  .segment,
+  .section,
+  .executive-card,
+  .profile,
+  .ab-icon-grid li,
+  .gallery img,
+  .pic img,
+  .work-video-card { transition: none; transform: none !important; }
+}
