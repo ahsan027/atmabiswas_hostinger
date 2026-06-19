@@ -50,6 +50,13 @@
             <i class="fas fa-user-shield"></i>
             <span>Change Credentials</span>
         </a>
+        <div style="padding:.5rem 1.5rem;font-size:.7rem;text-transform:uppercase;letter-spacing:1px;opacity:.6;margin-top:.5rem;">
+            Page Content
+        </div>
+        <a href="about_us_editor.php" class="nav-item">
+            <i class="fas fa-pen-to-square"></i>
+            <span>About Us Editor</span>
+        </a>
         <div style="padding:0.5rem 1.5rem;font-size:0.7rem;text-transform:uppercase;letter-spacing:1px;opacity:0.6;margin-top:0.5rem;">
             Contact Management
         </div>

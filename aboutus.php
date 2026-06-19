@@ -1,25 +1,39 @@
 <?php
-// ╔══════════════════════════════════════════════════════════════════╗
-// ║           EDITABLE CONTENT — About Us Page                      ║
-// ║  Change the values below to update images and text.             ║
-// ║  Do NOT touch the HTML further down the page.                   ║
-// ╚══════════════════════════════════════════════════════════════════╝
+// ── Load editable content from the database ───────────────────────
+// Fallback values are used if the DB table doesn't exist yet.
+// To set up the table run: backend/Database/about_us_migration.sql
 
-// ── About Us Section ───────────────────────────────────────────────
-$about_image     = 'office_pic/office_pic.jpg';   // ← path to photo
+$about_image     = 'office_pic/office_pic.jpg';
 $about_image_alt = 'ATMABISWAS Office';
 $about_text      = 'ATMABISWAS is a non-governmental, non-profit, voluntary, and development-focused organization committed to creating meaningful social change and fostering sustainable development. Established in January 1991 under the Department of Social Welfare, ATMABISWAS has dedicated over three decades to empowering communities across Bangladesh. The organization primarily focuses on serving the disadvantaged populations, striving to uplift their living standards and enhance their access to essential resources and opportunities.
 
 Since its inception, ATMABISWAS has worked tirelessly to support marginalized individuals and communities, with an initial emphasis on the district of Chuadanga. Through a range of social welfare programs, development projects, and micro-credit initiatives, the organization has impacted thousands of lives, enabling beneficiaries to break the cycle of poverty and build a better future.';
 
-// ── Our Team Section ───────────────────────────────────────────────
-$team_image      = 'office_pic/00000.jpg';        // ← path to photo
+$team_image      = 'office_pic/00000.jpg';
 $team_image_alt  = 'ATMABISWAS Team with PKSF';
 $team_text       = 'Our team consists of dedicated professionals who are passionate about making a difference. We collaborate to create a positive impact and support each other in our mission to empower communities and foster sustainable development.
 
 Our team members come from diverse backgrounds, bringing a wealth of experience and expertise to the organization. We are united by our shared commitment to social justice, equality, and sustainable development. Each member of our team plays a crucial role in driving our mission forward — from field workers to administrative staff, project managers, and volunteers. Together, we strive to create a positive and lasting impact on the communities we serve.';
 
-// ══════════════════════════════════════════════════════════════════
+try {
+    require_once 'backend/Database/db.php';
+    $db   = new Db();
+    $conn = $db->connect();
+    $stmt = $conn->query("SELECT section_key, image_path, image_alt, text_content FROM about_us_content");
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        if ($row['section_key'] === 'about_us') {
+            if ($row['image_path']) $about_image     = $row['image_path'];
+            if ($row['image_alt'])  $about_image_alt = $row['image_alt'];
+            if ($row['text_content']) $about_text    = $row['text_content'];
+        } elseif ($row['section_key'] === 'our_team') {
+            if ($row['image_path']) $team_image     = $row['image_path'];
+            if ($row['image_alt'])  $team_image_alt = $row['image_alt'];
+            if ($row['text_content']) $team_text    = $row['text_content'];
+        }
+    }
+} catch (Exception $e) {
+    // DB unavailable or table not yet created — fallback values remain active
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
