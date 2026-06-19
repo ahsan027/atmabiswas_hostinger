@@ -1,9 +1,11 @@
 /* ═══════════════════════════════════════════════
    ATMABISWAS Contact Page — locations.css
+   Browser-compatible: Chrome 49+, Firefox 52+,
+   Safari 10+, Edge 16+, iOS Safari 10+
    ═══════════════════════════════════════════════ */
 
 /* ── Reset & Base ───────────────────────────── */
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+*, *::before, *::after { margin: 0; padding: 0; -webkit-box-sizing: border-box; box-sizing: border-box; }
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -14,6 +16,8 @@ body {
 
 /* ── Page Hero ──────────────────────────────── */
 .ct-hero {
+    background: #1e3a5f;
+    background: -webkit-linear-gradient(315deg, #1e3a5f 0%, #0073e6 100%);
     background: linear-gradient(135deg, #1e3a5f 0%, #0073e6 100%);
     color: #fff;
     text-align: center;
@@ -25,7 +29,7 @@ body {
 .ct-hero::before {
     content: '';
     position: absolute;
-    inset: 0;
+    top: 0; right: 0; bottom: 0; left: 0;
     background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
     pointer-events: none;
 }
@@ -58,15 +62,23 @@ body {
     width: 100%;
     margin: 2rem auto 3.5rem;
     padding: 0 1.5rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
-    gap: 1rem;
 }
+
+/* gap replacement: margin between sibling sections */
+.ct-section + .ct-section { margin-top: 1rem; }
 
 /* ── Section Card ───────────────────────────── */
 .ct-section {
     background: #fff;
     border-radius: 14px;
+    -webkit-box-shadow: 0 2px 16px rgba(0,0,0,.07);
     box-shadow: 0 2px 16px rgba(0,0,0,.07);
     overflow: hidden;
 }
@@ -74,8 +86,14 @@ body {
 /* ── Accordion Toggle ───────────────────────── */
 .ct-toggle {
     width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
     justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     padding: 1.15rem 1.6rem;
     background: #fff;
@@ -88,6 +106,7 @@ body {
     letter-spacing: .02em;
     text-align: left;
     border-bottom: 2px solid transparent;
+    -webkit-transition: background .2s, border-color .2s, color .2s;
     transition: background .2s, border-color .2s, color .2s;
 }
 
@@ -100,27 +119,38 @@ body {
 }
 
 .ct-toggle-left {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
-    gap: .75rem;
 }
+
+/* gap replacement */
+.ct-toggle-left i { margin-right: .75rem; }
 
 .ct-toggle-left i {
     font-size: .95rem;
     color: #0073e6;
     width: 20px;
     text-align: center;
+    -ms-flex-negative: 0;
     flex-shrink: 0;
 }
 
 .ct-chevron {
     color: #9ca3af;
     font-size: .9rem;
+    -webkit-transition: -webkit-transform .3s ease, color .2s;
     transition: transform .3s ease, color .2s;
+    -ms-flex-negative: 0;
     flex-shrink: 0;
 }
 
 .ct-toggle.ct-open .ct-chevron {
+    -webkit-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
     transform: rotate(180deg);
     color: #0073e6;
 }
@@ -136,9 +166,14 @@ body {
 .ct-reg-panel.active,
 .ct-br-panel.active {
     display: block;
+    -webkit-animation: ct-fadein .3s ease;
     animation: ct-fadein .3s ease;
 }
 
+@-webkit-keyframes ct-fadein {
+    from { opacity: 0; -webkit-transform: translateY(8px); transform: translateY(8px); }
+    to   { opacity: 1; -webkit-transform: translateY(0);   transform: translateY(0); }
+}
 @keyframes ct-fadein {
     from { opacity: 0; transform: translateY(8px); }
     to   { opacity: 1; transform: translateY(0); }
@@ -146,12 +181,19 @@ body {
 
 /* ── HQ & Liaison — two-column grid ────────── */
 .ct-office-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
 }
 
 .ct-office {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 50%;
+    flex: 1 1 50%;
     padding: 2rem;
+    min-width: 0;
 }
 
 .ct-office:first-child {
@@ -159,13 +201,19 @@ body {
 }
 
 .ct-office-heading {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
-    gap: .6rem;
     padding-bottom: .85rem;
     margin-bottom: 1.25rem;
     border-bottom: 2px solid #0073e6;
 }
+
+/* gap replacement */
+.ct-office-heading i { margin-right: .6rem; }
 
 .ct-office-heading i {
     font-size: 1.1rem;
@@ -181,24 +229,38 @@ body {
 /* Info list */
 .ct-info-list {
     list-style: none;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
-    gap: .7rem;
     margin-bottom: 1.4rem;
 }
 
+/* gap replacement */
+.ct-info-list li + li { margin-top: .7rem; }
+
 .ct-info-list li {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
     align-items: flex-start;
-    gap: .75rem;
     font-size: .95rem;
     color: #374151;
     line-height: 1.55;
 }
 
+/* gap replacement */
+.ct-info-list li i { margin-right: .75rem; }
+
 .ct-info-list li i {
     color: #0073e6;
     width: 16px;
+    -ms-flex-negative: 0;
     flex-shrink: 0;
     margin-top: 3px;
 }
@@ -212,9 +274,12 @@ body {
 
 /* "Other Branches" button */
 .ct-branch-btn {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
     display: inline-flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
-    gap: .45rem;
     background: #0073e6;
     color: #fff;
     padding: .55rem 1.15rem;
@@ -223,11 +288,17 @@ body {
     font-weight: 600;
     text-decoration: none;
     margin-bottom: 1.4rem;
+    -webkit-transition: background .2s, -webkit-transform .15s;
     transition: background .2s, transform .15s;
 }
 
+/* gap replacement */
+.ct-branch-btn i { margin-right: .45rem; }
+
 .ct-branch-btn:hover {
     background: #005bb5;
+    -webkit-transform: translateY(-1px);
+    -ms-transform: translateY(-1px);
     transform: translateY(-1px);
 }
 
@@ -294,10 +365,14 @@ body {
 
 /* ── Division Filter ─────────────────────────── */
 .ct-filter {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
-    gap: 1rem;
     margin-bottom: 1.25rem;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
     padding: 1rem 1.1rem;
     background: #f8fafc;
@@ -305,15 +380,26 @@ body {
     border: 1px solid #e5e7eb;
 }
 
+/* gap replacement */
+.ct-filter > * { margin-right: 1rem; margin-bottom: .5rem; }
+.ct-filter > *:last-child { margin-right: 0; }
+
 .ct-filter label {
     font-size: .88rem;
     font-weight: 700;
     color: #1e3a5f;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
-    gap: .4rem;
     white-space: nowrap;
+    margin-bottom: 0;
 }
+
+/* gap replacement */
+.ct-filter label i { margin-right: .4rem; }
 
 .ct-filter label i { color: #0073e6; }
 
@@ -327,13 +413,16 @@ body {
     background: #fff;
     cursor: pointer;
     outline: none;
+    -webkit-transition: border-color .2s, -webkit-box-shadow .2s;
     transition: border-color .2s, box-shadow .2s;
     min-width: 200px;
+    margin-bottom: 0;
 }
 
 #divisionSelect:hover,
 #divisionSelect:focus {
     border-color: #0073e6;
+    -webkit-box-shadow: 0 0 0 3px rgba(0,115,230,.1);
     box-shadow: 0 0 0 3px rgba(0,115,230,.1);
 }
 
@@ -349,10 +438,12 @@ body {
     .ct-hero p { font-size: .9rem; }
     .ct-hero-icon { font-size: 2.2rem; }
 
-    .ct-wrapper { padding: 0 1rem; gap: .75rem; }
+    .ct-wrapper { padding: 0 1rem; }
+    .ct-section + .ct-section { margin-top: .75rem; }
     .ct-toggle { padding: 1rem 1.25rem; font-size: .95rem; }
 
-    .ct-office-grid { grid-template-columns: 1fr; }
+    .ct-office-grid { -ms-flex-wrap: wrap; flex-wrap: wrap; }
+    .ct-office { -webkit-box-flex: 1; -ms-flex: 1 1 100%; flex: 1 1 100%; }
     .ct-office:first-child { border-right: none; border-bottom: 1px solid #e5e7eb; }
     .ct-office { padding: 1.5rem; }
     .ct-map { height: 220px; }
@@ -368,7 +459,8 @@ body {
     .ct-office { padding: 1.25rem; }
     .ct-map { height: 195px; }
 
-    .ct-filter { flex-direction: column; align-items: flex-start; }
+    .ct-filter { -webkit-box-orient: vertical; -webkit-box-direction: normal; -ms-flex-direction: column; flex-direction: column; -webkit-box-align: start; -ms-flex-align: start; align-items: flex-start; }
+    .ct-filter > * { margin-right: 0; }
     #divisionSelect { width: 100%; min-width: 0; }
 
     /* Mobile table: card layout */
@@ -385,15 +477,23 @@ body {
     }
 
     .ct-table tbody td {
+        display: -webkit-box;
+        display: -ms-flexbox;
         display: flex;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
         justify-content: space-between;
+        -webkit-box-align: start;
+        -ms-flex-align: start;
         align-items: flex-start;
-        gap: .5rem;
         padding: .4rem 0;
         border-bottom: 1px solid #f3f4f6;
         font-size: .85rem;
         background: transparent !important;
     }
+
+    /* gap replacement on mobile td */
+    .ct-table tbody td > * + * { margin-left: .5rem; }
 
     .ct-table tbody td:last-child { border-bottom: none; }
 
@@ -401,6 +501,7 @@ body {
         content: attr(data-label);
         font-weight: 700;
         color: #0073e6;
+        -ms-flex-negative: 0;
         flex-shrink: 0;
         white-space: nowrap;
         font-size: .8rem;
