@@ -10,8 +10,9 @@ $passErr = "";
 $invalid = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_EMAIL);
-    $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS);
+    // Sanitize email only — NEVER filter passwords (breaks special chars and hashes)
+    $username = strtolower(trim(filter_input(INPUT_POST, "username", FILTER_SANITIZE_EMAIL) ?? ''));
+    $password = $_POST['password'] ?? '';   // raw — password_verify needs the exact string
 
     if (empty($username)) {
         $usernameErr = "Email is Required";
@@ -23,7 +24,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($username && $password) {
 
-        $sql = "SELECT * FROM admins WHERE email = :username";
+        // Case-insensitive email lookup
+        $sql = "SELECT * FROM admins WHERE LOWER(email) = :username LIMIT 1";
         $stmt = $connection->prepare($sql);
         $stmt->bindParam(":username", $username);
         $stmt->execute();
