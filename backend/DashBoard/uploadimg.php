@@ -211,6 +211,20 @@ $total_count = count($all_images);
         }
         .gallery-empty i { font-size: 3rem; display: block; margin-bottom: 1rem; }
 
+        /* ── Order badge on gallery card ─────────────── */
+        .gallery-order-badge {
+            position: absolute;
+            top: 8px; right: 8px;
+            background: rgba(0,0,0,.52);
+            color: #fff;
+            font-size: .68rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 20px;
+            letter-spacing: .04em;
+            backdrop-filter: blur(3px);
+        }
+
         /* ── Button actions row ─────────────────────── */
         .btn-actions { display: flex; gap: .5rem; margin-top: 8px; }
         .btn-edit {
@@ -448,6 +462,15 @@ $total_count = count($all_images);
                                 <textarea id="img_description" name="img_description" class="form-textarea"
                                     rows="3" placeholder="Enter image description..."></textarea>
                             </div>
+
+                            <div class="form-group">
+                                <label for="display_order" class="form-label">
+                                    <i class="fas fa-sort-numeric-down"></i>
+                                    Display Order <span style="font-weight:400;color:#9ca3af;">(optional — lower numbers appear first)</span>
+                                </label>
+                                <input type="number" id="display_order" name="display_order" class="form-input"
+                                    min="0" value="0" placeholder="0">
+                            </div>
                         </div>
 
                         <div class="form-footer">
@@ -489,12 +512,14 @@ $total_count = count($all_images);
                     <?php else: ?>
                     <div class="gallery-grid" id="galleryGrid">
                         <?php foreach ($all_images as $img): ?>
+                        <?php $cardOrder = (int)($img['display_order'] ?? 0); ?>
                         <div class="gallery-card"
                              data-type="<?= htmlspecialchars($img['img_type']) ?>"
                              data-path="<?= htmlspecialchars($img['img_path']) ?>"
                              data-title="<?= htmlspecialchars($img['img_title']) ?>"
                              data-desc="<?= htmlspecialchars($img['img_description'] ?? '') ?>"
-                             data-imgtype="<?= htmlspecialchars($img['img_type']) ?>">
+                             data-imgtype="<?= htmlspecialchars($img['img_type']) ?>"
+                             data-order="<?= $cardOrder ?>">
                             <div class="gallery-card-img-wrap">
                                 <img class="gallery-card-img"
                                      src="../../<?= htmlspecialchars($img['img_path']) ?>"
@@ -503,6 +528,9 @@ $total_count = count($all_images);
                                 <span class="type-badge type-<?= htmlspecialchars($img['img_type']) ?>">
                                     <?= $img['img_type'] === 'img_slider' ? 'Slider' : 'Latest' ?>
                                 </span>
+                                <?php if ($cardOrder > 0): ?>
+                                <span class="gallery-order-badge">#<?= $cardOrder ?></span>
+                                <?php endif; ?>
                             </div>
                             <div class="gallery-card-body">
                                 <p class="gallery-card-title"><?= htmlspecialchars($img['img_title']) ?></p>
@@ -567,6 +595,15 @@ $total_count = count($all_images);
                     </label>
                     <textarea name="img_description" id="editDesc" class="form-textarea"
                               rows="3" placeholder="Image description..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-sort-numeric-down"></i>
+                        Display Order <span style="font-weight:400;color:#9ca3af;">(lower numbers appear first)</span>
+                    </label>
+                    <input type="number" name="display_order" id="editOrder" class="form-input"
+                           min="0" value="0">
                 </div>
 
                 <div class="form-group">
@@ -704,12 +741,14 @@ $total_count = count($all_images);
         const title   = card.dataset.title;
         const desc    = card.dataset.desc    || '';
         const imgtype = card.dataset.imgtype || 'img_slider';
+        const order   = card.dataset.order   || '0';
 
         document.getElementById('modalCurrentImg').src = '../../' + path;
         document.getElementById('editOldPath').value   = path;
         document.getElementById('editTitle').value     = title;
         document.getElementById('editDesc').value      = desc;
         document.getElementById('editImgType').value   = imgtype;
+        document.getElementById('editOrder').value     = order;
 
         // Reset replace zone
         clearReplace();
@@ -772,6 +811,7 @@ $total_count = count($all_images);
                     const newType  = document.getElementById('editImgType').value;
                     const newTitle = document.getElementById('editTitle').value;
                     const newDesc  = document.getElementById('editDesc').value;
+                    const newOrder = data.display_order !== undefined ? data.display_order : (parseInt(document.getElementById('editOrder').value) || 0);
 
                     // Update data attributes
                     card.dataset.path    = newPath;
@@ -779,6 +819,7 @@ $total_count = count($all_images);
                     card.dataset.desc    = newDesc;
                     card.dataset.imgtype = newType;
                     card.dataset.type    = newType;
+                    card.dataset.order   = newOrder;
 
                     // Update image src
                     const cardImg = card.querySelector('.gallery-card-img');
@@ -800,6 +841,22 @@ $total_count = count($all_images);
                     // Update delete button's data-path
                     const delBtn = card.querySelector('.btn-delete');
                     if (delBtn) delBtn.dataset.path = newPath;
+
+                    // Update order badge
+                    var imgWrap = card.querySelector('.gallery-card-img-wrap');
+                    var existingBadge = card.querySelector('.gallery-order-badge');
+                    if (newOrder > 0) {
+                        if (existingBadge) {
+                            existingBadge.textContent = '#' + newOrder;
+                        } else {
+                            var ob = document.createElement('span');
+                            ob.className   = 'gallery-order-badge';
+                            ob.textContent = '#' + newOrder;
+                            imgWrap.appendChild(ob);
+                        }
+                    } else {
+                        if (existingBadge) existingBadge.remove();
+                    }
                 }
 
                 showToast('Image updated successfully.', 'success');

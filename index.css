@@ -10,210 +10,236 @@ body {
   font-family: "Times New Roman", Times, serif;
 }
 
+/* ── Number Counter Section ────────────────────────── */
 .Numbercontainer {
-  padding: 40px 20px;
-  background-color: #ffffff;
+  padding: 56px 20px;
+  background: linear-gradient(180deg, #ffffff 0%, #f0f6ff 100%);
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .numbers {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  padding: 0;
-  gap: 30px;
+  gap: 28px;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
 .number-card {
-  background-color: #ffffff;
+  background: #ffffff;
   flex: 1;
-  min-width: 220px;
-  max-width: 280px;
-  margin: 0;
+  min-width: 210px;
+  max-width: 260px;
   text-align: center;
-  border: none;
-  border-radius: 15px;
-  padding: 30px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border-radius: 18px;
+  padding: 32px 24px 28px;
+  box-shadow: 0 4px 24px rgba(0,0,0,.08);
+  border: 1px solid #e5e7eb;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.number-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #0073e6, #1e3a5f);
 }
 
 .number-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  transform: translateY(-8px);
+  box-shadow: 0 14px 36px rgba(0,0,0,.14);
 }
 
-h2 {
-  font-size: 2.5em;
-  margin: 0 0 10px 0;
-  color: #333;
+.number-icon {
+  width: 54px;
+  height: 54px;
+  background: linear-gradient(135deg, rgba(0,115,230,.12), rgba(30,58,95,.08));
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.number-icon i {
+  font-size: 1.5rem;
+  color: #0073e6;
+}
+
+.number-card h2 {
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: #1e3a5f;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.number-card p {
+  font-size: 0.9rem;
+  color: #6b7280;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
-p {
-  font-size: 1.1em;
-  color: #555;
-  font-weight: 400;
+.newDivDiv {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.number-suffix {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #1e3a5f;
+  margin-bottom: 10px;
+  line-height: 1;
+}
+
+/* ── Section Banner (Our Goals / Latest) ───────────── */
+.sectionalparts,
+.sectionalpartsnew {
+  width: 100%;
+  padding: 56px 20px 48px;
+  text-align: center;
 }
 
 .sectionalparts {
-  width: 100%;
-  padding: 60px 20px;
-  background-color: #e0e8f0;
-  text-align: center;
-  border-bottom: none;
-  box-shadow: none;
-  transition: none;
+  background: linear-gradient(135deg, #e8f0fe 0%, #dce8f7 100%);
+  border-top: 1px solid #c7d9f5;
+  border-bottom: 1px solid #c7d9f5;
 }
 
 .sectionalpartsnew {
-  width: 100%;
-  padding: 60px 20px;
-  background-color: #f4f7f6;
-  text-align: center;
-  border-bottom: none;
-  box-shadow: none;
-  transition: none;
-  border: none;
+  background: #f4f7f6;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 32px;
 }
 
-.sectionalparts h1,
-.sectionalpartsnew h1 {
-  font-size: 2.2rem;
-  color: #0056b3;
-  margin-bottom: 25px;
+.sectionalparts h2,
+.sectionalpartsnew h2 {
+  font-size: 2rem;
   font-weight: 700;
+  color: #1e3a5f;
+  margin-bottom: 12px;
+  position: relative;
+  display: inline-block;
+}
+
+.sectionalparts h2::after,
+.sectionalpartsnew h2::after {
+  content: '';
+  display: block;
+  width: 56px;
+  height: 3px;
+  background: linear-gradient(90deg, #0073e6, #1e3a5f);
+  border-radius: 2px;
+  margin: 10px auto 0;
 }
 
 .sectionalparts p,
 .sectionalpartsnew p {
-  font-size: 1.1rem;
-  color: #444;
+  font-size: 1.05rem;
+  color: #4b5563;
   line-height: 1.8;
-  max-width: 800px;
+  max-width: 720px;
   margin: 0 auto;
+  margin-top: 8px;
 }
 
+/* ── Join With Us / Section Buttons ────────────────── */
 .secbtns {
   display: flex;
   gap: 1rem;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  margin-top: 30px;
+  margin-top: 28px;
 }
 
 .secbtn {
-  border-radius: 20px;
+  border-radius: 24px;
   font-family: "Arial", sans-serif;
-  font-weight: bold;
-  background-color: #007bff;
+  font-weight: 700;
+  background-color: #0073e6;
   color: #ffffff;
-  padding: 10px 25px;
+  padding: 11px 28px;
   cursor: pointer;
-  border: 0;
-  transition: background-color 0.3s ease;
+  border: 2px solid transparent;
+  transition: background-color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
 }
 
 .secbtn:hover {
-  background-color: #0056b3;
+  background-color: #005bb5;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,115,230,.25);
 }
 
-/* Responsive Design */
+/* ── Responsive ─────────────────────────────────────── */
 @media (max-width: 992px) {
-  .sectionalparts h1,
-  .sectionalpartsnew h1 {
-    font-size: 2rem;
-  }
-
-  .sectionalparts p,
-  .sectionalpartsnew p {
-    font-size: 1rem;
-  }
-
   .number-card {
-    min-width: 200px;
+    min-width: 190px;
     max-width: none;
   }
 
-  h2 {
-    font-size: 2.2em;
+  .sectionalparts h2,
+  .sectionalpartsnew h2 {
+    font-size: 1.75rem;
   }
 }
 
 @media (max-width: 768px) {
-  .sectionalparts,
-  .sectionalpartsnew {
-    padding: 40px 15px;
-  }
-
-  .sectionalparts h1,
-  .sectionalpartsnew h1 {
-    font-size: 1.8rem;
-  }
-
-  .sectionalparts p,
-  .sectionalpartsnew p {
-    font-size: 0.95rem;
-    max-width: 100%;
-  }
+  .Numbercontainer { padding: 40px 16px; }
 
   .numbers {
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
+    gap: 16px;
   }
 
   .number-card {
-    width: 90%;
-    min-width: 280px;
-    padding: 25px;
+    min-width: 160px;
+    padding: 24px 16px 20px;
   }
 
-  h2 {
-    font-size: 2em;
-  }
+  .number-card h2 { font-size: 2.1rem; }
 
-  p {
-    font-size: 1em;
-  }
+  .sectionalparts,
+  .sectionalpartsnew { padding: 40px 16px 32px; }
 
-  .secbtns {
-    flex-direction: column;
-    gap: 0.8rem;
-  }
+  .sectionalparts h2,
+  .sectionalpartsnew h2 { font-size: 1.55rem; }
 
-  .secbtn {
-    padding: 8px 20px;
-  }
+  .sectionalparts p,
+  .sectionalpartsnew p { font-size: 0.95rem; }
+
+  .secbtns { flex-direction: column; gap: 0.75rem; }
+  .secbtn  { padding: 9px 22px; }
 }
 
 @media (max-width: 480px) {
-  .sectionalparts,
-  .sectionalpartsnew {
-    padding: 30px 10px;
-  }
-
-  .sectionalparts h1,
-  .sectionalpartsnew h1 {
-    font-size: 1.5rem;
-  }
-
-  .sectionalparts p,
-  .sectionalpartsnew p {
-    font-size: 0.9rem;
-  }
+  .numbers { flex-direction: column; align-items: center; }
 
   .number-card {
-    width: 100%;
+    width: 85%;
     min-width: 0;
-    padding: 20px;
+    max-width: 320px;
+    padding: 22px 18px 18px;
   }
 
-  h2 {
-    font-size: 1.8em;
-  }
+  .number-card h2 { font-size: 2rem; }
 
-  p {
-    font-size: 0.9em;
-  }
+  .sectionalparts,
+  .sectionalpartsnew { padding: 32px 12px 28px; }
+
+  .sectionalparts h2,
+  .sectionalpartsnew h2 { font-size: 1.4rem; }
+
+  .sectionalparts p,
+  .sectionalpartsnew p { font-size: 0.9rem; }
 }

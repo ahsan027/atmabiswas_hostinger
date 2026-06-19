@@ -20,6 +20,7 @@ $old_path        = trim($_POST['old_path']        ?? '');
 $img_title       = trim($_POST['img_title']       ?? '');
 $img_description = trim($_POST['img_description'] ?? '');
 $img_type        = trim($_POST['img_type']         ?? '');
+$display_order   = (int)($_POST['display_order']  ?? 0);
 
 if (!$old_path || !$img_title || !in_array($img_type, ['img_slider', 'latest_news'], true)) {
     http_response_code(400);
@@ -82,7 +83,8 @@ try {
 
     $stmt = $conn->prepare(
         "UPDATE img_upload
-         SET img_title = :title, img_description = :desc, img_type = :type, img_path = :new_path
+         SET img_title = :title, img_description = :desc, img_type = :type,
+             img_path = :new_path, display_order = :order
          WHERE img_path = :old_path"
     );
     $stmt->bindParam(':title',    $img_title);
@@ -90,6 +92,7 @@ try {
     $stmt->bindParam(':type',     $img_type);
     $stmt->bindParam(':new_path', $new_path);
     $stmt->bindParam(':old_path', $old_path);
+    $stmt->bindParam(':order',    $display_order, PDO::PARAM_INT);
     $stmt->execute();
 
     if ($stmt->rowCount() === 0) {
@@ -97,7 +100,7 @@ try {
         exit();
     }
 
-    echo json_encode(['success' => true, 'new_path' => $new_path]);
+    echo json_encode(['success' => true, 'new_path' => $new_path, 'display_order' => $display_order]);
 } catch (PDOException $e) {
     error_log('edit_img error: ' . $e->getMessage());
     http_response_code(500);

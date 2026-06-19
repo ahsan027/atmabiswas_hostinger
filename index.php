@@ -13,6 +13,7 @@
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="partners.css">
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EZVV9DWWY7"></script>
@@ -36,21 +37,24 @@
     <div class="Numbercontainer">
         <div class="numbers">
             <div class="number-card">
+                <div class="number-icon"><i class="fas fa-users"></i></div>
                 <h2 id="number1">0</h2>
-                <p>Employee's</p>
+                <p>Employees</p>
             </div>
             <div class="number-card">
-                <div style="display: flex; justify-content: center; align-items: center; gap: 1px;" class="newDivDiv">
-                    <h2 id="number2">0</h2><span style="margin-bottom: 10px; color:black; font-size: 2rem;">K</span>
+                <div class="number-icon"><i class="fas fa-hands-helping"></i></div>
+                <div class="newDivDiv">
+                    <h2 id="number2">0</h2><span class="number-suffix">K</span>
                 </div>
-
                 <p>Served Clients</p>
             </div>
             <div class="number-card">
+                <div class="number-icon"><i class="fas fa-code-branch"></i></div>
                 <h2 id="number3">0</h2>
-                <p>Branchs</p>
+                <p>Branches</p>
             </div>
             <div class="number-card">
+                <div class="number-icon"><i class="fas fa-calendar-check"></i></div>
                 <h2 id="number4">0</h2>
                 <p>Years of Foundation</p>
             </div>
