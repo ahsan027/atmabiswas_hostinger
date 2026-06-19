@@ -605,12 +605,125 @@ require_once '../../config.php';
                                     </div>
                                 </div>
 
+                                <!-- SEO & Metadata -->
+                                <hr style="margin:1.5rem 0;border-color:#dee2e6;">
+                                <div class="card-header mb-3" style="background:#f8f9fa;border-radius:8px;padding:.85rem 1.25rem;">
+                                    <h5 style="margin:0;font-size:1rem;font-weight:700;color:#2c3e50;">
+                                        <i class="fas fa-search-plus"></i> SEO &amp; Article Metadata
+                                    </h5>
+                                </div>
+
+                                <!-- Article Options Row -->
+                                <div class="row mb-3">
+                                    <div class="col-md-5">
+                                        <label class="form-label"><i class="fas fa-link"></i> URL Slug</label>
+                                        <input type="text" class="form-control" id="postSlug" name="slug"
+                                               placeholder="auto-generated-from-title">
+                                        <div class="form-text">Leave blank to auto-generate.</div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label"><i class="fas fa-tags"></i> Tags</label>
+                                        <input type="text" class="form-control" name="tags"
+                                               placeholder="microfinance, rural, health">
+                                        <div class="form-text">Comma-separated.</div>
+                                    </div>
+                                    <div class="col-md-3 d-flex align-items-end pb-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox"
+                                                   id="featuredPost" name="featured" value="1">
+                                            <label class="form-check-label fw-bold" for="featuredPost">
+                                                <i class="fas fa-star text-warning"></i> Feature Article
+                                            </label>
+                                            <div class="form-text">Shows in Newsroom hero.</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- SEO Title + Description -->
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">
+                                            <i class="fas fa-heading"></i> SEO Title
+                                            <span id="seoTitleCount" style="font-weight:400;color:#6c757d;font-size:.82rem;margin-left:.4rem;">0/60</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="seoTitle" name="seo_title"
+                                               maxlength="60"
+                                               placeholder="Custom search engine title (leave blank = article title)">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">
+                                            <i class="fas fa-key"></i> SEO Keywords
+                                        </label>
+                                        <input type="text" class="form-control" name="seo_keywords"
+                                               placeholder="keyword1, keyword2, keyword3">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-md-8">
+                                        <label class="form-label">
+                                            <i class="fas fa-align-left"></i> SEO Description
+                                            <span id="seoDescCount" style="font-weight:400;color:#6c757d;font-size:.82rem;margin-left:.4rem;">0/160</span>
+                                        </label>
+                                        <textarea class="form-control" id="seoDesc" name="seo_description"
+                                                  rows="2" maxlength="160"
+                                                  placeholder="Short meta description for search results (160 chars max)."></textarea>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">
+                                            <i class="fas fa-share-alt"></i> Social Share Image URL
+                                        </label>
+                                        <input type="url" class="form-control" name="social_image"
+                                               placeholder="https://… (optional)">
+                                        <div class="form-text">Falls back to cover image.</div>
+                                    </div>
+                                </div>
+
                                 <!-- Action Buttons -->
-                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                                    <button type="submit" name="post_status_action" value="draft"
+                                            class="btn btn-outline-secondary btn-lg me-2">
+                                        <i class="fas fa-save"></i> Save Draft
+                                    </button>
                                     <button type="submit" class="btn btn-publish">
-                                        <i class="fas fa-paper-plane"></i> Publish Post
+                                        <i class="fas fa-paper-plane"></i> Publish Article
                                     </button>
                                 </div>
+
+                                <script>
+                                // Auto-generate slug from title
+                                (function () {
+                                    var titleEl = document.getElementById('blogTitle');
+                                    var slugEl  = document.getElementById('postSlug');
+                                    if (!titleEl || !slugEl) return;
+                                    titleEl.addEventListener('input', function () {
+                                        if (slugEl.dataset.manual) return;
+                                        slugEl.value = this.value.toLowerCase()
+                                            .replace(/[^a-z0-9\s-]/g, '')
+                                            .replace(/\s+/g, '-')
+                                            .replace(/-+/g, '-')
+                                            .replace(/^-|-$/g, '');
+                                    });
+                                    slugEl.addEventListener('input', function () {
+                                        this.dataset.manual = this.value ? '1' : '';
+                                    });
+                                })();
+                                // SEO character counters
+                                (function () {
+                                    var title = document.getElementById('seoTitle');
+                                    var desc  = document.getElementById('seoDesc');
+                                    var tc    = document.getElementById('seoTitleCount');
+                                    var dc    = document.getElementById('seoDescCount');
+                                    function update(el, counter, max) {
+                                        if (!el || !counter) return;
+                                        var len = el.value.length;
+                                        counter.textContent = len + '/' + max;
+                                        counter.style.color = len > max * .9 ? '#dc3545' : '#6c757d';
+                                    }
+                                    if (title) title.addEventListener('input', function () { update(this, tc, 60); });
+                                    if (desc)  desc.addEventListener('input',  function () { update(this, dc, 160); });
+                                })();
+                                </script>
                             </form>
                         </div>
 

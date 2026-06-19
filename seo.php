@@ -68,9 +68,9 @@ $_seo_data = [
         'canonical'   => 'https://atmabiswas.org/Events.php',
     ],
     'press.php' => [
-        'title'       => 'Press & Media Coverage – ATMABISWAS (আত্মবিশ্বাস) Bangladesh',
-        'description' => 'Latest press releases, news, and media coverage about ATMABISWAS (আত্মবিশ্বাস) NGO and its community impact across Bangladesh.',
-        'keywords'    => 'ATMABISWAS press, আত্মবিশ্বাস সংবাদ, NGO news Bangladesh, ATMABISWAS media coverage, press release Bangladesh NGO',
+        'title'       => 'ATMABISWAS Newsroom — News & Media Center | আত্মবিশ্বাস সংবাদ',
+        'description' => 'Latest news, press releases, announcements, and media coverage from ATMABISWAS (আত্মবিশ্বাস) NGO Bangladesh. Stay updated with our community impact stories.',
+        'keywords'    => 'ATMABISWAS news, আত্মবিশ্বাস সংবাদ, ATMABISWAS newsroom, NGO news Bangladesh, ATMABISWAS press release, media coverage Bangladesh NGO',
         'canonical'   => 'https://atmabiswas.org/press.php',
     ],
     'readytoeat.php' => [

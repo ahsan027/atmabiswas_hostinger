@@ -23,9 +23,20 @@
             <i class="fas fa-edit"></i>
             <span>Update Job Posts</span>
         </a>
-        <a href="blog.php" class="nav-item">
+        <div style="padding:.5rem 1.5rem;font-size:.7rem;text-transform:uppercase;letter-spacing:1px;opacity:.6;margin-top:.5rem;">
+            News &amp; Media
+        </div>
+        <a href="blog_enhanced.php" class="nav-item">
+            <i class="fas fa-plus-circle"></i>
+            <span>Add New Article</span>
+        </a>
+        <a href="blog_manager.php" class="nav-item">
             <i class="fas fa-newspaper"></i>
-            <span>Publish Latest News</span>
+            <span>All Articles</span>
+        </a>
+        <a href="../../press.php" class="nav-item" target="_blank">
+            <i class="fas fa-external-link-alt"></i>
+            <span>View Newsroom</span>
         </a>
         <a href="uploadimg.php" class="nav-item">
             <i class="fas fa-photo-video"></i>

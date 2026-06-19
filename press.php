@@ -3,6 +3,8 @@ session_start();
 include 'config.php';
 include 'backend/Database/db.php';
 
+/* ── Helpers ──────────────────────────────────────────────────── */
+
 function extractYouTubeId(string $url): string {
     if (empty($url)) return '';
     if (strpos($url, 'youtu.be/') !== false) {
@@ -13,70 +15,220 @@ function extractYouTubeId(string $url): string {
     return '';
 }
 
-function getThumbnailUrl(array $item): string {
+function getThumbnail(array $item): string {
     if (!empty($item['cover_img'])) return $item['cover_img'];
     $ytId = extractYouTubeId($item['source_link'] ?? '');
-    if ($ytId) return "https://img.youtube.com/vi/{$ytId}/hqdefault.jpg";
-    return '';
+    return $ytId ? "https://img.youtube.com/vi/{$ytId}/hqdefault.jpg" : '';
 }
 
 function getCategoryLabel(string $cat): string {
-    $map = [
-        'news'         => 'News',
-        'media'        => 'Media',
-        'announcement' => 'Announcement',
-        'press'        => 'Press Release',
-    ];
-    return $map[$cat] ?? 'News';
+    return ['news' => 'News', 'media' => 'Media', 'announcement' => 'Announcement', 'press' => 'Press Release'][$cat] ?? 'News';
 }
 
-// Fetch all posts
-$indexed = [];
+function getCategoryClass(string $cat): string {
+    return in_array($cat, ['news','media','announcement','press']) ? $cat : 'news';
+}
+
+function calcReadingTime(string $html): int {
+    return max(1, (int)ceil(str_word_count(strip_tags($html)) / 200));
+}
+
+function buildListUrl(array $params = []): string {
+    $q = array_filter($params, fn($v) => $v !== '' && $v !== 'all' && $v !== null);
+    return 'press.php' . ($q ? '?' . http_build_query($q) : '');
+}
+
+/* ── Database ─────────────────────────────────────────────────── */
+
 try {
     $db   = new Db();
     $conn = $db->connect();
-    $stmt = $conn->prepare("SELECT * FROM blogs ORDER BY upload_date DESC");
-    $stmt->execute();
-    $indexed = array_values($stmt->fetchAll(PDO::FETCH_ASSOC));
-} catch (PDOException $e) {
-    $indexed = [];
+} catch (Exception $e) {
+    $conn = null;
 }
 
-// View mode
-$article_id      = isset($_GET['article']) ? (int)$_GET['article'] : null;
-$current_article = ($article_id !== null && isset($indexed[$article_id])) ? $indexed[$article_id] : null;
+/* ── Routing ──────────────────────────────────────────────────── */
 
-// Filter options from live data
-$available_years      = [];
-$available_categories = [];
-foreach ($indexed as $item) {
-    if (!empty($item['year'])) $available_years[$item['year']] = true;
-    $available_categories[$item['category'] ?? 'news'] = true;
-}
-krsort($available_years);
+$current_article = null;
+$blog_id         = null;
 
-// Related articles
-$related_articles = [];
-if ($current_article) {
-    foreach ($indexed as $rid => $ritem) {
-        if ($rid !== $article_id) {
-            $related_articles[$rid] = $ritem;
-            if (count($related_articles) >= 3) break;
-        }
+if (isset($_GET['id']) && $conn) {
+    $blog_id = (int)$_GET['id'];
+    $stmt = $conn->prepare(
+        "SELECT * FROM blogs WHERE blog_id = ? AND (status = 'published' OR status IS NULL)"
+    );
+    $stmt->execute([$blog_id]);
+    $current_article = $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+
+    if ($current_article) {
+        // Increment view counter (graceful — views column may or may not exist)
+        try {
+            $conn->prepare("UPDATE blogs SET views = COALESCE(views,0)+1 WHERE blog_id = ?")
+                 ->execute([$blog_id]);
+            $current_article['views'] = ($current_article['views'] ?? 0) + 1;
+        } catch (PDOException $e) {}
+    }
+
+} elseif (isset($_GET['article']) && $conn) {
+    // Legacy ?article=N (0-based index) → permanent redirect to stable ?id=
+    $idx      = max(0, (int)$_GET['article']);
+    $id_stmt  = $conn->prepare(
+        "SELECT blog_id FROM blogs WHERE (status='published' OR status IS NULL) ORDER BY upload_date DESC"
+    );
+    $id_stmt->execute();
+    $all_ids = $id_stmt->fetchAll(PDO::FETCH_COLUMN);
+    if (isset($all_ids[$idx])) {
+        header("Location: press.php?id={$all_ids[$idx]}", true, 301);
+        exit();
     }
 }
+
+/* ── List-view data ───────────────────────────────────────────── */
+
+$posts              = [];
+$total              = 0;
+$total_pages        = 0;
+$featured           = null;
+$available_years    = [];
+$available_cats     = [];
+$search             = '';
+$cat_filter         = 'all';
+$year_filter        = 'all';
+$page               = 1;
+
+if (!$current_article && $conn) {
+    $per_page    = 9;
+    $page        = max(1, (int)($_GET['page'] ?? 1));
+    $offset      = ($page - 1) * $per_page;
+    $search      = trim($_GET['search'] ?? '');
+    $cat_filter  = $_GET['cat']  ?? 'all';
+    $year_filter = $_GET['year'] ?? 'all';
+
+    $where  = ["(status = 'published' OR status IS NULL)"];
+    $params = [];
+
+    if ($search !== '') {
+        $where[]  = "(blog_title LIKE ? OR summary LIKE ? OR blog_content LIKE ?)";
+        $like     = "%{$search}%";
+        $params[] = $like; $params[] = $like; $params[] = $like;
+    }
+    if ($cat_filter !== 'all' && $cat_filter !== '') {
+        $where[]  = "category = ?";
+        $params[] = $cat_filter;
+    }
+    if ($year_filter !== 'all' && $year_filter !== '') {
+        $where[]  = "year = ?";
+        $params[] = (int)$year_filter;
+    }
+
+    $wsql = "WHERE " . implode(" AND ", $where);
+
+    try {
+        $count_stmt = $conn->prepare("SELECT COUNT(*) FROM blogs {$wsql}");
+        $count_stmt->execute($params);
+        $total       = (int)$count_stmt->fetchColumn();
+        $total_pages = (int)ceil($total / $per_page);
+
+        $list_stmt = $conn->prepare(
+            "SELECT * FROM blogs {$wsql} ORDER BY upload_date DESC LIMIT {$per_page} OFFSET {$offset}"
+        );
+        $list_stmt->execute($params);
+        $posts = $list_stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Featured article (first page, no filters active)
+        if ($page === 1 && $search === '' && $cat_filter === 'all' && $year_filter === 'all') {
+            try {
+                $feat_stmt = $conn->prepare(
+                    "SELECT * FROM blogs WHERE featured = 1 AND (status='published' OR status IS NULL)
+                     ORDER BY upload_date DESC LIMIT 1"
+                );
+                $feat_stmt->execute();
+                $featured = $feat_stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+            } catch (PDOException $e) {}
+            if (!$featured && !empty($posts)) $featured = $posts[0];
+        }
+
+        // Filter options
+        $yrs = $conn->prepare(
+            "SELECT DISTINCT year FROM blogs WHERE year IS NOT NULL AND (status='published' OR status IS NULL)
+             ORDER BY year DESC"
+        );
+        $yrs->execute();
+        $available_years = $yrs->fetchAll(PDO::FETCH_COLUMN);
+
+        $cats = $conn->prepare(
+            "SELECT DISTINCT category FROM blogs WHERE category IS NOT NULL AND (status='published' OR status IS NULL)"
+        );
+        $cats->execute();
+        $available_cats = $cats->fetchAll(PDO::FETCH_COLUMN);
+
+    } catch (PDOException $e) {
+        $posts = [];
+    }
+}
+
+/* ── Related articles ─────────────────────────────────────────── */
+
+$related = [];
+if ($current_article && $conn) {
+    try {
+        $cat     = $current_article['category'] ?? '';
+        $rel_sql = "SELECT * FROM blogs WHERE blog_id != ? AND (status='published' OR status IS NULL)
+                    ORDER BY " . ($cat ? "CASE WHEN category = '{$cat}' THEN 0 ELSE 1 END, " : '')
+                    . "upload_date DESC LIMIT 3";
+        $rel_stmt = $conn->prepare($rel_sql);
+        $rel_stmt->execute([$current_article['blog_id']]);
+        $related = $rel_stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {}
+}
+
+/* ── Page metadata ────────────────────────────────────────────── */
+
+$page_title = 'ATMABISWAS Newsroom — News & Media Center';
+if ($current_article) {
+    $seo_title = !empty($current_article['seo_title'])
+        ? $current_article['seo_title']
+        : $current_article['blog_title'];
+    $page_title = htmlspecialchars($seo_title) . ' — ATMABISWAS';
+}
+
+$article_url = $current_article
+    ? 'https://atmabiswas.org/press.php?id=' . ($current_article['blog_id'] ?? '')
+    : 'https://atmabiswas.org/press.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= $page_title ?></title>
     <?php if ($current_article): ?>
-    <title><?= htmlspecialchars($current_article['blog_title']) ?> — ATMABISWAS Press</title>
-    <?php else: ?>
-    <title>Press &amp; Media — ATMABISWAS</title>
+    <?php
+        $og_desc  = !empty($current_article['seo_description'])
+            ? $current_article['seo_description']
+            : mb_substr(strip_tags($current_article['summary'] ?? $current_article['blog_content'] ?? ''), 0, 160);
+        $og_img   = !empty($current_article['social_image'])
+            ? $current_article['social_image']
+            : getThumbnail($current_article);
+        $og_img   = $og_img ? 'https://atmabiswas.org/' . ltrim($og_img, '/') : 'https://atmabiswas.org/LOGO/NGO_logo_monogram.png';
+    ?>
+    <meta name="description" content="<?= htmlspecialchars($og_desc) ?>">
+    <?php if (!empty($current_article['seo_keywords'])): ?>
+    <meta name="keywords"    content="<?= htmlspecialchars($current_article['seo_keywords']) ?>">
     <?php endif; ?>
+    <meta property="og:type"        content="article">
+    <meta property="og:title"       content="<?= htmlspecialchars($seo_title) ?>">
+    <meta property="og:description" content="<?= htmlspecialchars($og_desc) ?>">
+    <meta property="og:image"       content="<?= $og_img ?>">
+    <meta property="og:url"         content="<?= $article_url ?>">
+    <meta name="twitter:card"        content="summary_large_image">
+    <meta name="twitter:title"       content="<?= htmlspecialchars($seo_title) ?>">
+    <meta name="twitter:description" content="<?= htmlspecialchars($og_desc) ?>">
+    <meta name="twitter:image"       content="<?= $og_img ?>">
+    <link rel="canonical" href="<?= $article_url ?>">
+    <?php else: ?>
     <?php include 'seo.php'; ?>
+    <?php endif; ?>
     <link rel="icon" type="image/png" href="LOGO/NGO_logo_monogram.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="css/navbar.css?v=<?= filemtime(__DIR__.'/css/navbar.css') ?>">
@@ -89,30 +241,59 @@ if ($current_article) {
 <?php include 'Navbar.php'; ?>
 
 <?php if ($current_article):
-    // ═══════════════════════════════════════════════
-    // ARTICLE VIEW
-    // ═══════════════════════════════════════════════
-    $cat_label = getCategoryLabel($current_article['category'] ?? 'news');
-    $yt_id     = extractYouTubeId($current_article['source_link'] ?? '');
-    $date_fmt  = !empty($current_article['upload_date'])
+/* ═══════════════════════════════════════════════════════════════
+   ARTICLE VIEW
+   ═══════════════════════════════════════════════════════════════ */
+    $cat_label   = getCategoryLabel($current_article['category'] ?? 'news');
+    $cat_class   = getCategoryClass($current_article['category'] ?? 'news');
+    $yt_id       = extractYouTubeId($current_article['source_link'] ?? '');
+    $thumb       = getThumbnail($current_article);
+    $date_long   = !empty($current_article['upload_date'])
                     ? date('F j, Y', strtotime($current_article['upload_date'])) : '';
+    $read_time   = !empty($current_article['reading_time'])
+                    ? (int)$current_article['reading_time']
+                    : calcReadingTime($current_article['blog_content'] ?? '');
+    $views       = number_format((int)($current_article['views'] ?? 0));
+    $tags        = !empty($current_article['tags'])
+                    ? array_filter(array_map('trim', explode(',', $current_article['tags'])))
+                    : [];
 ?>
+
+<!-- Breadcrumb -->
+<div class="pr-breadcrumb-bar">
+    <nav class="pr-breadcrumb" aria-label="Breadcrumb">
+        <a href="index.php"><i class="fas fa-home"></i> Home</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="press.php">News &amp; Media</a>
+        <i class="fas fa-chevron-right"></i>
+        <span><?= htmlspecialchars(mb_substr($current_article['blog_title'], 0, 60)) ?><?= mb_strlen($current_article['blog_title']) > 60 ? '…' : '' ?></span>
+    </nav>
+</div>
+
+<!-- Article Hero -->
 <div class="pr-hero pr-article-hero">
-    <a href="press.php" class="pr-back-btn">
-        <i class="fas fa-arrow-left"></i> Back to Press
-    </a>
-    <h1><?= htmlspecialchars($current_article['blog_title']) ?></h1>
-    <div class="pr-article-meta">
-        <?php if ($date_fmt): ?>
-        <span><i class="far fa-calendar-alt"></i> <?= $date_fmt ?></span>
-        <?php endif; ?>
-        <span><?= htmlspecialchars($cat_label) ?></span>
-        <?php if (!empty($current_article['blog_author'])): ?>
-        <span><i class="far fa-user"></i> <?= htmlspecialchars($current_article['blog_author']) ?></span>
-        <?php endif; ?>
+    <div class="pr-article-hero-inner">
+        <a href="press.php" class="pr-back-btn">
+            <i class="fas fa-arrow-left"></i> Back to Newsroom
+        </a>
+        <div>
+            <span class="pr-article-cat"><?= htmlspecialchars($cat_label) ?></span>
+        </div>
+        <h1><?= htmlspecialchars($current_article['blog_title']) ?></h1>
+        <div class="pr-article-meta">
+            <?php if ($date_long): ?>
+            <span><i class="far fa-calendar-alt"></i> <?= $date_long ?></span>
+            <?php endif; ?>
+            <?php if (!empty($current_article['blog_author'])): ?>
+            <span><i class="far fa-user"></i> <?= htmlspecialchars($current_article['blog_author']) ?></span>
+            <?php endif; ?>
+            <span><i class="far fa-clock"></i> <?= $read_time ?> min read</span>
+            <span><i class="far fa-eye"></i> <?= $views ?> views</span>
+        </div>
     </div>
 </div>
 
+<!-- Article Content -->
 <div class="pr-article-wrap">
 
     <?php if ($yt_id && empty($current_article['cover_img'])): ?>
@@ -131,28 +312,78 @@ if ($current_article) {
         <?= $current_article['blog_content'] ?>
     </div>
 
-    <?php if (!empty($related_articles)): ?>
+    <?php if (!empty($tags)): ?>
+    <div class="pr-tags">
+        <span class="pr-tags-label"><i class="fas fa-tags"></i> Tags:</span>
+        <?php foreach ($tags as $tag): ?>
+        <a href="press.php?search=<?= urlencode($tag) ?>" class="pr-tag"><?= htmlspecialchars($tag) ?></a>
+        <?php endforeach; ?>
+    </div>
+    <?php endif; ?>
+
+    <!-- Social Share -->
+    <?php
+        $encoded_url   = urlencode($article_url);
+        $encoded_title = urlencode($current_article['blog_title']);
+    ?>
+    <div class="pr-share">
+        <span class="pr-share-label">Share:</span>
+        <a href="https://www.facebook.com/sharer/sharer.php?u=<?= $encoded_url ?>"
+           target="_blank" rel="noopener" class="pr-share-btn pr-share-fb">
+            <i class="fab fa-facebook-f"></i> Facebook
+        </a>
+        <a href="https://twitter.com/intent/tweet?url=<?= $encoded_url ?>&text=<?= $encoded_title ?>"
+           target="_blank" rel="noopener" class="pr-share-btn pr-share-tw">
+            <i class="fab fa-x-twitter"></i> X
+        </a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=<?= $encoded_url ?>"
+           target="_blank" rel="noopener" class="pr-share-btn pr-share-li">
+            <i class="fab fa-linkedin-in"></i> LinkedIn
+        </a>
+        <a href="https://wa.me/?text=<?= $encoded_title ?>%20<?= $encoded_url ?>"
+           target="_blank" rel="noopener" class="pr-share-btn pr-share-wa">
+            <i class="fab fa-whatsapp"></i> WhatsApp
+        </a>
+        <button class="pr-share-btn pr-share-copy" id="copyLinkBtn" onclick="copyArticleLink()">
+            <i class="fas fa-link"></i> Copy Link
+        </button>
+        <button class="pr-share-btn pr-share-print" onclick="window.print()">
+            <i class="fas fa-print"></i> Print
+        </button>
+    </div>
+
+    <?php if (!empty($related)): ?>
     <div class="pr-related">
-        <div class="pr-related-heading">More Press Updates</div>
+        <div class="pr-related-heading">More from ATMABISWAS Newsroom</div>
         <div class="pr-related-grid">
-            <?php foreach ($related_articles as $rid => $rel):
-                $rel_thumb    = getThumbnailUrl($rel);
-                $rel_cat      = getCategoryLabel($rel['category'] ?? 'news');
-                $rel_date     = !empty($rel['upload_date']) ? date('M j, Y', strtotime($rel['upload_date'])) : '';
+            <?php foreach ($related as $rel):
+                $rel_thumb = getThumbnail($rel);
+                $rel_cat   = getCategoryClass($rel['category'] ?? 'news');
+                $rel_lbl   = getCategoryLabel($rel['category'] ?? 'news');
+                $rel_date  = !empty($rel['upload_date']) ? date('M j, Y', strtotime($rel['upload_date'])) : '';
+                $rel_time  = calcReadingTime($rel['blog_content'] ?? '');
             ?>
-            <a href="press.php?article=<?= $rid ?>" class="press-card-link">
-                <div class="press-card">
-                    <?php if ($rel_thumb): ?>
-                    <img class="pr-card-img"
-                         src="<?= htmlspecialchars($rel_thumb) ?>"
-                         alt="<?= htmlspecialchars($rel['blog_title']) ?>"
-                         loading="lazy">
-                    <?php else: ?>
-                    <div class="pr-card-img-empty"><i class="far fa-newspaper"></i></div>
-                    <?php endif; ?>
-                    <div class="pr-card-title"><?= htmlspecialchars($rel['blog_title']) ?></div>
-                    <div class="pr-card-meta"><?= $rel_date ?><?= ($rel_date && $rel_cat) ? ' · ' : '' ?><?= htmlspecialchars($rel_cat) ?></div>
-                    <span class="pr-read-more">Read More <i class="fas fa-arrow-right"></i></span>
+            <a href="press.php?id=<?= $rel['blog_id'] ?>" class="pr-card-link">
+                <div class="pr-card">
+                    <div class="pr-card-media">
+                        <?php if ($rel_thumb): ?>
+                        <img src="<?= htmlspecialchars($rel_thumb) ?>"
+                             alt="<?= htmlspecialchars($rel['blog_title']) ?>" loading="lazy">
+                        <?php else: ?>
+                        <div class="pr-card-media-empty"><i class="far fa-newspaper"></i></div>
+                        <?php endif; ?>
+                    </div>
+                    <div class="pr-card-body">
+                        <div class="pr-card-top">
+                            <span class="pr-cat pr-cat--<?= $rel_cat ?>"><?= $rel_lbl ?></span>
+                            <span class="pr-card-date"><?= $rel_date ?></span>
+                        </div>
+                        <div class="pr-card-title"><?= htmlspecialchars($rel['blog_title']) ?></div>
+                        <div class="pr-card-foot">
+                            <span class="pr-read-time"><i class="far fa-clock"></i> <?= $rel_time ?> min</span>
+                            <span class="pr-read-more">Read <i class="fas fa-arrow-right"></i></span>
+                        </div>
+                    </div>
                 </div>
             </a>
             <?php endforeach; ?>
@@ -162,27 +393,154 @@ if ($current_article) {
 
 </div>
 
+<!-- Article JSON-LD Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": <?= json_encode($current_article['blog_title']) ?>,
+  "description": <?= json_encode(mb_substr(strip_tags($current_article['summary'] ?? $current_article['blog_content'] ?? ''), 0, 200)) ?>,
+  <?php if ($thumb): ?>"image": <?= json_encode('https://atmabiswas.org/' . ltrim($thumb, '/')) ?>,<?php endif; ?>
+  "datePublished": <?= json_encode(!empty($current_article['upload_date']) ? date('Y-m-d', strtotime($current_article['upload_date'])) : '') ?>,
+  "dateModified": <?= json_encode(!empty($current_article['last_updated']) ? date('Y-m-d', strtotime($current_article['last_updated'])) : (!empty($current_article['upload_date']) ? date('Y-m-d', strtotime($current_article['upload_date'])) : '')) ?>,
+  "author": {
+    "@type": "Person",
+    "name": <?= json_encode($current_article['blog_author'] ?? 'ATMABISWAS') ?>
+  },
+  "publisher": { "@id": "https://atmabiswas.org/#organization" },
+  "url": <?= json_encode($article_url) ?>,
+  "mainEntityOfPage": { "@type": "WebPage", "@id": <?= json_encode($article_url) ?> },
+  "articleSection": <?= json_encode(getCategoryLabel($current_article['category'] ?? 'news')) ?>
+}
+</script>
+
+<script>
+function copyArticleLink() {
+    var btn = document.getElementById('copyLinkBtn');
+    if (!btn) return;
+    navigator.clipboard.writeText(window.location.href).then(function () {
+        var orig = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        setTimeout(function () { btn.innerHTML = orig; }, 2200);
+    }).catch(function () {
+        // Fallback for older browsers
+        var ta = document.createElement('textarea');
+        ta.value = window.location.href;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        setTimeout(function () { btn.innerHTML = '<i class="fas fa-link"></i> Copy Link'; }, 2200);
+    });
+}
+</script>
+
 <?php else:
-    // ═══════════════════════════════════════════════
-    // LIST VIEW
-    // ═══════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════
+   LIST VIEW
+   ═══════════════════════════════════════════════════════════════ */
 ?>
+
+<!-- Hero -->
 <div class="pr-hero">
-    <h1>Press &amp; Media</h1>
-    <p>Updates, announcements, and media coverage from ATMABISWAS Bangladesh</p>
+    <h1>ATMABISWAS Newsroom</h1>
+    <p>Latest news, press releases, announcements, and media coverage from ATMABISWAS Bangladesh</p>
+    <form class="pr-search" action="press.php" method="GET">
+        <div class="pr-search-wrap">
+            <i class="fas fa-search pr-search-icon"></i>
+            <input type="text" name="search"
+                   placeholder="Search articles, announcements…"
+                   value="<?= htmlspecialchars($search) ?>"
+                   autocomplete="off">
+            <?php if ($search): ?>
+            <a href="press.php" class="pr-search-clear" title="Clear search"><i class="fas fa-times"></i></a>
+            <?php endif; ?>
+            <button type="submit">Search</button>
+        </div>
+    </form>
 </div>
 
+<?php if ($search !== '' || $cat_filter !== 'all' || $year_filter !== 'all'): ?>
+<div class="pr-search-notice">
+    <?php if ($search !== ''): ?>
+    Showing <strong><?= $total ?></strong> result<?= $total !== 1 ? 's' : '' ?> for
+    "<strong><?= htmlspecialchars($search) ?></strong>"
+    <a href="press.php"><i class="fas fa-times-circle"></i> Clear all filters</a>
+    <?php else: ?>
+    Showing <strong><?= $total ?></strong> article<?= $total !== 1 ? 's' : '' ?> —
+    <a href="press.php">View all</a>
+    <?php endif; ?>
+</div>
+<?php endif; ?>
+
+<!-- Featured Article -->
+<?php if ($featured): ?>
+<?php
+    $feat_thumb   = getThumbnail($featured);
+    $feat_cat_lbl = getCategoryLabel($featured['category'] ?? 'news');
+    $feat_cat_cls = getCategoryClass($featured['category'] ?? 'news');
+    $feat_date    = !empty($featured['upload_date']) ? date('F j, Y', strtotime($featured['upload_date'])) : '';
+    $feat_time    = calcReadingTime($featured['blog_content'] ?? '');
+    $feat_excerpt = !empty($featured['summary'])
+        ? mb_substr(strip_tags($featured['summary']), 0, 200)
+        : mb_substr(strip_tags($featured['blog_content'] ?? ''), 0, 200);
+?>
+<div class="pr-featured-wrap">
+    <a href="press.php?id=<?= $featured['blog_id'] ?>" class="pr-featured">
+        <div class="pr-featured-img">
+            <?php if ($feat_thumb): ?>
+            <img src="<?= htmlspecialchars($feat_thumb) ?>"
+                 alt="<?= htmlspecialchars($featured['blog_title']) ?>">
+            <?php else: ?>
+            <div class="pr-featured-img-empty"><i class="far fa-newspaper"></i></div>
+            <?php endif; ?>
+            <span class="pr-feat-badge">
+                <?php if (!empty($featured['featured']) && $featured['featured'] == 1): ?>
+                <i class="fas fa-star"></i> Featured
+                <?php else: ?>
+                Latest
+                <?php endif; ?>
+            </span>
+        </div>
+        <div class="pr-featured-body">
+            <span class="pr-cat pr-cat--<?= $feat_cat_cls ?>"><?= $feat_cat_lbl ?></span>
+            <h2 class="pr-featured-title"><?= htmlspecialchars($featured['blog_title']) ?></h2>
+            <?php if ($feat_excerpt): ?>
+            <p class="pr-featured-excerpt"><?= htmlspecialchars($feat_excerpt) ?>…</p>
+            <?php endif; ?>
+            <div class="pr-featured-meta">
+                <?php if ($feat_date): ?>
+                <span><i class="far fa-calendar-alt"></i> <?= $feat_date ?></span>
+                <?php endif; ?>
+                <?php if (!empty($featured['blog_author'])): ?>
+                <span><i class="far fa-user"></i> <?= htmlspecialchars($featured['blog_author']) ?></span>
+                <?php endif; ?>
+                <span><i class="far fa-clock"></i> <?= $feat_time ?> min read</span>
+            </div>
+            <span class="pr-featured-cta">Read Article <i class="fas fa-arrow-right"></i></span>
+        </div>
+    </a>
+</div>
+<?php endif; ?>
+
+<!-- Main Content -->
 <div class="pr-main">
 
-    <?php if (!empty($indexed)): ?>
+    <!-- Filter Bar -->
+    <?php if (!empty($posts) || $cat_filter !== 'all' || $year_filter !== 'all'): ?>
     <div class="pr-filters">
-        <?php if (count($available_categories) > 1): ?>
+        <?php if (count($available_cats) > 1): ?>
         <div class="pr-filter-group">
             <span class="pr-filter-label">Category</span>
-            <div class="pr-filter-pills" id="categoryPills">
-                <button class="pr-pill active" data-filter-cat="all">All</button>
-                <?php foreach (array_keys($available_categories) as $cat): ?>
-                <button class="pr-pill" data-filter-cat="<?= htmlspecialchars($cat) ?>"><?= htmlspecialchars(getCategoryLabel($cat)) ?></button>
+            <div class="pr-filter-pills" id="catPills">
+                <a href="<?= buildListUrl(['year'=>$year_filter,'search'=>$search]) ?>"
+                   class="pr-pill <?= $cat_filter === 'all' ? 'active' : '' ?>">All</a>
+                <?php foreach ($available_cats as $cat):
+                    $lbl = getCategoryLabel($cat);
+                ?>
+                <a href="<?= buildListUrl(['cat'=>$cat,'year'=>$year_filter,'search'=>$search]) ?>"
+                   class="pr-pill <?= $cat_filter === $cat ? 'active' : '' ?>"><?= htmlspecialchars($lbl) ?></a>
                 <?php endforeach; ?>
             </div>
         </div>
@@ -190,10 +548,12 @@ if ($current_article) {
         <?php if (!empty($available_years)): ?>
         <div class="pr-filter-group">
             <span class="pr-filter-label">Year</span>
-            <div class="pr-filter-pills" id="yearPills">
-                <button class="pr-pill active" data-filter-year="all">All</button>
-                <?php foreach (array_keys($available_years) as $yr): ?>
-                <button class="pr-pill" data-filter-year="<?= (int)$yr ?>"><?= (int)$yr ?></button>
+            <div class="pr-filter-pills">
+                <a href="<?= buildListUrl(['cat'=>$cat_filter,'search'=>$search]) ?>"
+                   class="pr-pill <?= $year_filter === 'all' ? 'active' : '' ?>">All</a>
+                <?php foreach ($available_years as $yr): ?>
+                <a href="<?= buildListUrl(['cat'=>$cat_filter,'year'=>$yr,'search'=>$search]) ?>"
+                   class="pr-pill <?= (string)$year_filter === (string)$yr ? 'active' : '' ?>"><?= (int)$yr ?></a>
                 <?php endforeach; ?>
             </div>
         </div>
@@ -201,86 +561,86 @@ if ($current_article) {
     </div>
     <?php endif; ?>
 
-    <?php if (empty($indexed)): ?>
+    <!-- Grid -->
+    <?php if (empty($posts)): ?>
     <div class="pr-empty">
         <i class="far fa-newspaper"></i>
-        <p>No press updates yet. Check back soon.</p>
+        <?php if ($search !== '' || $cat_filter !== 'all' || $year_filter !== 'all'): ?>
+        <p>No articles match your search. <a href="press.php" style="color:var(--primary)">Clear filters</a></p>
+        <?php else: ?>
+        <p>No articles published yet. Check back soon.</p>
+        <?php endif; ?>
     </div>
     <?php else: ?>
-    <div class="pr-grid" id="pressGrid">
-        <?php foreach ($indexed as $idx => $item):
-            $thumb    = getThumbnailUrl($item);
-            $cat_lbl  = getCategoryLabel($item['category'] ?? 'news');
-            $date_fmt = !empty($item['upload_date']) ? date('M j, Y', strtotime($item['upload_date'])) : '';
-            $summary  = !empty($item['summary']) ? mb_substr(strip_tags($item['summary']), 0, 140) : '';
+    <div class="pr-grid">
+        <?php foreach ($posts as $post):
+            $thumb     = getThumbnail($post);
+            $cat_cls   = getCategoryClass($post['category'] ?? 'news');
+            $cat_lbl   = getCategoryLabel($post['category'] ?? 'news');
+            $date_fmt  = !empty($post['upload_date']) ? date('M j, Y', strtotime($post['upload_date'])) : '';
+            $read_t    = calcReadingTime($post['blog_content'] ?? '');
+            $excerpt   = !empty($post['summary'])
+                ? mb_substr(strip_tags($post['summary']), 0, 130)
+                : mb_substr(strip_tags($post['blog_content'] ?? ''), 0, 130);
         ?>
-        <a href="press.php?article=<?= $idx ?>"
-           class="press-card-link"
-           data-year="<?= (int)($item['year'] ?? 0) ?>"
-           data-category="<?= htmlspecialchars($item['category'] ?? 'news') ?>">
-            <div class="press-card">
-                <?php if ($thumb): ?>
-                <img class="pr-card-img"
-                     src="<?= htmlspecialchars($thumb) ?>"
-                     alt="<?= htmlspecialchars($item['blog_title']) ?>"
-                     loading="lazy">
-                <?php else: ?>
-                <div class="pr-card-img-empty"><i class="far fa-newspaper"></i></div>
-                <?php endif; ?>
-                <div class="pr-card-title"><?= htmlspecialchars($item['blog_title']) ?></div>
-                <div class="pr-card-meta"><?= $date_fmt ?><?= ($date_fmt && $cat_lbl) ? ' · ' : '' ?><?= htmlspecialchars($cat_lbl) ?></div>
-                <?php if ($summary): ?>
-                <div class="pr-card-summary"><?= htmlspecialchars($summary) ?></div>
-                <?php endif; ?>
-                <span class="pr-read-more">Read More <i class="fas fa-arrow-right"></i></span>
-            </div>
+        <a href="press.php?id=<?= $post['blog_id'] ?>" class="pr-card-link">
+            <article class="pr-card">
+                <div class="pr-card-media">
+                    <?php if ($thumb): ?>
+                    <img src="<?= htmlspecialchars($thumb) ?>"
+                         alt="<?= htmlspecialchars($post['blog_title']) ?>"
+                         loading="lazy">
+                    <?php else: ?>
+                    <div class="pr-card-media-empty"><i class="far fa-newspaper"></i></div>
+                    <?php endif; ?>
+                </div>
+                <div class="pr-card-body">
+                    <div class="pr-card-top">
+                        <span class="pr-cat pr-cat--<?= $cat_cls ?>"><?= $cat_lbl ?></span>
+                        <?php if ($date_fmt): ?>
+                        <span class="pr-card-date"><?= $date_fmt ?></span>
+                        <?php endif; ?>
+                    </div>
+                    <div class="pr-card-title"><?= htmlspecialchars($post['blog_title']) ?></div>
+                    <?php if ($excerpt): ?>
+                    <p class="pr-card-excerpt"><?= htmlspecialchars($excerpt) ?></p>
+                    <?php endif; ?>
+                    <div class="pr-card-foot">
+                        <span class="pr-read-time"><i class="far fa-clock"></i> <?= $read_t ?> min read</span>
+                        <span class="pr-read-more">Read More <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </div>
+            </article>
         </a>
         <?php endforeach; ?>
-        <div class="pr-no-results" id="noResults" style="display:none;">
-            <i class="far fa-search"></i>
-            <p>No posts match the selected filters.</p>
-        </div>
     </div>
+
+    <!-- Pagination -->
+    <?php if ($total_pages > 1): ?>
+    <nav class="pr-pagination" aria-label="Articles pagination">
+        <?php
+            $base = buildListUrl(['cat'=>$cat_filter,'year'=>$year_filter,'search'=>$search]);
+            $sep  = strpos($base, '?') !== false ? '&' : '?';
+        ?>
+        <?php if ($page > 1): ?>
+        <a href="<?= $base . $sep ?>page=<?= $page - 1 ?>" class="pr-page-btn">
+            <i class="fas fa-chevron-left"></i> Prev
+        </a>
+        <?php endif; ?>
+        <?php for ($i = max(1, $page-2); $i <= min($total_pages, $page+2); $i++): ?>
+        <a href="<?= $base . $sep ?>page=<?= $i ?>"
+           class="pr-page-btn <?= $i === $page ? 'active' : '' ?>"><?= $i ?></a>
+        <?php endfor; ?>
+        <?php if ($page < $total_pages): ?>
+        <a href="<?= $base . $sep ?>page=<?= $page + 1 ?>" class="pr-page-btn">
+            Next <i class="fas fa-chevron-right"></i>
+        </a>
+        <?php endif; ?>
+    </nav>
+    <?php endif; ?>
     <?php endif; ?>
 
 </div>
-
-<script>
-(function () {
-    var activeCat  = 'all';
-    var activeYear = 'all';
-
-    function applyFilters() {
-        var links   = document.querySelectorAll('#pressGrid .press-card-link');
-        var visible = 0;
-        links.forEach(function (link) {
-            var show = (activeCat  === 'all' || link.dataset.category === activeCat) &&
-                       (activeYear === 'all' || link.dataset.year     === activeYear);
-            link.style.display = show ? '' : 'none';
-            if (show) visible++;
-        });
-        var noRes = document.getElementById('noResults');
-        if (noRes) noRes.style.display = (visible === 0) ? 'block' : 'none';
-    }
-
-    function bindPills(id, key) {
-        var wrap = document.getElementById(id);
-        if (!wrap) return;
-        wrap.addEventListener('click', function (e) {
-            var btn = e.target.closest('.pr-pill');
-            if (!btn) return;
-            wrap.querySelectorAll('.pr-pill').forEach(function (p) { p.classList.remove('active'); });
-            btn.classList.add('active');
-            if (key === 'cat')  activeCat  = btn.dataset.filterCat  || 'all';
-            if (key === 'year') activeYear = btn.dataset.filterYear || 'all';
-            applyFilters();
-        });
-    }
-
-    bindPills('categoryPills', 'cat');
-    bindPills('yearPills',     'year');
-}());
-</script>
 <?php endif; ?>
 
 <?php include 'footer.php'; ?>
