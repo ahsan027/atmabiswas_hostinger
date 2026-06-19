@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 if (!isset($_SESSION['username'])) {
     header("Location: ../login/loging.php");
     exit();
@@ -8,37 +7,50 @@ if (!isset($_SESSION['username'])) {
 
 require_once '../../config.php';
 
-/* ── DB connection ─────────────────────────────────────────────── */
+/* ── DB connection ──────────────────────────────────────────────── */
+$pdo = null;
+$db_error = null;
 try {
     include '../Database/db.php';
-    $db  = new Db();
-    $pdo = $db->connect();
+    $pdo = (new Db())->connect();
 } catch (Exception $e) {
-    $db_error = 'Could not connect to the database. Please check your connection settings.';
-    $pdo = null;
+    $db_error = 'Database connection failed.';
 }
 
-/* ── Detect which columns actually exist ────────────────────────── */
-$has_views    = false;
-$has_status   = false;
-$has_featured = false;
-$has_category = false;
-$existing_cols = [];
+/* ── Helpers ────────────────────────────────────────────────────── */
+function ytId(string $url): string {
+    if (preg_match('/youtu\.be\/([a-zA-Z0-9_-]{11})/', $url, $m)) return $m[1];
+    if (preg_match('/[?&]v=([a-zA-Z0-9_-]{11})/', $url, $m))       return $m[1];
+    if (preg_match('/embed\/([a-zA-Z0-9_-]{11})/', $url, $m))       return $m[1];
+    return '';
+}
 
+function articleThumb(array $post): string {
+    if (!empty($post['cover_img'])) return $post['cover_img'];
+    $yt = ytId($post['source_link'] ?? '');
+    return $yt ? "https://img.youtube.com/vi/{$yt}/mqdefault.jpg" : '';
+}
+
+function articleType(array $post): string {
+    if (!empty($post['cover_img']))   return 'image';
+    $yt = ytId($post['source_link'] ?? '');
+    if ($yt)                          return 'youtube';
+    return 'text';
+}
+
+/* ── Column detection ───────────────────────────────────────────── */
+$existing_cols = [];
 if ($pdo) {
     try {
-        $col_stmt = $pdo->query(
+        $existing_cols = $pdo->query(
             "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS
-             WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'blogs'"
-        );
-        $existing_cols = $col_stmt->fetchAll(PDO::FETCH_COLUMN);
-    } catch (PDOException $e) {
-        $existing_cols = [];
-    }
+             WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='blogs'"
+        )->fetchAll(PDO::FETCH_COLUMN);
+    } catch (PDOException $e) {}
 }
 
-/* ── Auto-apply missing columns (runs once, silently) ───────────── */
-$auto_migrated = false;
+/* ── Auto-migration (adds any missing columns, runs once) ───────── */
+$migrated = [];
 if ($pdo) {
     $needed = [
         'category'        => "ALTER TABLE blogs ADD COLUMN category VARCHAR(50) NOT NULL DEFAULT 'news'",
@@ -59,539 +71,677 @@ if ($pdo) {
         if (!in_array($col, $existing_cols)) {
             try {
                 $pdo->exec($ddl);
-                $auto_migrated = true;
+                $migrated[]      = $col;
+                $existing_cols[] = $col;
             } catch (PDOException $e) {
-                // Ignore "Duplicate column" — means it was added in a parallel request
+                // Duplicate column = already exists; safe to ignore
             }
         }
     }
-    // Re-read columns after migration
-    if ($auto_migrated) {
-        try {
-            $col_stmt = $pdo->query(
-                "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS
-                 WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'blogs'"
-            );
-            $existing_cols = $col_stmt->fetchAll(PDO::FETCH_COLUMN);
-        } catch (PDOException $e) {}
-    }
 }
+$auto_migrated = count($migrated) > 0;
+$has = array_flip($existing_cols);
 
-$has_views    = in_array('views',    $existing_cols);
-$has_status   = in_array('status',   $existing_cols);
-$has_featured = in_array('featured', $existing_cols);
-$has_category = in_array('category', $existing_cols);
-
-/* ── Handle quick actions ────────────────────────────────────────── */
-$action  = $_GET['action'] ?? '';
-$blog_id = (int)($_GET['id'] ?? 0);
-$message = '';
-$msg_type = 'success';
-
-if ($action && $blog_id && $pdo) {
+/* ── AJAX handler (featured/status toggle) ──────────────────────── */
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['ajax']) && $pdo) {
+    header('Content-Type: application/json');
+    $aid = (int)($_POST['id'] ?? 0);
+    if (!$aid) { echo json_encode(['ok' => false]); exit; }
     try {
-        switch ($action) {
-            case 'delete':
-                $pdo->prepare("DELETE FROM blogs WHERE blog_id = ?")->execute([$blog_id]);
-                $message = 'Article deleted successfully.';
+        switch ($_POST['ajax']) {
+            case 'featured':
+                $cur = (int)$pdo->query("SELECT COALESCE(featured,0) FROM blogs WHERE blog_id=$aid")->fetchColumn();
+                $new = $cur ? 0 : 1;
+                $pdo->prepare("UPDATE blogs SET featured=? WHERE blog_id=?")->execute([$new, $aid]);
+                echo json_encode(['ok' => true, 'val' => $new]);
                 break;
-            case 'publish':
-                if ($has_status) {
-                    $pdo->prepare("UPDATE blogs SET status = 'published' WHERE blog_id = ?")->execute([$blog_id]);
-                    $message = 'Article published.';
-                } else {
-                    $message = 'Status column not available — run the database migration first.';
-                    $msg_type = 'warning';
-                }
+            case 'status':
+                $cur = (string)$pdo->query("SELECT COALESCE(status,'published') FROM blogs WHERE blog_id=$aid")->fetchColumn();
+                $new = ($cur === 'draft') ? 'published' : 'draft';
+                $pdo->prepare("UPDATE blogs SET status=? WHERE blog_id=?")->execute([$new, $aid]);
+                echo json_encode(['ok' => true, 'val' => $new]);
                 break;
-            case 'draft':
-                if ($has_status) {
-                    $pdo->prepare("UPDATE blogs SET status = 'draft' WHERE blog_id = ?")->execute([$blog_id]);
-                    $message = 'Article moved to drafts.';
-                } else {
-                    $message = 'Status column not available — run the database migration first.';
-                    $msg_type = 'warning';
-                }
-                break;
-            case 'feature':
-                if ($has_featured) {
-                    $pdo->prepare("UPDATE blogs SET featured = 1 WHERE blog_id = ?")->execute([$blog_id]);
-                    $pdo->prepare("UPDATE blogs SET featured = 0 WHERE blog_id != ?")->execute([$blog_id]);
-                    $message = 'Article set as featured.';
-                } else {
-                    $message = 'Featured column not available — run the database migration first.';
-                    $msg_type = 'warning';
-                }
-                break;
+            default:
+                echo json_encode(['ok' => false]);
         }
     } catch (PDOException $e) {
-        $message  = 'Action failed: ' . htmlspecialchars($e->getMessage());
-        $msg_type = 'danger';
+        echo json_encode(['ok' => false, 'msg' => $e->getMessage()]);
     }
+    exit;
 }
 
-/* ── Pagination + filters ────────────────────────────────────────── */
-$page          = max(1, (int)($_GET['page'] ?? 1));
-$limit         = 10;
-$offset        = ($page - 1) * $limit;
-$search        = trim($_GET['search'] ?? '');
-$status_filter = $has_status ? ($_GET['status'] ?? '') : '';
-
-$where_conditions = [];
-$params           = [];
-
-if ($search !== '') {
-    $where_conditions[] = "(blog_title LIKE ? OR blog_content LIKE ?)";
-    $params[] = "%{$search}%";
-    $params[] = "%{$search}%";
-}
-
-if ($status_filter !== '' && $has_status) {
-    if ($status_filter === 'published') {
-        $where_conditions[] = "(status = 'published' OR status IS NULL)";
-    } else {
-        $where_conditions[] = "status = ?";
-        $params[] = $status_filter;
-    }
-}
-
-$where_clause = $where_conditions ? 'WHERE ' . implode(' AND ', $where_conditions) : '';
-
-/* ── Build safe SELECT (only reference columns that exist) ─────── */
-$select_views    = $has_views    ? "COALESCE(views, 0)"             : "0";
-$select_status   = $has_status   ? "COALESCE(status, 'published')"  : "'published'";
-$select_featured = $has_featured ? ", featured"                     : ", 0 AS featured";
-$select_category = $has_category ? ", category"                     : ", 'news' AS category";
-
-$total_posts  = 0;
-$total_pages  = 0;
-$posts        = [];
-$stats        = ['published' => 0, 'drafts' => 0, 'views' => 0, 'total' => 0];
-
-if ($pdo) {
+/* ── GET action: delete ─────────────────────────────────────────── */
+$flash = '';
+$flash_type = 'success';
+if (($_GET['action'] ?? '') === 'delete' && ($did = (int)($_GET['id'] ?? 0)) && $pdo) {
     try {
-        /* Count */
-        $count_stmt = $pdo->prepare("SELECT COUNT(*) AS total FROM blogs {$where_clause}");
-        $count_stmt->execute($params);
-        $total_posts = (int)($count_stmt->fetch(PDO::FETCH_ASSOC)['total'] ?? 0);
-        $total_pages = (int)ceil($total_posts / $limit);
+        $pdo->prepare("DELETE FROM blogs WHERE blog_id=?")->execute([$did]);
+        $flash = 'Article deleted.';
+    } catch (PDOException $e) {
+        $flash      = 'Delete failed: ' . htmlspecialchars($e->getMessage());
+        $flash_type = 'danger';
+    }
+}
 
-        /* Posts */
-        $sql = "
-            SELECT
-                blog_id, blog_title, blog_author, upload_date, cover_img,
-                {$select_status}   AS status,
-                {$select_views}    AS views
-                {$select_featured}
-                {$select_category},
-                SUBSTRING(blog_content, 1, 200) AS excerpt
-            FROM blogs
-            {$where_clause}
-            ORDER BY upload_date DESC
-            LIMIT {$limit} OFFSET {$offset}
-        ";
-        $stmt  = $pdo->prepare($sql);
-        $stmt->execute($params);
-        $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+/* ── Filters + pagination ────────────────────────────────────────── */
+$page     = max(1, (int)($_GET['page']   ?? 1));
+$limit    = 15;
+$offset   = ($page - 1) * $limit;
+$search   = trim($_GET['search'] ?? '');
+$status_f = trim($_GET['status'] ?? '');
+$cat_f    = trim($_GET['cat']    ?? '');
+
+$where  = [];
+$params = [];
+if ($search !== '') {
+    $where[]  = "(blog_title LIKE ? OR blog_content LIKE ?)";
+    $params[] = "%{$search}%";
+    $params[] = "%{$search}%";
+}
+if ($status_f !== '' && isset($has['status'])) {
+    if ($status_f === 'published') {
+        $where[] = "(status='published' OR status IS NULL)";
+    } else {
+        $where[]  = "status=?";
+        $params[] = $status_f;
+    }
+}
+if ($cat_f !== '' && isset($has['category'])) {
+    $where[]  = "category=?";
+    $params[] = $cat_f;
+}
+$wc = $where ? 'WHERE '.implode(' AND ', $where) : '';
+
+/* ── Dynamic SELECT ─────────────────────────────────────────────── */
+$sel_status   = isset($has['status'])      ? "COALESCE(status,'published')" : "'published'";
+$sel_views    = isset($has['views'])       ? "COALESCE(views,0)"            : "0";
+$sel_featured = isset($has['featured'])    ? "COALESCE(featured,0)"         : "0";
+$sel_category = isset($has['category'])    ? "category"                     : "'news'";
+$sel_srclink  = isset($has['source_link']) ? "source_link"                  : "NULL";
+
+/* ── Fetch posts + stats ─────────────────────────────────────────── */
+$total = 0; $total_pages = 1; $posts = [];
+$stats = ['total' => 0, 'published' => 0, 'drafts' => 0, 'views' => 0];
+
+if ($pdo && !$db_error) {
+    try {
+        $cs = $pdo->prepare("SELECT COUNT(*) FROM blogs $wc");
+        $cs->execute($params);
+        $total       = (int)$cs->fetchColumn();
+        $total_pages = max(1, (int)ceil($total / $limit));
+
+        $sql = "SELECT blog_id, blog_title, blog_author, upload_date, cover_img,
+                       {$sel_srclink}  AS source_link,
+                       {$sel_category} AS category,
+                       {$sel_status}   AS status,
+                       {$sel_views}    AS views,
+                       {$sel_featured} AS featured
+                FROM blogs $wc
+                ORDER BY upload_date DESC
+                LIMIT $limit OFFSET $offset";
+        $st = $pdo->prepare($sql);
+        $st->execute($params);
+        $posts = $st->fetchAll(PDO::FETCH_ASSOC);
 
         /* Stats */
-        $stats['total'] = $total_posts;
-        if ($has_status) {
-            $s = $pdo->query("SELECT
-                SUM(status = 'published' OR status IS NULL) AS pub,
-                SUM(status = 'draft')                       AS dft
-                FROM blogs")->fetch(PDO::FETCH_ASSOC);
-            $stats['published'] = (int)($s['pub'] ?? 0);
-            $stats['drafts']    = (int)($s['dft'] ?? 0);
+        $stats['total'] = (int)$pdo->query("SELECT COUNT(*) FROM blogs")->fetchColumn();
+        if (isset($has['status'])) {
+            $sv = $pdo->query("SELECT SUM(status='published' OR status IS NULL) AS p, SUM(status='draft') AS d FROM blogs")->fetch();
+            $stats['published'] = (int)($sv['p'] ?? 0);
+            $stats['drafts']    = (int)($sv['d'] ?? 0);
         } else {
-            $stats['published'] = $total_posts;
+            $stats['published'] = $stats['total'];
         }
-        if ($has_views) {
-            $v = $pdo->query("SELECT COALESCE(SUM(views),0) AS total FROM blogs")->fetch(PDO::FETCH_ASSOC);
-            $stats['views'] = (int)($v['total'] ?? 0);
+        if (isset($has['views'])) {
+            $stats['views'] = (int)$pdo->query("SELECT COALESCE(SUM(views),0) FROM blogs")->fetchColumn();
         }
     } catch (PDOException $e) {
         $db_error = 'Query error: ' . $e->getMessage();
         $posts    = [];
     }
 }
+
+/* ── Category labels ─────────────────────────────────────────────── */
+$cat_labels = [
+    'news'         => 'News',
+    'media'        => 'Media',
+    'announcement' => 'Announcement',
+    'press'        => 'Press Release',
+];
+$cat_colors = [
+    'news'         => '#2563eb',
+    'media'        => '#7c3aed',
+    'announcement' => '#d97706',
+    'press'        => '#059669',
+];
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Article Manager — ATMABISWAS Admin</title>
-    <link rel="icon" type="image/png" href="../images/logo/logo.png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #0073e6;
-            --dark:    #1e3a5f;
-        }
-        body { background: #f5f7fa; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Article Manager — ATMABISWAS Admin</title>
+<link rel="icon" type="image/png" href="../images/logo/logo.png">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+    --pri:  #0073e6;
+    --dark: #1e3a5f;
+    --bg:   #f5f7fa;
+    --rad:  12px;
+    --sh:   0 2px 10px rgba(0,0,0,.07);
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); font-family: system-ui,-apple-system,'Segoe UI',sans-serif; font-size: .93rem; color: #222; }
 
-        .page-header {
-            background: linear-gradient(135deg, var(--dark) 0%, var(--primary) 100%);
-            color: #fff;
-            padding: 2rem 0;
-            margin-bottom: 2rem;
-        }
-        .page-header h1 { font-size: 1.7rem; font-weight: 800; margin: 0 0 .25rem; }
-        .page-header p  { opacity: .8; margin: 0; font-size: .92rem; }
+/* ── Page header ── */
+.am-header {
+    background: linear-gradient(135deg, var(--dark) 0%, var(--pri) 100%);
+    color: #fff; padding: 1.5rem 0;
+}
+.am-header h1 { font-size: 1.5rem; font-weight: 800; margin: 0 0 .2rem; }
+.am-header p  { opacity: .75; margin: 0; font-size: .85rem; }
 
-        .stat-card {
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 2px 12px rgba(0,0,0,.07);
-            padding: 1.25rem 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        .stat-icon {
-            width: 48px; height: 48px;
-            border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.3rem;
-            flex-shrink: 0;
-        }
-        .stat-icon.blue   { background: #dbeafe; color: #1d4ed8; }
-        .stat-icon.green  { background: #dcfce7; color: #166534; }
-        .stat-icon.yellow { background: #fef9c3; color: #92400e; }
-        .stat-icon.purple { background: #ede9fe; color: #5b21b6; }
-        .stat-num   { font-size: 1.6rem; font-weight: 800; color: var(--dark); line-height: 1; }
-        .stat-label { font-size: .78rem; color: #6b7280; margin-top: .15rem; }
+/* ── Stat cards ── */
+.sc { background:#fff; border-radius: var(--rad); box-shadow: var(--sh);
+      padding: 1rem 1.25rem; display:flex; align-items:center; gap:.85rem; }
+.sc-icon { width:42px; height:42px; border-radius:9px; display:flex;
+           align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0; }
+.sc-num  { font-size:1.5rem; font-weight:800; color:var(--dark); line-height:1; }
+.sc-lbl  { font-size:.72rem; color:#6b7280; margin-top:.1rem; }
 
-        .filter-bar {
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 2px 12px rgba(0,0,0,.07);
-            padding: 1.1rem 1.5rem;
-            margin-bottom: 1.5rem;
-        }
+/* ── Filter bar ── */
+.filter-bar { background:#fff; border-radius: var(--rad); box-shadow: var(--sh);
+              padding: 1rem 1.25rem; margin-bottom:1.25rem; }
 
-        .post-row {
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,.06);
-            padding: 1rem 1.25rem;
-            margin-bottom: .75rem;
-            display: grid;
-            grid-template-columns: 70px 1fr auto auto;
-            align-items: center;
-            gap: 1rem;
-        }
-        .post-thumb {
-            width: 70px; height: 52px;
-            object-fit: cover;
-            border-radius: 7px;
-            display: block;
-        }
-        .post-thumb-empty {
-            width: 70px; height: 52px;
-            background: linear-gradient(135deg, var(--dark), var(--primary));
-            border-radius: 7px;
-            display: flex; align-items: center; justify-content: center;
-            color: rgba(255,255,255,.4); font-size: 1.1rem;
-        }
-        .post-title { font-weight: 700; color: var(--dark); font-size: .97rem; line-height: 1.35; }
-        .post-meta  { font-size: .78rem; color: #9ca3af; margin-top: .2rem; }
-        .post-excerpt { font-size: .82rem; color: #6b7280; margin-top: .3rem;
-            display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+/* ── Table card ── */
+.table-card { background:#fff; border-radius: var(--rad); box-shadow: var(--sh); overflow:hidden; }
+.table-card table { margin:0; font-size:.875rem; }
+.table-card thead th {
+    background: #f8fafc; color: #475569; font-weight: 700;
+    font-size: .72rem; text-transform: uppercase; letter-spacing: .06em;
+    border-bottom: 1.5px solid #e2e8f0; padding: .65rem 1rem; white-space:nowrap;
+}
+.table-card tbody td { padding: .75rem 1rem; vertical-align: middle; border-bottom: 1px solid #f1f5f9; }
+.table-card tbody tr:last-child td { border-bottom: none; }
+.table-card tbody tr:hover { background: #fafbfd; }
 
-        .status-pill {
-            display: inline-block; font-size: .7rem; font-weight: 700;
-            text-transform: uppercase; letter-spacing: .07em;
-            padding: .22rem .7rem; border-radius: 20px; white-space: nowrap;
-        }
-        .pill-published { background: #dcfce7; color: #166534; }
-        .pill-draft     { background: #fef9c3; color: #92400e; }
-        .pill-archived  { background: #f3f4f6; color: #374151; }
+/* ── Thumbnail ── */
+.art-thumb {
+    width: 76px; height: 52px; object-fit: cover;
+    border-radius: 7px; display: block; background: #e2e8f0;
+}
+.art-thumb-empty {
+    width: 76px; height: 52px; border-radius: 7px;
+    background: linear-gradient(135deg,#334155,#64748b);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,.35); font-size: 1.1rem;
+}
+.art-thumb-yt { position:relative; display:inline-block; }
+.art-thumb-yt img { display:block; }
 
-        .action-btns { display: flex; gap: .35rem; flex-wrap: wrap; justify-content: flex-end; }
-        .action-btn {
-            border: 1.5px solid #d1d5db; background: #fff; color: #374151;
-            font-size: .78rem; font-weight: 600; padding: .35rem .7rem;
-            border-radius: 6px; text-decoration: none; cursor: pointer;
-            transition: all .15s; white-space: nowrap; font-family: inherit;
-        }
-        .action-btn:hover { border-color: var(--primary); color: var(--primary); }
-        .action-btn.del:hover { border-color: #dc2626; color: #dc2626; }
-        .action-btn.pub  { border-color: #16a34a; color: #16a34a; }
-        .action-btn.feat { border-color: #d97706; color: #d97706; }
+/* ── Title cell ── */
+.art-title { font-weight: 700; color: var(--dark); line-height: 1.35;
+             display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+             max-width: 240px; }
+.art-title a { text-decoration:none; color:inherit; }
+.art-title a:hover { color: var(--pri); }
 
-        .empty-state { text-align: center; padding: 4rem 2rem; background: #fff;
-            border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,.07); color: #9ca3af; }
-        .empty-state i { font-size: 3rem; margin-bottom: 1rem; display: block; color: #d1d5db; }
+/* ── Category badge ── */
+.cat-badge {
+    display: inline-block; font-size: .68rem; font-weight: 700;
+    padding: .18rem .55rem; border-radius: 20px; white-space: nowrap;
+    margin-top: .3rem;
+    border: 1.5px solid currentColor;
+}
 
+/* ── Status pill ── */
+.st-pill {
+    display: inline-flex; align-items: center; gap: .3rem;
+    font-size: .75rem; font-weight: 700; padding: .25rem .65rem;
+    border-radius: 20px; white-space: nowrap; cursor: pointer;
+    border: none; background: none;
+    transition: opacity .15s;
+}
+.st-pill:hover { opacity: .75; }
+.st-pub  { background: #dcfce7; color: #166534; }
+.st-dft  { background: #f1f5f9; color: #475569; }
+.st-dot  { width:6px; height:6px; border-radius:50%; background:currentColor; }
 
-    </style>
+/* ── Featured switch ── */
+.feat-switch { position:relative; display:inline-block; width:38px; height:22px; cursor:pointer; }
+.feat-switch input { opacity:0; width:0; height:0; position:absolute; }
+.feat-slider {
+    position:absolute; top:0; left:0; right:0; bottom:0;
+    background:#d1d5db; border-radius:22px; transition:background .2s;
+}
+.feat-slider::before {
+    content:''; position:absolute; width:16px; height:16px;
+    background:#fff; border-radius:50%; left:3px; top:3px; transition:transform .2s;
+}
+.feat-switch input:checked + .feat-slider { background: #d97706; }
+.feat-switch input:checked + .feat-slider::before { transform: translateX(16px); }
+
+/* ── Action buttons ── */
+.act-btn {
+    display: inline-flex; align-items: center; gap: .25rem;
+    font-size: .75rem; font-weight: 600; padding: .3rem .6rem;
+    border-radius: 6px; border: 1.5px solid #d1d5db;
+    background: #fff; color: #374151; cursor: pointer;
+    text-decoration: none; white-space: nowrap; font-family: inherit;
+}
+.act-btn:hover          { border-color: var(--pri); color: var(--pri); }
+.act-btn.del:hover      { border-color: #dc2626;   color: #dc2626; }
+.act-btn.preview:hover  { border-color: #059669;   color: #059669; }
+
+/* ── Type icon ── */
+.type-icon { font-size: .78rem; color: #94a3b8; margin-top:.3rem; }
+.type-icon.yt  { color:#dc2626; }
+.type-icon.img { color:#2563eb; }
+
+/* ── Views ── */
+.views-num { font-weight: 700; color: #374151; }
+.views-lbl { font-size:.68rem; color:#94a3b8; }
+
+/* ── Empty state ── */
+.empty-state { text-align:center; padding:4rem 2rem; color:#94a3b8; }
+.empty-state i { font-size:2.5rem; margin-bottom:.75rem; display:block; }
+
+/* ── Pagination ── */
+.pg-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 34px; height: 34px; border-radius: 7px;
+    font-size: .82rem; font-weight: 600; text-decoration: none;
+    border: 1.5px solid #e2e8f0; background: #fff; color: #374151;
+}
+.pg-btn:hover  { border-color: var(--pri); color: var(--pri); }
+.pg-btn.active { background: var(--pri); border-color: var(--pri); color: #fff; }
+.pg-btn.disabled { pointer-events:none; opacity:.4; }
+
+/* ── Delete modal ── */
+.del-modal-overlay {
+    display:none; position:fixed; inset:0; background:rgba(0,0,0,.45);
+    z-index:9999; align-items:center; justify-content:center;
+}
+.del-modal-overlay.show { display:flex; }
+.del-modal {
+    background:#fff; border-radius:14px; padding:2rem;
+    max-width:380px; width:90%; box-shadow:0 20px 60px rgba(0,0,0,.2);
+    text-align:center;
+}
+.del-modal i { font-size:2.5rem; color:#dc2626; margin-bottom:.75rem; }
+.del-modal h5 { font-weight:800; color:#1e293b; margin-bottom:.4rem; }
+.del-modal p { color:#64748b; font-size:.88rem; margin-bottom:1.25rem; }
+</style>
 </head>
 <body>
 
-<div class="page-header">
+<!-- Header -->
+<div class="am-header">
     <div class="container">
         <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
             <div>
-                <h1><i class="fas fa-newspaper me-2"></i> Article Manager</h1>
-                <p>ATMABISWAS News &amp; Media Center — manage all articles</p>
+                <h1><i class="fas fa-newspaper me-2"></i>Article Manager</h1>
+                <p>Manage News &amp; Media Articles — ATMABISWAS</p>
             </div>
             <div class="d-flex gap-2">
-                <a href="blog_enhanced.php" class="btn btn-light fw-bold">
-                    <i class="fas fa-plus"></i> Add New Article
+                <a href="blog_enhanced.php" class="btn btn-light fw-bold btn-sm">
+                    <i class="fas fa-plus"></i> New Article
                 </a>
-                <a href="<?= DASHBOARD_PATH ?>" class="btn btn-outline-light">
-                    <i class="fas fa-arrow-left"></i> Dashboard
+                <a href="dashboard.php" class="btn btn-outline-light btn-sm">
+                    <i class="fas fa-th-large"></i> Dashboard
+                </a>
+                <a href="../../press.php" target="_blank" class="btn btn-outline-light btn-sm">
+                    <i class="fas fa-external-link-alt"></i> Newsroom
                 </a>
             </div>
         </div>
     </div>
 </div>
 
-<div class="container pb-5">
+<div class="container py-4">
 
-    <?php if (!empty($db_error)): ?>
-    <div class="alert alert-danger rounded-3">
-        <i class="fas fa-exclamation-circle me-2"></i>
-        <strong>Database Error:</strong> <?= htmlspecialchars($db_error) ?>
-    </div>
-    <?php endif; ?>
+<?php if ($db_error): ?>
+<div class="alert alert-danger rounded-3 mb-3">
+    <i class="fas fa-times-circle me-2"></i><strong>Error:</strong> <?= htmlspecialchars($db_error) ?>
+</div>
+<?php endif; ?>
 
-    <?php if ($message): ?>
-    <div class="alert alert-<?= $msg_type ?> alert-dismissible rounded-3 fade show">
-        <i class="fas fa-<?= $msg_type === 'success' ? 'check-circle' : ($msg_type === 'warning' ? 'exclamation-triangle' : 'times-circle') ?> me-2"></i>
-        <?= htmlspecialchars($message) ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-    <?php endif; ?>
+<?php if ($auto_migrated): ?>
+<div class="alert alert-success alert-dismissible rounded-3 mb-3 fade show">
+    <i class="fas fa-check-circle me-2"></i>
+    <strong>Database updated.</strong> Added: <code><?= implode('</code>, <code>', $migrated) ?></code>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+<?php endif; ?>
 
-    <?php if ($auto_migrated): ?>
-    <div class="alert alert-success alert-dismissible rounded-3 fade show">
-        <i class="fas fa-check-circle me-2"></i>
-        <strong>Database upgraded successfully.</strong> All missing columns have been added automatically.
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-    <?php endif; ?>
+<?php if ($flash): ?>
+<div class="alert alert-<?= $flash_type ?> alert-dismissible rounded-3 mb-3 fade show">
+    <i class="fas fa-<?= $flash_type === 'success' ? 'check-circle' : 'exclamation-circle' ?> me-2"></i>
+    <?= htmlspecialchars($flash) ?>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+<?php endif; ?>
 
-    <!-- Stats -->
-    <div class="row g-3 mb-4">
-        <div class="col-6 col-md-3">
-            <div class="stat-card">
-                <div class="stat-icon blue"><i class="fas fa-newspaper"></i></div>
-                <div>
-                    <div class="stat-num"><?= number_format($stats['total']) ?></div>
-                    <div class="stat-label">Total Articles</div>
-                </div>
-            </div>
+<!-- Stats -->
+<div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+        <div class="sc">
+            <div class="sc-icon" style="background:#dbeafe;color:#1d4ed8"><i class="fas fa-newspaper"></i></div>
+            <div><div class="sc-num"><?= number_format($stats['total']) ?></div><div class="sc-lbl">Total Articles</div></div>
         </div>
-        <div class="col-6 col-md-3">
-            <div class="stat-card">
-                <div class="stat-icon green"><i class="fas fa-check-circle"></i></div>
-                <div>
-                    <div class="stat-num"><?= number_format($stats['published']) ?></div>
-                    <div class="stat-label">Published</div>
-                </div>
-            </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="sc">
+            <div class="sc-icon" style="background:#dcfce7;color:#166534"><i class="fas fa-check-circle"></i></div>
+            <div><div class="sc-num"><?= number_format($stats['published']) ?></div><div class="sc-lbl">Published</div></div>
         </div>
-        <div class="col-6 col-md-3">
-            <div class="stat-card">
-                <div class="stat-icon yellow"><i class="fas fa-pencil-alt"></i></div>
-                <div>
-                    <div class="stat-num"><?= number_format($stats['drafts']) ?></div>
-                    <div class="stat-label">Drafts</div>
-                </div>
-            </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="sc">
+            <div class="sc-icon" style="background:#fef9c3;color:#92400e"><i class="fas fa-pencil-alt"></i></div>
+            <div><div class="sc-num"><?= number_format($stats['drafts']) ?></div><div class="sc-lbl">Drafts</div></div>
         </div>
-        <div class="col-6 col-md-3">
-            <div class="stat-card">
-                <div class="stat-icon purple"><i class="fas fa-eye"></i></div>
-                <div>
-                    <div class="stat-num"><?= $has_views ? number_format($stats['views']) : '—' ?></div>
-                    <div class="stat-label">Total Views</div>
-                </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="sc">
+            <div class="sc-icon" style="background:#ede9fe;color:#5b21b6"><i class="fas fa-eye"></i></div>
+            <div>
+                <div class="sc-num"><?= isset($has['views']) ? number_format($stats['views']) : '—' ?></div>
+                <div class="sc-lbl">Total Views</div>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Search + filter -->
-    <div class="filter-bar">
-        <form method="GET" class="row g-2 align-items-end">
-            <div class="col-md-6">
-                <label class="form-label small fw-bold text-muted">Search</label>
-                <div class="input-group">
-                    <span class="input-group-text bg-white"><i class="fas fa-search text-muted"></i></span>
-                    <input type="text" class="form-control" name="search"
-                           placeholder="Search articles by title…"
-                           value="<?= htmlspecialchars($search) ?>">
-                </div>
+<!-- Filter bar -->
+<div class="filter-bar mb-4">
+    <form method="GET" class="row g-2 align-items-end">
+        <div class="col-md-5">
+            <label class="form-label small fw-bold text-muted mb-1">Search</label>
+            <div class="input-group input-group-sm">
+                <span class="input-group-text bg-white border-end-0"><i class="fas fa-search text-muted"></i></span>
+                <input type="text" class="form-control border-start-0 ps-1" name="search"
+                       placeholder="Search by title…"
+                       value="<?= htmlspecialchars($search) ?>">
             </div>
-            <?php if ($has_status): ?>
-            <div class="col-md-3">
-                <label class="form-label small fw-bold text-muted">Status</label>
-                <select class="form-select" name="status">
-                    <option value="">All Status</option>
-                    <option value="published" <?= $status_filter === 'published' ? 'selected' : '' ?>>Published</option>
-                    <option value="draft"     <?= $status_filter === 'draft'     ? 'selected' : '' ?>>Drafts</option>
-                </select>
-            </div>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label small fw-bold text-muted mb-1">Status</label>
+            <select class="form-select form-select-sm" name="status">
+                <option value="">All Status</option>
+                <option value="published" <?= $status_f === 'published' ? 'selected' : '' ?>>Published</option>
+                <option value="draft"     <?= $status_f === 'draft'     ? 'selected' : '' ?>>Draft</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label class="form-label small fw-bold text-muted mb-1">Category</label>
+            <select class="form-select form-select-sm" name="cat">
+                <option value="">All Categories</option>
+                <?php foreach ($cat_labels as $k => $v): ?>
+                <option value="<?= $k ?>" <?= $cat_f === $k ? 'selected' : '' ?>><?= $v ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="col-md-2 d-flex gap-2">
+            <button type="submit" class="btn btn-primary btn-sm flex-fill">
+                <i class="fas fa-filter"></i> Filter
+            </button>
+            <?php if ($search || $status_f || $cat_f): ?>
+            <a href="blog_manager.php" class="btn btn-outline-secondary btn-sm">
+                <i class="fas fa-times"></i>
+            </a>
             <?php endif; ?>
-            <div class="col-md-3">
-                <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-primary flex-fill">
-                        <i class="fas fa-filter"></i> Filter
-                    </button>
-                    <?php if ($search || $status_filter): ?>
-                    <a href="blog_manager.php" class="btn btn-outline-secondary">
-                        <i class="fas fa-times"></i>
-                    </a>
-                    <?php endif; ?>
-                </div>
-            </div>
-        </form>
-    </div>
+        </div>
+    </form>
+</div>
 
-    <!-- Articles list -->
-    <?php if (empty($posts)): ?>
+<!-- Results label -->
+<?php if ($search || $status_f || $cat_f): ?>
+<p class="text-muted small mb-2">
+    Showing <strong><?= $total ?></strong> result<?= $total !== 1 ? 's' : '' ?>
+    <?= $search ? ' for "<strong>'.htmlspecialchars($search).'</strong>"' : '' ?>
+</p>
+<?php endif; ?>
+
+<!-- Articles table -->
+<div class="table-card">
+<?php if (empty($posts)): ?>
     <div class="empty-state">
-        <i class="far fa-newspaper"></i>
-        <?php if ($search || $status_filter): ?>
-        <h5>No articles match your search</h5>
-        <p><a href="blog_manager.php">Clear filters</a> to see all articles.</p>
+        <i class="far fa-file-alt"></i>
+        <h6 class="fw-bold"><?= ($search || $status_f || $cat_f) ? 'No results found' : 'No articles yet' ?></h6>
+        <?php if ($search || $status_f || $cat_f): ?>
+            <a href="blog_manager.php" class="text-primary small">Clear filters</a>
         <?php else: ?>
-        <h5>No articles yet</h5>
-        <a href="blog_enhanced.php" class="btn btn-primary mt-2">
-            <i class="fas fa-plus"></i> Write the first article
-        </a>
+            <a href="blog_enhanced.php" class="btn btn-primary btn-sm mt-2"><i class="fas fa-plus"></i> Write first article</a>
         <?php endif; ?>
     </div>
-    <?php else: ?>
+<?php else: ?>
+<div class="table-responsive">
+<table class="table table-hover mb-0">
+<thead>
+    <tr>
+        <th style="width:90px">Thumbnail</th>
+        <th>Title / Category</th>
+        <th style="width:110px">Status</th>
+        <th style="width:80px">Views</th>
+        <th style="width:100px">Date</th>
+        <th style="width:80px;text-align:center">Featured</th>
+        <th style="width:140px">Actions</th>
+    </tr>
+</thead>
+<tbody>
+<?php foreach ($posts as $post):
+    $status   = $post['status'] ?? 'published';
+    $views    = (int)($post['views'] ?? 0);
+    $featured = (int)($post['featured'] ?? 0);
+    $date     = !empty($post['upload_date']) ? date('M j, Y', strtotime($post['upload_date'])) : '—';
+    $cat      = $post['category'] ?? 'news';
+    $cat_lbl  = $cat_labels[$cat] ?? ucfirst($cat);
+    $cat_col  = $cat_colors[$cat] ?? '#64748b';
+    $thumb    = articleThumb($post);
+    $type     = articleType($post);
+    $is_pub   = ($status === 'published' || $status === null);
+?>
+<tr>
+    <!-- Thumbnail -->
+    <td>
+        <?php if ($thumb): ?>
+            <img src="<?= htmlspecialchars($thumb) ?>"
+                 alt="thumbnail"
+                 class="art-thumb"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="art-thumb-empty" style="display:none"><i class="far fa-image"></i></div>
+        <?php else: ?>
+            <div class="art-thumb-empty"><i class="far fa-file-alt"></i></div>
+        <?php endif; ?>
+    </td>
 
-    <?php if ($search || $status_filter): ?>
-    <p class="text-muted small mb-2">
-        Showing <strong><?= $total_posts ?></strong> result<?= $total_posts !== 1 ? 's' : '' ?>
-        <?= $search ? ' for "<strong>' . htmlspecialchars($search) . '</strong>"' : '' ?>
-    </p>
-    <?php endif; ?>
-
-    <?php foreach ($posts as $post):
-        $status  = $post['status'] ?? 'published';
-        $views   = number_format((int)($post['views'] ?? 0));
-        $date    = !empty($post['upload_date']) ? date('M j, Y', strtotime($post['upload_date'])) : '—';
-        $excerpt = htmlspecialchars(strip_tags($post['excerpt'] ?? ''));
-        $pill    = match ($status) {
-            'draft'    => 'pill-draft',
-            'archived' => 'pill-archived',
-            default    => 'pill-published',
-        };
-    ?>
-    <div class="post-row">
-        <!-- Thumbnail -->
-        <div>
-            <?php if (!empty($post['cover_img'])): ?>
-            <img class="post-thumb"
-                 src="<?= htmlspecialchars($post['cover_img']) ?>"
-                 alt="Cover">
-            <?php else: ?>
-            <div class="post-thumb-empty"><i class="far fa-image"></i></div>
-            <?php endif; ?>
-        </div>
-
-        <!-- Info -->
-        <div style="min-width:0;">
-            <div class="post-title">
-                <a href="../../press.php?id=<?= $post['blog_id'] ?>"
-                   target="_blank"
-                   style="text-decoration:none;color:inherit;">
-                    <?= htmlspecialchars($post['blog_title']) ?>
-                </a>
-            </div>
-            <div class="post-meta">
-                <i class="far fa-calendar-alt"></i> <?= $date ?>
-                &nbsp;·&nbsp;
-                <i class="far fa-user"></i> <?= htmlspecialchars($post['blog_author'] ?? '—') ?>
-                <?php if ($has_views): ?>
-                &nbsp;·&nbsp;
-                <i class="far fa-eye"></i> <?= $views ?>
-                <?php endif; ?>
-                <?php if ($has_featured && !empty($post['featured'])): ?>
-                &nbsp;·&nbsp;
-                <i class="fas fa-star text-warning"></i> Featured
-                <?php endif; ?>
-            </div>
-            <?php if ($excerpt): ?>
-            <div class="post-excerpt"><?= $excerpt ?></div>
-            <?php endif; ?>
-        </div>
-
-        <!-- Status -->
-        <div>
-            <span class="status-pill <?= $pill ?>"><?= ucfirst($status) ?></span>
-        </div>
-
-        <!-- Actions -->
-        <div class="action-btns">
-            <a href="../../press.php?id=<?= $post['blog_id'] ?>"
-               target="_blank" class="action-btn" title="View live">
-                <i class="fas fa-external-link-alt"></i>
+    <!-- Title / Category -->
+    <td>
+        <div class="art-title">
+            <a href="../../press.php?id=<?= $post['blog_id'] ?>" target="_blank">
+                <?= htmlspecialchars($post['blog_title']) ?>
             </a>
+        </div>
+        <span class="cat-badge" style="color:<?= $cat_col ?>;border-color:<?= $cat_col ?>20;background:<?= $cat_col ?>12">
+            <?= htmlspecialchars($cat_lbl) ?>
+        </span>
+        <div class="type-icon<?= $type === 'youtube' ? ' yt' : ($type === 'image' ? ' img' : '') ?>">
+            <?php if ($type === 'youtube'): ?><i class="fab fa-youtube"></i> YouTube
+            <?php elseif ($type === 'image'): ?><i class="fas fa-image"></i> Image
+            <?php else: ?><i class="fas fa-align-left"></i> Text
+            <?php endif; ?>
+        </div>
+    </td>
+
+    <!-- Status (clickable toggle) -->
+    <td>
+        <?php if (isset($has['status'])): ?>
+        <button class="st-pill <?= $is_pub ? 'st-pub' : 'st-dft' ?>"
+                data-id="<?= $post['blog_id'] ?>"
+                data-action="status"
+                title="Click to toggle status">
+            <span class="st-dot"></span>
+            <span class="st-text"><?= $is_pub ? 'Published' : 'Draft' ?></span>
+        </button>
+        <?php else: ?>
+        <span class="st-pill st-pub"><span class="st-dot"></span>Published</span>
+        <?php endif; ?>
+    </td>
+
+    <!-- Views -->
+    <td>
+        <div class="views-num"><?= number_format($views) ?></div>
+        <div class="views-lbl">views</div>
+    </td>
+
+    <!-- Date -->
+    <td>
+        <div style="font-size:.82rem;color:#374151;white-space:nowrap"><?= $date ?></div>
+        <div style="font-size:.7rem;color:#94a3b8"><?= !empty($post['upload_date']) ? date('H:i', strtotime($post['upload_date'])) : '' ?></div>
+    </td>
+
+    <!-- Featured toggle -->
+    <td style="text-align:center">
+        <?php if (isset($has['featured'])): ?>
+        <label class="feat-switch" title="<?= $featured ? 'Featured — click to unfeature' : 'Click to feature' ?>">
+            <input type="checkbox"
+                   class="feat-cb"
+                   data-id="<?= $post['blog_id'] ?>"
+                   <?= $featured ? 'checked' : '' ?>>
+            <span class="feat-slider"></span>
+        </label>
+        <?php else: ?>
+        <span class="text-muted">—</span>
+        <?php endif; ?>
+    </td>
+
+    <!-- Actions -->
+    <td>
+        <div class="d-flex gap-1 flex-wrap">
             <a href="blog_edit.php?id=<?= $post['blog_id'] ?>"
-               class="action-btn" title="Edit">
+               class="act-btn" title="Edit">
                 <i class="fas fa-edit"></i> Edit
             </a>
-            <?php if ($has_featured && empty($post['featured'])): ?>
-            <a href="?action=feature&id=<?= $post['blog_id'] ?><?= $search ? '&search='.urlencode($search) : '' ?>"
-               class="action-btn feat" title="Set as featured"
-               onclick="return confirm('Set this as the featured article?')">
-                <i class="fas fa-star"></i>
+            <a href="../../press.php?id=<?= $post['blog_id'] ?>"
+               target="_blank" class="act-btn preview" title="Preview">
+                <i class="fas fa-eye"></i>
             </a>
-            <?php endif; ?>
-            <?php if ($has_status): ?>
-                <?php if ($status === 'draft'): ?>
-                <a href="?action=publish&id=<?= $post['blog_id'] ?><?= $search ? '&search='.urlencode($search) : '' ?>"
-                   class="action-btn pub"
-                   onclick="return confirm('Publish this article?')">
-                    <i class="fas fa-paper-plane"></i> Publish
-                </a>
-                <?php else: ?>
-                <a href="?action=draft&id=<?= $post['blog_id'] ?><?= $search ? '&search='.urlencode($search) : '' ?>"
-                   class="action-btn"
-                   onclick="return confirm('Move to drafts?')">
-                    <i class="fas fa-archive"></i>
-                </a>
-                <?php endif; ?>
-            <?php endif; ?>
-            <a href="?action=delete&id=<?= $post['blog_id'] ?><?= $search ? '&search='.urlencode($search) : '' ?>"
-               class="action-btn del"
-               onclick="return confirm('Permanently delete this article? This cannot be undone.')">
+            <button class="act-btn del"
+                    onclick="confirmDelete(<?= $post['blog_id'] ?>, '<?= htmlspecialchars(addslashes($post['blog_title']), ENT_QUOTES) ?>')"
+                    title="Delete">
                 <i class="fas fa-trash"></i>
+            </button>
+        </div>
+    </td>
+</tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+</div>
+<?php endif; ?>
+</div>
+
+<!-- Pagination -->
+<?php if ($total_pages > 1): ?>
+<div class="d-flex justify-content-center align-items-center gap-1 mt-4 flex-wrap">
+    <a href="?page=<?= max(1,$page-1) ?>&search=<?= urlencode($search) ?>&status=<?= urlencode($status_f) ?>&cat=<?= urlencode($cat_f) ?>"
+       class="pg-btn <?= $page <= 1 ? 'disabled' : '' ?>">‹</a>
+    <?php
+    $start = max(1, $page - 2);
+    $end   = min($total_pages, $page + 2);
+    if ($start > 1) echo '<a href="?page=1&search='.urlencode($search).'&status='.urlencode($status_f).'&cat='.urlencode($cat_f).'" class="pg-btn">1</a>';
+    if ($start > 2) echo '<span class="pg-btn disabled" style="border:none;background:none">…</span>';
+    for ($i = $start; $i <= $end; $i++):
+    ?>
+    <a href="?page=<?= $i ?>&search=<?= urlencode($search) ?>&status=<?= urlencode($status_f) ?>&cat=<?= urlencode($cat_f) ?>"
+       class="pg-btn <?= $i === $page ? 'active' : '' ?>"><?= $i ?></a>
+    <?php endfor;
+    if ($end < $total_pages - 1) echo '<span class="pg-btn disabled" style="border:none;background:none">…</span>';
+    if ($end < $total_pages) echo '<a href="?page='.$total_pages.'&search='.urlencode($search).'&status='.urlencode($status_f).'&cat='.urlencode($cat_f).'" class="pg-btn">'.$total_pages.'</a>';
+    ?>
+    <a href="?page=<?= min($total_pages,$page+1) ?>&search=<?= urlencode($search) ?>&status=<?= urlencode($status_f) ?>&cat=<?= urlencode($cat_f) ?>"
+       class="pg-btn <?= $page >= $total_pages ? 'disabled' : '' ?>">›</a>
+</div>
+<p class="text-center text-muted small mt-2">
+    Page <?= $page ?> of <?= $total_pages ?> &nbsp;·&nbsp; <?= $total ?> articles total
+</p>
+<?php endif; ?>
+
+</div><!-- /container -->
+
+<!-- Delete confirmation modal -->
+<div class="del-modal-overlay" id="delModal">
+    <div class="del-modal">
+        <i class="fas fa-trash-alt"></i>
+        <h5>Delete Article?</h5>
+        <p id="delModalMsg">This action cannot be undone.</p>
+        <div class="d-flex gap-2 justify-content-center">
+            <button class="btn btn-secondary btn-sm" onclick="closeDeleteModal()">Cancel</button>
+            <a id="delConfirmBtn" href="#" class="btn btn-danger btn-sm">
+                <i class="fas fa-trash"></i> Delete
             </a>
         </div>
     </div>
-    <?php endforeach; ?>
-
-    <!-- Pagination -->
-    <?php if ($total_pages > 1): ?>
-    <nav class="d-flex justify-content-center gap-2 flex-wrap mt-4">
-        <?php if ($page > 1): ?>
-        <a href="?page=<?= $page-1 ?>&search=<?= urlencode($search) ?>&status=<?= urlencode($status_filter) ?>"
-           class="btn btn-outline-secondary btn-sm">← Prev</a>
-        <?php endif; ?>
-        <?php for ($i = max(1,$page-2); $i <= min($total_pages,$page+2); $i++): ?>
-        <a href="?page=<?= $i ?>&search=<?= urlencode($search) ?>&status=<?= urlencode($status_filter) ?>"
-           class="btn btn-sm <?= $i===$page ? 'btn-primary' : 'btn-outline-secondary' ?>"><?= $i ?></a>
-        <?php endfor; ?>
-        <?php if ($page < $total_pages): ?>
-        <a href="?page=<?= $page+1 ?>&search=<?= urlencode($search) ?>&status=<?= urlencode($status_filter) ?>"
-           class="btn btn-outline-secondary btn-sm">Next →</a>
-        <?php endif; ?>
-    </nav>
-    <?php endif; ?>
-
-    <?php endif; ?>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+/* ── Delete modal ── */
+function confirmDelete(id, title) {
+    document.getElementById('delModalMsg').textContent = 'Delete "' + title + '"? This cannot be undone.';
+    document.getElementById('delConfirmBtn').href = '?action=delete&id=' + id
+        + '&search=<?= urlencode($search) ?>&status=<?= urlencode($status_f) ?>&cat=<?= urlencode($cat_f) ?>&page=<?= $page ?>';
+    document.getElementById('delModal').classList.add('show');
+}
+function closeDeleteModal() {
+    document.getElementById('delModal').classList.remove('show');
+}
+document.getElementById('delModal').addEventListener('click', function(e) {
+    if (e.target === this) closeDeleteModal();
+});
+
+/* ── AJAX: Status toggle ── */
+document.querySelectorAll('[data-action="status"]').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const id = this.dataset.id;
+        const fd = new FormData();
+        fd.append('ajax', 'status');
+        fd.append('id', id);
+
+        fetch('blog_manager.php', { method:'POST', body: fd })
+            .then(r => r.json())
+            .then(data => {
+                if (!data.ok) return;
+                const isPub = data.val === 'published';
+                this.className = 'st-pill ' + (isPub ? 'st-pub' : 'st-dft');
+                this.querySelector('.st-text').textContent = isPub ? 'Published' : 'Draft';
+            })
+            .catch(() => {});
+    });
+});
+
+/* ── AJAX: Featured toggle ── */
+document.querySelectorAll('.feat-cb').forEach(cb => {
+    cb.addEventListener('change', function() {
+        const id = this.dataset.id;
+        const fd = new FormData();
+        fd.append('ajax', 'featured');
+        fd.append('id', id);
+        const el = this;
+
+        fetch('blog_manager.php', { method:'POST', body: fd })
+            .then(r => r.json())
+            .then(data => {
+                if (!data.ok) {
+                    el.checked = !el.checked; // revert on failure
+                }
+            })
+            .catch(() => { el.checked = !el.checked; });
+    });
+});
+</script>
 </body>
 </html>
