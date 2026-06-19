@@ -126,7 +126,7 @@ body {
 /* ── Image + text block ─────────────────────── */
 .ab-image-text {
   display: grid;
-  grid-template-columns: 280px 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 2rem;
   align-items: start;
 }
