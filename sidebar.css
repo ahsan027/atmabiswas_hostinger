@@ -4,7 +4,7 @@
   font-family: "Times New Roman", Times, serif;
   display: flex;
   flex-direction: column;
-  background-color: #1a9bbf; /* Matches navbar cyan #25b7db, slightly deeper for sidebar */
+  background-color: #0d47a1;
   width: 280px;
   height: 100%;
   position: fixed;
