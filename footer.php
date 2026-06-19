@@ -6,7 +6,7 @@
 
         <!-- Brand -->
         <div class="footer-col footer-brand">
-            <img src="<?= SITE_ROOT ?>/logoBg.png" alt="ATMABISWAS" class="footer-logo">
+            <div class="footer-brand-name">ATMABISWAS</div>
             <p class="footer-tagline">Non-Governmental Voluntary Organisation</p>
             <p class="footer-desc">Empowering individuals and fostering self-belief across Bangladesh since 1991. Committed to sustainable social change and community development.</p>
         </div>

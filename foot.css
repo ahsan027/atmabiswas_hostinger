@@ -44,12 +44,13 @@
 }
 
 /* ── Brand column ───────────────────────────── */
-.footer-brand .footer-logo {
-  height: 62px;
-  width: auto;
-  margin-bottom: 16px;
-  display: block;
-  filter: none;
+.footer-brand-name {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: 0.08em;
+  margin-bottom: 14px;
+  line-height: 1;
 }
 
 .footer-brand .footer-tagline {
