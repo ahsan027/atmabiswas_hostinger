@@ -64,6 +64,11 @@ try {
     throw new Exception('Blog summary is required');
   }
 
+  // Thumbnail is required
+  if (!isset($_FILES['thumbnail']) || $_FILES['thumbnail']['error'] !== UPLOAD_ERR_OK) {
+    throw new Exception('Press thumbnail is required.');
+  }
+
   // Additional security: limit content length
   if (strlen($title) > 255) {
     throw new Exception('Title is too long (max 255 characters)');
@@ -77,16 +82,45 @@ try {
     throw new Exception('Summary is too long (max 1,000 characters)');
   }
 
+  // Process thumbnail upload
+  $thumb_file = $_FILES['thumbnail'];
+  $finfo      = new finfo(FILEINFO_MIME_TYPE);
+  $mime       = $finfo->file($thumb_file['tmp_name']);
+
+  if (!in_array($mime, ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'], true)) {
+    throw new Exception('Thumbnail must be a JPG, PNG, or WebP image.');
+  }
+
+  if ($thumb_file['size'] > 3 * 1024 * 1024) {
+    throw new Exception('Thumbnail must be under 3MB.');
+  }
+
+  $uploadDir = __DIR__ . '/../uploads/blog_imgs/';
+  if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
+
+  $ext      = strtolower(pathinfo($thumb_file['name'], PATHINFO_EXTENSION));
+  $filename = 'PRESS_' . date('Ymd') . '_' . random_int(1000, 9999) . '.' . $ext;
+  $dest     = $uploadDir . $filename;
+
+  if (!move_uploaded_file($thumb_file['tmp_name'], $dest)) {
+    throw new Exception('Failed to save thumbnail. Check upload directory permissions.');
+  }
+
+  $cover_img = 'uploads/blog_imgs/' . $filename;
+
   $stmt = $pdo->prepare("
         INSERT INTO blogs
             (blog_title, slug, blog_content, summary, blog_author, upload_date, year,
              category, source_link, tags, seo_title, seo_description, seo_keywords,
-             social_image, featured, reading_time)
+             social_image, featured, reading_time, cover_img, status)
         VALUES
             (:title, :slug, :content, :summary, :author, NOW(), YEAR(NOW()),
              :category, :source_link, :tags, :seo_title, :seo_desc, :seo_keys,
-             :social_img, :featured, :reading_time)
+             :social_img, :featured, :reading_time, :cover_img, :status)
     ");
+
+  $post_status = isset($_POST['post_status_action']) && $_POST['post_status_action'] === 'draft'
+    ? 'draft' : 'published';
 
   $stmt->bindParam(':title',        $title,        PDO::PARAM_STR);
   $stmt->bindParam(':slug',         $slug,         PDO::PARAM_STR);
@@ -102,17 +136,19 @@ try {
   $stmt->bindParam(':social_img',   $social_img,   PDO::PARAM_STR);
   $stmt->bindParam(':featured',     $featured,     PDO::PARAM_INT);
   $stmt->bindParam(':reading_time', $reading_time, PDO::PARAM_INT);
+  $stmt->bindParam(':cover_img',    $cover_img,    PDO::PARAM_STR);
+  $stmt->bindParam(':status',       $post_status,  PDO::PARAM_STR);
 
   if ($stmt->execute()) {
     echo json_encode([
-      'status'   => 'success',
-      'message'  => 'Blog post saved successfully!',
-      'post_id'  => $pdo->lastInsertId()
+      'status'  => 'success',
+      'message' => 'Press post published!',
+      'post_id' => $pdo->lastInsertId()
     ]);
   } else {
     echo json_encode([
       'status'  => 'error',
-      'message' => 'Failed to save blog post'
+      'message' => 'Failed to save press post'
     ]);
   }
 } catch (PDOException $e) {

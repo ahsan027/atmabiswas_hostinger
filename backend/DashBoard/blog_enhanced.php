@@ -471,7 +471,7 @@ require_once '../../config.php';
                     <div class="card-body">
                         <!-- Editor Tab -->
                         <div id="editor-tab" class="tab-content">
-                            <form id="blogForm" action="../blogUpload_process.php" method="POST">
+                            <form id="blogForm" action="../blogUpload_process.php" method="POST" enctype="multipart/form-data">
                                 <!-- Blog Title -->
                                 <div class="mb-4">
                                     <label for="blogTitle" class="form-label">
@@ -601,7 +601,7 @@ require_once '../../config.php';
                                         </label>
                                         <input type="url" class="form-control" id="sourceLink" name="source_link"
                                                placeholder="https://youtube.com/watch?v=... or article URL">
-                                        <div class="form-text">YouTube links auto-generate a thumbnail on the press page.</div>
+                                        <div class="form-text">Optional — YouTube video will appear above article content.</div>
                                     </div>
                                 </div>
 
@@ -677,6 +677,31 @@ require_once '../../config.php';
                                                placeholder="https://… (optional)">
                                         <div class="form-text">Falls back to cover image.</div>
                                     </div>
+                                </div>
+
+                                <!-- Thumbnail Upload (Required) -->
+                                <hr style="margin:1.5rem 0;border-color:#dee2e6;">
+                                <div class="card-header mb-3" style="background:#f8f9fa;border-radius:8px;padding:.85rem 1.25rem;">
+                                    <h5 style="margin:0;font-size:1rem;font-weight:700;color:#2c3e50;">
+                                        <i class="fas fa-image"></i> Press Thumbnail <span style="color:#dc3545;">*</span>
+                                    </h5>
+                                </div>
+                                <div class="mb-4">
+                                    <div id="thumbDropZone" style="border:2px dashed #ced4da;border-radius:10px;padding:1.5rem;text-align:center;cursor:pointer;background:#fafafa;transition:border-color .2s,background .2s;"
+                                         onclick="document.getElementById('thumbnailInput').click()"
+                                         ondragover="event.preventDefault();this.style.borderColor='#0073e6';this.style.background='#e8f4fd';"
+                                         ondragleave="this.style.borderColor='#ced4da';this.style.background='#fafafa';"
+                                         ondrop="handleThumbDrop(event)">
+                                        <i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:#adb5bd;margin-bottom:.5rem;display:block;"></i>
+                                        <div id="thumbDropLabel" style="color:#6c757d;font-size:.9rem;">Click or drag &amp; drop to upload cover thumbnail</div>
+                                        <div style="font-size:.75rem;color:#adb5bd;margin-top:.25rem;">JPG, PNG, WebP — max 3 MB</div>
+                                    </div>
+                                    <input type="file" id="thumbnailInput" name="thumbnail" accept="image/jpeg,image/png,image/webp" style="display:none;" onchange="handleThumbSelect(this.files[0])">
+                                    <div id="thumbPreviewWrap" style="display:none;margin-top:1rem;position:relative;">
+                                        <img id="thumbPreviewImg" src="" alt="Thumbnail preview" style="max-width:100%;max-height:220px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.1);">
+                                        <button type="button" onclick="clearThumb()" title="Remove" style="position:absolute;top:6px;right:6px;background:#dc3545;color:#fff;border:none;border-radius:50%;width:26px;height:26px;cursor:pointer;font-size:.75rem;">&times;</button>
+                                    </div>
+                                    <div id="thumbError" style="display:none;color:#dc3545;font-size:.83rem;margin-top:.4rem;"><i class="fas fa-exclamation-circle"></i> Press thumbnail is required.</div>
                                 </div>
 
                                 <!-- Action Buttons -->
@@ -1060,6 +1085,51 @@ require_once '../../config.php';
             return temp.innerHTML;
         }
 
+        // Thumbnail helpers
+        function handleThumbSelect(file) {
+            if (!file) return;
+            const allowed = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+            if (!allowed.includes(file.type)) {
+                showNotification('Thumbnail must be JPG, PNG, or WebP.', 'error');
+                return;
+            }
+            if (file.size > 3 * 1024 * 1024) {
+                showNotification('Thumbnail must be under 3 MB.', 'error');
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                document.getElementById('thumbPreviewImg').src = ev.target.result;
+                document.getElementById('thumbPreviewWrap').style.display = 'block';
+                document.getElementById('thumbDropLabel').textContent = file.name;
+                document.getElementById('thumbDropZone').style.borderColor = '#198754';
+                document.getElementById('thumbDropZone').style.background = '#f0fff4';
+                document.getElementById('thumbError').style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function handleThumbDrop(e) {
+            e.preventDefault();
+            e.currentTarget.style.borderColor = '#ced4da';
+            e.currentTarget.style.background  = '#fafafa';
+            const file = e.dataTransfer.files[0];
+            if (file) {
+                const dt = new DataTransfer();
+                dt.items.add(file);
+                document.getElementById('thumbnailInput').files = dt.files;
+                handleThumbSelect(file);
+            }
+        }
+
+        function clearThumb() {
+            document.getElementById('thumbnailInput').value = '';
+            document.getElementById('thumbPreviewWrap').style.display = 'none';
+            document.getElementById('thumbDropLabel').textContent = 'Click or drag & drop to upload cover thumbnail';
+            document.getElementById('thumbDropZone').style.borderColor = '#ced4da';
+            document.getElementById('thumbDropZone').style.background  = '#fafafa';
+        }
+
         async function handleFormSubmit(e) {
             e.preventDefault();
 
@@ -1067,6 +1137,7 @@ require_once '../../config.php';
             const title = document.getElementById('blogTitle').value.trim();
             const summaryContent = document.getElementById('summaryEditor').innerHTML.trim();
             const mainContent = document.getElementById('contentEditor').innerHTML.trim();
+            const thumbInput = document.getElementById('thumbnailInput');
 
             if (!title) {
                 showNotification('Please enter a press title.', 'error');
@@ -1083,6 +1154,14 @@ require_once '../../config.php';
                 return;
             }
 
+            // Thumbnail is required
+            if (!thumbInput.files || !thumbInput.files[0]) {
+                document.getElementById('thumbError').style.display = 'block';
+                document.getElementById('thumbDropZone').style.borderColor = '#dc3545';
+                showNotification('Press thumbnail is required.', 'error');
+                return;
+            }
+
             // Show loading
             showLoading(true);
 
@@ -1090,8 +1169,13 @@ require_once '../../config.php';
             document.getElementById('sanitizedContent').value = sanitizeHTML(mainContent);
             document.getElementById('sanitizedSummary').value = sanitizeHTML(summaryContent);
 
-            // Submit form
+            // Submit form (FormData includes the thumbnail file)
             const formData = new FormData(e.target);
+
+            // Pass the submit button's value if it triggered the submit
+            if (e.submitter && e.submitter.name) {
+                formData.set(e.submitter.name, e.submitter.value);
+            }
 
             try {
                 const response = await fetch(e.target.action, {
@@ -1102,10 +1186,11 @@ require_once '../../config.php';
                 const result = await response.json();
 
                 if (result.status === 'success') {
+                    localStorage.removeItem('blogAutoSave');
                     showNotification('Press post published! Redirecting...', 'success');
                     setTimeout(() => {
-                        window.location.href = 'blog_image.php?id=' + result.post_id;
-                    }, 2000);
+                        window.location.href = 'blog_manager.php';
+                    }, 1800);
                 } else {
                     throw new Error(result.message || 'Unknown error occurred');
                 }

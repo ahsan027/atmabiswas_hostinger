@@ -296,7 +296,7 @@ $article_url = $current_article
 <!-- Article Content -->
 <div class="pr-article-wrap">
 
-    <?php if ($yt_id && empty($current_article['cover_img'])): ?>
+    <?php if ($yt_id): ?>
     <div class="pr-article-video">
         <iframe src="https://www.youtube.com/embed/<?= htmlspecialchars($yt_id) ?>"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -357,7 +357,7 @@ $article_url = $current_article
         <div class="pr-related-heading">More Press Updates</div>
         <div class="pr-related-grid">
             <?php foreach ($related as $rel):
-                $rel_thumb = getThumbnail($rel);
+                $rel_thumb = $rel['cover_img'] ?? '';
                 $rel_cat   = getCategoryClass($rel['category'] ?? 'news');
                 $rel_lbl   = getCategoryLabel($rel['category'] ?? 'news');
                 $rel_date  = !empty($rel['upload_date']) ? date('M j, Y', strtotime($rel['upload_date'])) : '';
@@ -477,7 +477,7 @@ function copyArticleLink() {
 <!-- Featured Article -->
 <?php if ($featured): ?>
 <?php
-    $feat_thumb   = getThumbnail($featured);
+    $feat_thumb   = $featured['cover_img'] ?? '';
     $feat_cat_lbl = getCategoryLabel($featured['category'] ?? 'news');
     $feat_cat_cls = getCategoryClass($featured['category'] ?? 'news');
     $feat_date    = !empty($featured['upload_date']) ? date('F j, Y', strtotime($featured['upload_date'])) : '';
@@ -574,7 +574,7 @@ function copyArticleLink() {
     <?php else: ?>
     <div class="pr-grid">
         <?php foreach ($posts as $post):
-            $thumb     = getThumbnail($post);
+            $thumb     = $post['cover_img'] ?? '';
             $cat_cls   = getCategoryClass($post['category'] ?? 'news');
             $cat_lbl   = getCategoryLabel($post['category'] ?? 'news');
             $date_fmt  = !empty($post['upload_date']) ? date('M j, Y', strtotime($post['upload_date'])) : '';

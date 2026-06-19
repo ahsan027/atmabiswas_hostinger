@@ -55,6 +55,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $sets   = ['blog_title=?', 'blog_content=?', 'summary=?'];
         $values = [$title, $content, $summary];
 
+        /* ── Thumbnail management ──────────────────────────────── */
+        if (isset($has['cover_img'])) {
+            if (!empty($_POST['remove_thumbnail'])) {
+                if (!empty($post['cover_img'])) {
+                    $old_file = __DIR__ . '/../../' . ltrim($post['cover_img'], '/');
+                    if (file_exists($old_file)) @unlink($old_file);
+                }
+                $sets[]   = 'cover_img=?';
+                $values[] = null;
+                if (isset($has['image_title'])) {
+                    $sets[]   = 'image_title=?';
+                    $values[] = null;
+                }
+            } elseif (isset($_FILES['thumbnail']) && $_FILES['thumbnail']['error'] === UPLOAD_ERR_OK) {
+                $thumb_file = $_FILES['thumbnail'];
+                $finfo      = new finfo(FILEINFO_MIME_TYPE);
+                $mime       = $finfo->file($thumb_file['tmp_name']);
+                if (!in_array($mime, ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'], true)) {
+                    throw new Exception('Thumbnail must be a JPG, PNG, or WebP image.');
+                }
+                if ($thumb_file['size'] > 3 * 1024 * 1024) {
+                    throw new Exception('Thumbnail must be under 3MB.');
+                }
+                $uploadDir = __DIR__ . '/../../uploads/blog_imgs/';
+                if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
+                $ext      = strtolower(pathinfo($thumb_file['name'], PATHINFO_EXTENSION));
+                $filename = 'PRESS_' . date('Ymd') . '_' . random_int(1000, 9999) . '.' . $ext;
+                if (!move_uploaded_file($thumb_file['tmp_name'], $uploadDir . $filename)) {
+                    throw new Exception('Failed to save thumbnail. Check upload directory permissions.');
+                }
+                if (!empty($post['cover_img'])) {
+                    $old_file = __DIR__ . '/../../' . ltrim($post['cover_img'], '/');
+                    if (file_exists($old_file)) @unlink($old_file);
+                }
+                $sets[]   = 'cover_img=?';
+                $values[] = 'uploads/blog_imgs/' . $filename;
+            }
+        }
+
         if (isset($has['status'])) {
             $sets[]   = 'status=?';
             $values[] = $_POST['status'] ?? 'published';
@@ -171,7 +210,7 @@ body { background:#f5f7fa; font-family:system-ui,-apple-system,'Segoe UI',sans-s
     </div>
     <?php endif; ?>
 
-    <form method="POST" id="editForm">
+    <form method="POST" id="editForm" enctype="multipart/form-data">
     <div class="row g-3">
 
         <!-- Left column: content -->
@@ -287,14 +326,49 @@ body { background:#f5f7fa; font-family:system-ui,-apple-system,'Segoe UI',sans-s
                 </div>
             </div>
 
-            <!-- Source / Media link -->
+            <!-- Thumbnail -->
+            <?php if (isset($has['cover_img'])): ?>
+            <div class="panel">
+                <div class="panel-title">Press Thumbnail</div>
+                <?php if (!empty($post['cover_img'])): ?>
+                <div class="mb-2" id="currentThumbWrap">
+                    <img src="<?= htmlspecialchars('../../' . $post['cover_img']) ?>"
+                         alt="Current thumbnail"
+                         style="width:100%;border-radius:8px;display:block;margin-bottom:.5rem;box-shadow:0 1px 4px rgba(0,0,0,.12);">
+                    <label style="display:flex;align-items:center;gap:.4rem;font-size:.8rem;color:#6b7280;cursor:pointer;">
+                        <input type="checkbox" name="remove_thumbnail" value="1" id="removeThumb"
+                               onchange="document.getElementById('currentThumbWrap').style.opacity=this.checked?'.35':'1'">
+                        Remove current thumbnail
+                    </label>
+                </div>
+                <div class="form-label" style="font-size:.78rem;color:#64748b;margin-bottom:.25rem;">Replace with new image:</div>
+                <?php else: ?>
+                <div class="text-muted small mb-2">No thumbnail uploaded yet.</div>
+                <div class="form-label" style="font-size:.78rem;color:#64748b;margin-bottom:.25rem;">Upload thumbnail:</div>
+                <?php endif; ?>
+                <div id="editThumbZone" style="border:1.5px dashed #cbd5e1;border-radius:8px;padding:1rem;text-align:center;cursor:pointer;font-size:.8rem;color:#94a3b8;"
+                     onclick="document.getElementById('editThumbInput').click()">
+                    <i class="fas fa-upload"></i> Click to select image (JPG, PNG, WebP · max 3 MB)
+                </div>
+                <input type="file" id="editThumbInput" name="thumbnail" accept="image/jpeg,image/png,image/webp" style="display:none;"
+                       onchange="previewEditThumb(this)">
+                <div id="editThumbPreview" style="display:none;margin-top:.6rem;">
+                    <img id="editThumbImg" src="" style="width:100%;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,.1);">
+                    <button type="button" onclick="clearEditThumb()" style="margin-top:.35rem;font-size:.75rem;background:none;border:none;color:#dc3545;cursor:pointer;padding:0;">
+                        <i class="fas fa-times"></i> Remove selection
+                    </button>
+                </div>
+            </div>
+            <?php endif; ?>
+
+            <!-- YouTube / Source link -->
             <?php if (isset($has['source_link'])): ?>
             <div class="panel">
-                <div class="panel-title">Source / Media Link</div>
+                <div class="panel-title">YouTube / Source Link</div>
                 <input type="url" class="form-control form-control-sm" name="source_link"
                        placeholder="https://youtube.com/watch?v=…"
                        value="<?= htmlspecialchars($post['source_link'] ?? '') ?>">
-                <div class="char-counter">YouTube URL or external source</div>
+                <div class="char-counter">Paste YouTube URL to embed video on article page. Clear field to remove.</div>
             </div>
             <?php endif; ?>
 
@@ -374,6 +448,24 @@ window.addEventListener('DOMContentLoaded', () => {
     syncHidden('summary');
     syncHidden('content');
 });
+
+function previewEditThumb(input) {
+    const file = input.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        document.getElementById('editThumbImg').src = e.target.result;
+        document.getElementById('editThumbPreview').style.display = 'block';
+        document.getElementById('editThumbZone').style.borderColor = '#198754';
+    };
+    reader.readAsDataURL(file);
+}
+
+function clearEditThumb() {
+    document.getElementById('editThumbInput').value = '';
+    document.getElementById('editThumbPreview').style.display = 'none';
+    document.getElementById('editThumbZone').style.borderColor = '#cbd5e1';
+}
 </script>
 </body>
 </html>
