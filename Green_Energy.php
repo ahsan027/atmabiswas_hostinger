@@ -60,12 +60,12 @@
             <p>Supporting sustainable practices through solar energy and traditional clean cooking methods.</p>
         </div>
         <div class="pic">
-            <img src="Bondhu Chula/bondhu_chula2.jpg" loading="lazy" alt="Project Image 1">
-            <img src="Bondhu Chula/bondhu_chula3.jpg" loading="lazy" alt="Project Image 2">
-            <img src="Bondhu Chula/bondhu_chula4.jpg" loading="lazy" alt="Project Image 3">
-            <img src="Bondhu Chula/bondhu_chula5.jpg" loading="lazy" alt="Project Image 4">
-            <img src="Bondhu Chula/bondhu_chula6.jpg" loading="lazy" alt="Project Image 5">
-            <img src="Bondhu Chula/bondhu_chula7.jpg" loading="lazy" alt="Project Image 6">
+            <img src="Bondhu Chula/bondhu_chula2.jpg" loading="lazy" alt="ATMABISWAS Bondhu Chula clean cooking stove program in rural Bangladesh">
+            <img src="Bondhu Chula/bondhu_chula3.jpg" loading="lazy" alt="ATMABISWAS eco-friendly stove distribution to rural households">
+            <img src="Bondhu Chula/bondhu_chula4.jpg" loading="lazy" alt="ATMABISWAS Bondhu Chula reducing indoor air pollution in communities">
+            <img src="Bondhu Chula/bondhu_chula5.jpg" loading="lazy" alt="ATMABISWAS clean energy initiative – Bondhu Chula stove installation">
+            <img src="Bondhu Chula/bondhu_chula6.jpg" loading="lazy" alt="ATMABISWAS solar energy program – Souro Shokti community project">
+            <img src="Bondhu Chula/bondhu_chula7.jpg" loading="lazy" alt="ATMABISWAS renewable energy outreach – solar power for rural Bangladesh">
         </div>
     </div>
 

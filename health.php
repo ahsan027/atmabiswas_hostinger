@@ -106,12 +106,12 @@
         <div class="card">
             <h2>Gallery</h2>
             <div class="gallery">
-                <img src="rmpt/rmpt_pic1.jpg" loading="lazy" alt="Gallery Image 1">
-                <img src="Health/helath_pic7.jpg" loading="lazy" alt="Gallery Image 2">
-                <img src="Wash/wash_pic1.jpg" loading="lazy" alt="Gallery Image 3">
-                <img src="toilet/toiletpic1.jpg" loading="lazy" alt="Gallery Image 4">
-                <img src="toilet/toiletpic3.jpg" loading="lazy" alt="Gallery Image 5">
-                <img src="Awarness/awarness_pic7.jpg" loading="lazy" alt="Gallery Image 6">
+                <img src="rmpt/rmpt_pic1.jpg" loading="lazy" alt="ATMABISWAS RMTP microfinance health outreach program Bangladesh">
+                <img src="Health/helath_pic7.jpg" loading="lazy" alt="ATMABISWAS health awareness campaign for rural communities">
+                <img src="Wash/wash_pic1.jpg" loading="lazy" alt="ATMABISWAS WASH program – clean water and sanitation for rural Bangladesh">
+                <img src="toilet/toiletpic1.jpg" loading="lazy" alt="ATMABISWAS sanitation program – household toilet construction in Bangladesh">
+                <img src="toilet/toiletpic3.jpg" loading="lazy" alt="ATMABISWAS community sanitation facility installation project">
+                <img src="Awarness/awarness_pic7.jpg" loading="lazy" alt="ATMABISWAS rural health awareness and nutrition education program">
             </div>
         </div>
 

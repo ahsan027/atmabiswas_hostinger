@@ -35,7 +35,7 @@ require_once __DIR__ . '/config.php';
 
                 <div class="dropdown">
                     <div class="maindrop">
-                        <a href="#">Our Team <i class="fa-solid fa-caret-down arrow-icon"></i></a>
+                        <a href="javascript:void(0)">Our Team <i class="fa-solid fa-caret-down arrow-icon"></i></a>
                     </div>
                     <div class="dropdown-content">
                         <a href="<?= EVE_PATH ?>">Executive</a>
@@ -47,7 +47,7 @@ require_once __DIR__ . '/config.php';
 
                 <div class="dropdown">
                     <div class="maindrop">
-                        <a href="#">What We Do <i class="fa-solid fa-caret-down arrow-icon"></i></a>
+                        <a href="javascript:void(0)">What We Do <i class="fa-solid fa-caret-down arrow-icon"></i></a>
                     </div>
                     <div class="dropdown-content">
                         <a href="<?= GREEN_ENERGY_PATH ?>">Green Energy</a>
@@ -96,7 +96,7 @@ require_once __DIR__ . '/config.php';
 
     <div class="sidedrop">
         <div class="mainsidedrop">
-            <a href="#"><i class="fa-solid fa-people-group"></i> Our Team <i class="fa-solid fa-caret-down side-arrow"></i></a>
+            <a href="javascript:void(0)"><i class="fa-solid fa-people-group"></i> Our Team <i class="fa-solid fa-caret-down side-arrow"></i></a>
         </div>
         <div class="sidedropContent">
             <a href="<?= EVE_PATH ?>"><i class="fa-solid fa-user-tie"></i> Executive</a>
@@ -108,7 +108,7 @@ require_once __DIR__ . '/config.php';
 
     <div class="sidedrop">
         <div class="mainsidedrop">
-            <a href="#"><i class="fa-solid fa-clipboard-list"></i> What We Do <i class="fa-solid fa-caret-down side-arrow"></i></a>
+            <a href="javascript:void(0)"><i class="fa-solid fa-clipboard-list"></i> What We Do <i class="fa-solid fa-caret-down side-arrow"></i></a>
         </div>
         <div class="sidedropContent">
             <a href="<?= GREEN_ENERGY_PATH ?>"><i class="fa-solid fa-leaf"></i> Green Energy</a>
@@ -121,7 +121,7 @@ require_once __DIR__ . '/config.php';
 
     <div class="sidedrop">
         <div class="mainsidedrop activities-main">
-            <a href="#"><i class="fa-solid fa-chart-line"></i> Activities <i class="fa-solid fa-caret-down side-arrow"></i></a>
+            <a href="javascript:void(0)"><i class="fa-solid fa-chart-line"></i> Activities <i class="fa-solid fa-caret-down side-arrow"></i></a>
         </div>
         <div class="sidedropContent">
             <a href="<?= CAREER_PATH ?>"><i class="fa-solid fa-briefcase"></i> Career</a>

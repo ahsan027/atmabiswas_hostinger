@@ -55,11 +55,11 @@ $_seo_data = [
         'keywords'    => 'ATMABISWAS enterprise, আত্মবিশ্বাস উদ্যোগ, SME Bangladesh, enterprise development, vocational training NGO Bangladesh',
         'canonical'   => 'https://atmabiswas.org/enterprice.php',
     ],
-    'Agritural.php' => [
+    'Agricultural.php' => [
         'title'       => 'Food & Agriculture Programs – ATMABISWAS (আত্মবিশ্বাস) Bangladesh',
         'description' => 'ATMABISWAS (আত্মবিশ্বাস) supports food security and sustainable agriculture in Bangladesh through farmer training, resources, and modern farming techniques.',
         'keywords'    => 'ATMABISWAS agriculture, আত্মবিশ্বাস কৃষি, food security Bangladesh, farming NGO, sustainable agriculture Bangladesh',
-        'canonical'   => 'https://atmabiswas.org/Agritural.php',
+        'canonical'   => 'https://atmabiswas.org/Agricultural.php',
     ],
     'Events.php' => [
         'title'       => 'Events & Activities – ATMABISWAS (আত্মবিশ্বাস) Bangladesh',

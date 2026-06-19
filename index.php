@@ -32,6 +32,8 @@
     <!-- <br> -->
     <?php include 'imageSlider.php' ?>
 
+    <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;">ATMABISWAS (আত্মবিশ্বাস) – Official NGO Bangladesh, Empowering Rural Communities Since 1991</h1>
+
     <div class="Numbercontainer">
         <div class="numbers">
             <div class="number-card">
@@ -56,8 +58,6 @@
             </div>
         </div>
     </div>
-
-    <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;">ATMABISWAS (আত্মবিশ্বাস) – Official NGO Bangladesh, Empowering Rural Communities Since 1991</h1>
     <div class="sectionalparts">
         <h2>Our Goals</h2>
         <p>Our mission is to work for progressive social transformation with the aim of institutionalizing a society

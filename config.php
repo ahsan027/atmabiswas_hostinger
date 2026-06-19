@@ -51,7 +51,7 @@ define('FOUNDER_PATH', BASE_URL . '/founder.php');
 // Define service pages
 define('GREEN_ENERGY_PATH', BASE_URL . '/Green_Energy.php');
 define('ENTERPRISE_PATH', BASE_URL . '/enterprice.php');
-define('AGRICULTURAL_PATH', BASE_URL . '/Agritural.php');
+define('AGRICULTURAL_PATH', BASE_URL . '/Agricultural.php');
 define('READYTOEAT_PATH', BASE_URL . '/readytoeat.php');
 define('HEALTH_PATH', BASE_URL . '/health.php');
 
