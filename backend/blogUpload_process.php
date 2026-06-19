@@ -53,15 +53,15 @@ try {
 
   // Validation
   if (empty($title)) {
-    throw new Exception('Blog title is required');
+    throw new Exception('Press title is required.');
   }
 
   if (empty($content)) {
-    throw new Exception('Blog content is required');
+    throw new Exception('Press content is required.');
   }
 
   if (empty($summary)) {
-    throw new Exception('Blog summary is required');
+    throw new Exception('Press summary is required.');
   }
 
   // Thumbnail is required

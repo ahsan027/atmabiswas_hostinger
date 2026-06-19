@@ -368,7 +368,7 @@ body { background:#f5f7fa; font-family:system-ui,-apple-system,'Segoe UI',sans-s
                 <input type="url" class="form-control form-control-sm" name="source_link"
                        placeholder="https://youtube.com/watch?v=…"
                        value="<?= htmlspecialchars($post['source_link'] ?? '') ?>">
-                <div class="char-counter">Paste YouTube URL to embed video on article page. Clear field to remove.</div>
+                <div class="char-counter">Paste YouTube URL to embed video on press page. Clear field to remove.</div>
             </div>
             <?php endif; ?>
 

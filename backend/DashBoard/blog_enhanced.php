@@ -472,7 +472,7 @@ require_once '../../config.php';
                         <!-- Editor Tab -->
                         <div id="editor-tab" class="tab-content">
                             <form id="blogForm" action="../blogUpload_process.php" method="POST" enctype="multipart/form-data">
-                                <!-- Blog Title -->
+                                <!-- Press / News Title -->
                                 <div class="mb-4">
                                     <label for="blogTitle" class="form-label">
                                         <i class="fas fa-heading"></i> Press Title *
@@ -600,8 +600,8 @@ require_once '../../config.php';
                                             <i class="fas fa-link"></i> YouTube / Source Link
                                         </label>
                                         <input type="url" class="form-control" id="sourceLink" name="source_link"
-                                               placeholder="https://youtube.com/watch?v=... or article URL">
-                                        <div class="form-text">Optional — YouTube video will appear above article content.</div>
+                                               placeholder="https://youtube.com/watch?v=...">
+                                        <div class="form-text">Optional — YouTube video will appear above press content.</div>
                                     </div>
                                 </div>
 
@@ -613,7 +613,7 @@ require_once '../../config.php';
                                     </h5>
                                 </div>
 
-                                <!-- Article Options Row -->
+                                <!-- Press / News Options -->
                                 <div class="row mb-3">
                                     <div class="col-md-5">
                                         <label class="form-label"><i class="fas fa-link"></i> URL Slug</label>

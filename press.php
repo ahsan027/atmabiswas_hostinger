@@ -607,7 +607,7 @@ function copyArticleLink() {
                     <?php endif; ?>
                     <div class="pr-card-foot">
                         <span class="pr-read-time"><i class="far fa-clock"></i> <?= $read_t ?> min read</span>
-                        <span class="pr-read-more">Read Full Story <i class="fas fa-arrow-right"></i></span>
+                        <span class="pr-read-more">Read Press <i class="fas fa-arrow-right"></i></span>
                     </div>
                 </div>
             </article>

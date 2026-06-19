@@ -429,7 +429,7 @@ body { background: var(--bg); font-family: system-ui,-apple-system,'Segoe UI',sa
     <div class="col-6 col-md-3">
         <div class="sc">
             <div class="sc-icon" style="background:#dbeafe;color:#1d4ed8"><i class="fas fa-newspaper"></i></div>
-            <div><div class="sc-num"><?= number_format($stats['total']) ?></div><div class="sc-lbl">Total Articles</div></div>
+            <div><div class="sc-num"><?= number_format($stats['total']) ?></div><div class="sc-lbl">Total Press / News</div></div>
         </div>
     </div>
     <div class="col-6 col-md-3">
@@ -505,7 +505,7 @@ body { background: var(--bg); font-family: system-ui,-apple-system,'Segoe UI',sa
 </p>
 <?php endif; ?>
 
-<!-- Articles table -->
+<!-- Press / News table -->
 <div class="table-card">
 <?php if (empty($posts)): ?>
     <div class="empty-state">
@@ -666,7 +666,7 @@ body { background: var(--bg); font-family: system-ui,-apple-system,'Segoe UI',sa
        class="pg-btn <?= $page >= $total_pages ? 'disabled' : '' ?>">›</a>
 </div>
 <p class="text-center text-muted small mt-2">
-    Page <?= $page ?> of <?= $total_pages ?> &nbsp;·&nbsp; <?= $total ?> articles total
+    Page <?= $page ?> of <?= $total_pages ?> &nbsp;·&nbsp; <?= $total ?> press / news total
 </p>
 <?php endif; ?>
 
@@ -676,7 +676,7 @@ body { background: var(--bg); font-family: system-ui,-apple-system,'Segoe UI',sa
 <div class="del-modal-overlay" id="delModal">
     <div class="del-modal">
         <i class="fas fa-trash-alt"></i>
-        <h5>Delete Article?</h5>
+        <h5>Delete Press / News Post?</h5>
         <p id="delModalMsg">This action cannot be undone.</p>
         <div class="d-flex gap-2 justify-content-center">
             <button class="btn btn-secondary btn-sm" onclick="closeDeleteModal()">Cancel</button>
