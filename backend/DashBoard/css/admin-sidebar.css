@@ -111,17 +111,6 @@
   color: var(--light);
 }
 
-/* Section label */
-.sidebar-section-label {
-  padding: .5rem 1.5rem;
-  font-size: .68rem;
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  opacity: .6;
-  margin-top: .5rem;
-  color: var(--light);
-}
-
 /* Active state */
 .nav-item.active {
   background: rgba(255, 255, 255, 0.15);

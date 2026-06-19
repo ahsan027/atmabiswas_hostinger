@@ -10,9 +10,8 @@ $passErr = "";
 $invalid = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Sanitize email only — NEVER filter passwords (breaks special chars and hashes)
-    $username = strtolower(trim(filter_input(INPUT_POST, "username", FILTER_SANITIZE_EMAIL) ?? ''));
-    $password = $_POST['password'] ?? '';   // raw — password_verify needs the exact string
+    $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_EMAIL);
+    $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS);
 
     if (empty($username)) {
         $usernameErr = "Email is Required";
@@ -24,8 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($username && $password) {
 
-        // Case-insensitive email lookup
-        $sql = "SELECT * FROM admins WHERE LOWER(email) = :username LIMIT 1";
+        $sql = "SELECT * FROM admins WHERE email = :username";
         $stmt = $connection->prepare($sql);
         $stmt->bindParam(":username", $username);
         $stmt->execute();
@@ -35,24 +33,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (!$user || !password_verify($password, $user['pswd'])) {
 
             $invalid = "Invalid Credentials";
-
-        } elseif (isset($user['is_active']) && !(bool)$user['is_active']) {
-
-            $invalid = "Your account has been disabled. Contact Head Office IT.";
-
-        } elseif (!empty($user['is_suspended'])) {
-
-            $invalid = "Your account has been suspended. Contact Head IT.";
-
         } else {
 
             $_SESSION['username'] = $user['fullname'];
-            $_SESSION['admin_id'] = (int)$user['adminId'];
-
-            // Load RBAC role + permissions into session
-            require_once '../DashBoard/auth.php';
-            reloadPermissions((int)$user['adminId']);
-
             header("Location: ../DashBoard/dashboard.php");
             exit();
         }
