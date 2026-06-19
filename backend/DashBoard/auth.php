@@ -127,18 +127,15 @@ function logPermissionChange(int $target_id, string $action, ?string $old, ?stri
 
 /* ── Load / reload permissions for an admin into session ─────────── */
 function reloadPermissions(int $admin_id): void {
-    try {
-        require_once __DIR__ . '/../Database/db.php';
-        $pdo = (new Db())->connect();
+    require_once __DIR__ . '/../Database/db.php';
+    $pdo = (new Db())->connect();
 
-        // Fetch admin + role data
+    /* Step 1 — admins table only (no JOIN — always succeeds) ──────── */
+    try {
         $stmt = $pdo->prepare("
-            SELECT a.adminId, a.fullname, a.role_id, a.is_owner, a.is_protected, a.is_active,
-                   COALESCE(r.role_level, 0) AS role_level,
-                   r.name AS role_name, r.slug AS role_slug
-            FROM admins a
-            LEFT JOIN roles r ON a.role_id = r.id
-            WHERE a.adminId = ?
+            SELECT adminId, fullname, role_id, is_owner, is_protected, is_active
+            FROM admins
+            WHERE adminId = ?
         ");
         $stmt->execute([$admin_id]);
         $admin = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -146,31 +143,61 @@ function reloadPermissions(int $admin_id): void {
 
         $_SESSION['admin_id']    = (int)$admin['adminId'];
         $_SESSION['role_id']     = $admin['role_id'] ? (int)$admin['role_id'] : null;
-        $_SESSION['role_level']  = (int)$admin['role_level'];
-        $_SESSION['role_name']   = $admin['role_name'] ?? 'No Role';
         $_SESSION['is_owner']    = (bool)$admin['is_owner'];
         $_SESSION['is_protected']= (bool)$admin['is_protected'];
 
-        // Owner gets everything — signal with wildcard
+        // Owner bypass — set now so it survives any failure below
         if ($admin['is_owner']) {
             $_SESSION['permissions'] = ['*'];
-            return;
+            $_SESSION['role_level']  = $_SESSION['role_level'] ?? 100;
+            $_SESSION['role_name']   = $_SESSION['role_name'] ?? 'Head IT (Arafat)';
         }
+    } catch (Exception $e) {
+        error_log('reloadPermissions (admins query) failed: ' . $e->getMessage());
+        return;
+    }
 
-        // Load role permissions
+    /* Step 2 — role data (may fail if roles table not migrated yet) ── */
+    try {
+        $role_id = $_SESSION['role_id'] ?? null;
+        if ($role_id) {
+            $rs = $pdo->prepare("
+                SELECT r.role_level, r.name AS role_name, r.slug
+                FROM roles r WHERE r.id = ?
+            ");
+            $rs->execute([$role_id]);
+            $role = $rs->fetch(PDO::FETCH_ASSOC);
+            if ($role) {
+                $_SESSION['role_level'] = (int)$role['role_level'];
+                $_SESSION['role_name']  = $role['role_name'];
+            }
+        } else {
+            $_SESSION['role_level'] = $_SESSION['role_level'] ?? 0;
+            $_SESSION['role_name']  = $_SESSION['role_name'] ?? 'No Role';
+        }
+    } catch (Exception) {
+        // roles table not migrated yet — keep defaults set above
+        $_SESSION['role_level'] = $_SESSION['role_level'] ?? 0;
+        $_SESSION['role_name']  = $_SESSION['role_name'] ?? 'No Role';
+    }
+
+    // Owner already has ['*'] permissions — no further queries needed
+    if (!empty($_SESSION['is_owner'])) return;
+
+    /* Step 3 — role + user permission overrides ──────────────────── */
+    try {
         $role_perms = [];
-        if ($admin['role_id']) {
+        if ($_SESSION['role_id'] ?? null) {
             $stmt = $pdo->prepare("
                 SELECT p.slug
                 FROM role_permissions rp
                 JOIN permissions p ON rp.permission_id = p.id
                 WHERE rp.role_id = ?
             ");
-            $stmt->execute([(int)$admin['role_id']]);
+            $stmt->execute([(int)$_SESSION['role_id']]);
             $role_perms = $stmt->fetchAll(PDO::FETCH_COLUMN);
         }
 
-        // Load user overrides
         $stmt = $pdo->prepare("
             SELECT p.slug, up.granted
             FROM user_permissions up
@@ -182,17 +209,13 @@ function reloadPermissions(int $admin_id): void {
 
         $perm_set = array_flip($role_perms);
         foreach ($overrides as $ov) {
-            if ($ov['granted']) {
-                $perm_set[$ov['slug']] = true;
-            } else {
-                unset($perm_set[$ov['slug']]);
-            }
+            if ($ov['granted']) { $perm_set[$ov['slug']] = true; }
+            else                { unset($perm_set[$ov['slug']]); }
         }
 
         $_SESSION['permissions'] = array_keys($perm_set);
-
     } catch (Exception $e) {
-        error_log('reloadPermissions failed: ' . $e->getMessage());
+        error_log('reloadPermissions (permissions query) failed: ' . $e->getMessage());
         $_SESSION['permissions'] = [];
     }
 }
