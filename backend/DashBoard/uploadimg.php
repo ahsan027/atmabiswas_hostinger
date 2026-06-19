@@ -211,6 +211,105 @@ $total_count = count($all_images);
         }
         .gallery-empty i { font-size: 3rem; display: block; margin-bottom: 1rem; }
 
+        /* ── Button actions row ─────────────────────── */
+        .btn-actions { display: flex; gap: .5rem; margin-top: 8px; }
+        .btn-edit {
+            display: flex; align-items: center; gap: .35rem;
+            padding: .35rem .75rem;
+            background: #eff6ff; color: #0073e6;
+            border: 1px solid #bfdbfe; border-radius: 6px;
+            font-size: .75rem; font-weight: 600; cursor: pointer;
+            transition: all .2s; flex: 1; justify-content: center;
+        }
+        .btn-edit:hover { background: #0073e6; color: #fff; border-color: #0073e6; }
+        .btn-delete { flex: 1; margin-top: 0; }
+
+        /* ── Edit Modal ─────────────────────────────── */
+        .modal-overlay {
+            position: fixed;
+            top: 0; right: 0; bottom: 0; left: 0;
+            background: rgba(0,0,0,.55);
+            z-index: 10000;
+            display: flex; align-items: center; justify-content: center;
+            padding: 1rem;
+            opacity: 0; pointer-events: none;
+            transition: opacity .25s;
+        }
+        .modal-overlay.open { opacity: 1; pointer-events: auto; }
+        .modal-box {
+            background: #fff; border-radius: 16px;
+            width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,.25);
+            transform: translateY(20px) scale(0.97);
+            transition: transform .25s;
+        }
+        .modal-overlay.open .modal-box { transform: translateY(0) scale(1); }
+        .modal-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 1.25rem 1.5rem; border-bottom: 1px solid #e5e7eb;
+            position: sticky; top: 0; background: #fff; z-index: 1;
+        }
+        .modal-header h3 {
+            font-size: 1.1rem; font-weight: 700; color: #1e3a5f;
+            display: flex; align-items: center; gap: .5rem; margin: 0;
+        }
+        .modal-header h3 i { color: #0073e6; }
+        .modal-close {
+            width: 32px; height: 32px; border: none; background: #f3f4f6;
+            border-radius: 50%; font-size: 1.1rem; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            color: #6b7280; transition: all .2s;
+        }
+        .modal-close:hover { background: #dc2626; color: #fff; }
+        .modal-body { padding: 1.5rem; }
+        .modal-current-img {
+            width: 100%; height: 200px; object-fit: cover;
+            border-radius: 10px; margin-bottom: 1.25rem;
+            border: 1px solid #e5e7eb; display: block;
+        }
+        .modal-replace-zone {
+            border: 2px dashed #d1d5db; border-radius: 10px;
+            padding: 1.25rem; text-align: center; cursor: pointer;
+            transition: all .2s; position: relative; background: #f9fafb;
+        }
+        .modal-replace-zone:hover { border-color: #0073e6; background: #eff6ff; }
+        .modal-replace-zone input[type="file"] {
+            position: absolute; top: 0; right: 0; bottom: 0; left: 0;
+            opacity: 0; cursor: pointer; width: 100%; height: 100%;
+        }
+        .modal-replace-zone i { font-size: 1.4rem; color: #9ca3af; }
+        .modal-replace-zone p { font-size: .85rem; color: #6b7280; margin: .4rem 0 0; }
+        .replace-preview { margin-top: .75rem; display: none; position: relative; }
+        .replace-preview img {
+            width: 100%; height: 150px; object-fit: cover;
+            border-radius: 8px; border: 1px solid #e5e7eb; display: block;
+        }
+        .replace-preview-clear {
+            position: absolute; top: 6px; right: 6px;
+            width: 26px; height: 26px; background: rgba(0,0,0,.6);
+            color: #fff; border: none; border-radius: 50%; font-size: .85rem;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+        }
+        .modal-footer {
+            padding: 1rem 1.5rem 1.5rem;
+            display: flex; gap: .75rem; justify-content: flex-end;
+            border-top: 1px solid #e5e7eb;
+        }
+        .btn-modal-cancel {
+            padding: .65rem 1.4rem; background: #f3f4f6; color: #374151;
+            border: 1px solid #d1d5db; border-radius: 8px;
+            font-size: .9rem; font-weight: 600; cursor: pointer; transition: all .2s;
+        }
+        .btn-modal-cancel:hover { background: #e5e7eb; }
+        .btn-modal-save {
+            padding: .65rem 1.6rem; background: #0073e6; color: #fff;
+            border: none; border-radius: 8px;
+            font-size: .9rem; font-weight: 600; cursor: pointer;
+            transition: all .2s; display: flex; align-items: center; gap: .45rem;
+        }
+        .btn-modal-save:hover { background: #005bb5; }
+        .btn-modal-save:disabled { opacity: .6; cursor: not-allowed; }
+
         /* ── Notification Toast ─────────────────────── */
         .toast {
             position: fixed;
@@ -390,7 +489,12 @@ $total_count = count($all_images);
                     <?php else: ?>
                     <div class="gallery-grid" id="galleryGrid">
                         <?php foreach ($all_images as $img): ?>
-                        <div class="gallery-card" data-type="<?= htmlspecialchars($img['img_type']) ?>">
+                        <div class="gallery-card"
+                             data-type="<?= htmlspecialchars($img['img_type']) ?>"
+                             data-path="<?= htmlspecialchars($img['img_path']) ?>"
+                             data-title="<?= htmlspecialchars($img['img_title']) ?>"
+                             data-desc="<?= htmlspecialchars($img['img_description'] ?? '') ?>"
+                             data-imgtype="<?= htmlspecialchars($img['img_type']) ?>">
                             <div class="gallery-card-img-wrap">
                                 <img class="gallery-card-img"
                                      src="../../<?= htmlspecialchars($img['img_path']) ?>"
@@ -405,11 +509,17 @@ $total_count = count($all_images);
                                 <?php if (!empty(trim($img['img_description']))): ?>
                                 <p class="gallery-card-desc"><?= htmlspecialchars($img['img_description']) ?></p>
                                 <?php endif; ?>
-                                <button class="btn-delete"
-                                        data-path="<?= htmlspecialchars($img['img_path']) ?>"
-                                        onclick="deleteImage(this)">
-                                    <i class="fas fa-trash-alt"></i> Delete
-                                </button>
+                                <div class="btn-actions">
+                                    <button class="btn-edit"
+                                            onclick="openEditModal(this.closest('.gallery-card'))">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="btn-delete"
+                                            data-path="<?= htmlspecialchars($img['img_path']) ?>"
+                                            onclick="deleteImage(this)">
+                                        <i class="fas fa-trash-alt"></i> Delete
+                                    </button>
+                                </div>
                             </div>
                         </div>
                         <?php endforeach; ?>
@@ -420,6 +530,75 @@ $total_count = count($all_images);
 
         </div><!-- /.main-content -->
     </div><!-- /.dashboard-container -->
+
+    <!-- ── Edit Modal ───────────────────────────── -->
+    <div class="modal-overlay" id="editModal" onclick="closeEditModal(event)">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3><i class="fas fa-edit"></i> Edit Image</h3>
+                <button class="modal-close" onclick="closeEditModal()" title="Close">&times;</button>
+            </div>
+
+            <form class="modal-body" id="editForm" enctype="multipart/form-data">
+                <img src="" alt="Current image" class="modal-current-img" id="modalCurrentImg">
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-tags"></i> Image Type
+                    </label>
+                    <select name="img_type" id="editImgType" class="form-select" required>
+                        <option value="img_slider">Image Slider</option>
+                        <option value="latest_news">Latest News</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-heading"></i> Title
+                    </label>
+                    <input type="text" name="img_title" id="editTitle" class="form-input"
+                           placeholder="Image title" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-align-left"></i>
+                        Description <span style="font-weight:400;color:#9ca3af;">(optional)</span>
+                    </label>
+                    <textarea name="img_description" id="editDesc" class="form-textarea"
+                              rows="3" placeholder="Image description..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-exchange-alt"></i>
+                        Replace Image <span style="font-weight:400;color:#9ca3af;">(optional)</span>
+                    </label>
+                    <div class="modal-replace-zone" id="replaceZone">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Click or drag a new image here</p>
+                        <p style="font-size:.78rem;color:#9ca3af;margin-top:.2rem;">JPG, PNG — Max 2 MB</p>
+                        <input type="file" name="image_file" id="replaceFile"
+                               accept=".jpg,.jpeg,.png" onchange="previewReplace(this)">
+                    </div>
+                    <div class="replace-preview" id="replacePreview">
+                        <img src="" id="replacePreviewImg" alt="New image preview">
+                        <button type="button" class="replace-preview-clear"
+                                onclick="clearReplace()" title="Remove">&times;</button>
+                    </div>
+                </div>
+
+                <input type="hidden" name="old_path" id="editOldPath">
+            </form>
+
+            <div class="modal-footer">
+                <button class="btn-modal-cancel" onclick="closeEditModal()">Cancel</button>
+                <button class="btn-modal-save" id="saveBtn" onclick="submitEdit()">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
+            </div>
+        </div>
+    </div>
 
     <script src="js/dashboard.js"></script>
     <script>
@@ -519,7 +698,128 @@ $total_count = count($all_images);
         });
     }
 
-    // Update tab counters after deletion
+    // ── Edit Modal ──────────────────────────────────
+    function openEditModal(card) {
+        const path    = card.dataset.path;
+        const title   = card.dataset.title;
+        const desc    = card.dataset.desc    || '';
+        const imgtype = card.dataset.imgtype || 'img_slider';
+
+        document.getElementById('modalCurrentImg').src = '../../' + path;
+        document.getElementById('editOldPath').value   = path;
+        document.getElementById('editTitle').value     = title;
+        document.getElementById('editDesc').value      = desc;
+        document.getElementById('editImgType').value   = imgtype;
+
+        // Reset replace zone
+        clearReplace();
+
+        document.getElementById('editModal').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeEditModal(e) {
+        if (e && e.target !== document.getElementById('editModal')) return;
+        document.getElementById('editModal').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+            document.getElementById('editModal').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+    });
+
+    function previewReplace(input) {
+        const file = input.files[0];
+        if (!file) return;
+        const preview = document.getElementById('replacePreview');
+        const img     = document.getElementById('replacePreviewImg');
+        const reader  = new FileReader();
+        reader.onload  = function (e) { img.src = e.target.result; };
+        reader.readAsDataURL(file);
+        preview.style.display = 'block';
+        document.getElementById('replaceZone').style.display = 'none';
+    }
+
+    function clearReplace() {
+        document.getElementById('replaceFile').value    = '';
+        document.getElementById('replacePreview').style.display = 'none';
+        document.getElementById('replacePreviewImg').src = '';
+        document.getElementById('replaceZone').style.display = '';
+    }
+
+    function submitEdit() {
+        const form    = document.getElementById('editForm');
+        const saveBtn = document.getElementById('saveBtn');
+
+        if (!form.reportValidity()) return;
+
+        const fd = new FormData(form);
+
+        saveBtn.disabled    = true;
+        saveBtn.innerHTML   = '<i class="fas fa-spinner fa-spin"></i> Saving…';
+
+        fetch('Actions/edit_img.php', { method: 'POST', body: fd })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+            if (data.success) {
+                const oldPath = document.getElementById('editOldPath').value;
+                const card    = document.querySelector('.gallery-card[data-path="' + CSS.escape(oldPath) + '"]');
+                if (card) {
+                    const newPath  = data.new_path;
+                    const newType  = document.getElementById('editImgType').value;
+                    const newTitle = document.getElementById('editTitle').value;
+                    const newDesc  = document.getElementById('editDesc').value;
+
+                    // Update data attributes
+                    card.dataset.path    = newPath;
+                    card.dataset.title   = newTitle;
+                    card.dataset.desc    = newDesc;
+                    card.dataset.imgtype = newType;
+                    card.dataset.type    = newType;
+
+                    // Update image src
+                    const cardImg = card.querySelector('.gallery-card-img');
+                    if (cardImg) cardImg.src = '../../' + newPath + '?t=' + Date.now();
+
+                    // Update type badge
+                    const badge = card.querySelector('.type-badge');
+                    if (badge) {
+                        badge.className = 'type-badge type-' + newType;
+                        badge.textContent = newType === 'img_slider' ? 'Slider' : 'Latest';
+                    }
+
+                    // Update title + desc text
+                    const titleEl = card.querySelector('.gallery-card-title');
+                    if (titleEl) titleEl.textContent = newTitle;
+                    const descEl  = card.querySelector('.gallery-card-desc');
+                    if (descEl)  descEl.textContent  = newDesc;
+
+                    // Update delete button's data-path
+                    const delBtn = card.querySelector('.btn-delete');
+                    if (delBtn) delBtn.dataset.path = newPath;
+                }
+
+                showToast('Image updated successfully.', 'success');
+                document.getElementById('editModal').classList.remove('open');
+                document.body.style.overflow = '';
+                updateCounters();
+            } else {
+                showToast('Save failed: ' + (data.error || 'Unknown error'), 'error');
+            }
+        })
+        .catch(function () {
+            showToast('Network error. Please try again.', 'error');
+        })
+        .finally(function () {
+            saveBtn.disabled  = false;
+            saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Changes';
+        });
+    }
+
+    // ── Update tab counters after deletion
     function updateCounters() {
         const cards = document.querySelectorAll('.gallery-card');
         let total = cards.length, slider = 0, latest = 0;
