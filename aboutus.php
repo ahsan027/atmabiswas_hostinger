@@ -1,341 +1,233 @@
+<?php
+// ╔══════════════════════════════════════════════════════════════════╗
+// ║           EDITABLE CONTENT — About Us Page                      ║
+// ║  Change the values below to update images and text.             ║
+// ║  Do NOT touch the HTML further down the page.                   ║
+// ╚══════════════════════════════════════════════════════════════════╝
+
+// ── About Us Section ───────────────────────────────────────────────
+$about_image     = 'office_pic/office_pic.jpg';   // ← path to photo
+$about_image_alt = 'ATMABISWAS Office';
+$about_text      = 'ATMABISWAS is a non-governmental, non-profit, voluntary, and development-focused organization committed to creating meaningful social change and fostering sustainable development. Established in January 1991 under the Department of Social Welfare, ATMABISWAS has dedicated over three decades to empowering communities across Bangladesh. The organization primarily focuses on serving the disadvantaged populations, striving to uplift their living standards and enhance their access to essential resources and opportunities.
+
+Since its inception, ATMABISWAS has worked tirelessly to support marginalized individuals and communities, with an initial emphasis on the district of Chuadanga. Through a range of social welfare programs, development projects, and micro-credit initiatives, the organization has impacted thousands of lives, enabling beneficiaries to break the cycle of poverty and build a better future.';
+
+// ── Our Team Section ───────────────────────────────────────────────
+$team_image      = 'office_pic/00000.jpg';        // ← path to photo
+$team_image_alt  = 'ATMABISWAS Team with PKSF';
+$team_text       = 'Our team consists of dedicated professionals who are passionate about making a difference. We collaborate to create a positive impact and support each other in our mission to empower communities and foster sustainable development.
+
+Our team members come from diverse backgrounds, bringing a wealth of experience and expertise to the organization. We are united by our shared commitment to social justice, equality, and sustainable development. Each member of our team plays a crucial role in driving our mission forward — from field workers to administrative staff, project managers, and volunteers. Together, we strive to create a positive and lasting impact on the communities we serve.';
+
+// ══════════════════════════════════════════════════════════════════
+?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EZVV9DWWY7"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
+        function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
         gtag('config', 'G-EZVV9DWWY7');
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About ATMABISWAS - Bangladesh NGO | Mission & Vision</title>
+    <title>About ATMABISWAS - Bangladesh NGO | Mission &amp; Vision</title>
     <?php include 'seo.php'; ?>
     <link rel="icon" type="image/png" href="LOGO/NGO_logo_monogram.png">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-body {
-    margin: 0;
-    font-family: "Times New Roman", Times, serif;
-    color: #333;
-    background-color: #f4f4f4;
-    overflow-x: hidden;
-}
-
-header {
-    text-align: center;
-    background: linear-gradient(90deg, #0a58ca, #176cc6);
-    color: white;
-    padding: 50px 20px;
-}
-
-header h1 {
-    margin: 0;
-    font-size: 2.8rem;
-    font-weight: 700;
-}
-
-header p {
-    margin: 10px 0;
-    font-size: 1.2rem;
-    opacity: 0.9;
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.section {
-    margin-bottom: 40px;
-    padding: 20px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    position: relative;
-    overflow: hidden;
-}
-
-.section h2 {
-    color: #276a7b;
-    margin-bottom: 20px;
-    position: relative;
-    animation: slideInLeft 1.5s ease-in-out;
-}
-
-.section p,
-.section ul {
-    line-height: 1.6;
-    animation: fadeIn 1.5s ease-in-out;
-}
-
-.values-list,
-.get-involved-list {
-    list-style-type: none;
-    padding: 0;
-}
-
-.values-list li,
-.get-involved-list li {
-    margin: 10px 0;
-    padding: 15px;
-    background-color: #f9f9f9;
-    border-left: 5px solid #4CAF50;
-    border-radius: 5px;
-    animation: fadeInUp 1.5s ease-in-out;
-}
-
-.image-section {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.image-section img {
-    flex: 1 1 100%;
-    max-width: 100%;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    transform: scale(0.95);
-    transition: transform 0.3s ease;
-}
-
-.image-section img:hover {
-    transform: scale(1);
-}
-
-.image-section p {
-    flex: 1 1 100%;
-    margin: 0;
-}
-
-@media (min-width: 768px) {
-    .image-section img {
-        flex: 1 1 45%;
-    }
-
-    .image-section p {
-        flex: 1 1 45%;
-    }
-}
-
-/* Video Section */
-.video-section {
-    margin-top: 40px;
-}
-
-.video-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-}
-
-.video-item {
-    flex: 1 1 300px;
-    max-width: 500px;
-    aspect-ratio: 16 / 9; /* rectangle shape */
-    border: 2px solid #ccc;
-    border-radius: 0; /* remove rounded corners */
-    overflow: hidden;
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    position: relative;
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.video-item:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
-
-.video-item iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    border-radius: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-/* Footer */
-footer {
-    text-align: center;
-    padding: 20px;
-    background-color: #4c98af;
-    color: white;
-    animation: fadeInUp 2s ease-in-out;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    header h1 {
-        font-size: 2rem;
-    }
-
-    header p {
-        font-size: 1rem;
-    }
-
-    .container {
-        padding: 15px;
-    }
-
-    .section {
-        padding: 15px;
-    }
-
-    .image-section img,
-    .image-section p {
-        flex: 1 1 100%;
-        margin-bottom: 15px;
-    }
-
-    .video-grid {
-        flex-direction: column;
-        gap: 15px;
-    }
-}
-
-@media (max-width: 480px) {
-    header h1 {
-        font-size: 1.5rem;
-    }
-
-    .container {
-        padding: 10px;
-    }
-
-    .section {
-        padding: 10px;
-    }
-}
-
-/* Animations */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@keyframes fadeInDown {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes slideInLeft {
-    from { opacity: 0; transform: translateX(-20px); }
-    to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-    </style>
+    <link rel="stylesheet" href="aboutus.css">
 </head>
-
 <body>
     <?php include 'Navbar.php'; ?>
-    <header>
-        <h1>Welcome To ATMABISWAS</h1>
-        <p class="color" style="color: #FFFF;">Empowering individuals and fostering self-belief</p>
 
-    </header>
+    <!-- Hero -->
+    <section class="about-hero">
+        <div class="about-hero-inner">
+            <h1>Welcome To ATMABISWAS</h1>
+            <p>Empowering individuals and fostering self-belief across Bangladesh since 1991.</p>
+        </div>
+    </section>
 
-    <div class="container">
-        <div class="section">
-            <h2>About Us</h2>
-            <div class="image-section">
-                <img src="office_pic/office_pic.jpg" loading="lazy" alt="logo" style="width: 25%; float: left;">
+    <div class="ab-container">
 
-                <p>ATMABISWAS is a non-governmental, non-profit, voluntary, and development-focused organization committed to creating meaningful social change and fostering sustainable development. Established in January 1991 under the Department of Social Welfare, ATMABISWAS has dedicated over three decades to empowering communities across Bangladesh. The organization primarily focuses on serving the disadvantaged populations, striving to uplift their living standards and enhance their access to essential resources and opportunities. <br> <br> Since its inception, ATMABISWAS has worked tirelessly to support marginalized individuals and communities, with an initial emphasis on the district of Chuadanga. Through a range of social welfare programs, development projects, and micro-credit initiatives, the organization has impacted thousands of lives, enabling beneficiaries to break the cycle of poverty and build a better future.</p>
+        <!-- About Us -->
+        <div class="ab-card">
+            <div class="ab-card-header">
+                <i class="fa-solid fa-building-ngo"></i>
+                <h2>About Us</h2>
+            </div>
+            <div class="ab-image-text">
+                <img src="<?= htmlspecialchars($about_image) ?>" loading="lazy" alt="<?= htmlspecialchars($about_image_alt) ?>">
+                <div>
+                    <?php foreach (array_filter(explode("\n\n", trim($about_text))) as $para): ?>
+                        <p style="margin-bottom:1.1rem;"><?= htmlspecialchars($para) ?></p>
+                    <?php endforeach; ?>
+                </div>
             </div>
         </div>
 
-        <div class="section">
-            <h2>Our Vision</h2>
+        <!-- Vision -->
+        <div class="ab-card">
+            <div class="ab-card-header">
+                <i class="fa-solid fa-eye"></i>
+                <h2>Our Vision</h2>
+            </div>
             <p>Our vision is to create a society where poverty, inequality, and injustice are eradicated, and ecological balance is maintained. We strive for a world where every individual has the opportunity to thrive and contribute to sustainable development.</p>
         </div>
 
-        <div class="section">
-            <h2>Our Mission</h2>
-            <ul class="values-list">
-                <li><strong>Empowerment:</strong> Providing resources and opportunities for personal and professional growth.</li>
-                <li><strong>Support:</strong> Offering guidance and assistance to individuals in need.</li>
-                <li><strong>Community:</strong> Creating a supportive network that fosters collaboration and mutual growth.</li>
-                <li><strong>Progressive Social Transformation:</strong> Working towards a society that values harmony, peace, justice, and ecological balance.</li>
+        <!-- Mission -->
+        <div class="ab-card">
+            <div class="ab-card-header">
+                <i class="fa-solid fa-bullseye"></i>
+                <h2>Our Mission</h2>
+            </div>
+            <ul class="ab-icon-grid">
+                <li>
+                    <i class="fa-solid fa-hand-holding-heart"></i>
+                    <div>
+                        <strong>Empowerment</strong>
+                        <span>Providing resources and opportunities for personal and professional growth.</span>
+                    </div>
+                </li>
+                <li>
+                    <i class="fa-solid fa-people-carry-box"></i>
+                    <div>
+                        <strong>Support</strong>
+                        <span>Offering guidance and assistance to individuals in need.</span>
+                    </div>
+                </li>
+                <li>
+                    <i class="fa-solid fa-users"></i>
+                    <div>
+                        <strong>Community</strong>
+                        <span>Creating a supportive network that fosters collaboration and mutual growth.</span>
+                    </div>
+                </li>
+                <li>
+                    <i class="fa-solid fa-scale-balanced"></i>
+                    <div>
+                        <strong>Social Transformation</strong>
+                        <span>Working towards a society that values harmony, peace, justice, and ecological balance.</span>
+                    </div>
+                </li>
             </ul>
         </div>
 
-        <div class="section">
-            <h2>Our Values</h2>
-            <ul class="values-list">
-                <li><strong>Integrity:</strong> We uphold the highest standards of integrity in all our actions.</li>
-                <li><strong>Respect:</strong> We value each individual and treat everyone with respect and dignity.</li>
-                <li><strong>Innovation:</strong> We embrace change and constantly seek new ways to achieve our mission.</li>
+        <!-- Values -->
+        <div class="ab-card">
+            <div class="ab-card-header">
+                <i class="fa-solid fa-gem"></i>
+                <h2>Our Values</h2>
+            </div>
+            <ul class="ab-icon-grid values">
+                <li>
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <div>
+                        <strong>Integrity</strong>
+                        <span>We uphold the highest standards of integrity in all our actions.</span>
+                    </div>
+                </li>
+                <li>
+                    <i class="fa-solid fa-handshake"></i>
+                    <div>
+                        <strong>Respect</strong>
+                        <span>We value each individual and treat everyone with respect and dignity.</span>
+                    </div>
+                </li>
+                <li>
+                    <i class="fa-solid fa-lightbulb"></i>
+                    <div>
+                        <strong>Innovation</strong>
+                        <span>We embrace change and constantly seek new ways to achieve our mission.</span>
+                    </div>
+                </li>
             </ul>
         </div>
 
-        <div class="section">
-            <h2>Our Team</h2>
-            <div class="image-section">
-                <img src="office_pic/00000.jpg" loading="lazy" alt="with_pksf" style="width: 25%; float: left;">
-
-                <p>Our team consists of dedicated professionals who are passionate about making a difference. We collaborate to create a positive impact and support each other in our mission to empower communities and foster sustainable development. <br> Our team members come from diverse backgrounds, bringing a wealth of experience and expertise to the organization. We are united by our shared commitment to social justice, equality, and sustainable development. Each member of our team plays a crucial role in driving our mission forward, from field workers to administrative staff, project managers, and volunteers. Together, we strive to create a positive and lasting impact on the communities we serve.</p>
+        <!-- Our Team -->
+        <div class="ab-card">
+            <div class="ab-card-header">
+                <i class="fa-solid fa-people-group"></i>
+                <h2>Our Team</h2>
+            </div>
+            <div class="ab-image-text">
+                <img src="<?= htmlspecialchars($team_image) ?>" loading="lazy" alt="<?= htmlspecialchars($team_image_alt) ?>">
+                <div>
+                    <?php foreach (array_filter(explode("\n\n", trim($team_text))) as $para): ?>
+                        <p style="margin-bottom:1.1rem;"><?= htmlspecialchars($para) ?></p>
+                    <?php endforeach; ?>
+                </div>
             </div>
         </div>
 
-        <div class="section">
-            <h2>Get Involved</h2>
-            <ul class="get-involved-list">
-                <li><strong>Volunteer:</strong> Share your skills and time to make a difference.</li>
-                <li><strong>Donate:</strong> Support our initiatives with your generous contributions.</li>
-                <li><strong>Partner:</strong> Collaborate with us to create impactful programs and events.</li>
-                <li><strong>Career:</strong> Join our team and contribute to our mission professionally.</li>
+        <!-- Get Involved -->
+        <div class="ab-card">
+            <div class="ab-card-header">
+                <i class="fa-solid fa-hands-holding-circle"></i>
+                <h2>Get Involved</h2>
+            </div>
+            <ul class="ab-icon-grid get-involved">
+                <li>
+                    <i class="fa-solid fa-person-walking"></i>
+                    <div>
+                        <strong>Volunteer</strong>
+                        <span>Share your skills and time to make a difference.</span>
+                    </div>
+                </li>
+                <li>
+                    <i class="fa-solid fa-circle-dollar-to-slot"></i>
+                    <div>
+                        <strong>Donate</strong>
+                        <span>Support our initiatives with your generous contributions.</span>
+                    </div>
+                </li>
+                <li>
+                    <i class="fa-solid fa-link"></i>
+                    <div>
+                        <strong>Partner</strong>
+                        <span>Collaborate with us to create impactful programs and events.</span>
+                    </div>
+                </li>
+                <li>
+                    <i class="fa-solid fa-briefcase"></i>
+                    <div>
+                        <strong>Career</strong>
+                        <span>Join our team and contribute to our mission professionally.</span>
+                    </div>
+                </li>
             </ul>
         </div>
 
-        <div class="video-section">
-            <h2 style="text-align: center; color:  #0a58ca;">OUR WORK IN ACTION</h2>
-            <br>
-            <br>
-
+        <!-- Videos -->
+        <div class="ab-card">
+            <p class="video-section-title">Our Work in Action</p>
+            <p class="video-section-subtitle">Watch stories of resilience and impact from the communities we serve.</p>
             <div class="video-grid">
                 <div class="video-item">
-                    <iframe src="https://www.youtube.com/embed/-rmQDVb3s4k" frameborder="5" allowfullscreen></iframe>
+                    <iframe src="https://www.youtube.com/embed/-rmQDVb3s4k" allowfullscreen loading="lazy"></iframe>
                 </div>
                 <div class="video-item">
-                    <iframe src="https://www.youtube.com/embed/i0UxCHapj40" frameborder="0" allowfullscreen></iframe>
+                    <iframe src="https://www.youtube.com/embed/i0UxCHapj40" allowfullscreen loading="lazy"></iframe>
                 </div>
                 <div class="video-item">
-                    <iframe src="https://www.youtube.com/embed/6xb-rN_9j24" frameborder="0" allowfullscreen></iframe>
+                    <iframe src="https://www.youtube.com/embed/6xb-rN_9j24" allowfullscreen loading="lazy"></iframe>
                 </div>
                 <div class="video-item">
-                    <iframe src="https://www.youtube.com/embed/JS15JTafAv4" frameborder="0" allowfullscreen></iframe>
+                    <iframe src="https://www.youtube.com/embed/JS15JTafAv4" allowfullscreen loading="lazy"></iframe>
                 </div>
                 <div class="video-item">
-                    <iframe src="https://www.youtube.com/embed/eDMq_ispQYI" frameborder="0" allowfullscreen></iframe>
+                    <iframe src="https://www.youtube.com/embed/eDMq_ispQYI" allowfullscreen loading="lazy"></iframe>
                 </div>
                 <div class="video-item">
-                    <iframe src="https://www.youtube.com/embed/nxDIwvOqTVg " frameborder="0" allowfullscreen></iframe>
+                    <iframe src="https://www.youtube.com/embed/nxDIwvOqTVg" allowfullscreen loading="lazy"></iframe>
                 </div>
             </div>
         </div>
 
     </div>
 
-    <?php include 'footer.php' ?>
+    <?php include 'footer.php'; ?>
 </body>
-
 </html>
