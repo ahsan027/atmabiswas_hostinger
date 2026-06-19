@@ -28,6 +28,9 @@
   align-items: center;
   padding: 8px 28px;
   border-bottom: 1px solid #e8edf2;
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .navbar .top-row .logo a {
