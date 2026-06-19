@@ -1,22 +1,11 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const currentLocation = location.href;
-  console.log(location.href);
-  const menuItems = document.querySelectorAll(".navbar .bottom-row a");
+  var currentHref = location.href;
 
-  menuItems.forEach((item) => {
-    if (item.href === currentLocation) {
-      item.classList.add("active");
-    }
+  document.querySelectorAll(".navbar .bottom-row a").forEach(function (item) {
+    if (item.href === currentHref) item.classList.add("active");
   });
-});
-document.addEventListener("DOMContentLoaded", function () {
-  const currentLocation = location.href;
-  console.log(location.href);
-  const menuItems = document.querySelectorAll(".navbar .top-row .bars a");
 
-  menuItems.forEach((item) => {
-    if (item.href === currentLocation) {
-      item.classList.add("active");
-    }
+  document.querySelectorAll(".navbar .top-row .bars a").forEach(function (item) {
+    if (item.href === currentHref) item.classList.add("active");
   });
 });

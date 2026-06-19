@@ -52,7 +52,7 @@
 }
 
 .sidenav a {
-  font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Times New Roman", Times, serif;
   font-weight: 400;
   text-decoration: none;
   color: #ffffff; /* White text for all links */
@@ -107,7 +107,7 @@
 }
 
 .sidedropContent a {
-  font-family: "Montserrat", Arial, sans-serif; /* Ensure same font */
+  font-family: "Times New Roman", Times, serif; /* Ensure same font */
   font-weight: 400; /* Ensure same font weight */
   color: #ffffff; /* White text for dropdown links */
   padding: 8px 20px 8px 40px; /* Indent dropdown items with slightly less vertical padding */
@@ -135,6 +135,17 @@
 
 .sidedrop.active .sidedropContent {
   display: flex;
+}
+
+/* Side caret animation */
+.side-arrow {
+  font-size: 0.75rem;
+  margin-left: auto;
+  transition: transform 0.25s ease;
+}
+
+.sidedrop.active .side-arrow {
+  transform: rotate(180deg);
 }
 
 .sidenav > a:last-child {

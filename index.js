@@ -1,7 +1,3 @@
-document.querySelector(".menu-toggle").addEventListener("click", function () {
-  document.querySelector(".bottom-row").classList.toggle("active");
-});
-
 document.addEventListener("DOMContentLoaded", function () {
   const currentYear = new Date().getFullYear();
  
