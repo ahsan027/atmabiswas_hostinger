@@ -216,3 +216,9 @@ body {
   .container  { padding: 2rem 1rem; }
   .notice-hero h1 { font-size: 1.3rem; }
 }
+
+@media (max-width: 380px) {
+  .card-link  { height: 270px; }
+  .notice-hero h1 { font-size: 1.15rem; }
+  .notice-hero { padding: 36px 16px 30px; }
+}

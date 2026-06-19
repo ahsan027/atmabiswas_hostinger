@@ -150,12 +150,8 @@ main i,
 }
 
 .nav-btn {
-  pointer-events: auto; /* Re-enable clicks for buttons */
-}
-
-.nav-btn {
+  pointer-events: auto;
   background: rgba(255, 255, 255, 0.2);
-  border: none;
   color: white;
   width: 50px;
   height: 50px;
@@ -263,6 +259,11 @@ main i,
     transform: translate(-50%, -50%) scale(1.5);
     opacity: 0;
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .counter-animation { animation: none; }
+  .job-card, .sector-card, .hero .search { transition: none; }
 }
 
 .hero .overlay .rightSide .search,
@@ -675,18 +676,6 @@ main i,
   color: #999;
 }
 
-/* Animations */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -30%);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%);
-  }
-}
-
 /* Responsive Design */
 @media (max-width: 768px) {
   .hero .search {
@@ -696,16 +685,12 @@ main i,
   .hero .overlay {
     height: 50%;
     min-height: 200px;
-  }
-
-  .hero .overlay {
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
     padding: 20px 12px;
     background: rgba(20, 20, 40, 0.9);
-    /* Keep overlay centered on mobile */
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -857,6 +842,21 @@ main i,
   .sector-info h3 {
     text-align: center;
   }
+}
+
+/* Laptop: mid-screen hero scaling */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .slider-container {
+    height: 520px;
+  }
+  .hero {
+    min-height: 520px;
+  }
+  .hero .overlay {
+    width: 85%;
+    padding: 30px 36px;
+  }
+  .slide-content h2 { font-size: 2rem; }
 }
 
 /* Tablet: reduce oversized hero height */
