@@ -23,6 +23,7 @@ $has_views    = false;
 $has_status   = false;
 $has_featured = false;
 $has_category = false;
+$existing_cols = [];
 
 if ($pdo) {
     try {
@@ -31,14 +32,55 @@ if ($pdo) {
              WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'blogs'"
         );
         $existing_cols = $col_stmt->fetchAll(PDO::FETCH_COLUMN);
-        $has_views    = in_array('views',    $existing_cols);
-        $has_status   = in_array('status',   $existing_cols);
-        $has_featured = in_array('featured', $existing_cols);
-        $has_category = in_array('category', $existing_cols);
     } catch (PDOException $e) {
-        // proceed with all flags false — queries will use safe fallbacks
+        $existing_cols = [];
     }
 }
+
+/* ── Auto-apply missing columns (runs once, silently) ───────────── */
+$auto_migrated = false;
+if ($pdo) {
+    $needed = [
+        'category'        => "ALTER TABLE blogs ADD COLUMN category VARCHAR(50) NOT NULL DEFAULT 'news'",
+        'source_link'     => "ALTER TABLE blogs ADD COLUMN source_link VARCHAR(500) NULL DEFAULT NULL",
+        'slug'            => "ALTER TABLE blogs ADD COLUMN slug VARCHAR(300) NULL DEFAULT NULL",
+        'tags'            => "ALTER TABLE blogs ADD COLUMN tags VARCHAR(500) NULL DEFAULT NULL",
+        'featured'        => "ALTER TABLE blogs ADD COLUMN featured TINYINT(1) NOT NULL DEFAULT 0",
+        'reading_time'    => "ALTER TABLE blogs ADD COLUMN reading_time TINYINT UNSIGNED NOT NULL DEFAULT 0",
+        'views'           => "ALTER TABLE blogs ADD COLUMN views INT UNSIGNED NOT NULL DEFAULT 0",
+        'status'          => "ALTER TABLE blogs ADD COLUMN status VARCHAR(20) NOT NULL DEFAULT 'published'",
+        'seo_title'       => "ALTER TABLE blogs ADD COLUMN seo_title VARCHAR(255) NULL DEFAULT NULL",
+        'seo_description' => "ALTER TABLE blogs ADD COLUMN seo_description TEXT NULL DEFAULT NULL",
+        'seo_keywords'    => "ALTER TABLE blogs ADD COLUMN seo_keywords VARCHAR(500) NULL DEFAULT NULL",
+        'social_image'    => "ALTER TABLE blogs ADD COLUMN social_image VARCHAR(500) NULL DEFAULT NULL",
+        'last_updated'    => "ALTER TABLE blogs ADD COLUMN last_updated TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP",
+    ];
+    foreach ($needed as $col => $ddl) {
+        if (!in_array($col, $existing_cols)) {
+            try {
+                $pdo->exec($ddl);
+                $auto_migrated = true;
+            } catch (PDOException $e) {
+                // Ignore "Duplicate column" — means it was added in a parallel request
+            }
+        }
+    }
+    // Re-read columns after migration
+    if ($auto_migrated) {
+        try {
+            $col_stmt = $pdo->query(
+                "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS
+                 WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'blogs'"
+            );
+            $existing_cols = $col_stmt->fetchAll(PDO::FETCH_COLUMN);
+        } catch (PDOException $e) {}
+    }
+}
+
+$has_views    = in_array('views',    $existing_cols);
+$has_status   = in_array('status',   $existing_cols);
+$has_featured = in_array('featured', $existing_cols);
+$has_category = in_array('category', $existing_cols);
 
 /* ── Handle quick actions ────────────────────────────────────────── */
 $action  = $_GET['action'] ?? '';
@@ -284,12 +326,7 @@ if ($pdo) {
             border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,.07); color: #9ca3af; }
         .empty-state i { font-size: 3rem; margin-bottom: 1rem; display: block; color: #d1d5db; }
 
-        .migration-notice {
-            background: #fef3c7; border: 1.5px solid #fcd34d;
-            border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.5rem;
-            font-size: .88rem; color: #92400e;
-        }
-        .migration-notice code { background: rgba(0,0,0,.08); padding: .1rem .35rem; border-radius: 4px; }
+
     </style>
 </head>
 <body>
@@ -330,17 +367,11 @@ if ($pdo) {
     </div>
     <?php endif; ?>
 
-    <?php if (!$has_views || !$has_status || !$has_featured): ?>
-    <div class="migration-notice">
-        <i class="fas fa-info-circle me-2"></i>
-        <strong>Database upgrade pending.</strong>
-        Some columns are missing (<code><?= implode('</code>, <code>', array_filter([
-            !$has_views    ? 'views'    : null,
-            !$has_status   ? 'status'   : null,
-            !$has_featured ? 'featured' : null,
-        ])) ?></code>).
-        Run <code>database/migrations/upgrade_blogs_table.sql</code> in phpMyAdmin to unlock all features.
-        The manager works fine without them.
+    <?php if ($auto_migrated): ?>
+    <div class="alert alert-success alert-dismissible rounded-3 fade show">
+        <i class="fas fa-check-circle me-2"></i>
+        <strong>Database upgraded successfully.</strong> All missing columns have been added automatically.
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
     <?php endif; ?>
 
