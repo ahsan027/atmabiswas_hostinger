@@ -33,9 +33,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (!$user || !password_verify($password, $user['pswd'])) {
 
             $invalid = "Invalid Credentials";
+
+        } elseif (isset($user['is_active']) && !(bool)$user['is_active']) {
+
+            $invalid = "Your account has been disabled. Contact Head Office IT.";
+
         } else {
 
             $_SESSION['username'] = $user['fullname'];
+            $_SESSION['admin_id'] = (int)$user['adminId'];
+
+            // Load RBAC role + permissions into session
+            require_once '../DashBoard/auth.php';
+            reloadPermissions((int)$user['adminId']);
+
             header("Location: ../DashBoard/dashboard.php");
             exit();
         }

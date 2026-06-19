@@ -1,13 +1,16 @@
 <?php
 session_start();
+require_once '../Database/db.php';
+require_once 'auth.php';
 
-if (!isset($_SESSION['username'])) {
-    header("Location: ../login/loging.php");
-    exit();
-}
+requireLogin();
+authorize('user.manage');
 
-
-
+// Load roles the current user is allowed to assign (level strictly less than mine)
+$_pdo_su = (new Db())->connect();
+$_rs_su  = $_pdo_su->prepare("SELECT id, name, role_level FROM roles WHERE role_level < ? ORDER BY role_level DESC");
+$_rs_su->execute([myRoleLevel()]);
+$_avail_roles = $_rs_su->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 
@@ -206,6 +209,19 @@ if (!isset($_SESSION['username'])) {
                 <input type="password" name="confirm_password" class="form-control" id="confirm_password" required>
                 <div id="match-message" class="small mt-1 text-danger d-none">Passwords do not match.</div>
             </div>
+
+            <?php if (!empty($_avail_roles)): ?>
+            <div class="mb-3">
+                <label class="form-label">Role</label>
+                <select name="role_id" class="form-select">
+                    <option value="">— No Role —</option>
+                    <?php foreach ($_avail_roles as $_r): ?>
+                    <option value="<?= $_r['id'] ?>"><?= htmlspecialchars($_r['name']) ?> (Level <?= $_r['role_level'] ?>)</option>
+                    <?php endforeach; ?>
+                </select>
+                <div class="small text-muted mt-1">Only roles below your authority level are shown.</div>
+            </div>
+            <?php endif; ?>
 
             <button type="submit" class="btn btn-primary">Sign Up</button>
         </form>

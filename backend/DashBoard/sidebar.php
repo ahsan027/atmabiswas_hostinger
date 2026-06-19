@@ -1,3 +1,12 @@
+<?php
+if (!function_exists('can')) { require_once __DIR__ . '/auth.php'; }
+$_cur = basename($_SERVER['PHP_SELF']);
+function _nav(string $href, string $icon, string $label, string $cur): void {
+    $file   = basename($href);
+    $active = ($file === $cur || strpos($href, $cur) !== false) ? ' active' : '';
+    echo "<a href=\"{$href}\" class=\"nav-item{$active}\"><i class=\"fas {$icon}\"></i><span>{$label}</span></a>\n";
+}
+?>
 <div class="admin-sidebar">
     <div class="sidebar-header">
         <div class="sidebar-logo">
@@ -7,64 +16,67 @@
     </div>
 
     <nav class="sidebar-nav">
-        <a href="dashboard.php" class="nav-item">
-            <i class="fas fa-chart-line"></i>
-            <span>Dashboard</span>
-        </a>
-        <a href="addJobPosition.php" class="nav-item">
-            <i class="fas fa-user-plus"></i>
-            <span>Add Job Position</span>
-        </a>
-        <a href="createjob.php" class="nav-item">
-            <i class="fas fa-briefcase-medical"></i>
-            <span>Create New Job Post</span>
-        </a>
-        <a href="updatejobs.php" class="nav-item">
-            <i class="fas fa-edit"></i>
-            <span>Update Job Posts</span>
-        </a>
-        <div style="padding:.5rem 1.5rem;font-size:.7rem;text-transform:uppercase;letter-spacing:1px;opacity:.6;margin-top:.5rem;">
-            News &amp; Media
-        </div>
-        <a href="blog_enhanced.php" class="nav-item">
-            <i class="fas fa-plus-circle"></i>
-            <span>Add Press Post</span>
-        </a>
-        <a href="blog_manager.php" class="nav-item">
-            <i class="fas fa-newspaper"></i>
-            <span>All Press Posts</span>
-        </a>
+        <?php _nav('dashboard.php', 'fa-chart-line', 'Dashboard', $_cur); ?>
+
+        <?php if (can('job.view') || can('job.create') || can('job.edit') || can('job.delete')): ?>
+        <div class="sidebar-section-label">Jobs</div>
+        <?php if (can('job.create')): ?>
+        <?php _nav('addJobPosition.php', 'fa-user-plus', 'Add Job Position', $_cur); ?>
+        <?php _nav('createjob.php', 'fa-briefcase-medical', 'Create New Job Post', $_cur); ?>
+        <?php endif; ?>
+        <?php if (can('job.view') || can('job.edit')): ?>
+        <?php _nav('updatejobs.php', 'fa-edit', 'Manage Job Posts', $_cur); ?>
+        <?php endif; ?>
+        <?php endif; ?>
+
+        <?php if (can('press.view') || can('press.create') || can('press.edit') || can('press.delete')): ?>
+        <div class="sidebar-section-label">Press &amp; News</div>
+        <?php if (can('press.create')): ?>
+        <?php _nav('blog_enhanced.php', 'fa-plus-circle', 'Add Press Post', $_cur); ?>
+        <?php endif; ?>
+        <?php if (can('press.view') || can('press.edit')): ?>
+        <?php _nav('blog_manager.php', 'fa-newspaper', 'All Press Posts', $_cur); ?>
+        <?php endif; ?>
         <a href="../../press.php" class="nav-item" target="_blank">
-            <i class="fas fa-external-link-alt"></i>
-            <span>View Newsroom</span>
+            <i class="fas fa-external-link-alt"></i><span>View Newsroom</span>
         </a>
-        <a href="uploadimg.php" class="nav-item">
-            <i class="fas fa-photo-video"></i>
-            <span>Upload Image Gallery</span>
-        </a>
-        <a href="uploadpdf.php" class="nav-item">
-            <i class="fas fa-bell"></i>
-            <span>Upload Notice</span>
-        </a>
-        <a href="changeCredentials.php" class="nav-item">
-            <i class="fas fa-user-shield"></i>
-            <span>Change Credentials</span>
-        </a>
-        <div style="padding:0.5rem 1.5rem;font-size:0.7rem;text-transform:uppercase;letter-spacing:1px;opacity:0.6;margin-top:0.5rem;">
-            Contact Management
-        </div>
-        <a href="regional_offices.php" class="nav-item">
-            <i class="fas fa-map-marker-alt"></i>
-            <span>Regional Offices</span>
-        </a>
-        <a href="divisions.php" class="nav-item">
-            <i class="fas fa-layer-group"></i>
-            <span>Divisions</span>
-        </a>
-        <a href="branches.php" class="nav-item">
-            <i class="fas fa-code-branch"></i>
-            <span>Branches</span>
-        </a>
+        <?php endif; ?>
+
+        <?php if (can('gallery.manage')): ?>
+        <div class="sidebar-section-label">Media</div>
+        <?php _nav('uploadimg.php', 'fa-photo-video', 'Upload Image Gallery', $_cur); ?>
+        <?php endif; ?>
+
+        <?php if (can('notice.manage')): ?>
+        <?php if (!can('gallery.manage')): ?><div class="sidebar-section-label">Media</div><?php endif; ?>
+        <?php _nav('uploadpdf.php', 'fa-bell', 'Upload Notice', $_cur); ?>
+        <?php endif; ?>
+
+        <?php if (can('branch.manage')): ?>
+        <div class="sidebar-section-label">Contact Management</div>
+        <?php _nav('regional_offices.php', 'fa-map-marker-alt', 'Regional Offices', $_cur); ?>
+        <?php _nav('divisions.php', 'fa-layer-group', 'Divisions', $_cur); ?>
+        <?php _nav('branches.php', 'fa-code-branch', 'Branches', $_cur); ?>
+        <?php endif; ?>
+
+        <?php if (can('user.manage')): ?>
+        <div class="sidebar-section-label">User Management</div>
+        <?php _nav('manageAdmins.php', 'fa-users-cog', 'Manage Admins', $_cur); ?>
+        <?php _nav('adminSignup.php', 'fa-user-plus', 'Create Admin', $_cur); ?>
+        <?php endif; ?>
+
+        <?php if (can('permission.manage') || can('role.manage')): ?>
+        <?php if (!can('user.manage')): ?><div class="sidebar-section-label">Administration</div><?php endif; ?>
+        <?php if (can('permission.manage')): ?>
+        <?php _nav('access_control.php', 'fa-shield-alt', 'Access Control', $_cur); ?>
+        <?php endif; ?>
+        <?php if (can('role.manage')): ?>
+        <?php _nav('role_permissions.php', 'fa-layer-group', 'Role Permissions', $_cur); ?>
+        <?php endif; ?>
+        <?php endif; ?>
+
+        <div class="sidebar-section-label">Account</div>
+        <?php _nav('changeCredentials.php', 'fa-user-shield', 'Change Credentials', $_cur); ?>
     </nav>
 
     <div class="sidebar-footer">
@@ -77,7 +89,7 @@
                 <img src="../images/logo/logo.png" alt="ATMABISWAS Logo" class="user-logo" />
                 <div class="user-details">
                     <div class="user-name">ATMABISWAS</div>
-                    <div class="user-role">Administrator</div>
+                    <div class="user-role"><?= htmlspecialchars($_SESSION['role_name'] ?? 'Administrator') ?></div>
                 </div>
             </a>
         </div>
