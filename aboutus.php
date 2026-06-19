@@ -200,33 +200,76 @@ Our team members come from diverse backgrounds, bringing a wealth of experience 
             </ul>
         </div>
 
-        <!-- Videos -->
-        <div class="ab-card">
-            <p class="video-section-title">Our Work in Action</p>
-            <p class="video-section-subtitle">Watch stories of resilience and impact from the communities we serve.</p>
-            <div class="video-grid">
-                <div class="video-item">
-                    <iframe src="https://www.youtube.com/embed/-rmQDVb3s4k" allowfullscreen loading="lazy"></iframe>
+    </div><!-- /.ab-container -->
+
+    <!-- Our Work in Action — full-bleed dark section -->
+    <section class="work-section">
+        <div class="work-inner">
+            <div class="work-header">
+                <span class="work-tag">
+                    <i class="fa-brands fa-youtube"></i> Our Stories
+                </span>
+                <h2>Our Work in Action</h2>
+                <p>Watch stories of resilience, community empowerment, and meaningful change from across Bangladesh.</p>
+            </div>
+            <div class="work-grid">
+                <div class="work-video-card">
+                    <div class="work-video-frame">
+                        <iframe src="https://www.youtube.com/embed/-rmQDVb3s4k" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="work-video-bar">
+                        <i class="fa-brands fa-youtube"></i>
+                        <span>Watch Video</span>
+                    </div>
                 </div>
-                <div class="video-item">
-                    <iframe src="https://www.youtube.com/embed/i0UxCHapj40" allowfullscreen loading="lazy"></iframe>
+                <div class="work-video-card">
+                    <div class="work-video-frame">
+                        <iframe src="https://www.youtube.com/embed/i0UxCHapj40" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="work-video-bar">
+                        <i class="fa-brands fa-youtube"></i>
+                        <span>Watch Video</span>
+                    </div>
                 </div>
-                <div class="video-item">
-                    <iframe src="https://www.youtube.com/embed/6xb-rN_9j24" allowfullscreen loading="lazy"></iframe>
+                <div class="work-video-card">
+                    <div class="work-video-frame">
+                        <iframe src="https://www.youtube.com/embed/6xb-rN_9j24" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="work-video-bar">
+                        <i class="fa-brands fa-youtube"></i>
+                        <span>Watch Video</span>
+                    </div>
                 </div>
-                <div class="video-item">
-                    <iframe src="https://www.youtube.com/embed/JS15JTafAv4" allowfullscreen loading="lazy"></iframe>
+                <div class="work-video-card">
+                    <div class="work-video-frame">
+                        <iframe src="https://www.youtube.com/embed/JS15JTafAv4" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="work-video-bar">
+                        <i class="fa-brands fa-youtube"></i>
+                        <span>Watch Video</span>
+                    </div>
                 </div>
-                <div class="video-item">
-                    <iframe src="https://www.youtube.com/embed/eDMq_ispQYI" allowfullscreen loading="lazy"></iframe>
+                <div class="work-video-card">
+                    <div class="work-video-frame">
+                        <iframe src="https://www.youtube.com/embed/eDMq_ispQYI" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="work-video-bar">
+                        <i class="fa-brands fa-youtube"></i>
+                        <span>Watch Video</span>
+                    </div>
                 </div>
-                <div class="video-item">
-                    <iframe src="https://www.youtube.com/embed/nxDIwvOqTVg" allowfullscreen loading="lazy"></iframe>
+                <div class="work-video-card">
+                    <div class="work-video-frame">
+                        <iframe src="https://www.youtube.com/embed/nxDIwvOqTVg" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="work-video-bar">
+                        <i class="fa-brands fa-youtube"></i>
+                        <span>Watch Video</span>
+                    </div>
                 </div>
             </div>
         </div>
-
-    </div>
+    </section>
 
     <?php include 'footer.php'; ?>
 </body>
