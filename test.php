@@ -85,22 +85,6 @@ if (empty($latest)) return;
     background: linear-gradient(90deg, #0073e6, #1e3a5f);
 }
 
-/* ── Order badge ─────────────────────────────────────── */
-.ln-order-badge {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: rgba(0,0,0,.55);
-    color: #fff;
-    font-size: .72rem;
-    font-weight: 700;
-    padding: 3px 9px;
-    border-radius: 20px;
-    letter-spacing: .05em;
-    backdrop-filter: blur(4px);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-}
-
 /* ── Body ───────────────────────────────────────────── */
 .ln-card-body {
     padding: 16px 18px 18px;
@@ -166,9 +150,8 @@ if (empty($latest)) return;
 <section class="ln-section">
     <div class="ln-grid">
         <?php foreach ($latest as $i => $img):
-            $order = (int)$img['display_order'];
-            $descId = 'lndesc-' . $i;
-            $btnId  = 'lnbtn-'  . $i;
+            $descId  = 'lndesc-' . $i;
+            $btnId   = 'lnbtn-'  . $i;
             $hasDesc = !empty(trim($img['img_description']));
         ?>
         <div class="ln-card">
@@ -178,9 +161,6 @@ if (empty($latest)) return;
                      alt="<?= htmlspecialchars($img['img_title']) ?>"
                      loading="lazy">
                 <div class="ln-card-accent"></div>
-                <?php if ($order > 0): ?>
-                <span class="ln-order-badge"># <?= $order ?></span>
-                <?php endif; ?>
             </div>
             <div class="ln-card-body">
                 <h3 class="ln-card-title"><?= htmlspecialchars($img['img_title']) ?></h3>
