@@ -1,7 +1,4 @@
-<?php 
-
-
-?>
+<?php ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,181 +9,116 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EZVV9DWWY7"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+        function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
         gtag('config', 'G-EZVV9DWWY7');
     </script>
     <?php include 'seo.php'; ?>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-   
-   
     <link rel="icon" type="image/png" href="LOGO/NGO_logo_monogram.png">
-   <style>
-        *{
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-        font-family: "Times New Roman", Times, serif;
-        background-color: #e6f2ff;
-        overflow-x: hidden;
-        }
-
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .segment {
-            margin-bottom: 40px;
-        }
-
-        .segment h2 {
-            color: #0078d7;
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 2.5rem;
-        }
-
-        .card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .card {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .card-content {
-            text-align: center;
-            padding: 15px;
-        }
-
-        .card-content h3 {
-
-            margin: 0 0 10px;
-            font-size: 1.2rem;
-            color: #333;
-        }
-
-        .card-content p {
-            margin: 0;
-            color: #555;
-            font-size: 0.9rem;
-        }
-
-
-    </style>
+    <link rel="stylesheet" href="pages.css">
 </head>
 <body>
-<?php include 'Navbar.php'?>
+    <?php include 'Navbar.php' ?>
+
+    <section class="page-hero">
+        <div class="page-hero-inner">
+            <h1>Social Development Programs</h1>
+            <p>Empowering communities through vocational training, care programs, and social initiatives.</p>
+        </div>
+    </section>
 
     <div class="container">
-        <h1 style="text-align:center;color:#0a58ca;padding:30px 20px 10px;font-size:2rem;font-weight:700;">Social Development Programs</h1>
-                <!-- Empowering Women -->
-                <div class="segment">
-            <h2>Empowering Women </h2>
+
+        <!-- Empowering Women -->
+        <div class="segment">
+            <div class="segment-header">
+                <i class="fa-solid fa-hand-holding-heart"></i>
+                <h2>Empowering Women</h2>
+            </div>
             <div class="card-grid">
                 <div class="card">
-                    <img src="COW/cow_pic1.jpg" loading="lazy" alt="Conference Event">
+                    <img src="COW/cow_pic1.jpg" loading="lazy" alt="Empowering Women">
                     <div class="card-content">
-                        <h3>Empowering Women </h3>
+                        <h3>Empowering Women</h3>
                         <p>ATMABISWAS supports women by providing livestock for sustainable livelihoods.</p>
                     </div>
                 </div>
-
                 <div class="card">
-                    <img src="fish&redy/ABS_04.jpg" loading="lazy" alt="Conference Event">
+                    <img src="fish&redy/ABS_04.jpg" loading="lazy" alt="Culinary Training">
                     <div class="card-content">
-                        <h3>Empowering Women </h3>
+                        <h3>Empowering Women</h3>
                         <p>Women receive culinary training to enhance their skills and achieve financial independence.</p>
                     </div>
                 </div>
-
                 <div class="card">
-                    <img src="women_empowerment/women.jpg" loading="lazy" alt="Conference Event">
+                    <img src="women_empowerment/women.jpg" loading="lazy" alt="Female Farmers">
                     <div class="card-content">
-                        <h3>Empowering Women </h3>
+                        <h3>Empowering Women</h3>
                         <p>ATMABISWAS empowers female farmers with free fertilizer and resources for better agricultural productivity.</p>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Scholarship Segment -->
+
+        <!-- Training Center Segment -->
         <div class="segment">
-            <h2>ATMABISWAS Training Center</h2>
+            <div class="segment-header">
+                <i class="fa-solid fa-chalkboard-user"></i>
+                <h2>ATMABISWAS Training Center</h2>
+            </div>
             <div class="card-grid">
                 <div class="card">
-                    <img src="training/automachinic.jpeg" loading="lazy" alt="automachinic Training">
+                    <img src="training/automachinic.jpeg" loading="lazy" alt="Auto Mechanic Training">
                     <div class="card-content">
-                        <h3>ATMABISWAS Auto Mechanic Training Center </h3>
+                        <h3>ATMABISWAS Auto Mechanic Training Center</h3>
                         <p>ATMABISWAS Auto Mechanic Training Center equips individuals with practical skills for better job opportunities and improved livelihoods.</p>
                     </div>
                 </div>
                 <div class="card">
                     <img src="training/bevarag.jpeg" loading="lazy" alt="Beverage Training Center">
                     <div class="card-content">
-                        <h3>ATMABISWAS Food & Beverage Training Center </h3>
+                        <h3>ATMABISWAS Food &amp; Beverage Training Center</h3>
                         <p>ATMABISWAS provides hands-on food and beverage training for skill development and employment.</p>
                     </div>
                 </div>
                 <div class="card">
-                    <img src="training/cooking.jpeg"loading="lazy" alt="ATMABISWAS Cooking Training Center">
+                    <img src="training/cooking.jpeg" loading="lazy" alt="ATMABISWAS Cooking Training Center">
                     <div class="card-content">
-                        <h3>ATMABISWAS Cooking Training Center </h3>
+                        <h3>ATMABISWAS Cooking Training Center</h3>
                         <p>ATMABISWAS Cooking Training Center empowers individuals with culinary skills for self-reliance and employment.</p>
                     </div>
                 </div>
                 <div class="card">
-                    <img src="training/fashion.jpeg"loading="lazy" alt="ATMABISWAS Fashion Training Center">
+                    <img src="training/fashion.jpeg" loading="lazy" alt="ATMABISWAS Fashion Training Center">
                     <div class="card-content">
                         <h3>ATMABISWAS Fashion Training Center</h3>
                         <p>ATMABISWAS Fashion Training Center offers skill-based training in tailoring and design for self-employment.</p>
                     </div>
-                </div>     
-                                <div class="card">
-                    <img src="training/pksf_fashion.jpeg"loading="lazy" alt="ATMABISWAS Fashion Training Center">
+                </div>
+                <div class="card">
+                    <img src="training/pksf_fashion.jpeg" loading="lazy" alt="PKSF Visit Fashion Center">
                     <div class="card-content">
                         <h3>PKSF Team Visited ATMABISWAS Fashion Training Center</h3>
                         <p>PKSF team visited ATMABISWAS Fashion Training Center to observe and encourage skill development initiatives.</p>
                     </div>
-                </div>  
+                </div>
                 <div class="card">
-                    <img src="training/pksfvisitcooking.jpeg"loading="lazy" alt="ATMABISWAS Fashion Training Center">
+                    <img src="training/pksfvisitcooking.jpeg" loading="lazy" alt="PKSF Visit Cooking Center">
                     <div class="card-content">
                         <h3>PKSF Team Visited ATMABISWAS Cooking Training Center</h3>
                         <p>PKSF team visited ATMABISWAS Cooking Training Center to inspire and support skill development initiatives.</p>
                     </div>
-                </div>                             
-
+                </div>
             </div>
         </div>
-        
 
-                <!-- Scholarship Segment -->
+        <!-- Daycare Segment -->
         <div class="segment">
-            <h2>ATMABISWAS Daycare</h2>
+            <div class="segment-header">
+                <i class="fa-solid fa-baby"></i>
+                <h2>ATMABISWAS Daycare</h2>
+            </div>
             <div class="card-grid">
-
                 <div class="card">
                     <img src="daycare/daycare.jpeg" loading="lazy" alt="ATMABISWAS Daycare">
                     <div class="card-content">
@@ -195,141 +127,131 @@
                     </div>
                 </div>
                 <div class="card">
-                    <img src="daycare/daycare2.png"loading="lazy" alt="ATMABISWAS Daycare">
+                    <img src="daycare/daycare2.png" loading="lazy" alt="ATMABISWAS Daycare">
                     <div class="card-content">
                         <h3>ATMABISWAS Daycare</h3>
                         <p>ATMABISWAS Daycare fosters early childhood development in a caring environment.</p>
                     </div>
                 </div>
                 <div class="card">
-                    <img src="LOGO/NGO_logo_monogram.png"loading="lazy" alt="ATMABISWAS Daycare">
+                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="ATMABISWAS Daycare">
                     <div class="card-content">
                         <h3>ATMABISWAS Daycare</h3>
-                        <!-- <p>Providing opportunities for bright minds.</p> -->
                     </div>
-                </div>                                
-
+                </div>
             </div>
         </div>
- 
-        <!-- ATMABISWAS Pathshala -->
+
+        <!-- ATMABISWAS Pathshala Segment -->
         <div class="segment">
-            <h2>ATMABISWAS Pathshala </h2>
+            <div class="segment-header">
+                <i class="fa-solid fa-book-open"></i>
+                <h2>ATMABISWAS Pathshala</h2>
+            </div>
             <div class="card-grid">
                 <div class="card">
-                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Women Rights Event">
+                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="ATMABISWAS Pathshala">
                     <div class="card-content">
-                        <h3>ATMABISWAS Pathshala </h3>
-                        <!-- <p>Advocating for equal rights.</p> -->
+                        <h3>ATMABISWAS Pathshala</h3>
                     </div>
                 </div>
                 <div class="card">
-                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Women Rights Event">
+                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="ATMABISWAS Pathshala">
                     <div class="card-content">
-                        <h3>ATMABISWAS Pathshala </h3>
-                        <!-- <p>We are campaigning in the village for gender equality between women and men.</p> -->
+                        <h3>ATMABISWAS Pathshala</h3>
                     </div>
                 </div>
                 <div class="card">
-                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Women Rights Event">
+                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="ATMABISWAS Pathshala">
                     <div class="card-content">
-                        <h3>ATMABISWAS Pathshala </h3>
-                        <!-- <p>We are campaigning in the city to promote gender equality between women and men.</p> -->
+                        <h3>ATMABISWAS Pathshala</h3>
                     </div>
                 </div>
             </div>
         </div>
 
-       <!-- Compassionate Care & Support  -->
-       <div class="segment">
-            <h2>Compassionate Care & Support </h2>
-            <div class="card-grid">
-                <div class="card">
-                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Winterfest Event">
-                    <div class="card-content">
-                        <h3>Compassionate Care & Support </h3>
-                        <!-- <p>Enjoying the spirit of winter together.</p> -->
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Winterfest Event">
-                    <div class="card-content">
-                        <h3>Compassionate Care & Support </h3>
-                        <!-- <p>Festive fun and togetherness.</p> -->
-                    </div>
-                </div>
-
-                <div class="card">
-                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Winter-fest Event">
-                    <div class="card-content">
-                        <h3>Compassionate Care & Support </h3>
-                        <!-- <p>Festive fun and togetherness.</p> -->
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Winterfest Event">
-                    <div class="card-content">
-                        <h3>Compassionate Care & Support </h3>
-                        <!-- <p>Festive fun and togetherness.</p> -->
-                    </div>
-                </div>
-
-                <div class="card">
-                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Winterfest Event">
-                    <div class="card-content">
-                        <h3>Compassionate Care & Support </h3>
-                        <!-- <p>Making winter memories.</p> -->
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Other Events -->
+        <!-- Compassionate Care Segment -->
         <div class="segment">
-            <h2>Other Program </h2>
+            <div class="segment-header">
+                <i class="fa-solid fa-heart-pulse"></i>
+                <h2>Compassionate Care &amp; Support</h2>
+            </div>
             <div class="card-grid">
                 <div class="card">
-                    <img src="LOGO/NGO_logo_monogram.png"  loading="lazy" alt="Winterfest Event">
+                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Compassionate Care">
                     <div class="card-content">
-                        <h3>Supporting Disabilitie</h3>
-                        <!-- <p>Enjoying the spirit of winter together.</p> -->
+                        <h3>Compassionate Care &amp; Support</h3>
                     </div>
                 </div>
                 <div class="card">
-                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Winterfest Event">
+                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Compassionate Care">
                     <div class="card-content">
-                        <h3>Supporting Disabilitie</h3>
-                        <!-- <p>Festive fun and togetherness.</p> -->
-                    </div>
-                </div>
-
-                <div class="card">
-                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Winter-fest Event">
-                    <div class="card-content">
-                        <h3>Supporting Disabilitie</h3>
-                        <!-- <p>Festive fun and togetherness.</p> -->
+                        <h3>Compassionate Care &amp; Support</h3>
                     </div>
                 </div>
                 <div class="card">
-                    <img src="LOGO/NGO_logo_monogram.png"loading="lazy"  alt="Winterfest Event">
+                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Compassionate Care">
                     <div class="card-content">
-                        <h3>Supporting Disabilitie</h3>
-                        <!-- <p>Festive fun and togetherness.</p> -->
+                        <h3>Compassionate Care &amp; Support</h3>
                     </div>
                 </div>
-
                 <div class="card">
-                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Winterfest Event">
+                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Compassionate Care">
                     <div class="card-content">
-                        <h3>Supporting Disabilitie</h3>
-                        <!-- <p>Making winter memories.</p> -->
+                        <h3>Compassionate Care &amp; Support</h3>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Compassionate Care">
+                    <div class="card-content">
+                        <h3>Compassionate Care &amp; Support</h3>
                     </div>
                 </div>
             </div>
         </div>
-   
+
+        <!-- Other Programs Segment -->
+        <div class="segment">
+            <div class="segment-header">
+                <i class="fa-solid fa-circle-plus"></i>
+                <h2>Other Program</h2>
+            </div>
+            <div class="card-grid">
+                <div class="card">
+                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Supporting Disabilities">
+                    <div class="card-content">
+                        <h3>Supporting Disabilities</h3>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Supporting Disabilities">
+                    <div class="card-content">
+                        <h3>Supporting Disabilities</h3>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Supporting Disabilities">
+                    <div class="card-content">
+                        <h3>Supporting Disabilities</h3>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Supporting Disabilities">
+                    <div class="card-content">
+                        <h3>Supporting Disabilities</h3>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Supporting Disabilities">
+                    <div class="card-content">
+                        <h3>Supporting Disabilities</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-<?php include 'footer.php'?>
+    <?php include 'footer.php' ?>
 </body>
 </html>

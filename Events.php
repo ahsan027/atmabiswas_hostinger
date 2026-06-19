@@ -1,112 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-EZVV9DWWY7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-EZVV9DWWY7');
-</script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EZVV9DWWY7"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-EZVV9DWWY7');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Events &amp; Activities - ATMABISWAS Bangladesh</title>
     <?php include 'seo.php'; ?>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-   
     <link rel="icon" type="image/png" href="LOGO/NGO_logo_monogram.png">
-   <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        font-family: "Times New Roman", Times, serif;
-        background-color: #e6f2ff;
-        overflow-x: hidden;
-    }
-
-
-    .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-    }
-
-    .segment {
-        margin-bottom: 40px;
-    }
-
-    .segment h2 {
-        color: #0078d7;
-        text-align: center;
-        margin-bottom: 30px;
-        font-size: 2.5rem;
-    }
-
-    .card-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 20px;
-    }
-
-    .card {
-        background: white;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .card img {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-    }
-
-    .card-content {
-        text-align: center;
-        padding: 15px;
-    }
-
-    .card-content h3 {
-
-        margin: 0 0 10px;
-        font-size: 1.2rem;
-        color: #333;
-    }
-
-    .card-content p {
-        margin: 0;
-        color: #555;
-        font-size: 0.9rem;
-    }
-    </style>
+    <link rel="stylesheet" href="pages.css">
 </head>
-
 <body>
-    <?php include 'Navbar.php'?>
+    <?php include 'Navbar.php' ?>
+
+    <section class="page-hero">
+        <div class="page-hero-inner">
+            <h1>Events &amp; Activities</h1>
+            <p>Celebrating milestones, inspiring change, and building community across Bangladesh.</p>
+        </div>
+    </section>
 
     <div class="container">
-        <h1 style="text-align:center;color:#0a58ca;padding:30px 20px 10px;font-size:2rem;font-weight:700;">Events &amp; Activities</h1>
+
         <!-- Scholarship Segment -->
         <div class="segment">
-            <h2>Scholarship Events</h2>
+            <div class="segment-header">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <h2>Scholarship Events</h2>
+            </div>
             <div class="card-grid">
                 <div class="card">
                     <img src="Scholarship/pic1.jpg" loading="lazy" alt="Scholarship Event">
                     <div class="card-content">
-                        <h3>Scholarship Event </h3>
+                        <h3>Scholarship Event</h3>
                         <p>PKSF was a partner in providing the scholarship.</p>
                     </div>
                 </div>
@@ -120,31 +52,26 @@
                 <div class="card">
                     <img src="Scholarship/pic3.jpg" loading="lazy" alt="Scholarship Event">
                     <div class="card-content">
-                        <h3>Scholarship </h3>
+                        <h3>Scholarship</h3>
                         <p>Providing opportunities for bright minds.</p>
                     </div>
                 </div>
                 <div class="card">
                     <img src="Scholarship/pic4.jpg" loading="lazy" alt="Scholarship Event">
                     <div class="card-content">
-                        <h3>Scholarship </h3>
+                        <h3>Scholarship</h3>
                         <p>Providing opportunities for bright minds.</p>
                     </div>
                 </div>
-                <!-- <div class="card">
-                    <img src="https://www.aisct.org/wp-content/uploads/2023/06/1418_0I9A0942_1920px.jpg" alt="Scholarship Event">
-                    <div class="card-content">
-                        <h3>Education Empowerment</h3>
-                        <p>Making dreams come true through education.</p>
-                    </div>
-                </div> -->
             </div>
         </div>
 
-
         <!-- Women Rights Segment -->
         <div class="segment">
-            <h2>Women Rights Events </h2>
+            <div class="segment-header">
+                <i class="fa-solid fa-venus"></i>
+                <h2>Women Rights Events</h2>
+            </div>
             <div class="card-grid">
                 <div class="card">
                     <img src="women/women_pic1.jpg" loading="lazy" alt="Women Rights Event">
@@ -167,37 +94,15 @@
                         <p>We are campaigning in the city to promote gender equality between women and men.</p>
                     </div>
                 </div>
-                <!-- <div class="card">
-                    <img src="women/women_pic4.jpeg" alt="Women Rights Event">
-                    <div class="card-content">
-                        <h3>Equal Rights</h3>
-                        <p>We are campaigning in the village to promote gender equality between men and women.</p>
-                    </div>
-                </div>                                -->
-                <!-- <div class="card">
-                    <img src="https://images.theconversation.com/files/209024/original/file-20180306-146671-haxeo6.jpg" alt="Women Rights Event">
-                    <div class="card-content">
-                        <h3>Rights Awareness</h3>
-                        <p>Championing women's causes.</p>
-                    </div>
-                </div> -->
-
-                <!-- <div class="card">
-                    <img src="https://images.theconversation.com/files/209024/original/file-20180306-146671-haxeo6.jpg" alt="Women Rights Event">
-                    <div class="card-content">
-                        <h3>Rights Awareness</h3>
-                        <p>Championing women's causes.</p>
-                    </div>
-                </div> -->
             </div>
         </div>
 
-
-
-
         <!-- Employee Conference Segment -->
         <div class="segment">
-            <h2>Employee Conference </h2>
+            <div class="segment-header">
+                <i class="fa-solid fa-users"></i>
+                <h2>Employee Conference</h2>
+            </div>
             <div class="card-grid">
                 <div class="card">
                     <img src="meeting/meeting_pic2.jpg" loading="lazy" alt="Conference Event">
@@ -207,7 +112,6 @@
                             dedication to excellence.</p>
                     </div>
                 </div>
-
                 <div class="card">
                     <img src="exam_hall/exam_hall_pic1.jpg" loading="lazy" alt="Conference Event">
                     <div class="card-content">
@@ -216,21 +120,23 @@
                             support their branches and discuss strategies for improving their areas.</p>
                     </div>
                 </div>
-
                 <div class="card">
                     <img src="meeting/meeting_pic1.jpg" loading="lazy" alt="Conference Event">
                     <div class="card-content">
                         <h3>Annual Conference with Managers at Head Office</h3>
                         <p>Our team conducts an annual conference at the head office, where we meet with each manager to
-                            gather feedback on the past year’s progress.</p>
+                            gather feedback on the past year's progress.</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Winterfest Segment -->
+        <!-- Winter Events Segment -->
         <div class="segment">
-            <h2>Winter Events </h2>
+            <div class="segment-header">
+                <i class="fa-solid fa-snowflake"></i>
+                <h2>Winter Events</h2>
+            </div>
             <div class="card-grid">
                 <div class="card">
                     <img src="winter/winter_pic1.jpg" loading="lazy" alt="Winterfest Event">
@@ -239,14 +145,6 @@
                         <p>Enjoying the spirit of winter together.</p>
                     </div>
                 </div>
-                <!--<div class="card">-->
-                <!--    <img src="winter/winter_pic2.jpg" loading="lazy" alt="Winterfest Event">-->
-                <!--    <div class="card-content">-->
-                <!--        <h3>Winter Fest Celebration</h3>-->
-                <!--        <p>Enjoying the spirit of winter together.</p>-->
-                <!--    </div>-->
-                <!--</div>-->
-
                 <div class="card">
                     <img src="winter/winter_pic3.jpg" loading="lazy" alt="Winter-fest Event">
                     <div class="card-content">
@@ -261,26 +159,21 @@
                         <p>Celebration winter together.</p>
                     </div>
                 </div>
-
-                <!--<div class="card">-->
-                <!--    <img src="winter/winter_pic5.jpg" loading="lazy" alt="Winterfest Event">-->
-                <!--    <div class="card-content">-->
-                <!--        <h3>Winter Clothes Distribution Program</h3>-->
-                <!--        <p>Making winter memories.</p>-->
-                <!--    </div>-->
-                <!--</div>-->
             </div>
         </div>
 
         <!-- Awareness Events Segment -->
         <div class="segment">
-            <h2>Awareness Events</h2>
+            <div class="segment-header">
+                <i class="fa-solid fa-bullhorn"></i>
+                <h2>Awareness Events</h2>
+            </div>
             <div class="card-grid">
                 <div class="card">
                     <img src="Awarness/awarness_pic1.jpg" loading="lazy" alt="Awareness Event">
                     <div class="card-content">
                         <h3>Disability Awareness Campaign</h3>
-                        <p>Spreading Inclusion & Empowerment.</p>
+                        <p>Spreading Inclusion &amp; Empowerment.</p>
                     </div>
                 </div>
                 <div class="card">
@@ -313,28 +206,31 @@
                 </div>
             </div>
         </div>
-        <!-- Other Events -->
+
+        <!-- Other Events Segment -->
         <div class="segment">
-            <h2>Others Events </h2>
+            <div class="segment-header">
+                <i class="fa-solid fa-calendar-check"></i>
+                <h2>Others Events</h2>
+            </div>
             <div class="card-grid">
                 <div class="card">
-                    <img src="training/training_pic1.jpg" loading="lazy" alt="Winterfest Event">
+                    <img src="training/training_pic1.jpg" loading="lazy" alt="Training">
                     <div class="card-content">
                         <h3>Training</h3>
-                        <p>We are providing BD wash training to our employees. </p>
+                        <p>We are providing BD wash training to our employees.</p>
                     </div>
                 </div>
                 <div class="card">
-                    <img src="rmpt/rmpt_pic1.jpg" loading="lazy" alt="Winterfest Event">
+                    <img src="rmpt/rmpt_pic1.jpg" loading="lazy" alt="Village BD Rural WASH Camp">
                     <div class="card-content">
                         <h3>Village BD Rural WASH Camp for HCD Project</h3>
                         <p>We are conducting a rural WASH (Water, Sanitation, and Hygiene) camp in a village in
                             Bangladesh as part of the HCD project.</p>
                     </div>
                 </div>
-
                 <div class="card">
-                    <img src="rmpt/rmpt_pic2.jpg" loading="lazy" alt="Winterfest Event">
+                    <img src="rmpt/rmpt_pic2.jpg" loading="lazy" alt="Free Fertilizer Distribution">
                     <div class="card-content">
                         <h3>Free Fertilizer Distribution for Farmers</h3>
                         <p>We are providing free fertilizer to farmers to support agricultural growth and
@@ -342,36 +238,26 @@
                     </div>
                 </div>
                 <div class="card">
-                    <img src="Fish/fish_pic2.jpg" loading="lazy" alt="Winterfest Event">
+                    <img src="Fish/fish_pic2.jpg" loading="lazy" alt="Field Day Celebration">
                     <div class="card-content">
                         <h3>Field Day Celebration to Support Farmers</h3>
                         <p>We celebrated Field Day to educate farmers about sustainable fish farming, crop management,
                             and agricultural best practices.</p>
                     </div>
                 </div>
-
                 <div class="card">
-                    <img src="Fish/fish_pic1.jpg" loading="lazy" alt="Winterfest Event">
+                    <img src="Fish/fish_pic1.jpg" loading="lazy" alt="Nutrition Day">
                     <div class="card-content">
                         <h3>Celebrating Nutrition Day with Village Communities</h3>
                         <p>We are celebrating Nutrition Day with the village community, promoting healthy eating and
                             well being for all.</p>
                     </div>
                 </div>
-
-                <!--<div class="card">-->
-                <!--    <img src="Health/health_pic1.jpg" loading="lazy" alt="Winterfest Event">-->
-                <!--    <div class="card-content">-->
-                <!--        <h3>Free Health Camp for Village Communities</h3>-->
-                <!--        <p>We are organizing a free health camp for village residents, providing essential medical care-->
-                <!--            and health services.</p>-->
-                <!--    </div>-->
-                <!--</div>-->
             </div>
         </div>
+
     </div>
 
-    <?php include 'footer.php'?>
+    <?php include 'footer.php' ?>
 </body>
-
 </html>
