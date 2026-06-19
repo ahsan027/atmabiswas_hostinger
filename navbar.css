@@ -8,17 +8,24 @@
   box-sizing: border-box;
 }
 
-/* ── Navbar Wrapper ─────────────────────────── */
-.navbar {
+/* ── Outer sticky band (full-width white strip on top, cyan strip below) ── */
+.navbar-band {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  background-color: #ffffff;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.10);
   position: sticky;
   top: 0;
   z-index: 1000;
+  background-color: #ffffff;
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.12);
   font-family: "Times New Roman", Times, serif;
+}
+
+/* ── Centered navbar container ──────────────── */
+.navbar {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 /* ── Top Row ────────────────────────────────── */
@@ -26,11 +33,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 28px;
-  border-bottom: 1px solid #e8edf2;
-  max-width: 1280px;
-  width: 100%;
-  margin: 0 auto;
+  padding: 8px 24px;
+  border-bottom: 1px solid #dce8f0;
 }
 
 .navbar .top-row .logo a {
@@ -50,7 +54,7 @@
 }
 
 .navbar .top-row .bars a {
-  color: #1e3a5f;
+  color: #1a5f73;
   text-decoration: none;
   font-size: 0.875rem;
   font-weight: 600;
@@ -61,32 +65,38 @@
 }
 
 .navbar .top-row .bars a:hover {
-  background-color: #0073e6;
+  background-color: #25b7db;
   color: #ffffff;
 }
 
 .navbar .top-row .bars a.active {
-  background-color: #1e3a5f;
+  background-color: #25b7db;
   color: #ffffff;
 }
 
 /* ── Bottom Row ─────────────────────────────── */
+/* Full-width cyan band */
+.navbar-band .bottom-band {
+  width: 100%;
+  background-color: #3bc5e8; /* slightly lighter than #25b7db */
+}
+
 .navbar .bottom-row {
   display: flex;
   justify-content: center;
   align-items: stretch;
-  background-color: #1e3a5f;
   min-height: 48px;
-  padding: 0 12px;
+  padding: 0 24px;
+  position: relative;
 }
 
-/* Direct nav links in bottom row */
+/* Direct nav links */
 .navbar .bottom-row > a {
   color: #ffffff;
   text-decoration: none;
   font-size: 0.92rem;
   font-weight: 600;
-  padding: 0 16px;
+  padding: 0 15px;
   display: flex;
   align-items: center;
   white-space: nowrap;
@@ -99,17 +109,18 @@
   content: '';
   position: absolute;
   bottom: 0;
-  left: 16px;
-  right: 16px;
+  left: 15px;
+  right: 15px;
   height: 3px;
-  background-color: #f39c12;
+  background-color: #ffffff;
   transform: scaleX(0);
   transition: transform 0.2s ease;
   border-radius: 2px 2px 0 0;
+  opacity: 0.85;
 }
 
 .navbar .bottom-row > a:hover {
-  background-color: rgba(255, 255, 255, 0.12);
+  background-color: rgba(255, 255, 255, 0.15);
 }
 
 .navbar .bottom-row > a:hover::after,
@@ -118,22 +129,25 @@
 }
 
 .navbar .bottom-row > a.active {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.15);
 }
 
-/* Login / Dashboard button in bottom row */
+/* Login / Dashboard — floated right without disturbing center alignment */
 .navbar .bottom-row .nav-login-btn {
-  margin-left: auto;
-  align-self: center;
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
   padding: 6px 18px;
-  margin-right: 4px;
-  border: 2px solid rgba(255, 255, 255, 0.65);
+  border: 2px solid rgba(255, 255, 255, 0.8);
   border-radius: 6px;
   font-size: 0.85rem;
   font-weight: 700;
-  min-height: auto;
   letter-spacing: 0.03em;
   white-space: nowrap;
+  color: #ffffff;
+  text-decoration: none;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
 }
 
 .navbar .bottom-row .nav-login-btn::after {
@@ -142,7 +156,7 @@
 
 .navbar .bottom-row .nav-login-btn:hover {
   background-color: #ffffff;
-  color: #1e3a5f !important;
+  color: #25b7db;
   border-color: #ffffff;
 }
 
@@ -160,7 +174,7 @@
   color: #ffffff;
   font-size: 0.92rem;
   font-weight: 600;
-  padding: 0 16px;
+  padding: 0 15px;
   cursor: pointer;
   white-space: nowrap;
   letter-spacing: 0.015em;
@@ -173,13 +187,14 @@
   content: '';
   position: absolute;
   bottom: 0;
-  left: 16px;
-  right: 16px;
+  left: 15px;
+  right: 15px;
   height: 3px;
-  background-color: #f39c12;
+  background-color: #ffffff;
   transform: scaleX(0);
   transition: transform 0.2s ease;
   border-radius: 2px 2px 0 0;
+  opacity: 0.85;
 }
 
 .maindrop a {
@@ -190,10 +205,6 @@
   gap: 7px;
 }
 
-.maindrop a:hover {
-  background-color: transparent;
-}
-
 .arrow-icon {
   font-size: 0.7rem;
   transition: transform 0.25s ease;
@@ -202,7 +213,7 @@
 }
 
 .dropdown:hover .maindrop {
-  background-color: rgba(255, 255, 255, 0.12);
+  background-color: rgba(255, 255, 255, 0.15);
 }
 
 .dropdown:hover .maindrop::after {
@@ -223,10 +234,8 @@
   z-index: 1001;
   border-radius: 0 0 10px 10px;
   overflow: hidden;
-  border-top: 3px solid #0073e6;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.15);
-
-  /* Smooth reveal instead of display:none toggle */
+  border-top: 3px solid #25b7db;
+  box-shadow: 0 10px 28px rgba(37, 183, 219, 0.18), 0 4px 10px rgba(0,0,0,0.1);
   opacity: 0;
   visibility: hidden;
   transform: translateY(6px);
@@ -242,13 +251,13 @@
 }
 
 .dropdown-content a {
-  color: #1e3a5f;
+  color: #1a5f73;
   padding: 11px 18px;
   text-decoration: none;
   font-size: 0.88rem;
   font-weight: 600;
   display: block;
-  border-bottom: 1px solid #f0f2f5;
+  border-bottom: 1px solid #edf6f9;
   transition: background-color 0.18s, color 0.18s, padding-left 0.18s;
 }
 
@@ -257,7 +266,7 @@
 }
 
 .dropdown-content a:hover {
-  background-color: #1e3a5f;
+  background-color: #25b7db;
   color: #ffffff;
   padding-left: 24px;
 }
@@ -276,6 +285,7 @@
   left: 0;
   z-index: 999;
   min-height: 62px;
+  font-family: "Times New Roman", Times, serif;
 }
 
 .mobile-header .logo img {
@@ -298,7 +308,7 @@
   display: block;
   width: 100%;
   height: 3px;
-  background-color: #1e3a5f;
+  background-color: #25b7db;
   border-radius: 2px;
   transition: all 0.3s ease;
 }
@@ -313,9 +323,9 @@
   transform: translateY(-9px) rotate(-45deg);
 }
 
-/* ── Responsive breakpoints ─────────────────── */
+/* ── Responsive ─────────────────────────────── */
 @media (max-width: 768px) {
-  .navbar {
+  .navbar-band {
     display: none;
   }
   .mobile-header {
@@ -324,8 +334,8 @@
 }
 
 @media (min-width: 769px) {
-  .navbar {
-    display: flex !important;
+  .navbar-band {
+    display: block !important;
   }
   .mobile-header {
     display: none !important;

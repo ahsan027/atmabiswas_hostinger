@@ -4,7 +4,7 @@
   font-family: "Times New Roman", Times, serif;
   display: flex;
   flex-direction: column;
-  background-color: #0d47a1; /* Solid dark blue background */
+  background-color: #1a9bbf; /* Matches navbar cyan #25b7db, slightly deeper for sidebar */
   width: 280px;
   height: 100%;
   position: fixed;
@@ -155,9 +155,9 @@
   padding-top: 15px;
 }
 
-/* Mobile-first approach: Hide top navbar, show side navbar toggle and mobile header */
+/* Mobile: hide desktop navbar band, show mobile header + sidenav */
 @media (max-width: 768px) {
-  .navbar {
+  .navbar-band {
     display: none;
   }
   .mobile-header {
@@ -166,29 +166,23 @@
   .sidenav {
     display: flex;
   }
-  /* Push body content below the fixed mobile header so nothing is hidden behind it.
-     menutoggle.js later sets an inline padding-top based on the real header height,
-     but this CSS default eliminates the initial flash of overlapping content. */
   body {
     padding-top: 62px;
   }
-  /* Add padding to the body when the sidenav is open */
   body.sidenav-open {
-    padding-top: 80px; /* Increased padding for the mobile header */
+    padding-top: 80px;
   }
-  /* Add margin to main content when sidebar is active */
-  /* Adjust main content using transform as well for smoother animation */
   .sidenav.active ~ .main-content {
-    margin-left: 280px; /* Keep margin-left for layout */
-    transform: translateX(280px); /* Use transform for smooth movement */
-    transition: margin-left 0.5s ease, transform 0.5s ease; /* Transition both */
+    margin-left: 280px;
+    transform: translateX(280px);
+    transition: margin-left 0.5s ease, transform 0.5s ease;
   }
 }
 
-/* Desktop: Show top navbar, hide side navbar toggle, mobile header, and side navbar */
+/* Desktop: show navbar band, hide mobile elements */
 @media (min-width: 769px) {
-  .navbar {
-    display: flex !important; /* Ensure desktop navbar is visible */
+  .navbar-band {
+    display: block !important;
   }
   .mobile-header {
     display: none !important;

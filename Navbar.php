@@ -10,57 +10,68 @@ require_once __DIR__ . '/config.php';
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <!-- Desktop Navbar -->
-<div class="navbar">
-    <div class="top-row">
-        <div class="logo">
-            <a href="<?= HOME_PATH ?>"><img src="<?= SITE_ROOT ?>/logoBg.png" loading="lazy" alt="ATMABISWAS NGO"></a>
-        </div>
-        <div class="bars">
-            <a href="<?= NOTICE_PATH ?>">Notice</a>
-            <a href="<?= CAREER_PATH ?>" target="_blank">Career</a>
-            <a href="<?= PRESS_PATH ?>">Press</a>
-            <a href="<?= ABOUTUS_PATH ?>">About Us</a>
+<div class="navbar-band">
+
+    <!-- Top row: white band, logo left, utility links right -->
+    <div class="navbar">
+        <div class="top-row">
+            <div class="logo">
+                <a href="<?= HOME_PATH ?>"><img src="<?= SITE_ROOT ?>/logoBg.png" loading="lazy" alt="ATMABISWAS NGO"></a>
+            </div>
+            <div class="bars">
+                <a href="<?= NOTICE_PATH ?>">Notice</a>
+                <a href="<?= CAREER_PATH ?>" target="_blank">Career</a>
+                <a href="<?= PRESS_PATH ?>">Press</a>
+                <a href="<?= ABOUTUS_PATH ?>">About Us</a>
+            </div>
         </div>
     </div>
-    <div class="bottom-row">
-        <a href="<?= HOME_PATH ?>">Who We Are</a>
 
-        <div class="dropdown">
-            <div class="maindrop">
-                <a href="#">Our Team <i class="fa-solid fa-caret-down arrow-icon"></i></a>
-            </div>
-            <div class="dropdown-content">
-                <a href="<?= EVE_PATH ?>">Executive</a>
-                <a href="<?= GENERALBODY_PATH ?>">General Body</a>
-                <a href="<?= SENIOR_MANAGEMENT_PATH ?>">Senior Management</a>
-                <a href="<?= FOUNDER_PATH ?>">Founder</a>
+    <!-- Bottom row: full-width cyan band, centered nav links -->
+    <div class="bottom-band">
+        <div class="navbar">
+            <div class="bottom-row">
+                <a href="<?= HOME_PATH ?>">Who We Are</a>
+
+                <div class="dropdown">
+                    <div class="maindrop">
+                        <a href="#">Our Team <i class="fa-solid fa-caret-down arrow-icon"></i></a>
+                    </div>
+                    <div class="dropdown-content">
+                        <a href="<?= EVE_PATH ?>">Executive</a>
+                        <a href="<?= GENERALBODY_PATH ?>">General Body</a>
+                        <a href="<?= SENIOR_MANAGEMENT_PATH ?>">Senior Management</a>
+                        <a href="<?= FOUNDER_PATH ?>">Founder</a>
+                    </div>
+                </div>
+
+                <div class="dropdown">
+                    <div class="maindrop">
+                        <a href="#">What We Do <i class="fa-solid fa-caret-down arrow-icon"></i></a>
+                    </div>
+                    <div class="dropdown-content">
+                        <a href="<?= GREEN_ENERGY_PATH ?>">Green Energy</a>
+                        <a href="<?= ENTERPRISE_PATH ?>">Enterprise Development</a>
+                        <a href="<?= AGRICULTURAL_PATH ?>">Food &amp; Agriculture</a>
+                        <a href="<?= READYTOEAT_PATH ?>">Ready To Eat</a>
+                        <a href="<?= HEALTH_PATH ?>">Health &amp; Nutrition</a>
+                    </div>
+                </div>
+
+                <a href="<?= EVENTS_PATH ?>">Events</a>
+                <a href="<?= SOCIAL_PATH ?>">Social</a>
+                <a href="<?= CONTACT_PATH ?>">Contact</a>
+
+                <?php if (isset($_SESSION['username'])): ?>
+                    <a class="nav-login-btn" href="<?= DASHBOARD_PATH ?>">Dashboard</a>
+                <?php else: ?>
+                    <a class="nav-login-btn" href="<?= LOGIN_PATH ?>">Login</a>
+                <?php endif; ?>
             </div>
         </div>
-
-        <div class="dropdown">
-            <div class="maindrop">
-                <a href="#">What We Do <i class="fa-solid fa-caret-down arrow-icon"></i></a>
-            </div>
-            <div class="dropdown-content">
-                <a href="<?= GREEN_ENERGY_PATH ?>">Green Energy</a>
-                <a href="<?= ENTERPRISE_PATH ?>">Enterprise Development</a>
-                <a href="<?= AGRICULTURAL_PATH ?>">Food &amp; Agriculture</a>
-                <a href="<?= READYTOEAT_PATH ?>">Ready To Eat</a>
-                <a href="<?= HEALTH_PATH ?>">Health &amp; Nutrition</a>
-            </div>
-        </div>
-
-        <a href="<?= EVENTS_PATH ?>">Events</a>
-        <a href="<?= SOCIAL_PATH ?>">Social</a>
-        <a href="<?= CONTACT_PATH ?>">Contact</a>
-
-        <?php if (isset($_SESSION['username'])): ?>
-            <a class="nav-login-btn" href="<?= DASHBOARD_PATH ?>">Dashboard</a>
-        <?php else: ?>
-            <a class="nav-login-btn" href="<?= LOGIN_PATH ?>">Login</a>
-        <?php endif; ?>
     </div>
-</div>
+
+</div><!-- /.navbar-band -->
 
 <!-- Mobile Header -->
 <div class="mobile-header">
