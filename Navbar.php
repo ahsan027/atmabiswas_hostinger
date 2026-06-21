@@ -2,9 +2,9 @@
 if (session_status() === PHP_SESSION_NONE) session_start();
 require_once __DIR__ . '/config.php';
 ?>
-<link rel="stylesheet" href="<?= SITE_ROOT ?>/navbar.css">
-<link rel="stylesheet" href="<?= SITE_ROOT ?>/menutoggle.css">
-<link rel="stylesheet" href="<?= SITE_ROOT ?>/sidebar.css">
+<link rel="stylesheet" href="<?= SITE_ROOT ?>/navbar.css?v=<?php echo filemtime(__DIR__ . '/navbar.css'); ?>">
+<link rel="stylesheet" href="<?= SITE_ROOT ?>/menutoggle.css?v=<?php echo filemtime(__DIR__ . '/menutoggle.css'); ?>">
+<link rel="stylesheet" href="<?= SITE_ROOT ?>/sidebar.css?v=<?php echo filemtime(__DIR__ . '/sidebar.css'); ?>">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -142,5 +142,5 @@ require_once __DIR__ . '/config.php';
     <?php endif; ?>
 </div>
 
-<script src="<?= SITE_ROOT ?>/navbar.js"></script>
-<script src="<?= SITE_ROOT ?>/menutoggle.js"></script>
+<script src="<?= SITE_ROOT ?>/navbar.js?v=<?php echo filemtime(__DIR__ . '/navbar.js'); ?>"></script>
+<script src="<?= SITE_ROOT ?>/menutoggle.js?v=<?php echo filemtime(__DIR__ . '/menutoggle.js'); ?>"></script>

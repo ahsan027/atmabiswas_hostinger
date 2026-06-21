@@ -18,7 +18,7 @@ $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jobs &amp; Careers at ATMABISWAS (আত্মবিশ্বাস) – NGO Bangladesh</title>
     <?php include 'seo.php'; ?>
-    <link rel="stylesheet" href="career.css">
+    <link rel="stylesheet" href="career.css?v=<?php echo filemtime(__DIR__ . '/career.css'); ?>">
     <link rel="icon" type="image/png" href="LOGO/NGO_logo_monogram.png">
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EZVV9DWWY7"></script>

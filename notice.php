@@ -24,7 +24,7 @@ $pdfs = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Official Notices – ATMABISWAS (আত্মবিশ্বাস) NGO Bangladesh</title>
     <?php include 'seo.php'; ?>
-    <link rel="stylesheet" href="notice.css">
+    <link rel="stylesheet" href="notice.css?v=<?php echo filemtime(__DIR__ . '/notice.css'); ?>">
     <link rel="icon" type="image/png" href="LOGO/NGO_logo_monogram.png">
 </head>
 <body>

@@ -17,7 +17,7 @@
     <?php include 'seo.php'; ?>
 
     <link rel="icon" type="image/png" href="LOGO/NGO_logo_monogram.png">
-    <link rel="stylesheet" href="locations.css">
+    <link rel="stylesheet" href="locations.css?v=<?php echo filemtime(__DIR__ . '/locations.css'); ?>">
 </head>
 
 <body>

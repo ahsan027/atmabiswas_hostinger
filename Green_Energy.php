@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Green Energy &amp; Solar Programs – ATMABISWAS (আত্মবিশ্বাস) Bangladesh</title>
     <?php include 'seo.php'; ?>
-    <link rel="stylesheet" href="pages.css">
+    <link rel="stylesheet" href="pages.css?v=<?php echo filemtime(__DIR__ . '/pages.css'); ?>">
     <link rel="icon" type="image/png" href="LOGO/NGO_logo_monogram.png">
 </head>
 <body>

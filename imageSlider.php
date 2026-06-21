@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="imageSlider.css">
+<link rel="stylesheet" href="imageSlider.css?v=<?php echo filemtime(__DIR__ . '/imageSlider.css'); ?>">
 <div class="slider">
     <div class="list">
         <div class="item">
@@ -29,6 +29,4 @@
         <li></li>
     </ul>
 </div>
-<script src="imageSlider.js">
-
-</script>
+<script src="imageSlider.js?v=<?php echo filemtime(__DIR__ . '/imageSlider.js'); ?>"></script>

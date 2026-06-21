@@ -9,8 +9,8 @@
     <title>ATMABISWAS – Official NGO Bangladesh | আত্মবিশ্বাস | Since 1991</title>
     <link rel="icon" type="image/png" href="LOGO/NGO_logo_monogram.png">
     <?php include 'seo.php'; ?>
-    <link rel="stylesheet" href="index.css">
-    <link rel="stylesheet" href="partners.css">
+    <link rel="stylesheet" href="index.css?v=<?php echo filemtime(__DIR__ . '/index.css'); ?>">
+    <link rel="stylesheet" href="partners.css?v=<?php echo filemtime(__DIR__ . '/partners.css'); ?>">
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EZVV9DWWY7"></script>
@@ -84,10 +84,7 @@
 
 
 
-    <script src="index.js">
-
-
-    </script>
+    <script src="index.js?v=<?php echo filemtime(__DIR__ . '/index.js'); ?>"></script>
 </body>
 
 </html>

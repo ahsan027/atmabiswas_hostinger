@@ -1,5 +1,5 @@
 <?php require_once 'config.php'; ?>
-<link rel="stylesheet" href="<?= SITE_ROOT ?>/foot.css">
+<link rel="stylesheet" href="<?= SITE_ROOT ?>/foot.css?v=<?php echo filemtime(__DIR__ . '/foot.css'); ?>">
 
 <footer class="footer">
     <div class="footer-inner">
