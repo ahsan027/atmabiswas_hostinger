@@ -401,3 +401,8 @@ body {
 @media (prefers-reduced-motion: reduce) {
     .ln-card, .ln-card-img { transition: none; }
 }
+
+/* ── Gap between partners section and footer ─── */
+.Partnercontainer {
+    margin-bottom: 60px;
+}
