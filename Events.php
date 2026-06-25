@@ -150,7 +150,7 @@
                     <img src="winter/winter_pic3.jpg" loading="lazy" alt="Winter-fest Event">
                     <div class="card-content">
                         <h3>Winter Clothes Distribution Program</h3>
-                        <p>Festive fun and togetherness.</p>
+                        <p>A humanitarian initiative dedicated to helping people face winter with dignity and warmth.</p>
                     </div>
                 </div>
                 <div class="card">
