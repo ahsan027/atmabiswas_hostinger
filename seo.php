@@ -258,7 +258,7 @@ $_d = $_seo_data[$_seo_page] ?? [
       "@id": "https://atmabiswas.org/#website",
       "url": "https://atmabiswas.org/",
       "name": "ATMABISWAS",
-      "alternateName": ["Atmabiswas", "আত্মবিশ্বাস", "ATMABISWAS NGO Bangladesh"],
+      "alternateName": ["আত্মবিশ্বাস", "ATMABISWAS NGO Bangladesh"],
       "description": "Official website of ATMABISWAS – a registered non-governmental organization in Bangladesh empowering rural communities since 1991.",
       "publisher": {
         "@id": "https://atmabiswas.org/#organization"
