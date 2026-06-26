@@ -440,8 +440,8 @@ $total_count = count($all_images);
                                     Image Type
                                 </label>
                                 <select name="imagetype" id="imagetype" class="form-select" required>
-                                    <option value="img_slider">Image Slider</option>
                                     <option value="latest_news">Latest News</option>
+                                    <option value="img_slider">Image Slider</option>
                                 </select>
                             </div>
 

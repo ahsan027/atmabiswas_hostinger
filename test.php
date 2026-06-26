@@ -1,30 +1,56 @@
 <?php
 // Latest News image grid — included by index.php
 require_once 'backend/Database/db.php';
+
+$latest = [];
+
 try {
     $db   = new Db();
     $conn = $db->connect();
+} catch (Exception $e) {
+    return;
+}
 
-    // Auto-add display_order column if the table doesn't have it yet
-    $col = $conn->query(
+// Auto-add display_order column — isolated so a permission failure doesn't kill the query
+$has_order_col = false;
+try {
+    $chk = $conn->query(
         "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS
          WHERE TABLE_SCHEMA = DATABASE()
            AND TABLE_NAME   = 'img_upload'
            AND COLUMN_NAME  = 'display_order'"
     );
-    if ((int)$col->fetchColumn() === 0) {
+    $has_order_col = (int)$chk->fetchColumn() > 0;
+    if (!$has_order_col) {
         $conn->exec("ALTER TABLE img_upload ADD COLUMN display_order INT NOT NULL DEFAULT 0");
+        $has_order_col = true;
     }
+} catch (Exception $e) { /* non-fatal — column may not exist, query will skip it */ }
 
+$sel = $has_order_col
+    ? "img_title, img_description, img_path, display_order"
+    : "img_title, img_description, img_path, 0 AS display_order";
+$ord = $has_order_col ? "display_order ASC, img_path ASC" : "img_path ASC";
+
+try {
     $stmt = $conn->prepare(
-        "SELECT img_title, img_description, img_path, display_order
-         FROM img_upload
+        "SELECT {$sel} FROM img_upload
          WHERE img_type = 'latest_news'
-         ORDER BY display_order ASC, img_path ASC
-         LIMIT 12"
+         ORDER BY {$ord} LIMIT 12"
     );
     $stmt->execute();
     $latest = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Auto-migrate: if no latest_news rows exist but img_slider rows do, convert them.
+    // (The public homepage slider is hardcoded HTML; img_slider type is unused in the public site.)
+    if (empty($latest)) {
+        $chk2 = $conn->query("SELECT COUNT(*) FROM img_upload WHERE img_type = 'img_slider'");
+        if ((int)$chk2->fetchColumn() > 0) {
+            $conn->exec("UPDATE img_upload SET img_type = 'latest_news' WHERE img_type = 'img_slider'");
+            $stmt->execute();
+            $latest = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+    }
 } catch (Exception $e) {
     $latest = [];
 }
