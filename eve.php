@@ -31,7 +31,9 @@
         <section class="executive-section">
             <div class="mdsir">
                 <div class="executive-card">
-                    <img src="Executives/Salma_Asif.jpg" loading="lazy" alt="Mises Salma Asif">
+                    <div class="exec-img-wrap">
+                        <img src="Executives/Salma_Asif.jpg" loading="lazy" alt="Mises Salma Asif" onerror="this.remove()">
+                    </div>
                     <h2>Miss Salma Asif</h2>
                     <p><strong>President</strong></p>
                     <p>A visionary leader since 1991, guiding ATMABISWAS with commitment to social empowerment.</p>
@@ -40,14 +42,18 @@
 
             <div class="oth">
                 <div class="executive-card">
-                    <img src="Executives/AfrozaBegum.jpg" loading="lazy" alt="Mst. Afroza Begum" style="object-position: top;">
+                    <div class="exec-img-wrap">
+                        <img src="Executives/AfrozaBegum.jpg" loading="lazy" alt="Mst. Afroza Begum" style="object-position: top;" onerror="this.remove()">
+                    </div>
                     <h2>Mst. Afroza Begum</h2>
                     <p><strong>Vice President</strong></p>
                     <p>Bringing extensive experience in social work to support strategic growth since 1991.</p>
                 </div>
 
                 <div class="executive-card">
-                    <img src="Executives/edsir.jpg" loading="lazy" alt="Md. Akramul Haque Biswas">
+                    <div class="exec-img-wrap">
+                        <img src="Executives/edsir.jpg" loading="lazy" alt="Md. Akramul Haque Biswas" onerror="this.remove()">
+                    </div>
                     <h2>Md. Akramul Haque Biswas</h2>
                     <p><strong>Secretary / Executive Director</strong></p>
                     <p>Ensuring effective project implementation and leadership at ATMABISWAS.</p>
@@ -57,7 +63,7 @@
 
         <div class="othermembers">
             <div class="card">
-                <img src="Executives/ranabiswas.jpg" loading="lazy" alt="Md. Iktiar Uddin">
+                <img src="Executives/ranabiswas.jpg" loading="lazy" alt="Md. Iktiar Uddin" onerror="this.remove()">
                 <div class="card-body">
                     <h2>Md. Iktiar Uddin</h2>
                     <h3>Treasurer</h3>
@@ -66,7 +72,7 @@
             </div>
 
             <div class="card">
-                <img src="Executives/nazma.jpg" loading="lazy" alt="Nazma Shaheen">
+                <img src="Executives/nazma.jpg" loading="lazy" alt="Nazma Shaheen" onerror="this.remove()">
                 <div class="card-body">
                     <h2>Nazma Shaheen</h2>
                     <h3>Executive Member</h3>
@@ -75,7 +81,7 @@
             </div>
 
             <div class="card">
-                <img src="Executives/Shahana.jpg" loading="lazy" alt="Mst. Shahana Pervin">
+                <img src="Executives/Shahana.jpg" loading="lazy" alt="Mst. Shahana Pervin" onerror="this.remove()">
                 <div class="card-body">
                     <h2>Mst. Shahana Pervin</h2>
                     <h3>Executive Member</h3>
@@ -84,7 +90,7 @@
             </div>
 
             <div class="card">
-                <img src="Executives/alo.jpg" loading="lazy" alt="Md. Nazrul Islam Alo">
+                <img src="Executives/alo.jpg" loading="lazy" alt="Md. Nazrul Islam Alo" onerror="this.remove()">
                 <div class="card-body">
                     <h2>Md. Nazrul Islam Alo</h2>
                     <h3>Executive Member</h3>

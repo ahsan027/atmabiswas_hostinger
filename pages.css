@@ -274,6 +274,28 @@ img { max-width: 100%; height: auto; }
   display: block;
 }
 
+.exec-img-wrap {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  border: 4px solid var(--accent);
+  overflow: hidden;
+  margin: 0 auto 1.2rem;
+  background: var(--bg, #f8fafc);
+  flex-shrink: 0;
+}
+
+.executive-card .exec-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+  border: none;
+  border-radius: 0;
+  margin: 0;
+}
+
 .executive-card h2 {
   font-size: 1.25rem;
   color: var(--primary);
