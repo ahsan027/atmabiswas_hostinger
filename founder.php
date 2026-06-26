@@ -29,7 +29,7 @@
 
     <div class="founder-section">
         <div class="founder-card">
-            <img src="photos/ED_sir.jpg" loading="lazy" alt="Akramul Haque Biswas">
+            <img src="Photos/ED_sir.jpg" loading="lazy" alt="Akramul Haque Biswas">
             <div class="founder-details">
                 <h2>Akramul Haque Biswas</h2>
                 <p>Founder &amp; Executive Director</p>

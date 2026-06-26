@@ -239,7 +239,7 @@
                     </div>
                 </div>
                 <div class="card">
-                    <img src="Fish/fish_pic2.jpg" loading="lazy" alt="Field Day Celebration">
+                    <img src="FISH/fish_pic2.jpg" loading="lazy" alt="Field Day Celebration">
                     <div class="card-content">
                         <h3>Field Day Celebration to Support Farmers</h3>
                         <p>We celebrated Field Day to educate farmers about sustainable fish farming, crop management,
@@ -247,7 +247,7 @@
                     </div>
                 </div>
                 <div class="card">
-                    <img src="Fish/fish_pic1.jpg" loading="lazy" alt="Nutrition Day">
+                    <img src="FISH/fish_pic1.jpg" loading="lazy" alt="Nutrition Day">
                     <div class="card-content">
                         <h3>Celebrating Nutrition Day with Village Communities</h3>
                         <p>We are celebrating Nutrition Day with the village community, promoting healthy eating and

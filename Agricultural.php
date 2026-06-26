@@ -64,11 +64,11 @@
 
         <div class="gallery">
             <img src="ag/ag_pic1.jpg" loading="lazy" alt="ATMABISWAS agriculture program – sustainable farming in Bangladesh" />
-            <img src="Fish/fish_pic3.jpg" loading="lazy" alt="ATMABISWAS fish farming project – aquaculture livelihood program" />
-            <img src="Fish/fish_pic6.jpg" loading="lazy" alt="ATMABISWAS fish farming initiative – rural income generation Bangladesh" />
-            <img src="Fish/fish_pic5.jpg" loading="lazy" alt="ATMABISWAS fishery project – sustainable aquaculture Bangladesh" />
+            <img src="FISH/fish_pic3.jpg" loading="lazy" alt="ATMABISWAS fish farming project – aquaculture livelihood program" />
+            <img src="FISH/fish_pic6.jpg" loading="lazy" alt="ATMABISWAS fish farming initiative – rural income generation Bangladesh" />
+            <img src="FISH/fish_pic5.jpg" loading="lazy" alt="ATMABISWAS fishery project – sustainable aquaculture Bangladesh" />
             <img src="ag/ag_pic3.jpg" loading="lazy" alt="ATMABISWAS crop farming – farmer training and support program" />
-            <img src="Fish/fish_pic4.jpg" loading="lazy" alt="ATMABISWAS fish farming – rural livelihood project Bangladesh" />
+            <img src="FISH/fish_pic4.jpg" loading="lazy" alt="ATMABISWAS fish farming – rural livelihood project Bangladesh" />
         </div>
     </div>
 
