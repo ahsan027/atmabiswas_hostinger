@@ -26,6 +26,14 @@ RewriteCond %{HTTP_HOST} ^www\.atmabiswas\.org [NC]
 RewriteRule ^(.*)$ https://atmabiswas.org/$1 [L,R=301]
 
 # ----------------------------------------
+# ✅ FIX: photos/ (lowercase) → Photos/ (capital)
+# Linux servers are case-sensitive; old PHP files used lowercase path.
+# ----------------------------------------
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^photos/(.+)$ Photos/$1 [L]
+
+# ----------------------------------------
 # ✅ BROWSER CACHING (Expires)
 # ----------------------------------------
 <IfModule mod_expires.c>
