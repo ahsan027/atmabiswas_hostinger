@@ -28,10 +28,10 @@ RewriteRule ^(.*)$ https://atmabiswas.org/$1 [L,R=301]
 # ----------------------------------------
 # ✅ FIX: photos/ (lowercase) → Photos/ (capital)
 # Linux servers are case-sensitive; old PHP files used lowercase path.
+# Unconditional 301 so browser always follows to the canonical URL,
+# even if the photos/ directory still exists on the server.
 # ----------------------------------------
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^photos/(.+)$ Photos/$1 [L]
+RewriteRule ^photos/(.+)$ /Photos/$1 [L,R=301]
 
 # ----------------------------------------
 # ✅ BROWSER CACHING (Expires)
