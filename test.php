@@ -40,6 +40,7 @@ try {
     );
     $stmt->execute();
     $latest = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $latest = array_values(array_filter($latest, fn($img) => file_exists($img['img_path'])));
 
     // Auto-migrate: if no latest_news rows exist but img_slider rows do, convert them.
     // (The public homepage slider is hardcoded HTML; img_slider type is unused in the public site.)
@@ -49,6 +50,7 @@ try {
             $conn->exec("UPDATE img_upload SET img_type = 'latest_news' WHERE img_type = 'img_slider'");
             $stmt->execute();
             $latest = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $latest = array_values(array_filter($latest, fn($img) => file_exists($img['img_path'])));
         }
     }
 } catch (Exception $e) {
