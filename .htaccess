@@ -83,9 +83,14 @@ RewriteRule ^loc\.html$ /loc.php [L,R=301]
 </IfModule>
 
 # ----------------------------------------
-# ✅ CUSTOM 404 ERROR PAGE
+# ✅ CUSTOM ERROR PAGES
 # ----------------------------------------
-ErrorDocument 404 /404.html
+ErrorDocument 400 /400.php
+ErrorDocument 401 /401.php
+ErrorDocument 403 /403.php
+ErrorDocument 404 /404.php
+ErrorDocument 500 /500.php
+ErrorDocument 503 /503.php
 
 # ----------------------------------------
 # ✅ CACHING HEADERS FOR STATIC FILES
