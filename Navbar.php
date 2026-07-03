@@ -22,7 +22,6 @@ require_once __DIR__ . '/config.php';
                 <a href="<?= NOTICE_PATH ?>">Notice</a>
                 <a href="<?= CAREER_PATH ?>" target="_blank">Career</a>
                 <a href="<?= PRESS_PATH ?>">Press</a>
-                <a href="<?= ABOUTUS_PATH ?>">About Us</a>
             </div>
         </div>
     </div>
@@ -61,6 +60,7 @@ require_once __DIR__ . '/config.php';
                 <a href="<?= EVENTS_PATH ?>">Events</a>
                 <a href="<?= SOCIAL_PATH ?>">Social</a>
                 <a href="<?= CONTACT_PATH ?>">Contact</a>
+                <a href="<?= ABOUTUS_PATH ?>">About Us</a>
 
                 <?php if (isset($_SESSION['username'])): ?>
                     <a class="nav-login-btn" href="<?= DASHBOARD_PATH ?>">Dashboard</a>
@@ -127,13 +127,13 @@ require_once __DIR__ . '/config.php';
             <a href="<?= CAREER_PATH ?>"><i class="fa-solid fa-briefcase"></i> Career</a>
             <a href="<?= NOTICE_PATH ?>"><i class="fa-solid fa-bullhorn"></i> Notice</a>
             <a href="<?= PRESS_PATH ?>"><i class="fa-solid fa-newspaper"></i> Press</a>
-            <a href="<?= ABOUTUS_PATH ?>"><i class="fa-solid fa-circle-info"></i> About Us</a>
         </div>
     </div>
 
     <a href="<?= EVENTS_PATH ?>"><i class="fa-solid fa-calendar-check"></i> Events</a>
     <a href="<?= SOCIAL_PATH ?>"><i class="fa-solid fa-handshake"></i> Social Work</a>
     <a href="<?= CONTACT_PATH ?>"><i class="fa-solid fa-envelope-open-text"></i> Contact</a>
+    <a href="<?= ABOUTUS_PATH ?>"><i class="fa-solid fa-circle-info"></i> About Us</a>
 
     <?php if (isset($_SESSION['username'])): ?>
         <a href="<?= DASHBOARD_PATH ?>"><i class="fa-solid fa-gauge"></i> Dashboard</a>
