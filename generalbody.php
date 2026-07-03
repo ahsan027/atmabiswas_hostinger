@@ -22,7 +22,7 @@
     <main>
     <section class="page-hero">
         <div class="page-hero-inner">
-            <h1>Executive Committee of ATMABISWAS NGO</h1>
+            <h1>General Body &amp; Governance</h1>
             <p>Empowering communities and driving sustainable development.</p>
         </div>
     </section>
@@ -31,7 +31,7 @@
         <section class="executive-section">
             <div class="mdsir">
                 <div class="executive-card">
-                    <img src="Executives/Salma_Asif.jpg" loading="lazy" alt="Mises Salma Asif">
+                    <img src="Executives/Salma_Asif.jpg"  alt="Mises Salma Asif">
                     <h2>Miss Salma Asif</h2>
                     <p><strong>President</strong></p>
                     <p>A visionary leader since 1991, guiding ATMABISWAS with commitment to social empowerment.</p>
