@@ -62,40 +62,40 @@
         </section>
 
         <div class="othermembers">
-            <div class="card">
-                <img src="Executives/ranabiswas.jpg?v=<?php echo filemtime(__DIR__ . '/Executives/ranabiswas.jpg'); ?>" loading="lazy" alt="Md. Iktiar Uddin" onerror="this.remove()">
-                <div class="card-body">
-                    <h2>Md. Iktiar Uddin</h2>
-                    <h3>Treasurer</h3>
-                    <p>Overseeing financial management with transparency and accountability.</p>
+            <div class="executive-card">
+                <div class="exec-img-wrap">
+                    <img src="Executives/ranabiswas.jpg?v=<?php echo filemtime(__DIR__ . '/Executives/ranabiswas.jpg'); ?>" loading="lazy" alt="Md. Iktiar Uddin" onerror="this.remove()">
                 </div>
+                <h2>Md. Iktiar Uddin</h2>
+                <p><strong>Treasurer</strong></p>
+                <p>Overseeing financial management with transparency and accountability.</p>
             </div>
 
-            <div class="card">
-                <img src="Executives/nazma.jpg?v=<?php echo filemtime(__DIR__ . '/Executives/nazma.jpg'); ?>" loading="lazy" alt="Nazma Shaheen" onerror="this.remove()">
-                <div class="card-body">
-                    <h2>Nazma Shaheen</h2>
-                    <h3>Executive Member</h3>
-                    <p>Advancing social welfare and supporting community empowerment.</p>
+            <div class="executive-card">
+                <div class="exec-img-wrap">
+                    <img src="Executives/nazma.jpg?v=<?php echo filemtime(__DIR__ . '/Executives/nazma.jpg'); ?>" loading="lazy" alt="Nazma Shaheen" onerror="this.remove()">
                 </div>
+                <h2>Nazma Shaheen</h2>
+                <p><strong>Executive Member</strong></p>
+                <p>Advancing social welfare and supporting community empowerment.</p>
             </div>
 
-            <div class="card">
-                <img src="Executives/Shahana.jpg?v=<?php echo filemtime(__DIR__ . '/Executives/Shahana.jpg'); ?>" loading="lazy" alt="Mst. Shahana Pervin" onerror="this.remove()">
-                <div class="card-body">
-                    <h2>Mst. Shahana Pervin</h2>
-                    <h3>Executive Member</h3>
-                    <p>Implementing impactful projects that uplift communities.</p>
+            <div class="executive-card">
+                <div class="exec-img-wrap">
+                    <img src="Executives/Shahana.jpg?v=<?php echo filemtime(__DIR__ . '/Executives/Shahana.jpg'); ?>" loading="lazy" alt="Mst. Shahana Pervin" onerror="this.remove()">
                 </div>
+                <h2>Mst. Shahana Pervin</h2>
+                <p><strong>Executive Member</strong></p>
+                <p>Implementing impactful projects that uplift communities.</p>
             </div>
 
-            <div class="card">
-                <img src="Executives/alo.jpg?v=<?php echo filemtime(__DIR__ . '/Executives/alo.jpg'); ?>" loading="lazy" alt="Md. Nazrul Islam Alo" onerror="this.remove()">
-                <div class="card-body">
-                    <h2>Md. Nazrul Islam Alo</h2>
-                    <h3>Executive Member</h3>
-                    <p>Strengthening social advocacy and expanding ATMABISWAS's reach.</p>
+            <div class="executive-card">
+                <div class="exec-img-wrap">
+                    <img src="Executives/alo.jpg?v=<?php echo filemtime(__DIR__ . '/Executives/alo.jpg'); ?>" loading="lazy" alt="Md. Nazrul Islam Alo" onerror="this.remove()">
                 </div>
+                <h2>Md. Nazrul Islam Alo</h2>
+                <p><strong>Executive Member</strong></p>
+                <p>Strengthening social advocacy and expanding ATMABISWAS's reach.</p>
             </div>
         </div>
     </div>
