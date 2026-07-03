@@ -66,7 +66,7 @@
                                 <span><a href="mailto:atmabiswas_ngo@yahoo.com">atmabiswas_ngo@yahoo.com</a></span>
                             </li>
                         </ul>
-                        <a href="loc.html" class="ct-branch-btn">
+                        <a href="loc.php" class="ct-branch-btn">
                             <i class="fas fa-code-branch"></i> Other Branches
                         </a>
                         <div class="ct-map">

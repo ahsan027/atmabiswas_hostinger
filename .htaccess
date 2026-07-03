@@ -34,6 +34,13 @@ RewriteRule ^(.*)$ https://atmabiswas.org/$1 [L,R=301]
 RewriteRule ^photos/(.+)$ /Photos/$1 [L,R=301]
 
 # ----------------------------------------
+# ✅ FIX: loc.html → loc.php
+# Branch Locator page was rebuilt as a PHP page (shared navbar/footer,
+# site design system) instead of a standalone static HTML file.
+# ----------------------------------------
+RewriteRule ^loc\.html$ /loc.php [L,R=301]
+
+# ----------------------------------------
 # ✅ BROWSER CACHING (Expires)
 # ----------------------------------------
 <IfModule mod_expires.c>

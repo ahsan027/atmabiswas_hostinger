@@ -426,10 +426,245 @@ body {
     box-shadow: 0 0 0 3px rgba(0,115,230,.1);
 }
 
+/* ── Back link (loc.php) ────────────────────── */
+.ct-back-link {
+    display: inline-flex;
+    align-items: center;
+    color: #0073e6;
+    font-weight: 600;
+    font-size: .92rem;
+    text-decoration: none;
+    margin-bottom: 1.25rem;
+    transition: color .2s;
+}
+
+.ct-back-link i { margin-right: .5rem; font-size: .85rem; }
+
+.ct-back-link:hover { color: #005bb5; text-decoration: underline; }
+
+/* ── Branch Locator (loc.php) ───────────────── */
+.ct-locator-heading {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: 1.15rem 1.6rem;
+    border-bottom: 2px solid #eef2f7;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+.ct-locator-heading .ct-toggle-left {
+    font-weight: 700;
+    color: #1e3a5f;
+    font-size: 1rem;
+    letter-spacing: .02em;
+}
+
+.ct-locator-count {
+    font-size: .82rem;
+    font-weight: 600;
+    color: #0073e6;
+    background: #eff6ff;
+    padding: .3rem .75rem;
+    border-radius: 20px;
+}
+
+.ct-locator-body {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    padding: 1.5rem;
+}
+
+/* gap replacement */
+.ct-locator-body > * + * { margin-left: 1.5rem; }
+
+.ct-locator-list-col {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 38%;
+    flex: 1 1 38%;
+    min-width: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+.ct-locator-map-col {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 62%;
+    flex: 1 1 62%;
+    min-width: 0;
+}
+
+/* Search box */
+.ct-locator-search {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.ct-locator-search i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    color: #9ca3af;
+    font-size: .85rem;
+}
+
+.ct-locator-search input {
+    width: 100%;
+    padding: .7rem 1rem .7rem 2.5rem;
+    border: 2px solid #d1d5db;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: .92rem;
+    color: #1f2937;
+    outline: none;
+    -webkit-transition: border-color .2s, -webkit-box-shadow .2s;
+    transition: border-color .2s, box-shadow .2s;
+}
+
+.ct-locator-search input:focus {
+    border-color: #0073e6;
+    -webkit-box-shadow: 0 0 0 3px rgba(0,115,230,.1);
+    box-shadow: 0 0 0 3px rgba(0,115,230,.1);
+}
+
+/* Scrollable branch list */
+.ct-locator-list {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    max-height: 520px;
+    overflow-y: auto;
+    padding-right: .25rem;
+}
+
+/* gap replacement */
+.ct-locator-list > * + * { margin-top: .75rem; }
+
+.ct-locator-item {
+    display: block;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+    text-decoration: none;
+    color: inherit;
+    -webkit-transition: background .2s, border-color .2s;
+    transition: background .2s, border-color .2s;
+}
+
+.ct-locator-item:hover {
+    background: #eff6ff;
+    border-color: #bfdbfe;
+}
+
+.ct-locator-item.active {
+    background: #eff6ff;
+    border-color: #0073e6;
+    -webkit-box-shadow: 0 0 0 1px #0073e6;
+    box-shadow: 0 0 0 1px #0073e6;
+}
+
+.ct-locator-item-top {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: baseline;
+    -ms-flex-align: baseline;
+    align-items: baseline;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    margin-bottom: .5rem;
+}
+
+.ct-locator-name {
+    font-weight: 700;
+    color: #1e3a5f;
+    font-size: .96rem;
+    line-height: 1.35;
+    margin-right: .75rem;
+}
+
+.ct-locator-code {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    font-size: .74rem;
+    font-weight: 700;
+    color: #0073e6;
+    background: #fff;
+    border: 1px solid #bfdbfe;
+    padding: .1rem .5rem;
+    border-radius: 20px;
+}
+
+.ct-locator-item-row {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    font-size: .85rem;
+    color: #374151;
+    line-height: 1.5;
+    margin-top: .3rem;
+}
+
+.ct-locator-item-row i {
+    color: #0073e6;
+    width: 14px;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    margin-top: 3px;
+    margin-right: .55rem;
+    font-size: .8rem;
+}
+
+.ct-locator-item-meta { color: #6b7280; font-size: .8rem; }
+
+/* Map */
+.ct-locator-map {
+    height: 100%;
+    min-height: 420px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+}
+
+.ct-locator-map #map { width: 100%; height: 100%; min-height: 420px; }
+
 /* ── Responsive ─────────────────────────────── */
 @media (max-width: 900px) {
     .ct-hero h1 { font-size: 1.8rem; }
     .ct-wrapper { margin: 1.5rem auto 2.5rem; }
+
+    .ct-locator-body { -ms-flex-wrap: wrap; flex-wrap: wrap; }
+    .ct-locator-body > * + * { margin-left: 0; margin-top: 1.25rem; }
+    .ct-locator-list-col,
+    .ct-locator-map-col { -webkit-box-flex: 1; -ms-flex: 1 1 100%; flex: 1 1 100%; }
+    .ct-locator-map,
+    .ct-locator-map #map { min-height: 360px; }
+    .ct-locator-list { max-height: 400px; }
 }
 
 @media (max-width: 768px) {
@@ -450,6 +685,9 @@ body {
 
     .ct-reg-panel,
     .ct-br-panel { padding: 1.1rem; }
+
+    .ct-locator-heading { padding: 1rem 1.25rem; }
+    .ct-locator-body { padding: 1.1rem; }
 }
 
 @media (max-width: 540px) {
@@ -458,6 +696,10 @@ body {
 
     .ct-office { padding: 1.25rem; }
     .ct-map { height: 195px; }
+
+    .ct-locator-map,
+    .ct-locator-map #map { min-height: 280px; }
+    .ct-locator-list { max-height: 320px; }
 
     .ct-filter { -webkit-box-orient: vertical; -webkit-box-direction: normal; -ms-flex-direction: column; flex-direction: column; -webkit-box-align: start; -ms-flex-align: start; align-items: flex-start; }
     .ct-filter > * { margin-right: 0; }

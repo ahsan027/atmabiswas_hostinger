@@ -1,30 +1,59 @@
 window.onload = function () {
   getData();
 };
+
 function getData() {
   axios
     .get("locations.json")
     .then((response) => {
       const container = document.getElementById("storeId");
+      const countEl = document.getElementById("branchCount");
+      const branches = response.data;
 
-      response.data.forEach((element, i) => {
+      if (countEl) {
+        countEl.textContent = branches.length + (branches.length === 1 ? " branch" : " branches");
+      }
+
+      branches.forEach((element) => {
         const link = document.createElement("a");
 
         link.href = "#";
-        link.className = "list-group-item list-group-item-action";
+        link.className = "ct-locator-item";
         link.setAttribute("data-lat", element.latitude);
         link.setAttribute("data-lng", element.longitude);
+        link.dataset.search = [
+          element.branch_name,
+          element.address,
+          element.district,
+          element.division,
+        ].join(" ").toLowerCase();
 
-        link.innerHTML = `<small>Branch code: ${element.code}</small><br>
-        <h5 class="mb-1">${element.branch_name}</h5>
-                            <p class="mb-1">Address: ${element.address}</p>
-                            <small>Phone: ${element.mobile}</small><br>
-                            <small>Division: ${element.division}, District: ${element.district}</small>`;
+        link.innerHTML = `
+          <div class="ct-locator-item-top">
+            <span class="ct-locator-name">${element.branch_name}</span>
+            <span class="ct-locator-code">#${element.code}</span>
+          </div>
+          <div class="ct-locator-item-row">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>${element.address}</span>
+          </div>
+          <div class="ct-locator-item-row">
+            <i class="fas fa-phone"></i>
+            <span>${element.mobile}</span>
+          </div>
+          <div class="ct-locator-item-row ct-locator-item-meta">
+            <i class="fas fa-location-dot"></i>
+            <span>${element.division} &middot; ${element.district}</span>
+          </div>
+        `;
+
         link.addEventListener("click", (e) => {
           e.preventDefault();
+          document.querySelectorAll('#storeId .ct-locator-item.active').forEach((el) => el.classList.remove('active'));
+          link.classList.add('active');
           moveToLocation(element.latitude, element.longitude);
         });
-        console.log(element);
+
         container.appendChild(link);
       });
     })
