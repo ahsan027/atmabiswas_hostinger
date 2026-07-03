@@ -44,7 +44,7 @@
                     <img src="generalbody/malaka.jpg?v=<?php echo filemtime(__DIR__ . '/generalbody/malaka.jpg'); ?>" loading="lazy" alt="Malaka Parvin">
                     <h2>Malaka Parvin</h2>
                     <p><strong>Deputy Executive Director, ATMABISWAS</strong></p>
-                    <p>Co-founder and Deputy Executive Director Malaka Parvin oversees the day-to-day running of ATMABISWAS's programs, turning the organization's mission into action on the ground. Her focus on operational excellence and community engagement keeps development work grounded and accountable.</p>
+                    <p>Deputy Executive Director Malaka Parvin oversees the day-to-day running of ATMABISWAS's programs, turning the organization's mission into action on the ground. Her focus on operational excellence and community engagement keeps development work grounded and accountable.</p>
                 </div>
 
                 <div class="executive-card">
