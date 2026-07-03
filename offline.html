@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>You're Offline &ndash; ATMABISWAS</title>
 <meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="/LOGO/NGO_logo_monogram.png">
 <style>
 /* Fully self-contained — this page must render with ZERO network access,
    so no external stylesheets, fonts, or icon libraries are loaded here. */
@@ -48,6 +49,10 @@ body {
 }
 
 .brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
     font-size: 1.3rem;
     font-weight: 800;
     color: #1e3a5f;
@@ -55,6 +60,7 @@ body {
     margin-bottom: 1.75rem;
 }
 
+.brand img { width: 28px; height: 28px; border-radius: 6px; }
 .brand span { color: #0073e6; }
 
 .icon-wrap {
@@ -182,7 +188,11 @@ body {
 </head>
 <body>
     <div class="card">
-        <p class="brand">ATMA<span>BISWAS</span></p>
+        <p class="brand">
+            <img src="/LOGO/NGO_logo_monogram.png" alt="" width="28" height="28"
+                 onerror="this.remove()">
+            ATMA<span>BISWAS</span>
+        </p>
 
         <div class="icon-wrap">
             <span class="icon-glow" aria-hidden="true"></span>

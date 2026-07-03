@@ -54,6 +54,12 @@ RewriteRule ^photos/(.+)$ /Photos/$1 [L,R=301]
 RewriteRule ^loc\.html$ /loc.php [L,R=301]
 
 # ----------------------------------------
+# ✅ CLEAN URL: /status → status.php
+# Internal rewrite (not a redirect) so the address bar stays /status.
+# ----------------------------------------
+RewriteRule ^status/?$ status.php [L]
+
+# ----------------------------------------
 # ✅ BROWSER CACHING (Expires)
 # ----------------------------------------
 <IfModule mod_expires.c>
