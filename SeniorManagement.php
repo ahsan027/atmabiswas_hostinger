@@ -35,7 +35,7 @@
                     <img src="Executives/edsir.jpg?v=<?php echo filemtime(__DIR__ . '/Executives/edsir.jpg'); ?>" loading="lazy" alt="Akramul Haque Biswas">
                     <h2>Akramul Haque Biswas</h2>
                     <p><strong>Executive Director, ATMABISWAS</strong></p>
-                    <p>The founder and Executive Director of ATMABISWAS, Akramul Haque Biswas has dedicated his life to creating a world where justice, equality, and environmental harmony are realities for all. His leadership and vision continue to inspire and empower communities through sustainable development and advocacy.</p>
+                    <p>As founder and Executive Director, Akramul Haque Biswas has guided ATMABISWAS since its earliest days, shaping its mission around justice, equality, and environmental harmony. His vision continues to steer the organization's strategy, partnerships, and long-term commitment to the communities it serves.</p>
                 </div>
             </div>
 
@@ -44,14 +44,14 @@
                     <img src="generalbody/malaka.jpg?v=<?php echo filemtime(__DIR__ . '/generalbody/malaka.jpg'); ?>" loading="lazy" alt="Malaka Parvin">
                     <h2>Malaka Parvin</h2>
                     <p><strong>Deputy Executive Director, ATMABISWAS</strong></p>
-                    <p>The founder and Deputy Executive Director of ATMABISWAS, Malaka Parvin has dedicated his life to creating a world where justice, equality, and environmental harmony are realities for all. His leadership and vision continue to inspire and empower communities through sustainable development and advocacy.</p>
+                    <p>Co-founder and Deputy Executive Director Malaka Parvin oversees the day-to-day running of ATMABISWAS's programs, turning the organization's mission into action on the ground. Her focus on operational excellence and community engagement keeps development work grounded and accountable.</p>
                 </div>
 
                 <div class="executive-card">
                     <img src="Executives/ddsir.jpg?v=<?php echo filemtime(__DIR__ . '/Executives/ddsir.jpg'); ?>" loading="lazy" alt="Rafiqul Hasan Joarder">
                     <h2>Rafiqul Hasan Joarder</h2>
                     <p><strong>Director, ATMABISWAS</strong></p>
-                    <p>Rafiqul Hasan Joarder plays a key role in strategic planning, operational management, and policy implementation at ATMABISWAS. His dedication to sustainable development and financial inclusion has helped countless individuals and communities thrive.</p>
+                    <p>As Director, Rafiqul Hasan Joarder leads policy implementation and strategic planning across ATMABISWAS's programs. His work bridges financial inclusion initiatives with broader development goals, helping translate organizational strategy into measurable community impact.</p>
                 </div>
             </div>
         </section>
