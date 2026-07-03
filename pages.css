@@ -336,18 +336,19 @@ img { max-width: 100%; height: auto; }
   max-height: unset;
 }
 
-/* ── Senior Management: profile grid ────────────── */
+/* ── Senior Management: Assistant Director profile grid ─ */
 .profile-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
+  max-width: 900px;
+  margin: 0 auto 2rem;
 }
 
 .profile {
   background: var(--card);
   border-radius: var(--radius);
-  padding: 1.5rem;
+  padding: 1.75rem;
   text-align: center;
   box-shadow: var(--shadow);
   border: 1px solid var(--border);
@@ -360,24 +361,24 @@ img { max-width: 100%; height: auto; }
 }
 
 .profile img {
-  width: 130px;
-  height: 130px;
+  width: 150px;
+  height: 150px;
   border-radius: 10px;
   object-fit: cover;
   border: 3px solid var(--accent);
-  margin: 0 auto 1rem;
+  margin: 0 auto 1.2rem;
   display: block;
 }
 
 .profile h2 {
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: var(--primary);
   font-weight: 700;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 .profile p {
-  font-size: 0.88rem;
+  font-size: 0.95rem;
   color: var(--muted);
   font-weight: 600;
 }
@@ -839,6 +840,7 @@ img { max-width: 100%; height: auto; }
   .services       { grid-template-columns: 1fr; }
   .video-section  { grid-template-columns: 1fr; }
   .segment > .card-grid { padding: 1rem; }
+  .profile-grid   { grid-template-columns: repeat(2, 1fr); max-width: 640px; }
 }
 
 @media (max-width: 480px) {
@@ -848,6 +850,7 @@ img { max-width: 100%; height: auto; }
   .card-grid-2     { grid-template-columns: 1fr; }
   .executive-card  { padding: 1.25rem; }
   .segment > .card-grid { grid-template-columns: 1fr; }
+  .profile-grid    { grid-template-columns: 1fr; max-width: 320px; }
 }
 
 @media (max-width: 380px) {
@@ -859,7 +862,7 @@ img { max-width: 100%; height: auto; }
   .page-hero p     { font-size: 0.9rem; }
   .founder-details { padding: 1rem; }
   .founder-details h2 { font-size: 1.4rem; }
-  .profile-grid    { grid-template-columns: 1fr 1fr; }
+  .profile-grid    { grid-template-columns: 1fr; max-width: 280px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
