@@ -115,7 +115,7 @@
 /* Breadcrumb */
 .err-breadcrumb {
     font-size: .82rem;
-    color: #94a3b8;
+    color: #64748b; /* #94a3b8 measured 2.56:1 on white — fails WCAG AA; this passes at 4.76:1 */
     margin-bottom: 1.5rem;
 }
 
@@ -204,7 +204,7 @@
 .err-quote {
     font-size: .87rem;
     font-style: italic;
-    color: #0073e6;
+    color: #0a5cb8; /* #0073e6 measured 4.20:1 on this bg — fails WCAG AA; this passes at 5.96:1 */
     background: #eff6ff;
     border-left: 3px solid #0073e6;
     border-radius: 8px;

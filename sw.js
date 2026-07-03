@@ -53,9 +53,13 @@ const PRECACHE_URLS = [
 ];
 
 // Paths that must never be intercepted at all — always straight to
-// the network, no caching, no offline fallback substitution. Covers
-// login and the admin dashboard/career-review area.
-const NEVER_INTERCEPT_PREFIXES = ['/backend/'];
+// the network, no caching, no offline fallback substitution.
+//   /backend/ — login, admin dashboard, career/blog admin actions
+//   /uploads/ — user-submitted content (CVs in application_cvs/,
+//               blog images, notice PDFs) — real people's personal
+//               documents; these must never be retained in a
+//               visitor's local Cache Storage indefinitely.
+const NEVER_INTERCEPT_PREFIXES = ['/backend/', '/uploads/'];
 
 // Extensions treated as safe, static, cache-first assets.
 const STATIC_ASSET_RE = /\.(css|js|png|jpe?g|gif|svg|webp|woff2?|ttf|otf|ico)$/i;

@@ -1,4 +1,25 @@
 # ----------------------------------------
+# ✅ OUTPUT BUFFERING (fixes session_start() after output)
+# Fixes: Navbar.php calls session_start() partway through a page (after
+# the calling page's own <!DOCTYPE>/<head> HTML has already been echoed),
+# which fails silently — session_start() needs to send a Set-Cookie
+# header, which is impossible once body output has actually been sent.
+#
+# Tried and rejected: `php_value output_buffering "On"` — on this
+# LiteSpeed/LSAPI setup the ini value applies (ini_get reflects it) but
+# does NOT actually start an implicit buffer (ob_get_level() stayed 0).
+# A fixed byte count like "4096" does start a buffer, but auto-flushes
+# once a page's <head> exceeds that size — which real pages here do —
+# silently reintroducing the bug later in the page instead of fixing it.
+#
+# What actually works: auto_prepend_file running an explicit ob_start()
+# call before any page code executes. Verified end-to-end against the
+# real index.php (Set-Cookie now present, session_id populated) before
+# applying here.
+# ----------------------------------------
+php_value auto_prepend_file "/home/u106340611/domains/atmabiswas.org/public_html/ob-init.php"
+
+# ----------------------------------------
 # ✅ GZIP COMPRESSION
 # ----------------------------------------
 <IfModule mod_deflate.c>

@@ -57,5 +57,5 @@ function getData() {
         container.appendChild(link);
       });
     })
-    .catch((e) => console.log(e));
+    .catch((e) => console.error('Failed to load branch locations:', e));
 }
