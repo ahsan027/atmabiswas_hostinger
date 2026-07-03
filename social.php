@@ -135,7 +135,7 @@
                     </div>
                 </div>
                 <div class="card">
-                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="ATMABISWAS Daycare">
+                    <img src="LOGO/NGO_logo_monogram.png?v=<?php echo filemtime(__DIR__ . '/LOGO/NGO_logo_monogram.png'); ?>" loading="lazy" alt="ATMABISWAS Daycare">
                     <div class="card-content">
                         <h3>ATMABISWAS Daycare</h3>
                     </div>
@@ -151,19 +151,19 @@
             </div>
             <div class="card-grid">
                 <div class="card">
-                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="ATMABISWAS Pathshala">
+                    <img src="LOGO/NGO_logo_monogram.png?v=<?php echo filemtime(__DIR__ . '/LOGO/NGO_logo_monogram.png'); ?>" loading="lazy" alt="ATMABISWAS Pathshala">
                     <div class="card-content">
                         <h3>ATMABISWAS Pathshala</h3>
                     </div>
                 </div>
                 <div class="card">
-                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="ATMABISWAS Pathshala">
+                    <img src="LOGO/NGO_logo_monogram.png?v=<?php echo filemtime(__DIR__ . '/LOGO/NGO_logo_monogram.png'); ?>" loading="lazy" alt="ATMABISWAS Pathshala">
                     <div class="card-content">
                         <h3>ATMABISWAS Pathshala</h3>
                     </div>
                 </div>
                 <div class="card">
-                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="ATMABISWAS Pathshala">
+                    <img src="LOGO/NGO_logo_monogram.png?v=<?php echo filemtime(__DIR__ . '/LOGO/NGO_logo_monogram.png'); ?>" loading="lazy" alt="ATMABISWAS Pathshala">
                     <div class="card-content">
                         <h3>ATMABISWAS Pathshala</h3>
                     </div>
@@ -179,31 +179,31 @@
             </div>
             <div class="card-grid">
                 <div class="card">
-                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Compassionate Care">
+                    <img src="LOGO/NGO_logo_monogram.png?v=<?php echo filemtime(__DIR__ . '/LOGO/NGO_logo_monogram.png'); ?>" loading="lazy" alt="Compassionate Care">
                     <div class="card-content">
                         <h3>Compassionate Care &amp; Support</h3>
                     </div>
                 </div>
                 <div class="card">
-                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Compassionate Care">
+                    <img src="LOGO/NGO_logo_monogram.png?v=<?php echo filemtime(__DIR__ . '/LOGO/NGO_logo_monogram.png'); ?>" loading="lazy" alt="Compassionate Care">
                     <div class="card-content">
                         <h3>Compassionate Care &amp; Support</h3>
                     </div>
                 </div>
                 <div class="card">
-                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Compassionate Care">
+                    <img src="LOGO/NGO_logo_monogram.png?v=<?php echo filemtime(__DIR__ . '/LOGO/NGO_logo_monogram.png'); ?>" loading="lazy" alt="Compassionate Care">
                     <div class="card-content">
                         <h3>Compassionate Care &amp; Support</h3>
                     </div>
                 </div>
                 <div class="card">
-                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Compassionate Care">
+                    <img src="LOGO/NGO_logo_monogram.png?v=<?php echo filemtime(__DIR__ . '/LOGO/NGO_logo_monogram.png'); ?>" loading="lazy" alt="Compassionate Care">
                     <div class="card-content">
                         <h3>Compassionate Care &amp; Support</h3>
                     </div>
                 </div>
                 <div class="card">
-                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Compassionate Care">
+                    <img src="LOGO/NGO_logo_monogram.png?v=<?php echo filemtime(__DIR__ . '/LOGO/NGO_logo_monogram.png'); ?>" loading="lazy" alt="Compassionate Care">
                     <div class="card-content">
                         <h3>Compassionate Care &amp; Support</h3>
                     </div>
@@ -219,31 +219,31 @@
             </div>
             <div class="card-grid">
                 <div class="card">
-                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Supporting Disabilities">
+                    <img src="LOGO/NGO_logo_monogram.png?v=<?php echo filemtime(__DIR__ . '/LOGO/NGO_logo_monogram.png'); ?>" loading="lazy" alt="Supporting Disabilities">
                     <div class="card-content">
                         <h3>Supporting Disabilities</h3>
                     </div>
                 </div>
                 <div class="card">
-                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Supporting Disabilities">
+                    <img src="LOGO/NGO_logo_monogram.png?v=<?php echo filemtime(__DIR__ . '/LOGO/NGO_logo_monogram.png'); ?>" loading="lazy" alt="Supporting Disabilities">
                     <div class="card-content">
                         <h3>Supporting Disabilities</h3>
                     </div>
                 </div>
                 <div class="card">
-                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Supporting Disabilities">
+                    <img src="LOGO/NGO_logo_monogram.png?v=<?php echo filemtime(__DIR__ . '/LOGO/NGO_logo_monogram.png'); ?>" loading="lazy" alt="Supporting Disabilities">
                     <div class="card-content">
                         <h3>Supporting Disabilities</h3>
                     </div>
                 </div>
                 <div class="card">
-                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Supporting Disabilities">
+                    <img src="LOGO/NGO_logo_monogram.png?v=<?php echo filemtime(__DIR__ . '/LOGO/NGO_logo_monogram.png'); ?>" loading="lazy" alt="Supporting Disabilities">
                     <div class="card-content">
                         <h3>Supporting Disabilities</h3>
                     </div>
                 </div>
                 <div class="card">
-                    <img src="LOGO/NGO_logo_monogram.png" loading="lazy" alt="Supporting Disabilities">
+                    <img src="LOGO/NGO_logo_monogram.png?v=<?php echo filemtime(__DIR__ . '/LOGO/NGO_logo_monogram.png'); ?>" loading="lazy" alt="Supporting Disabilities">
                     <div class="card-content">
                         <h3>Supporting Disabilities</h3>
                     </div>
