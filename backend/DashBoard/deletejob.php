@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (!isset($_SESSION['username'])) {
+    header("Location: ../login/loging.php");
+    exit();
+}
+
 include '../Database/db.php';
 
 $db = new Db();
