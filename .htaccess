@@ -26,6 +26,19 @@ RewriteCond %{HTTP_HOST} ^www\.atmabiswas\.org [NC]
 RewriteRule ^(.*)$ https://atmabiswas.org/$1 [L,R=301]
 
 # ----------------------------------------
+# ✅ MAINTENANCE MODE
+# To take the whole site down for planned maintenance, create an empty
+# file named ".maintenance" in this directory (public_html/). Every
+# request (except the branded 503 page and its static assets) will get
+# a real 503 status + the maintenance page below. Delete the file to go
+# back live — no other change needed.
+# ----------------------------------------
+RewriteCond %{DOCUMENT_ROOT}/.maintenance -f
+RewriteCond %{REQUEST_URI} !^/503\.php$
+RewriteCond %{REQUEST_URI} !\.(css|js|png|jpg|jpeg|gif|svg|webp|woff2?|ttf|ico|json)$
+RewriteRule ^ /503.php [L]
+
+# ----------------------------------------
 # ✅ FIX: photos/ (lowercase) → Photos/ (capital)
 # Linux servers are case-sensitive; old PHP files used lowercase path.
 # Unconditional 301 so browser always follows to the canonical URL,
@@ -103,6 +116,14 @@ ErrorDocument 503 /503.php
   <FilesMatch "\.(jpg|jpeg|png|gif|webp|css|js|woff2|woff|ttf|otf|svg|eot)$">
       Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
+
+  # Service worker script — must NEVER be cached long. Unlike other .js files
+  # this one isn't fingerprinted per-deploy, and browsers need to reliably
+  # see updates to it (offline-fallback logic) rather than serve a stale
+  # cached copy for up to a year like the rule above.
+  <Files "sw.js">
+      Header set Cache-Control "no-cache, must-revalidate"
+  </Files>
 
   # HTML and PHP — dynamic content fetched from DB, MUST NOT be cached.
   # "public, max-age=3600" was causing admin updates to stay invisible for up to

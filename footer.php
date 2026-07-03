@@ -80,6 +80,19 @@
 
 <script>
 (function () {
+    // Registers the offline-fallback service worker (see sw.js). Only
+    // helps on repeat visits — a browser can't run a worker it has never
+    // downloaded, so this can't help first-time visitors with no connection.
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+            navigator.serviceWorker.register('<?= SITE_ROOT ?>/sw.js').catch(function () {});
+        });
+    }
+}());
+</script>
+
+<script>
+(function () {
     var btn = document.getElementById('back-to-top');
     window.addEventListener('scroll', function () {
         btn.style.display = window.scrollY > 300 ? 'flex' : 'none';
