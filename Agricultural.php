@@ -72,7 +72,6 @@
             <p>Agriculture lies at the heart of ATMABISWAS's work in Bangladesh. Since our founding, the Agricultural Development Programme has stood alongside farming families in Chuadanga, across Khulna Division, and in the communities we serve in Dhaka and Rajshahi Division, helping them move from subsistence farming toward more secure, sustainable livelihoods.</p>
             <p>Our approach to agricultural development in Bangladesh combines practical, field-based training with access to better seeds, tools, and technical guidance. Rather than offering one-size-fits-all solutions, we work directly with farmers to understand local soil conditions, water availability, and market demand, then build support around what will genuinely improve their harvest and household income.</p>
             <p>As an agriculture NGO in Bangladesh working across diverse rural landscapes, we have learned that lasting change comes from partnership, not charity. Every training session, demonstration plot, and farmer group we support is designed to build local knowledge and confidence that continues long after our direct involvement ends.</p>
-            <p lang="bn">কৃষি উন্নয়ন আত্মবিশ্বাসের কাজের একটি অন্যতম গুরুত্বপূর্ণ অংশ। আমরা গ্রামীণ কৃষক পরিবারগুলোর পাশে থেকে টেকসই কৃষি চর্চা, প্রশিক্ষণ এবং বাজার সংযোগের মাধ্যমে তাদের জীবনযাত্রার মান ও গ্রামীণ উন্নয়নে কাজ করে যাচ্ছি।</p>
         </div>
 
         <div class="section">
@@ -162,17 +161,6 @@
             <p>Sustainable agriculture is about more than growing crops responsibly — it is about safeguarding the future of rural communities. When farming practices protect soil health and biodiversity, the land continues to produce reliable harvests season after season, which is essential for long-term food security in a country where a large share of families depend directly on agriculture.</p>
             <p>Climate resilience matters just as much. As rainfall patterns become less predictable and extreme weather more frequent, farmers who adopt climate smart agriculture techniques — such as improved water management, diversified cropping, and resilient seed varieties — are better able to protect their harvests and their income from shocks they cannot control.</p>
             <p>Beyond the field, sustainable agriculture supports broader community development and long-term economic growth. Healthier soil, stronger local food systems, and better-informed farmers create a foundation that benefits not just individual households but entire villages, helping rural development in Bangladesh move forward on solid ground.</p>
-        </div>
-
-        <div class="agri-cta">
-            <h2>Support Our Agricultural Work</h2>
-            <p>Farming communities across Bangladesh are working hard to build a more food-secure future. You can be part of that effort — learn more about our programmes, partner with ATMABISWAS, volunteer your time, or support rural development directly.</p>
-            <div class="agri-cta-actions">
-                <a href="aboutus.php" class="agri-cta-btn">Learn More</a>
-                <a href="contact.php" class="agri-cta-btn">Partner With Us</a>
-                <a href="contact.php" class="agri-cta-btn">Volunteer</a>
-                <a href="contact.php" class="agri-cta-btn">Support Rural Development</a>
-            </div>
         </div>
 
         <h3 class="gtext">Gallery</h3>
