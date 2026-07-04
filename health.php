@@ -102,6 +102,122 @@
             </p>
         </div>
 
+        <!-- Our Health Services -->
+        <div class="card">
+            <h2>Our Health Services</h2>
+            <p>As a health NGO in Bangladesh working alongside rural communities, ATMABISWAS offers a range of community health and nutrition programme activities designed to meet everyday health needs:</p>
+            <div class="services">
+                <div class="service-card">
+                    <i class="fa-solid fa-people-group" aria-hidden="true"></i>
+                    <h3>Community Health Awareness</h3>
+                    <p>Group sessions and outreach activities that build practical health knowledge at the community level.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fa-solid fa-person-breastfeeding" aria-hidden="true"></i>
+                    <h3>Maternal &amp; Child Health</h3>
+                    <p>Support and awareness for safe pregnancy, childbirth, and early childhood care.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fa-solid fa-apple-whole" aria-hidden="true"></i>
+                    <h3>Nutrition Education</h3>
+                    <p>Guidance on balanced diets and nutrition practices for families and young children.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fa-solid fa-syringe" aria-hidden="true"></i>
+                    <h3>Vaccination Awareness</h3>
+                    <p>Encouraging timely immunization and awareness of routine vaccination schedules.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fa-solid fa-hand-sparkles" aria-hidden="true"></i>
+                    <h3>Hygiene &amp; Sanitation</h3>
+                    <p>Promoting handwashing, safe waste disposal, and everyday hygiene practices.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fa-solid fa-droplet" aria-hidden="true"></i>
+                    <h3>Safe Drinking Water Awareness</h3>
+                    <p>Raising awareness of safe water handling and household water treatment.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fa-solid fa-child-reaching" aria-hidden="true"></i>
+                    <h3>Adolescent Health</h3>
+                    <p>Health education and awareness activities designed for adolescents and young people.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fa-solid fa-venus" aria-hidden="true"></i>
+                    <h3>Women's Health</h3>
+                    <p>Awareness and support activities focused on women's health needs across all life stages.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fa-solid fa-person-cane" aria-hidden="true"></i>
+                    <h3>Elderly Care Support</h3>
+                    <p>Awareness and support activities addressing the health needs of older community members.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fa-solid fa-brain" aria-hidden="true"></i>
+                    <h3>Mental Health Awareness</h3>
+                    <p>Reducing stigma and building basic awareness of mental health and wellbeing.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fa-solid fa-stethoscope" aria-hidden="true"></i>
+                    <h3>Health Screening Camps</h3>
+                    <p>Organizing community screening camps to help identify health concerns early.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fa-solid fa-chalkboard-user" aria-hidden="true"></i>
+                    <h3>Community Health Education</h3>
+                    <p>Ongoing education sessions that keep communities informed and engaged in their own health.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Programme Objectives -->
+        <div class="card">
+            <h2>Programme Objectives</h2>
+            <p>Through our health development programme, ATMABISWAS works toward a clear set of goals:</p>
+            <ul class="agri-objectives">
+                <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Improve community health awareness</li>
+                <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Promote preventive healthcare</li>
+                <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Reduce health risks through education</li>
+                <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Improve maternal and child wellbeing</li>
+                <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Encourage healthy lifestyles</li>
+                <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Increase access to basic health information</li>
+                <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Promote hygiene and sanitation</li>
+                <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Support healthier rural communities</li>
+            </ul>
+        </div>
+
+        <!-- Our Approach -->
+        <div class="card">
+            <h2>Our Approach</h2>
+            <p>ATMABISWAS's health programme is built on community participation rather than one-off interventions. We work with village health volunteers, community leaders, and local health workers to identify the most pressing health needs in each area, then design awareness and outreach activities around what communities themselves say they need most.</p>
+            <p>Health education sits at the centre of everything we do. Through group sessions, household visits, and demonstration-based training, we help families understand practical steps they can take to protect their health — from safe drinking water practices to recognizing early warning signs of illness. Volunteer engagement extends this reach further, allowing trained community members to continue sharing health knowledge long after a specific campaign ends.</p>
+            <p>We also value local partnerships and capacity building, working alongside existing health facilities, local government structures, and other community development organizations wherever possible rather than duplicating services. This sustainable, community-based approach is intended to leave communities better equipped to manage their own health going forward, not dependent on continued outside support.</p>
+        </div>
+
+        <!-- Key Focus Areas -->
+        <div class="card">
+            <h2>Key Focus Areas</h2>
+            <p>Our health development programme concentrates on a set of priority areas identified together with the communities we serve:</p>
+            <ul class="tag-pill-list">
+                <li>Health Awareness Campaigns</li>
+                <li>Nutrition Promotion</li>
+                <li>Safe Motherhood</li>
+                <li>Child Health</li>
+                <li>Water, Sanitation &amp; Hygiene (WASH)</li>
+                <li>Disease Prevention</li>
+                <li>Community Outreach</li>
+                <li>Rural Healthcare Support</li>
+            </ul>
+        </div>
+
+        <!-- Why Community Health Matters -->
+        <div class="card">
+            <h2>Why Community Health Matters</h2>
+            <p>Prevention is almost always more effective, and more affordable, than treating illness after it has already taken hold. Simple, well-understood practices — safe drinking water, proper hygiene, timely vaccination, balanced nutrition — can prevent many of the illnesses that place the greatest burden on rural families and the limited health services available to them.</p>
+            <p>Healthy communities are also stronger communities in every other sense. When people are not repeatedly falling ill, children attend school more consistently, adults are able to work and earn a stable income, and households are better able to invest in their own future rather than spending scarce resources on preventable health problems. In this way, community health is closely connected to education, livelihoods, and broader economic development.</p>
+            <p>Awareness and early intervention make a real difference here. Recognizing symptoms early, understanding when and where to seek care, and knowing basic preventive practices can be the difference between a manageable health issue and a serious one. ATMABISWAS's public health programme in Bangladesh focuses on building this awareness so that communities are better prepared, today and over the long term, to protect their own wellbeing.</p>
+        </div>
+
         <!-- Gallery Section -->
         <div class="card">
             <h2>Gallery</h2>

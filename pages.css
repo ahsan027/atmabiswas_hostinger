@@ -412,6 +412,14 @@ img { max-width: 100%; height: auto; }
   display: block;
 }
 
+/* Icon variant — used when a service-card has no photo */
+.service-card > i {
+  display: block;
+  color: var(--accent);
+  font-size: 1.6rem;
+  padding: 1.2rem 1rem 0;
+}
+
 .service-card h3 {
   color: var(--primary);
   font-size: 1rem;
@@ -898,6 +906,25 @@ img { max-width: 100%; height: auto; }
   border-radius: 999px;
   padding: 0.45rem 1rem;
   font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* ── Tag/pill list (light background — program pages) ───── */
+.tag-pill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  list-style: none;
+  margin-top: 0.5rem;
+}
+
+.tag-pill-list li {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--primary);
+  border-radius: 999px;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.87rem;
   font-weight: 600;
 }
 
