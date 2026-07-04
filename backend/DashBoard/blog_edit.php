@@ -460,6 +460,10 @@ body { background:#f5f7fa; font-family:system-ui,-apple-system,'Segoe UI',sans-s
 
     tinymce.init({
         selector: '#contentEditor',
+        // Self-hosted, open-source (GPL) use — required since TinyMCE 6+
+        // or the editor disables itself with a license-key warning.
+        // See: https://www.tiny.cloud/docs/tinymce/latest/license-key/
+        license_key: 'gpl',
         plugins: 'advlist autolink lists link image charmap preview anchor searchreplace ' +
                  'visualblocks code fullscreen insertdatetime media table help wordcount ' +
                  'codesample directionality emoticons nonbreaking atmachecklist',
@@ -485,6 +489,7 @@ body { background:#f5f7fa; font-family:system-ui,-apple-system,'Segoe UI',sans-s
 
     tinymce.init({
         selector: '#summaryEditor',
+        license_key: 'gpl',
         plugins: 'link lists autolink wordcount',
         toolbar: 'bold italic underline | bullist numlist | link | removeformat',
         menubar: false,

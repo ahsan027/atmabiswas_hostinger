@@ -473,6 +473,10 @@ $cat_options = [
 
         window.tinymce.init({
             selector: '#contentEditor',
+            // Self-hosted, open-source (GPL) use — required since TinyMCE 6+
+            // or the editor disables itself with a license-key warning.
+            // See: https://www.tiny.cloud/docs/tinymce/latest/license-key/
+            license_key: 'gpl',
             plugins: sharedPlugins,
             toolbar: contentToolbar,
             toolbar_sticky: true,
@@ -497,6 +501,7 @@ $cat_options = [
 
         window.tinymce.init({
             selector: '#summaryEditor',
+            license_key: 'gpl',
             plugins: 'link lists autolink wordcount',
             toolbar: 'bold italic underline | bullist numlist | link | removeformat',
             menubar: false,
