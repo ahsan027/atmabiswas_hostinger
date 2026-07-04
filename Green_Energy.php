@@ -30,8 +30,7 @@
     <div class="ge2-section">
 
         <div class="ge2-intro">
-            <span class="ge2-eyebrow">Green Energy Bangladesh</span>
-            <h2>Cleaner Energy for a Stronger Bangladesh</h2>
+            <h2>Cleaner energy for a stronger Bangladesh</h2>
             <p class="ge2-lead">Two ATMABISWAS initiatives are changing how rural households cook, light, and power their daily lives. Bondhu Chula replaces open-fire cooking with a cleaner, more efficient stove, while Souro Shokti brings dependable solar electricity to communities beyond the national grid — practical, community-owned steps toward sustainable development in Bangladesh.</p>
         </div>
 
@@ -40,17 +39,10 @@
                 <img src="Bondhu Chula/bondhu_chula1.jpg" loading="lazy" alt="ATMABISWAS Bondhu Chula clean cookstove programme in rural Bangladesh">
             </div>
             <div class="ge2-feature-text">
-                <span class="ge2-index">01</span>
-                <span class="ge2-tag">Clean Cooking Solution</span>
                 <h3>Bondhu Chula</h3>
+                <p class="ge2-kicker">ATMABISWAS's clean cooking initiative</p>
                 <p>A modern, fuel-efficient cookstove built to replace open-fire cooking. Bondhu Chula cuts indoor smoke, protects family health, and eases the daily burden on household budgets and local forests.</p>
-                <ul class="ge2-list">
-                    <li><span class="ge2-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span> Reduces indoor air pollution</li>
-                    <li><span class="ge2-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span> Saves fuel</li>
-                    <li><span class="ge2-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span> Improves family health</li>
-                    <li><span class="ge2-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span> Environment friendly</li>
-                    <li><span class="ge2-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span> Supports rural households</li>
-                </ul>
+                <p class="ge2-facts">Reduces indoor air pollution · Saves fuel · Improves family health · Environment friendly · Supports rural households</p>
             </div>
         </div>
 
@@ -59,17 +51,10 @@
                 <img src="Bondhu Chula/bondhu_chula8.jpg" loading="lazy" alt="ATMABISWAS Souro Shokti solar energy programme in rural Bangladesh">
             </div>
             <div class="ge2-feature-text">
-                <span class="ge2-index">02</span>
-                <span class="ge2-tag">Solar Energy</span>
                 <h3>Souro Shokti</h3>
-                <p>Reliable solar power for communities beyond the reach of the national grid. Souro Shokti (সৌর শক্তি) brings renewable electricity to rural Bangladesh — lighting homes, powering small businesses, and reducing dependence on fossil fuels.</p>
-                <ul class="ge2-list">
-                    <li><span class="ge2-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span> Renewable energy</li>
-                    <li><span class="ge2-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span> Affordable electricity</li>
-                    <li><span class="ge2-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span> Climate-friendly solution</li>
-                    <li><span class="ge2-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span> Rural electrification</li>
-                    <li><span class="ge2-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span> Sustainable future</li>
-                </ul>
+                <p class="ge2-kicker">ATMABISWAS's solar energy initiative &middot; সৌর শক্তি</p>
+                <p>Dependable, renewable electricity for communities beyond the reach of the national grid. Souro Shokti lights homes, powers small businesses, and reduces dependence on fossil fuels.</p>
+                <p class="ge2-facts">Renewable energy · Affordable electricity · Climate-friendly solution · Rural electrification · Sustainable future</p>
             </div>
         </div>
 

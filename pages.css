@@ -789,74 +789,56 @@ img { max-width: 100%; height: auto; }
 
 /* ══════════════════════════════════════════════════
    Green Energy — editorial showcase (Bondhu Chula /
-   Souro Shokti). Sans-serif is used only for the small
-   uppercase labels; headings and body copy stay in the
-   site's own serif so the section reads as ATMABISWAS,
-   not a foreign template.
+   Souro Shokti). Deliberately restrained: one typeface
+   family throughout (the site's own serif), no badges,
+   no icon chips, no colour-tinted shadows — the
+   photography and the copy carry the section.
    ══════════════════════════════════════════════════ */
 .ge2-section {
-  max-width: 1160px;
+  max-width: 1040px;
   margin: 0 auto;
   padding: clamp(3rem, 6vw, 5.5rem) 1.5rem clamp(2.5rem, 5vw, 4rem);
 }
 
-.ge2-intro {
-  max-width: 700px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-.ge2-eyebrow {
-  display: inline-block;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  font-size: 0.76rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 1rem;
-}
-
 .ge2-intro h2 {
-  font-size: clamp(1.9rem, 4vw, 2.7rem);
+  font-size: clamp(2rem, 4.2vw, 2.9rem);
   font-weight: 700;
   color: var(--primary);
-  line-height: 1.2;
-  letter-spacing: -0.01em;
+  line-height: 1.18;
+  letter-spacing: -0.015em;
   text-wrap: balance;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.4rem;
+  max-width: 14ch;
 }
 
 .ge2-lead {
-  text-align: left;
   font-size: 1.12rem;
   color: var(--text);
   line-height: 1.95;
+  max-width: 62ch;
 }
 
 /* ── Alternating feature rows ─────────────────────── */
 .ge2-feature {
   display: grid;
-  grid-template-columns: 1.05fr 1fr;
-  gap: clamp(2rem, 5vw, 4.5rem);
-  align-items: center;
-  padding: clamp(3rem, 6vw, 4.5rem) 0;
+  grid-template-columns: 1.1fr 1fr;
+  gap: clamp(2.5rem, 6vw, 5rem);
+  align-items: start;
+  padding: clamp(3.5rem, 7vw, 5rem) 0;
 }
 
 .ge2-feature:not(:first-of-type) {
   border-top: 1px solid var(--border);
 }
 
-.ge2-feature--reverse { grid-template-columns: 1fr 1.05fr; }
+.ge2-feature--reverse { grid-template-columns: 1fr 1.1fr; }
 .ge2-feature--reverse .ge2-feature-media { order: 2; }
 .ge2-feature--reverse .ge2-feature-text  { order: 1; }
 
 .ge2-feature-media {
-  position: relative;
-  aspect-ratio: 4 / 3;
-  border-radius: 22px;
+  aspect-ratio: 3 / 2;
   overflow: hidden;
-  box-shadow: 0 25px 50px -20px rgba(30, 58, 95, 0.35);
+  border: 1px solid var(--border);
 }
 
 .ge2-feature-media img {
@@ -864,91 +846,57 @@ img { max-width: 100%; height: auto; }
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.ge2-feature-media:hover img { transform: scale(1.06); }
+.ge2-feature-media:hover img { transform: scale(1.04); }
 
-.ge2-index {
-  display: block;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--border);
-  margin-bottom: 0.9rem;
-}
-
-.ge2-tag {
-  display: inline-block;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  font-size: 0.76rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 0.7rem;
-}
+.ge2-feature-text { padding-top: 0.4rem; }
 
 .ge2-feature-text h3 {
-  font-size: clamp(1.5rem, 3vw, 1.9rem);
+  font-size: clamp(1.6rem, 3vw, 2rem);
   font-weight: 700;
   color: var(--primary);
-  margin-bottom: 0.9rem;
+  margin-bottom: 0.3rem;
   letter-spacing: -0.01em;
+}
+
+.ge2-kicker {
+  font-size: 0.92rem;
+  color: var(--muted);
+  font-style: italic;
+  margin-bottom: 1.1rem;
 }
 
 .ge2-feature-text > p {
   font-size: 1rem;
   color: var(--text);
   line-height: 1.85;
-  max-width: 46ch;
-  margin-bottom: 1.6rem;
+  max-width: 48ch;
+  margin-bottom: 1.5rem;
 }
 
-.ge2-list {
-  list-style: none;
-  margin-bottom: 1.8rem;
+.ge2-facts {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 2;
+  max-width: 48ch;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--border);
 }
-
-.ge2-list li {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-size: 0.95rem;
-  color: var(--text);
-  padding: 0.5rem 0;
-}
-
-.ge2-list li:not(:last-child) { border-bottom: 1px solid var(--border); }
-
-.ge2-check {
-  flex-shrink: 0;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  border: 1.5px solid var(--accent);
-  color: var(--accent);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.ge2-check svg { width: 10px; height: 10px; }
 
 .ge2-closing {
   text-align: center;
   max-width: 480px;
-  margin: 1rem auto 0;
+  margin: 0 auto;
   padding-top: clamp(2.5rem, 5vw, 3.5rem);
-  border-top: 1px solid var(--border);
-  font-size: 1rem;
-  font-style: italic;
+  font-size: 0.95rem;
   color: var(--muted);
   line-height: 1.7;
 }
 
 @media (max-width: 900px) {
+  .ge2-intro h2 { max-width: none; }
   .ge2-feature,
   .ge2-feature--reverse {
     grid-template-columns: 1fr;
