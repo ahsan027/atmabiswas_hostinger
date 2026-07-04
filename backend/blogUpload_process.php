@@ -87,7 +87,10 @@ try {
   $finfo      = new finfo(FILEINFO_MIME_TYPE);
   $mime       = $finfo->file($thumb_file['tmp_name']);
 
-  if (!in_array($mime, ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'], true)) {
+  // Maps a validated MIME type to the extension we save with — never
+  // taken from the attacker-supplied filename.
+  $allowedThumbTypes = ['image/jpeg' => 'jpg', 'image/jpg' => 'jpg', 'image/png' => 'png', 'image/webp' => 'webp'];
+  if (!array_key_exists($mime, $allowedThumbTypes)) {
     throw new Exception('Thumbnail must be a JPG, PNG, or WebP image.');
   }
 
@@ -98,8 +101,8 @@ try {
   $uploadDir = __DIR__ . '/../uploads/blog_imgs/';
   if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
 
-  $ext      = strtolower(pathinfo($thumb_file['name'], PATHINFO_EXTENSION));
-  $filename = 'PRESS_' . date('Ymd') . '_' . random_int(1000, 9999) . '.' . $ext;
+  $ext      = $allowedThumbTypes[$mime];
+  $filename = 'PRESS_' . bin2hex(random_bytes(16)) . '.' . $ext;
   $dest     = $uploadDir . $filename;
 
   if (!move_uploaded_file($thumb_file['tmp_name'], $dest)) {

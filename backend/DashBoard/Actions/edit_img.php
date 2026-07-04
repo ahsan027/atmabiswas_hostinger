@@ -50,14 +50,16 @@ if ($hasNewFile) {
     $finfo    = new finfo(FILEINFO_MIME_TYPE);
     $mimeType = $finfo->file($imageFile['tmp_name']);
 
-    if (!in_array($mimeType, ['image/jpeg', 'image/png'], true)) {
+    // Maps a validated MIME type to the extension we save with — never
+    // taken from the attacker-supplied filename.
+    $allowedImgTypes = ['image/jpeg' => 'jpg', 'image/png' => 'png'];
+    if (!array_key_exists($mimeType, $allowedImgTypes)) {
         echo json_encode(['error' => 'Only JPG and PNG images are allowed']);
         exit();
     }
 
-    $ext      = strtolower(pathinfo($imageFile['name'], PATHINFO_EXTENSION));
-    $slug     = preg_replace('/[^a-zA-Z0-9]/', '', explode(' ', $img_title)[0]);
-    $filename = 'PHOTO_' . $slug . date('Ymd') . '_' . random_int(1000, 9999) . '.' . $ext;
+    $ext      = $allowedImgTypes[$mimeType];
+    $filename = 'PHOTO_' . bin2hex(random_bytes(16)) . '.' . $ext;
 
     $rootDir   = dirname(dirname(dirname(__DIR__)));
     $uploadDir = $rootDir . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . 'images';

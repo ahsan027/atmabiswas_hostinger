@@ -1,5 +1,10 @@
 <?php
 
+session_start();
+if (!isset($_SESSION['username'])) {
+    header("Location: backend/login/loging.php");
+    exit();
+}
 
 include 'backend/Database/db.php';
 
@@ -28,7 +33,7 @@ function processPdf($pdfFile, $maxSize, $allowedTypes, $uploadDir)
         exit();
     }
 
-    if (!in_array($mimetype, $allowedTypes)) {
+    if (!array_key_exists($mimetype, $allowedTypes)) {
         echo "<p>Invalid File Type</p>";
         exit();
     }
@@ -38,9 +43,9 @@ function processPdf($pdfFile, $maxSize, $allowedTypes, $uploadDir)
         exit();
     }
 
-    $ext = pathinfo($pdfFile["name"], PATHINFO_EXTENSION);
+    $ext = $allowedTypes[$mimetype];
 
-    $newFileName = "Notice_" . explode(" ", $_POST['pdf_title'])[0] . "_" . date("Y-m-d") . "_" . random_int(0, 100) . "." . $ext;
+    $newFileName = "Notice_" . bin2hex(random_bytes(16)) . "." . $ext;
 
     $target = $uploadDir . $newFileName;
 
@@ -56,7 +61,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     try {
 
         $maxSize = 10 * 1024 * 1024;
-        $allowedTypes = ["application/pdf"];
+        // Maps a validated MIME type to the extension we save with — never
+        // taken from the attacker-supplied filename.
+        $allowedTypes = ["application/pdf" => "pdf"];
         $uploadDir = "uploads/pdfs/";
 
         $pdfFile = $_FILES["pdf_file"];

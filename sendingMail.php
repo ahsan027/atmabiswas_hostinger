@@ -24,7 +24,7 @@ function processPdf($pdfFile, $maxSize, $allowedTypes, $uploadDir)
     $fileInfo = new finfo(FILEINFO_MIME_TYPE);
     $mimetype = $fileInfo->file($pdfFile["tmp_name"]);
 
-    if (!in_array($mimetype, $allowedTypes)) {
+    if (!array_key_exists($mimetype, $allowedTypes)) {
         echo "<p>Invalid file type.</p>";
         exit();
     }
@@ -34,9 +34,9 @@ function processPdf($pdfFile, $maxSize, $allowedTypes, $uploadDir)
         exit();
     }
 
-    $ext = pathinfo($pdfFile["name"], PATHINFO_EXTENSION);
+    $ext = $allowedTypes[$mimetype];
     $safeName = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $_POST['fullname'] ?? 'Anonymous');
-    $newFileName = "CvApplication_{$safeName}_" . date("Y-m-d") . "_" . random_int(1000, 9999) . "." . $ext;
+    $newFileName = "CvApplication_{$safeName}_" . bin2hex(random_bytes(16)) . "." . $ext;
 
     $target = $uploadDir . $newFileName;
     if (!move_uploaded_file($pdfFile["tmp_name"], $target)) {
@@ -61,7 +61,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit();
     }
 
-    $allowedTypes = ["application/pdf"];
+    // Maps a validated MIME type to the extension we save with — never
+    // taken from the attacker-supplied filename.
+    $allowedTypes = ["application/pdf" => "pdf"];
     $maxSize = 5 * 1024 * 1024; // 5 MB
     $cvFile = processPdf($_FILES["cvfile"], $maxSize, $allowedTypes, $uploadDir);
 

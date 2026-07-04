@@ -1,11 +1,19 @@
 <?php
+session_start();
+if (!isset($_SESSION['username'])) {
+    header("Location: backend/login/loging.php");
+    exit();
+}
+
 include 'backend/Database/db.php';
 
 $db         = new Db();
 $connection = $db->connect();
 
 $uploadDir    = "uploads/images/";
-$allowedTypes = ['image/jpg', 'image/jpeg', 'image/png'];
+// Maps a validated MIME type to the extension we save with — the saved
+// file's extension is never taken from the attacker-supplied filename.
+$allowedTypes = ['image/jpeg' => 'jpg', 'image/png' => 'png'];
 $imageSize    = 2 * 1024 * 1024;
 
 if (!file_exists($uploadDir)) {
@@ -40,14 +48,13 @@ function processFile($imageFile, $allowedTypes, $imageSize, $uploadDir)
         exit();
     }
 
-    if (!in_array($mimeType, $allowedTypes)) {
+    if (!array_key_exists($mimeType, $allowedTypes)) {
         echo "<p>Invalid file format. Only JPG and PNG are allowed.</p>";
         exit();
     }
 
-    $ext    = pathinfo($imageFile['name'], PATHINFO_EXTENSION);
-    $date   = date("Y-m-d");
-    $new    = "PHOTO_" . explode(" ", $_POST['img_title'])[0] . $date . "_" . random_int(1, 1000) . "." . $ext;
+    $ext    = $allowedTypes[$mimeType];
+    $new    = "PHOTO_" . bin2hex(random_bytes(16)) . "." . $ext;
     $target = $uploadDir . $new;
 
     if (!move_uploaded_file($imageFile['tmp_name'], $target)) {
