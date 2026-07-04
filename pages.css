@@ -825,6 +825,72 @@ img { max-width: 100%; height: auto; }
   padding: 0.5rem 1.5rem 1.5rem !important;
 }
 
+/* ── Health: ATMABISWAS Hospital section (centered) ─────── */
+.hospital-section > h2 {
+  text-align: center;
+  padding-bottom: 0.9rem;
+  position: relative;
+}
+
+.hospital-section > h2::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 44px;
+  height: 3px;
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+.hospital-section > p.lead {
+  text-align: center;
+  font-size: 1.08rem;
+  color: var(--text);
+  max-width: 640px;
+  margin: 0 auto;
+  line-height: 1.9;
+}
+
+.hospital-section .video-single-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 0 1.5rem 0.5rem;
+}
+
+.hospital-section .video-single {
+  width: 100%;
+  max-width: 640px;
+  background: var(--card);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  transition: var(--ease);
+}
+
+.hospital-section .video-single:hover {
+  box-shadow: var(--shadow-h);
+  transform: translateY(-4px);
+}
+
+.hospital-section .video-single iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  border: none;
+  display: block;
+}
+
+.hospital-section .extra-info {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto;
+  border-top: 1px solid var(--border);
+  padding-top: 1.3rem !important;
+}
+
 /* ── Agriculture: support services icon grid ────── */
 .agri-support-grid {
   display: grid;
@@ -1039,5 +1105,6 @@ img { max-width: 100%; height: auto; }
   .pic img,
   .agri-support-item,
   .agri-cta-btn,
+  .video-single,
   .work-video-card { transition: none; transform: none !important; }
 }

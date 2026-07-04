@@ -85,12 +85,12 @@
         </div>
 
         <!-- ATMABISWAS Hospital Section -->
-        <div class="card">
+        <div class="card hospital-section">
             <h2>Contribution of ATMABISWAS Hospital</h2>
-            <p>ATMABISWAS Hospital is a beacon of hope—offering comprehensive healthcare services with modern
+            <p class="lead">ATMABISWAS Hospital is a beacon of hope—offering comprehensive healthcare services with modern
                 facilities, a dedicated team, and free medical care for rural areas.</p>
-            <div class="video-section">
-                <div class="video-card">
+            <div class="video-single-wrap">
+                <div class="video-single">
                     <iframe src="https://www.youtube.com/embed/nxDIwvOqTVg?si=1dpKSHrijinmh8_L"
                         allowfullscreen></iframe>
                 </div>
