@@ -817,6 +817,138 @@ img { max-width: 100%; height: auto; }
   padding: 0.5rem 1.5rem 1.5rem !important;
 }
 
+/* ── Agriculture: support services icon grid ────── */
+.agri-support-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.agri-support-item {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  padding: 1.4rem 1.2rem;
+  transition: var(--ease);
+}
+
+.agri-support-item:hover {
+  box-shadow: var(--shadow-h);
+  transform: translateY(-5px);
+}
+
+.agri-support-item i {
+  color: var(--accent);
+  font-size: 1.6rem;
+  margin-bottom: 0.7rem;
+  display: block;
+}
+
+.agri-support-item h4 {
+  color: var(--primary);
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+
+.agri-support-item p {
+  color: var(--muted);
+  font-size: 0.87rem;
+  line-height: 1.6;
+}
+
+/* ── Agriculture: objectives checklist ──────────── */
+.agri-objectives {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.9rem 1.5rem;
+  list-style: none;
+  margin-top: 0.5rem;
+}
+
+.agri-objectives li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  color: var(--text);
+  font-size: 0.96rem;
+  line-height: 1.6;
+}
+
+.agri-objectives li i {
+  color: var(--accent);
+  font-size: 1rem;
+  margin-top: 0.25rem;
+}
+
+/* ── Agriculture: impact highlights (inside .info-section) ─ */
+.info-highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.2rem;
+  list-style: none;
+}
+
+.info-highlights li {
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  padding: 0.45rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* ── Agriculture: call-to-action band ───────────── */
+.agri-cta {
+  background: linear-gradient(135deg, #1e3a5f, #0073e6);
+  border-radius: var(--radius);
+  padding: 2.5rem 2rem;
+  text-align: center;
+  color: #fff;
+  margin-bottom: 2rem;
+}
+
+.agri-cta h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+}
+
+.agri-cta p {
+  font-size: 0.97rem;
+  opacity: 0.92;
+  max-width: 640px;
+  margin: 0 auto 1.5rem;
+  line-height: 1.75;
+}
+
+.agri-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+.agri-cta-btn {
+  display: inline-block;
+  background: #fff;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.92rem;
+  padding: 0.7rem 1.5rem;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: var(--ease);
+}
+
+.agri-cta-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+}
+
 /* ── Responsive ─────────────────────────────────── */
 @media (max-width: 1024px) {
   .two-col { grid-template-columns: 1fr; }
@@ -838,6 +970,7 @@ img { max-width: 100%; height: auto; }
   .othermembers   { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
   .gallery, .pic  { grid-template-columns: repeat(2, 1fr); }
   .services       { grid-template-columns: 1fr; }
+  .agri-support-grid { grid-template-columns: 1fr; }
   .video-section  { grid-template-columns: 1fr; }
   .segment > .card-grid { padding: 1rem; }
   .profile-grid   { grid-template-columns: repeat(2, 1fr); max-width: 640px; }
@@ -877,5 +1010,7 @@ img { max-width: 100%; height: auto; }
   .ab-icon-grid li,
   .gallery img,
   .pic img,
+  .agri-support-item,
+  .agri-cta-btn,
   .work-video-card { transition: none; transform: none !important; }
 }
