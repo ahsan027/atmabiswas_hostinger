@@ -801,7 +801,7 @@ img { max-width: 100%; height: auto; }
 }
 
 .ge2-intro {
-  max-width: 620px;
+  max-width: 700px;
   margin: 0 auto;
   text-align: center;
 }
@@ -824,14 +824,14 @@ img { max-width: 100%; height: auto; }
   line-height: 1.2;
   letter-spacing: -0.01em;
   text-wrap: balance;
-  margin-bottom: 1.1rem;
+  margin-bottom: 1.5rem;
 }
 
 .ge2-lead {
-  font-size: 1.08rem;
-  color: var(--muted);
-  line-height: 1.85;
-  text-wrap: balance;
+  text-align: left;
+  font-size: 1.12rem;
+  color: var(--text);
+  line-height: 1.95;
 }
 
 /* ── Alternating feature rows ─────────────────────── */
@@ -935,32 +935,6 @@ img { max-width: 100%; height: auto; }
 }
 
 .ge2-check svg { width: 10px; height: 10px; }
-
-.ge2-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-weight: 700;
-  font-size: 0.96rem;
-  color: var(--primary);
-  text-decoration: none;
-  border-bottom: 1.5px solid transparent;
-  padding-bottom: 2px;
-  transition: color 0.25s ease, border-color 0.25s ease;
-}
-
-.ge2-link svg {
-  width: 16px;
-  height: 16px;
-  transition: transform 0.25s ease;
-}
-
-.ge2-link:hover {
-  color: var(--accent);
-  border-color: var(--accent);
-}
-
-.ge2-link:hover svg { transform: translateX(4px); }
 
 .ge2-closing {
   text-align: center;
@@ -1306,6 +1280,5 @@ img { max-width: 100%; height: auto; }
   .agri-cta-btn,
   .video-single,
   .ge2-feature-media img,
-  .ge2-link svg,
   .work-video-card { transition: none; transform: none !important; }
 }

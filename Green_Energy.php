@@ -32,7 +32,7 @@
         <div class="ge2-intro">
             <span class="ge2-eyebrow">Green Energy Bangladesh</span>
             <h2>Cleaner Energy for a Stronger Bangladesh</h2>
-            <p class="ge2-lead">Two ATMABISWAS initiatives are changing how rural households cook, light, and power their daily lives — practical steps toward sustainable development in Bangladesh.</p>
+            <p class="ge2-lead">Two ATMABISWAS initiatives are changing how rural households cook, light, and power their daily lives. Bondhu Chula replaces open-fire cooking with a cleaner, more efficient stove, while Souro Shokti brings dependable solar electricity to communities beyond the national grid — practical, community-owned steps toward sustainable development in Bangladesh.</p>
         </div>
 
         <div class="ge2-feature">
@@ -51,7 +51,6 @@
                     <li><span class="ge2-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span> Environment friendly</li>
                     <li><span class="ge2-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span> Supports rural households</li>
                 </ul>
-                <a href="contact.php" class="ge2-link">Learn more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
             </div>
         </div>
 
@@ -71,7 +70,6 @@
                     <li><span class="ge2-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span> Rural electrification</li>
                     <li><span class="ge2-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span> Sustainable future</li>
                 </ul>
-                <a href="contact.php" class="ge2-link">Learn more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
             </div>
         </div>
 
