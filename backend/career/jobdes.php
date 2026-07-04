@@ -56,7 +56,7 @@ $deptCode = $stmt1->fetchAll(PDO::FETCH_ASSOC);
     <?php include '../../Navbar.php'; ?>
     <div class="container">
         <div class="job-header">
-            <h1 class="job-title"><?= $jobDes[0]['job_title'] ?></h1>
+            <h1 class="job-title"><?= htmlspecialchars($jobDes[0]['job_title'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?></h1>
             <div class="company-info">
                 <img src="../images/logo/logo.png" alt="Company Logo" class="company-logo">
                 <div>
@@ -88,7 +88,7 @@ echo '<span>Location: ' . htmlspecialchars($jobDes[0]["job_location"]) . '</span
                 </div>
                 <div class="meta-item">
                     <i class="fas fa-calendar-times"></i>
-                    <span class="deadline">Application Deadline: <?= $jobDes[0]['deadline'] ?></span>
+                    <span class="deadline">Application Deadline: <?= htmlspecialchars($jobDes[0]['deadline'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?></span>
                 </div>
 
             </div>
@@ -99,9 +99,9 @@ echo '<span>Location: ' . htmlspecialchars($jobDes[0]["job_location"]) . '</span
                 <div class="section">
                     <h2>Job Description</h2>
                     <p>We are looking for a skilled <strong
-                            style="color:#3498db;"><?= $jobDes[0]['job_title'] ?></strong>
+                            style="color:#3498db;"><?= htmlspecialchars($jobDes[0]['job_title'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?></strong>
                         who has expertise in
-                        <strong><?= $jobDes[0]['job_skillset'] ?></strong> To join our growing team...
+                        <strong><?= htmlspecialchars($jobDes[0]['job_skillset'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?></strong> To join our growing team...
                     </p>
                     <br>
                     <ul class="job-description-list">
@@ -172,17 +172,17 @@ echo '<span>Location: ' . htmlspecialchars($jobDes[0]["job_location"]) . '</span
                     <h2>Job Overview</h2>
                     <div class="meta-item" style="margin-bottom: 15px;">
                         <i class="fas fa-calendar"></i>
-                        <span>Posted: <?= $jobDes[0]['PostDate']; ?></span>
+                        <span>Posted: <?= htmlspecialchars($jobDes[0]['PostDate'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?></span>
                     </div>
                     <div class="meta-item" style="margin-bottom: 15px;">
                         <i class="fas fa-users"></i>
                         <span>Vacancy: <?php
-                                        echo $deptCode[0]['vacancy'];
+                                        echo htmlspecialchars($deptCode[0]['vacancy'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
                                         ?> </span>
                     </div>
                     <div class="meta-item" style="margin-bottom: 15px;">
                         <i class="fas fa-money-bill-wave"></i>
-                        <span>Salary: <?= $jobDes[0]['salary_range']; ?> (Negotiable)</span>
+                        <span>Salary: <?= htmlspecialchars($jobDes[0]['salary_range'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?> (Negotiable)</span>
                     </div>
                 </div>
 
@@ -212,7 +212,7 @@ echo '<span>Location: ' . htmlspecialchars($jobDes[0]["job_location"]) . '</span
 
                     <input type="hidden" name="job_code" value="<?php echo $jobCode ?>">
 
-                    <input type="hidden" value="<?= $jobDes[0]['job_title'] ?>" name="job-title">
+                    <input type="hidden" value="<?= htmlspecialchars($jobDes[0]['job_title'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?>" name="job-title">
 
 
                     <label>Full Name</label>

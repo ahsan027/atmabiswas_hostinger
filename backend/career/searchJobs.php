@@ -59,13 +59,13 @@ $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
             echo "    <div class='job-card'>";
             echo "<a href='jobdes.php?id=" . htmlspecialchars($r['job_id']) . "&deptCode=" . htmlspecialchars($r['job_code']) . "' class='job-title'>" . htmlspecialchars($r['job_title']) . "</a>";
             echo "        <p class='company'>" . "ATMABISWAS" . "</p>";
-            echo "        <p class='location'>" . $r['job_location'] . "</p>";
-            echo "        <p class='salary'>" . $r['salary_range'] . "</p>";
+            echo "        <p class='location'>" . htmlspecialchars($r['job_location'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . "</p>";
+            echo "        <p class='salary'>" . htmlspecialchars($r['salary_range'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . "</p>";
             echo "        <div class='tags'>";
             echo "            <span class='tag'>Full-time</span>";
             $skills = explode(",", $r['job_skillset']);
             foreach ($skills as $skill) {
-                echo " <span class='tag'>" . $skill . "</span>";
+                echo " <span class='tag'>" . htmlspecialchars($skill, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . "</span>";
             }
 
             echo "        </div>";
