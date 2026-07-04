@@ -50,6 +50,63 @@ $deptCode = $stmt1->fetchAll(PDO::FETCH_ASSOC);
         .bdjobs-button:hover { background: #c44f00; color: #fff; }
         .apply-button-disabled { opacity:.5; cursor:not-allowed; pointer-events:none; }
     </style>
+    <?php if (!empty($jobDes)):
+        // This page doesn't include seo.php (different, dynamic per-job
+        // content), so hiringOrganization is inlined in full rather than
+        // referenced by @id — a bare @id reference wouldn't resolve for
+        // Google's parser on a page that doesn't itself declare that node.
+        $job = $jobDes[0];
+
+        $jobPosting = [
+            '@context'    => 'https://schema.org',
+            '@type'       => 'JobPosting',
+            'title'       => $job['job_title'],
+            'description' => $job['job_description'],
+            'identifier'  => [
+                '@type' => 'PropertyValue',
+                'name'  => 'ATMABISWAS',
+                'value' => $jobCode,
+            ],
+            'datePosted'  => $job['PostDate'],
+            'validThrough' => $job['deadline'],
+            'employmentType' => 'FULL_TIME',
+            'hiringOrganization' => [
+                '@type' => 'Organization',
+                'name'  => 'ATMABISWAS',
+                'sameAs' => 'https://atmabiswas.org/',
+                'logo'  => 'https://atmabiswas.org/LOGO/NGO_logo_monogram.png',
+            ],
+            'jobLocation' => [
+                '@type'   => 'Place',
+                'address' => [
+                    '@type'           => 'PostalAddress',
+                    'addressLocality' => $job['job_location'],
+                    'addressCountry'  => 'BD',
+                ],
+            ],
+        ];
+
+        // Only include baseSalary when the stored value is a real, clean
+        // number — "Negotiable" and similar free-text values are common
+        // here and schema.org's baseSalary requires a numeric value, so
+        // fabricating one would be worse than omitting it.
+        $salaryDigits = preg_replace('/[^0-9]/', '', $job['salary_range'] ?? '');
+        if ($salaryDigits !== '' && (int) $salaryDigits > 0) {
+            $jobPosting['baseSalary'] = [
+                '@type'    => 'MonetaryAmount',
+                'currency' => 'BDT',
+                'value'    => [
+                    '@type'    => 'QuantitativeValue',
+                    'value'    => (int) $salaryDigits,
+                    'unitText' => 'MONTH',
+                ],
+            ];
+        }
+        ?>
+        <script type="application/ld+json">
+            <?= json_encode($jobPosting, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) ?>
+        </script>
+    <?php endif; ?>
 </head>
 
 <body>

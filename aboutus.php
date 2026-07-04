@@ -7,7 +7,11 @@ $about_image     = 'office_pic/office_pic.jpg';
 $about_image_alt = 'ATMABISWAS Office';
 $about_text      = 'ATMABISWAS is a non-governmental, non-profit, voluntary, and development-focused organization committed to creating meaningful social change and fostering sustainable development. Established in January 1991 under the Department of Social Welfare, ATMABISWAS has dedicated over three decades to empowering communities across Bangladesh. The organization primarily focuses on serving the disadvantaged populations, striving to uplift their living standards and enhance their access to essential resources and opportunities.
 
-Since its inception, ATMABISWAS has worked tirelessly to support marginalized individuals and communities, with an initial emphasis on the district of Chuadanga. Through a range of social welfare programs, development projects, and micro-credit initiatives, the organization has impacted thousands of lives, enabling beneficiaries to break the cycle of poverty and build a better future.';
+Since its inception, ATMABISWAS has worked tirelessly to support marginalized individuals and communities, with an initial emphasis on the district of Chuadanga. Through a range of social welfare programs, development projects, and micro-credit initiatives, the organization has impacted thousands of lives, enabling beneficiaries to break the cycle of poverty and build a better future.
+
+Headquartered in Chuadanga within Khulna Division, ATMABISWAS also maintains a liaison office in Dhaka and extends its community development work into Rajshahi Division, with programs spanning education, agriculture, health, women\'s empowerment, and environmental sustainability across the regions it serves.
+
+আত্মবিশ্বাস বাংলাদেশের একটি বেসরকারি উন্নয়ন সংস্থা (এনজিও), যা ১৯৯১ সাল থেকে শিক্ষা, নারীর ক্ষমতায়ন, কৃষি উন্নয়ন, পরিবেশ সংরক্ষণ, সমাজকল্যাণ এবং কমিউনিটি উন্নয়নে কাজ করে আসছে। চুয়াডাঙ্গায় (খুলনা বিভাগ) সদর দপ্তর ছাড়াও ঢাকায় একটি লিয়াজোঁ অফিস এবং রাজশাহী বিভাগে সম্প্রসারিত কার্যক্রম পরিচালনা করে থাকে।';
 
 $team_image      = 'office_pic/00000.jpg';
 $team_image_alt  = 'ATMABISWAS Team with PKSF';
