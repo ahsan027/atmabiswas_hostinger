@@ -170,44 +170,12 @@
             </div>
         </div>
 
-        <!-- Programme Objectives -->
-        <div class="card">
-            <h2>Programme Objectives</h2>
-            <p>Through our health development programme, ATMABISWAS works toward a clear set of goals:</p>
-            <ul class="agri-objectives">
-                <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Improve community health awareness</li>
-                <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Promote preventive healthcare</li>
-                <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Reduce health risks through education</li>
-                <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Improve maternal and child wellbeing</li>
-                <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Encourage healthy lifestyles</li>
-                <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Increase access to basic health information</li>
-                <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Promote hygiene and sanitation</li>
-                <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Support healthier rural communities</li>
-            </ul>
-        </div>
-
         <!-- Our Approach -->
         <div class="card">
             <h2>Our Approach</h2>
             <p>ATMABISWAS's health programme is built on community participation rather than one-off interventions. We work with village health volunteers, community leaders, and local health workers to identify the most pressing health needs in each area, then design awareness and outreach activities around what communities themselves say they need most.</p>
             <p>Health education sits at the centre of everything we do. Through group sessions, household visits, and demonstration-based training, we help families understand practical steps they can take to protect their health — from safe drinking water practices to recognizing early warning signs of illness. Volunteer engagement extends this reach further, allowing trained community members to continue sharing health knowledge long after a specific campaign ends.</p>
             <p>We also value local partnerships and capacity building, working alongside existing health facilities, local government structures, and other community development organizations wherever possible rather than duplicating services. This sustainable, community-based approach is intended to leave communities better equipped to manage their own health going forward, not dependent on continued outside support.</p>
-        </div>
-
-        <!-- Key Focus Areas -->
-        <div class="card">
-            <h2>Key Focus Areas</h2>
-            <p>Our health development programme concentrates on a set of priority areas identified together with the communities we serve:</p>
-            <ul class="tag-pill-list">
-                <li>Health Awareness Campaigns</li>
-                <li>Nutrition Promotion</li>
-                <li>Safe Motherhood</li>
-                <li>Child Health</li>
-                <li>Water, Sanitation &amp; Hygiene (WASH)</li>
-                <li>Disease Prevention</li>
-                <li>Community Outreach</li>
-                <li>Rural Healthcare Support</li>
-            </ul>
         </div>
 
         <!-- Why Community Health Matters -->
