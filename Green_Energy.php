@@ -31,7 +31,7 @@
 
         <div class="ge2-intro">
             <h2>Cleaner energy for a stronger Bangladesh</h2>
-            <p class="ge2-lead">Two ATMABISWAS initiatives are changing how rural households cook, light, and power their daily lives. Bondhu Chula replaces open-fire cooking with a cleaner, more efficient stove, while Souro Shokti brings dependable solar electricity to communities beyond the national grid — practical, community-owned steps toward sustainable development in Bangladesh.</p>
+            <p class="ge2-lead">Two ATMABISWAS initiatives are changing how rural households cook, light, and power their daily lives — practical steps toward sustainable development in Bangladesh.</p>
         </div>
 
         <div class="ge2-feature">
