@@ -13,25 +13,39 @@ if (!isset($_SESSION['username'])) {
 
 header('Content-Type: application/json');
 
+require_once __DIR__ . '/DashBoard/csrf_helper.php';
+require_once __DIR__ . '/blogSanitizer.php';
+
 try {
+  if (!csrf_verify()) {
+    http_response_code(403);
+    echo json_encode([
+      'status'  => 'error',
+      'message' => 'Invalid or expired session token. Please reload the editor and try again.'
+    ]);
+    exit();
+  }
+
   // Use the centralized database connection
   include 'Database/db.php';
   $db = new Db();
   $pdo = $db->connect();
 
   // Validate and sanitize input
-  $title       = trim($_POST['blog_title']    ?? '');
-  $content     = $_POST['blog_content']       ?? '';
-  $summary     = $_POST['summary_content']    ?? '';
-  $author      = $_SESSION['username']        ?? 'ATMABISWAS';
-  $category    = trim($_POST['category']      ?? 'news');
-  $source_link = trim($_POST['source_link']   ?? '');
-  $tags        = trim($_POST['tags']          ?? '');
-  $seo_title   = trim($_POST['seo_title']     ?? '');
-  $seo_desc    = trim($_POST['seo_description'] ?? '');
-  $seo_keys    = trim($_POST['seo_keywords']  ?? '');
-  $social_img  = trim($_POST['social_image']  ?? '');
-  $featured    = isset($_POST['featured']) ? 1 : 0;
+  $title         = trim($_POST['blog_title']    ?? '');
+  $content       = sanitize_blog_html($_POST['blog_content']    ?? '');
+  $summary       = sanitize_blog_html($_POST['summary_content'] ?? '');
+  $author        = $_SESSION['username']        ?? 'ATMABISWAS';
+  $category      = trim($_POST['category']      ?? 'news');
+  $source_link   = trim($_POST['source_link']   ?? '');
+  $tags          = trim($_POST['tags']          ?? '');
+  $seo_title     = trim($_POST['seo_title']     ?? '');
+  $seo_desc      = trim($_POST['seo_description'] ?? '');
+  $seo_keys      = trim($_POST['seo_keywords']  ?? '');
+  $focus_keyword = trim($_POST['focus_keyword'] ?? '');
+  $canonical_url = trim($_POST['canonical_url'] ?? '');
+  $social_img    = trim($_POST['social_image']  ?? '');
+  $featured      = isset($_POST['featured']) ? 1 : 0;
 
   // Auto-generate slug from title if not provided
   $slug = trim($_POST['slug'] ?? '');
@@ -115,32 +129,36 @@ try {
         INSERT INTO blogs
             (blog_title, slug, blog_content, summary, blog_author, upload_date, year,
              category, source_link, tags, seo_title, seo_description, seo_keywords,
+             focus_keyword, canonical_url,
              social_image, featured, reading_time, cover_img, status)
         VALUES
             (:title, :slug, :content, :summary, :author, NOW(), YEAR(NOW()),
              :category, :source_link, :tags, :seo_title, :seo_desc, :seo_keys,
+             :focus_keyword, :canonical_url,
              :social_img, :featured, :reading_time, :cover_img, :status)
     ");
 
   $post_status = isset($_POST['post_status_action']) && $_POST['post_status_action'] === 'draft'
     ? 'draft' : 'published';
 
-  $stmt->bindParam(':title',        $title,        PDO::PARAM_STR);
-  $stmt->bindParam(':slug',         $slug,         PDO::PARAM_STR);
-  $stmt->bindParam(':content',      $content,      PDO::PARAM_STR);
-  $stmt->bindParam(':summary',      $summary,      PDO::PARAM_STR);
-  $stmt->bindParam(':author',       $author,       PDO::PARAM_STR);
-  $stmt->bindParam(':category',     $category,     PDO::PARAM_STR);
-  $stmt->bindParam(':source_link',  $source_link,  PDO::PARAM_STR);
-  $stmt->bindParam(':tags',         $tags,         PDO::PARAM_STR);
-  $stmt->bindParam(':seo_title',    $seo_title,    PDO::PARAM_STR);
-  $stmt->bindParam(':seo_desc',     $seo_desc,     PDO::PARAM_STR);
-  $stmt->bindParam(':seo_keys',     $seo_keys,     PDO::PARAM_STR);
-  $stmt->bindParam(':social_img',   $social_img,   PDO::PARAM_STR);
-  $stmt->bindParam(':featured',     $featured,     PDO::PARAM_INT);
-  $stmt->bindParam(':reading_time', $reading_time, PDO::PARAM_INT);
-  $stmt->bindParam(':cover_img',    $cover_img,    PDO::PARAM_STR);
-  $stmt->bindParam(':status',       $post_status,  PDO::PARAM_STR);
+  $stmt->bindParam(':title',         $title,         PDO::PARAM_STR);
+  $stmt->bindParam(':slug',          $slug,          PDO::PARAM_STR);
+  $stmt->bindParam(':content',       $content,       PDO::PARAM_STR);
+  $stmt->bindParam(':summary',       $summary,       PDO::PARAM_STR);
+  $stmt->bindParam(':author',        $author,        PDO::PARAM_STR);
+  $stmt->bindParam(':category',      $category,      PDO::PARAM_STR);
+  $stmt->bindParam(':source_link',   $source_link,   PDO::PARAM_STR);
+  $stmt->bindParam(':tags',          $tags,          PDO::PARAM_STR);
+  $stmt->bindParam(':seo_title',     $seo_title,     PDO::PARAM_STR);
+  $stmt->bindParam(':seo_desc',      $seo_desc,      PDO::PARAM_STR);
+  $stmt->bindParam(':seo_keys',      $seo_keys,      PDO::PARAM_STR);
+  $stmt->bindParam(':focus_keyword', $focus_keyword, PDO::PARAM_STR);
+  $stmt->bindParam(':canonical_url', $canonical_url, PDO::PARAM_STR);
+  $stmt->bindParam(':social_img',    $social_img,    PDO::PARAM_STR);
+  $stmt->bindParam(':featured',      $featured,      PDO::PARAM_INT);
+  $stmt->bindParam(':reading_time',  $reading_time,  PDO::PARAM_INT);
+  $stmt->bindParam(':cover_img',     $cover_img,     PDO::PARAM_STR);
+  $stmt->bindParam(':status',        $post_status,   PDO::PARAM_STR);
 
   if ($stmt->execute()) {
     echo json_encode([

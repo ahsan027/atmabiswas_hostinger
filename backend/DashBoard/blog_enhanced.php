@@ -8,243 +8,199 @@ if (!isset($_SESSION['username'])) {
 
 // Include config for paths
 require_once '../../config.php';
-?>
+require_once 'csrf_helper.php';
 
+$cat_options = [
+    'news'         => 'News',
+    'media'        => 'Media Coverage',
+    'announcement' => 'Announcement',
+    'press'        => 'Press Release',
+];
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ATMABISWAS - Press Editor</title>
+    <title>ATMABISWAS — Press Editor</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="icon" type="image/png" href="../images/logo/logo.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="assets/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
     <style>
         :root {
-            --primary: #2c3e50;
-            --secondary: #3498db;
-            --accent: #e74c3c;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --success: #2ecc71;
+            --pri: #0073e6;
+            --pri-dark: #005bb8;
+            --dark: #1e293b;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --bg: #f4f6f9;
+            --success: #16a34a;
+            --danger: #dc3545;
+            --radius: 12px;
         }
+
+        * { box-sizing: border-box; }
 
         body {
-            font-family: "Times New Roman", Times, serif;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            min-height: 100vh;
-            padding: 20px;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            background: var(--bg);
             color: var(--dark);
+            min-height: 100vh;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
+        .am-header {
+            background: linear-gradient(135deg, var(--dark) 0%, var(--pri) 100%);
+            color: #fff;
+            padding: 1.5rem 0;
+            margin-bottom: 1.75rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,.12);
         }
 
-        h1 {
-            font-family: "Times New Roman", Times, serif;
-            text-align: center;
-            margin-bottom: 25px;
-            color: var(--primary);
-            font-size: 2.5rem;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-            border-bottom: 3px solid var(--secondary);
-            padding-bottom: 15px;
-        }
-
-        .main-header {
-            background: white;
-            color: #000000;
-            padding: 2rem 0;
-            margin-bottom: 2rem;
-            border-radius: 0 0 20px 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .main-header h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
+        .am-header h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
             margin: 0;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-            border-bottom: 3px solid var(--secondary);
-            padding-bottom: 15px;
         }
 
-        .card {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            margin-bottom: 30px;
-            border: none;
+        .am-header p { margin: .15rem 0 0; opacity: .85; font-size: .88rem; }
+
+        .panel {
+            background: #fff;
+            border-radius: var(--radius);
+            box-shadow: 0 2px 10px rgba(0,0,0,.06);
+            padding: 1.5rem;
+            margin-bottom: 1.25rem;
+            border: 1px solid #eef1f5;
         }
 
-        .card-header {
-            background: var(--light);
-            color: var(--primary);
-            border: 1px solid #eee;
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
+        .panel-title {
+            font-size: .75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .07em;
+            color: #94a3b8;
             margin-bottom: 1rem;
-        }
-
-        .card-header h5 {
-            margin: 0;
-            font-weight: 600;
-        }
-
-        .form-control,
-        .form-select {
-            width: 100%;
-            padding: 15px;
-            font-size: 1.1rem;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            margin-bottom: 25px;
-            transition: all 0.3s;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        .form-control:focus,
-        .form-select:focus {
-            border-color: var(--secondary);
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
-            outline: none;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 15px;
-            font-size: 1.1rem;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            margin-bottom: 25px;
-            transition: all 0.3s;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        input[type="text"]:focus {
-            border-color: var(--secondary);
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
-            outline: none;
-        }
-
-        .toolbar {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 20px;
-            padding: 15px;
-            background: var(--light);
-            border-radius: 8px;
-            border: 1px solid #eee;
-            align-items: center;
-        }
-
-
-
-        .toolbar .btn {
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            padding: 8px 12px;
-            cursor: pointer;
-            font-family: 'Montserrat', sans-serif;
-            transition: all 0.2s;
-            min-width: 40px;
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: .5rem;
         }
 
-        .toolbar .btn:hover {
-            background: var(--secondary);
-            color: white;
-            border-color: var(--secondary);
-        }
-
-        .editor-content {
-            min-height: 300px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 20px;
-            font-size: 16px;
-            line-height: 1.6;
-            background: white;
-            margin-bottom: 30px;
-            transition: all 0.3s;
-        }
-
-        .editor-content:focus {
-            border-color: var(--secondary);
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
-            outline: none;
-        }
-
-        .editor-content[contenteditable="true"]:empty:before {
-            content: attr(placeholder);
-            color: #aaa;
+        .form-label {
+            font-size: .84rem;
+            font-weight: 700;
+            color: #374151;
+            margin-bottom: .35rem;
             display: block;
         }
 
-        .editor-content img {
-            max-width: 100%;
+        .form-control, .form-select {
+            font-size: .92rem;
             border-radius: 8px;
-            margin: 10px 0;
+            border-color: var(--border);
         }
 
-        h1[style*="font-size: 1.2rem"] {
-            font-family: 'Montserrat', sans-serif;
-            margin-bottom: 10px;
-            color: var(--primary);
-            font-weight: 600;
+        .form-control:focus, .form-select:focus {
+            border-color: var(--pri);
+            box-shadow: 0 0 0 3px rgba(0,115,230,.12);
+        }
+
+        .char-counter { font-size: .74rem; color: #94a3b8; text-align: right; margin-top: .25rem; }
+        .char-counter.warn { color: var(--danger); font-weight: 700; }
+
+        .sticky-actions {
+            position: sticky;
+            bottom: 0;
+            background: #fff;
+            border-top: 1px solid var(--border);
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: 0 -4px 16px rgba(0,0,0,.06);
+            margin-top: 1.25rem;
+            display: flex;
+            gap: .75rem;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+            z-index: 10;
         }
 
         .btn-publish {
             background: var(--success);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 15px 30px;
-            font-size: 1.1rem;
-            font-weight: 600;
+            border-color: var(--success);
+            color: #fff;
+            font-weight: 700;
+        }
+        .btn-publish:hover { background: #128a3e; border-color: #128a3e; color: #fff; }
+
+        .thumb-drop {
+            border: 2px dashed #cbd5e1;
+            border-radius: 10px;
+            padding: 1.25rem;
+            text-align: center;
             cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            width: 100%;
+            background: #fafbfc;
+            transition: border-color .2s, background .2s;
+        }
+        .thumb-drop:hover { border-color: var(--pri); background: #f0f7ff; }
+
+        .tab-nav {
+            display: flex;
+            gap: .25rem;
+            border-bottom: 2px solid var(--border);
+            margin-bottom: 1.5rem;
+        }
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: .85rem 1.5rem;
+            font-weight: 700;
+            font-size: .9rem;
+            color: var(--muted);
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            cursor: pointer;
+        }
+        .tab-btn.active { color: var(--pri); border-bottom-color: var(--pri); }
+
+        .preview-toolbar {
+            display: flex;
             justify-content: center;
-            font-family: 'Montserrat', sans-serif;
+            gap: .5rem;
+            margin-bottom: 1.5rem;
         }
+        .preview-toolbar button {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: .4rem .9rem;
+            font-size: .82rem;
+            font-weight: 700;
+            color: var(--muted);
+            cursor: pointer;
+        }
+        .preview-toolbar button.active { color: var(--pri); border-color: var(--pri); background: #f0f7ff; }
 
-        .btn-publish:hover {
-            background: #27ae60;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+        .preview-frame {
+            background: #fff;
+            border-radius: var(--radius);
+            box-shadow: 0 4px 20px rgba(0,0,0,.08);
+            margin: 0 auto;
+            padding: 2.5rem;
+            max-width: 900px;
+            transition: max-width .25s ease;
         }
+        .preview-frame.mobile { max-width: 380px; padding: 1.5rem; }
 
-        .word-count {
-            font-size: 0.9rem;
-            color: var(--gray-600);
-            text-align: right;
-            margin-top: 0.5rem;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        .word-count.low {
-            color: var(--secondary);
-            font-weight: 600;
-        }
-
-        .drag-over {
-            background-color: rgba(52, 152, 219, 0.1) !important;
-            border: 2px dashed var(--secondary) !important;
-        }
+        .preview-frame h1 { font-size: 1.8rem; font-weight: 800; color: var(--dark); margin-bottom: .5rem; }
+        .preview-frame .meta { color: var(--muted); font-size: .85rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+        .preview-frame img { max-width: 100%; border-radius: 8px; }
+        .preview-frame table { border-collapse: collapse; width: 100%; }
+        .preview-frame td, .preview-frame th { border: 1px solid var(--border); padding: .5rem; }
+        .preview-frame .task-list { list-style: none; padding-left: 0; }
+        .preview-frame .task-item::before { content: "\2610\0020"; }
+        .preview-frame .task-item.checked::before { content: "\2611\0020"; color: var(--success); }
 
         .notification {
             position: fixed;
@@ -255,1071 +211,535 @@ require_once '../../config.php';
             background: var(--success);
             color: white;
             font-weight: 600;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 25px rgba(0,0,0,.2);
             transform: translateX(200%);
-            transition: transform 0.3s ease;
-            z-index: 1050;
-            font-family: 'Montserrat', sans-serif;
+            transition: transform .3s ease;
+            z-index: 2000;
         }
-
-        .notification.show {
-            transform: translateX(0);
-        }
-
-        .notification.error {
-            background: var(--accent);
-        }
-
-        .notification.warning {
-            background: var(--warning);
-        }
-
-        .preview-mode {
-            background: white;
-            border-radius: 8px;
-            padding: 2rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            margin-top: 2rem;
-        }
-
-        .preview-mode h1 {
-            color: var(--primary);
-            font-family: 'Playfair Display', serif;
-            margin-bottom: 1rem;
-        }
-
-        .preview-mode .meta {
-            color: #000000;
-            font-size: 0.9rem;
-            margin-bottom: 2rem;
-            padding: 1rem;
-            background: #ffffff;
-            border-radius: 8px;
-        }
-
-        .tabs {
-            border-bottom: 2px solid #000000;
-            margin-bottom: 2rem;
-        }
-
-        .tab-button {
-            background: none;
-            border: none;
-            padding: 1rem 2rem;
-            font-weight: 600;
-            color: #000000;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s ease;
-        }
-
-        .tab-button.active {
-            color: #000000;
-            border-bottom-color: #000000;
-            background-color: #ffffff;
-        }
-
-        .tab-button:hover {
-            color: #000000;
-            background-color: #ffffff;
-        }
+        .notification.show { transform: translateX(0); }
+        .notification.error { background: var(--danger); }
+        .notification.warning { background: #d97706; }
 
         .loading {
             display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(255,255,255,.75);
+            z-index: 1900;
             text-align: center;
-            padding: 2rem;
+            padding-top: 20vh;
         }
-
-        .loading.show {
-            display: block;
-        }
-
+        .loading.show { display: block; }
         .spinner {
-            width: 3rem;
-            height: 3rem;
-            border: 3px solid #000000;
-            border-top: 3px solid #0073e6;
+            width: 3rem; height: 3rem;
+            border: 3px solid #e2e8f0;
+            border-top: 3px solid var(--pri);
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin: 0 auto 1rem;
         }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-
-
-        /* Override button colors to use only #0073e6, white, and black */
-        .btn-outline-primary {
-            color: #0073e6;
-            border-color: #0073e6;
-        }
-
-        .btn-outline-primary:hover {
-            background-color: #0073e6;
-            color: white;
-        }
-
-        .btn-outline-success {
-            color: #0073e6;
-            border-color: #0073e6;
-        }
-
-        .btn-outline-success:hover {
-            background-color: #0073e6;
-            color: white;
-        }
-
-        .btn-outline-info {
-            color: #0073e6;
-            border-color: #0073e6;
-        }
-
-        .btn-outline-info:hover {
-            background-color: #0073e6;
-            color: white;
-        }
-
-        .btn-outline-secondary {
-            color: #000000;
-            border-color: #000000;
-        }
-
-        .btn-outline-secondary:hover {
-            background-color: #000000;
-            color: white;
-        }
-
-        .text-success {
-            color: #0073e6 !important;
-        }
-
-        .text-danger {
-            color: #000000 !important;
-        }
-
-        .text-muted {
-            color: #000000 !important;
-        }
-
-        .badge.bg-success {
-            background-color: #0073e6 !important;
-        }
-
-        .badge.bg-warning {
-            background-color: #0073e6 !important;
-        }
-
-        /* Back to Dashboard button styling */
-        .btn-outline-light {
-            color: black !important;
-            border-color: black !important;
-            background-color: transparent !important;
-        }
-
-        .btn-outline-light:hover {
-            color: black !important;
-            border-color: black !important;
-            background-color: transparent !important;
-            transform: none !important;
-            box-shadow: none !important;
-        }
+        .tox-tinymce { border-radius: 8px !important; border-color: var(--border) !important; }
     </style>
 </head>
 
 <body>
-    <!-- Header -->
-    <div class="main-header">
+    <div class="am-header">
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-8">
-                    <h1><i class="fas fa-pen-fancy"></i>Press Editor</h1>
-                    <p class="mb-0">Create and publish press posts for ATMABISWAS</p>
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <div>
+                    <h1><i class="fas fa-pen-fancy"></i> Press Editor</h1>
+                    <p>Create and publish press posts for ATMABISWAS</p>
                 </div>
-                <div class="col-md-4 text-end">
-                    <a href="dashboard.php" class="btn btn-outline-light" style="color: black; text-decoration: none;">
-                        <i class="fas fa-arrow-left"></i> Back to Dashboard
-                    </a>
-                </div>
+                <a href="dashboard.php" class="btn btn-outline-light btn-sm">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
             </div>
         </div>
     </div>
 
-    <div class="container">
+    <div class="container pb-5">
 
+        <div class="tab-nav">
+            <button type="button" class="tab-btn active" data-tab="editor" onclick="showTab('editor')">
+                <i class="fas fa-edit"></i> Editor
+            </button>
+            <button type="button" class="tab-btn" data-tab="preview" onclick="showTab('preview')">
+                <i class="fas fa-eye"></i> Preview
+            </button>
+        </div>
 
-        <!-- Main Content -->
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="tabs">
-                            <button class="tab-button active" onclick="showTab('editor')">
-                                <i class="fas fa-edit"></i> Editor
-                            </button>
-                            <button class="tab-button" onclick="showTab('preview')">
-                                <i class="fas fa-eye"></i> Preview
-                            </button>
+        <!-- Editor Tab -->
+        <div id="editor-tab">
+            <form id="blogForm" action="../blogUpload_process.php" method="POST" enctype="multipart/form-data">
+                <?= csrf_field() ?>
+                <div class="row g-3">
+
+                    <!-- Main column -->
+                    <div class="col-lg-8">
+
+                        <div class="panel">
+                            <div class="panel-title"><i class="fas fa-heading"></i> Press Title</div>
+                            <input type="text" class="form-control" id="blogTitle" name="blog_title"
+                                   placeholder="Enter an engaging title…" required maxlength="255">
+                            <div class="char-counter"><span id="titleCount">0</span>/255 characters</div>
                         </div>
+
+                        <div class="panel">
+                            <div class="panel-title"><i class="fas fa-file-alt"></i> Press Summary <span class="text-danger">*</span></div>
+                            <textarea id="summaryEditor" name="summary_content_raw"></textarea>
+                            <div class="char-counter" id="summaryWordCount">Words: 0</div>
+                        </div>
+
+                        <div class="panel">
+                            <div class="panel-title"><i class="fas fa-newspaper"></i> Press Content <span class="text-danger">*</span></div>
+                            <textarea id="contentEditor" name="blog_content_raw"></textarea>
+                            <div class="char-counter" id="contentWordCount">Words: 0 · <span id="readingTime">1 min read</span></div>
+                        </div>
+
+                        <!-- Hidden inputs actually submitted -->
+                        <input type="hidden" id="sanitizedContent" name="blog_content">
+                        <input type="hidden" id="sanitizedSummary" name="summary_content">
+                        <input type="hidden" id="postStatusAction" name="post_status_action" value="published">
+
                     </div>
-                    <div class="card-body">
-                        <!-- Editor Tab -->
-                        <div id="editor-tab" class="tab-content">
-                            <form id="blogForm" action="../blogUpload_process.php" method="POST" enctype="multipart/form-data">
-                                <!-- Press / News Title -->
-                                <div class="mb-4">
-                                    <label for="blogTitle" class="form-label">
-                                        <i class="fas fa-heading"></i> Press Title *
-                                    </label>
-                                    <input type="text" class="form-control" id="blogTitle" name="blog_title"
-                                        placeholder="Enter an engaging title..." required maxlength="255">
-                                    <div class="form-text">
-                                        <span id="titleCount">0</span>/255 characters
-                                    </div>
-                                </div>
 
-                                <!-- Rich Text Toolbar -->
-                                <div class="toolbar">
-                                    <!-- Font Controls -->
-                                    <select class="form-select form-select-sm" onchange="changeFont(this.value)">
-                                        <option value="Arial">Arial</option>
-                                        <option value="Times New Roman">Times New Roman</option>
-                                        <option value="Georgia">Georgia</option>
-                                        <option value="Courier New">Courier New</option>
-                                        <option value="Verdana">Verdana</option>
-                                    </select>
+                    <!-- Sidebar -->
+                    <div class="col-lg-4">
 
-                                    <select class="form-select form-select-sm" onchange="changeFontSize(this.value)">
-                                        <option value="1">Small</option>
-                                        <option value="2">Medium</option>
-                                        <option value="3" selected>Large</option>
-                                        <option value="4">Extra Large</option>
-                                        <option value="5">XXL</option>
-                                    </select>
-
-                                    <!-- Formatting buttons -->
-                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="formatText('bold')" title="Bold">
-                                        <i class="fas fa-bold"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="formatText('italic')" title="Italic">
-                                        <i class="fas fa-italic"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="formatText('underline')" title="Underline">
-                                        <i class="fas fa-underline"></i>
-                                    </button>
-
-                                    <input type="color" class="form-control form-control-sm" onchange="changeColor(this.value)" title="Text Color" style="width: 50px; height: 38px; padding: 2px;">
-
-                                    <!-- Alignment -->
-                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="alignText('left')" title="Align Left">
-                                        <i class="fas fa-align-left"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="alignText('center')" title="Align Center">
-                                        <i class="fas fa-align-center"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="alignText('right')" title="Align Right">
-                                        <i class="fas fa-align-right"></i>
-                                    </button>
-
-                                    <!-- Lists -->
-                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="formatText('insertUnorderedList')" title="Bullet List">
-                                        <i class="fas fa-list-ul"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="formatText('insertOrderedList')" title="Numbered List">
-                                        <i class="fas fa-list-ol"></i>
-                                    </button>
-
-                                    <!-- Link & Image -->
-                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="createLink()" title="Insert Link">
-                                        <i class="fas fa-link"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="triggerUpload()" title="Insert Image">
-                                        <i class="fas fa-image"></i>
-                                    </button>
-                                    <input type="file" id="imageUpload" style="display: none;" accept="image/*">
-                                </div>
-
-                                <!-- Summary Section -->
-                                <div class="mb-4">
-                                    <label class="form-label">
-                                        <i class="fas fa-file-alt"></i> Press Summary *
-                                    </label>
-                                    <div id="summaryEditor" contenteditable="true"
-                                        placeholder="Write a compelling summary (100-1000 characters recommended)..."
-                                        class="editor-content"
-                                        ondrop="handleDrop(event)"
-                                        ondragover="handleDragOver(event)"
-                                        ondragleave="handleDragLeave(event)"
-                                        oninput="updateWordCount('summary')">
-                                    </div>
-                                    <div id="summaryWordCount" class="word-count">Words: 0 | Characters: 0</div>
-                                </div>
-
-                                <!-- Main Content Section -->
-                                <div class="mb-4">
-                                    <label class="form-label">
-                                        <i class="fas fa-newspaper"></i> Press Content *
-                                    </label>
-                                    <div id="contentEditor" contenteditable="true"
-                                        placeholder="Start writing your press post here..."
-                                        class="editor-content"
-                                        ondrop="handleDrop(event)"
-                                        ondragover="handleDragOver(event)"
-                                        ondragleave="handleDragLeave(event)"
-                                        oninput="updateWordCount('content')">
-                                    </div>
-                                    <div id="contentWordCount" class="word-count">Words: 0 | Characters: 0</div>
-                                </div>
-
-                                <!-- Hidden inputs for sanitized content -->
-                                <input type="hidden" id="sanitizedContent" name="blog_content">
-                                <input type="hidden" id="sanitizedSummary" name="summary_content">
-                                <input type="hidden" id="postStatus" name="status" value="published">
-
-                                <!-- Category & Source Link -->
-                                <div class="row mb-4">
-                                    <div class="col-md-5">
-                                        <label for="postCategory" class="form-label">
-                                            <i class="fas fa-tag"></i> Category *
-                                        </label>
-                                        <select class="form-select" id="postCategory" name="category" required>
-                                            <option value="news" selected>News</option>
-                                            <option value="media">Media Coverage</option>
-                                            <option value="announcement">Announcement</option>
-                                            <option value="press">Press Release</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <label for="sourceLink" class="form-label">
-                                            <i class="fas fa-link"></i> YouTube / Source Link
-                                        </label>
-                                        <input type="url" class="form-control" id="sourceLink" name="source_link"
-                                               placeholder="https://youtube.com/watch?v=...">
-                                        <div class="form-text">Optional — YouTube video will appear above press content.</div>
-                                    </div>
-                                </div>
-
-                                <!-- SEO & Metadata -->
-                                <hr style="margin:1.5rem 0;border-color:#dee2e6;">
-                                <div class="card-header mb-3" style="background:#f8f9fa;border-radius:8px;padding:.85rem 1.25rem;">
-                                    <h5 style="margin:0;font-size:1rem;font-weight:700;color:#2c3e50;">
-                                        <i class="fas fa-search-plus"></i> SEO &amp; Press Metadata
-                                    </h5>
-                                </div>
-
-                                <!-- Press / News Options -->
-                                <div class="row mb-3">
-                                    <div class="col-md-5">
-                                        <label class="form-label"><i class="fas fa-link"></i> URL Slug</label>
-                                        <input type="text" class="form-control" id="postSlug" name="slug"
-                                               placeholder="auto-generated-from-title">
-                                        <div class="form-text">Leave blank to auto-generate.</div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label"><i class="fas fa-tags"></i> Tags</label>
-                                        <input type="text" class="form-control" name="tags"
-                                               placeholder="microfinance, rural, health">
-                                        <div class="form-text">Comma-separated.</div>
-                                    </div>
-                                    <div class="col-md-3 d-flex align-items-end pb-4">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox"
-                                                   id="featuredPost" name="featured" value="1">
-                                            <label class="form-check-label fw-bold" for="featuredPost">
-                                                <i class="fas fa-star text-warning"></i> Feature Press Post
-                                            </label>
-                                            <div class="form-text">Shows in Newsroom hero.</div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- SEO Title + Description -->
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label">
-                                            <i class="fas fa-heading"></i> SEO Title
-                                            <span id="seoTitleCount" style="font-weight:400;color:#6c757d;font-size:.82rem;margin-left:.4rem;">0/60</span>
-                                        </label>
-                                        <input type="text" class="form-control" id="seoTitle" name="seo_title"
-                                               maxlength="60"
-                                               placeholder="Custom search engine title (leave blank = press title)">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">
-                                            <i class="fas fa-key"></i> SEO Keywords
-                                        </label>
-                                        <input type="text" class="form-control" name="seo_keywords"
-                                               placeholder="keyword1, keyword2, keyword3">
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <div class="col-md-8">
-                                        <label class="form-label">
-                                            <i class="fas fa-align-left"></i> SEO Description
-                                            <span id="seoDescCount" style="font-weight:400;color:#6c757d;font-size:.82rem;margin-left:.4rem;">0/160</span>
-                                        </label>
-                                        <textarea class="form-control" id="seoDesc" name="seo_description"
-                                                  rows="2" maxlength="160"
-                                                  placeholder="Short meta description for search results (160 chars max)."></textarea>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label">
-                                            <i class="fas fa-share-alt"></i> Social Share Image URL
-                                        </label>
-                                        <input type="url" class="form-control" name="social_image"
-                                               placeholder="https://… (optional)">
-                                        <div class="form-text">Falls back to cover image.</div>
-                                    </div>
-                                </div>
-
-                                <!-- Thumbnail Upload (Required) -->
-                                <hr style="margin:1.5rem 0;border-color:#dee2e6;">
-                                <div class="card-header mb-3" style="background:#f8f9fa;border-radius:8px;padding:.85rem 1.25rem;">
-                                    <h5 style="margin:0;font-size:1rem;font-weight:700;color:#2c3e50;">
-                                        <i class="fas fa-image"></i> Press Thumbnail <span style="color:#dc3545;">*</span>
-                                    </h5>
-                                </div>
-                                <div class="mb-4">
-                                    <div id="thumbDropZone" style="border:2px dashed #ced4da;border-radius:10px;padding:1.5rem;text-align:center;cursor:pointer;background:#fafafa;transition:border-color .2s,background .2s;"
-                                         onclick="document.getElementById('thumbnailInput').click()"
-                                         ondragover="event.preventDefault();this.style.borderColor='#0073e6';this.style.background='#e8f4fd';"
-                                         ondragleave="this.style.borderColor='#ced4da';this.style.background='#fafafa';"
-                                         ondrop="handleThumbDrop(event)">
-                                        <i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:#adb5bd;margin-bottom:.5rem;display:block;"></i>
-                                        <div id="thumbDropLabel" style="color:#6c757d;font-size:.9rem;">Click or drag &amp; drop to upload cover thumbnail</div>
-                                        <div style="font-size:.75rem;color:#adb5bd;margin-top:.25rem;">JPG, PNG, WebP — max 3 MB</div>
-                                    </div>
-                                    <input type="file" id="thumbnailInput" name="thumbnail" accept="image/jpeg,image/png,image/webp" style="display:none;" onchange="handleThumbSelect(this.files[0])">
-                                    <div id="thumbPreviewWrap" style="display:none;margin-top:1rem;position:relative;">
-                                        <img id="thumbPreviewImg" src="" alt="Thumbnail preview" style="max-width:100%;max-height:220px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.1);">
-                                        <button type="button" onclick="clearThumb()" title="Remove" style="position:absolute;top:6px;right:6px;background:#dc3545;color:#fff;border:none;border-radius:50%;width:26px;height:26px;cursor:pointer;font-size:.75rem;">&times;</button>
-                                    </div>
-                                    <div id="thumbError" style="display:none;color:#dc3545;font-size:.83rem;margin-top:.4rem;"><i class="fas fa-exclamation-circle"></i> Press thumbnail is required.</div>
-                                </div>
-
-                                <!-- Action Buttons -->
-                                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
-                                    <button type="submit" name="post_status_action" value="draft"
-                                            class="btn btn-outline-secondary btn-lg me-2">
-                                        <i class="fas fa-save"></i> Save Draft
-                                    </button>
-                                    <button type="submit" class="btn btn-publish">
-                                        <i class="fas fa-paper-plane"></i> Publish Press Post
-                                    </button>
-                                </div>
-
-                                <script>
-                                // Auto-generate slug from title
-                                (function () {
-                                    var titleEl = document.getElementById('blogTitle');
-                                    var slugEl  = document.getElementById('postSlug');
-                                    if (!titleEl || !slugEl) return;
-                                    titleEl.addEventListener('input', function () {
-                                        if (slugEl.dataset.manual) return;
-                                        slugEl.value = this.value.toLowerCase()
-                                            .replace(/[^a-z0-9\s-]/g, '')
-                                            .replace(/\s+/g, '-')
-                                            .replace(/-+/g, '-')
-                                            .replace(/^-|-$/g, '');
-                                    });
-                                    slugEl.addEventListener('input', function () {
-                                        this.dataset.manual = this.value ? '1' : '';
-                                    });
-                                })();
-                                // SEO character counters
-                                (function () {
-                                    var title = document.getElementById('seoTitle');
-                                    var desc  = document.getElementById('seoDesc');
-                                    var tc    = document.getElementById('seoTitleCount');
-                                    var dc    = document.getElementById('seoDescCount');
-                                    function update(el, counter, max) {
-                                        if (!el || !counter) return;
-                                        var len = el.value.length;
-                                        counter.textContent = len + '/' + max;
-                                        counter.style.color = len > max * .9 ? '#dc3545' : '#6c757d';
-                                    }
-                                    if (title) title.addEventListener('input', function () { update(this, tc, 60); });
-                                    if (desc)  desc.addEventListener('input',  function () { update(this, dc, 160); });
-                                })();
-                                </script>
-                            </form>
-                        </div>
-
-                        <!-- Preview Tab -->
-                        <div id="preview-tab" class="tab-content" style="display: none;">
-                            <div class="preview-mode">
-                                <h1 id="previewTitle">Press Title</h1>
-                                <div class="meta">
-                                    <i class="fas fa-user"></i> By <?php echo htmlspecialchars($_SESSION['username']); ?> |
-                                    <i class="fas fa-calendar"></i> <span id="previewDate"><?php echo date('F j, Y'); ?></span>
-                                </div>
-
-                                <div class="mb-4">
-                                    <h5>Summary:</h5>
-                                    <div id="previewSummary" class="text-muted">Press summary will appear here...</div>
-                                </div>
-
-                                <div id="previewContent">Press content will appear here...</div>
+                        <div class="panel">
+                            <div class="panel-title"><i class="fas fa-cog"></i> Publish Settings</div>
+                            <label class="form-label">Category</label>
+                            <select class="form-select mb-3" name="category" required>
+                                <?php foreach ($cat_options as $k => $v): ?>
+                                    <option value="<?= htmlspecialchars($k) ?>" <?= $k === 'news' ? 'selected' : '' ?>><?= htmlspecialchars($v) ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="featuredCheck" name="featured" value="1">
+                                <label class="form-check-label form-label mb-0" for="featuredCheck">Feature Press Post</label>
                             </div>
                         </div>
+
+                        <div class="panel">
+                            <div class="panel-title"><i class="fas fa-image"></i> Press Thumbnail <span class="text-danger">*</span></div>
+                            <div id="thumbDropZone" class="thumb-drop"
+                                 onclick="document.getElementById('thumbnailInput').click()"
+                                 ondragover="event.preventDefault();this.style.borderColor='#0073e6';this.style.background='#e8f4fd';"
+                                 ondragleave="this.style.borderColor='#cbd5e1';this.style.background='#fafbfc';"
+                                 ondrop="handleThumbDrop(event)">
+                                <i class="fas fa-cloud-upload-alt" style="font-size:1.8rem;color:#adb5bd;margin-bottom:.5rem;display:block;"></i>
+                                <div id="thumbDropLabel" style="color:#6c757d;font-size:.88rem;">Click or drag &amp; drop</div>
+                                <div style="font-size:.74rem;color:#adb5bd;margin-top:.25rem;">JPG, PNG, WebP — max 3 MB</div>
+                            </div>
+                            <input type="file" id="thumbnailInput" name="thumbnail" accept="image/jpeg,image/png,image/webp" style="display:none;" onchange="handleThumbSelect(this.files[0])">
+                            <div id="thumbPreviewWrap" style="display:none;margin-top:1rem;position:relative;">
+                                <img id="thumbPreviewImg" src="" alt="Thumbnail preview" style="max-width:100%;max-height:200px;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,.1);">
+                                <button type="button" onclick="clearThumb()" style="position:absolute;top:6px;right:6px;background:#dc3545;color:#fff;border:none;border-radius:50%;width:26px;height:26px;cursor:pointer;">&times;</button>
+                            </div>
+                            <div id="thumbError" style="display:none;color:#dc3545;font-size:.82rem;margin-top:.5rem;"><i class="fas fa-exclamation-circle"></i> Press thumbnail is required.</div>
+                        </div>
+
+                        <div class="panel">
+                            <div class="panel-title"><i class="fab fa-youtube"></i> YouTube / Source Link</div>
+                            <input type="url" class="form-control" name="source_link" placeholder="https://youtube.com/watch?v=…">
+                            <div class="char-counter" style="text-align:left;">Optional — embeds above content.</div>
+                        </div>
+
+                        <div class="panel">
+                            <div class="panel-title"><i class="fas fa-tags"></i> Tags</div>
+                            <input type="text" class="form-control" name="tags" placeholder="microfinance, rural, health">
+                            <div class="char-counter" style="text-align:left;">Comma-separated.</div>
+                        </div>
+
+                        <div class="panel">
+                            <div class="panel-title"><i class="fas fa-search-plus"></i> SEO</div>
+
+                            <label class="form-label">URL Slug</label>
+                            <input type="text" class="form-control mb-3" id="postSlug" name="slug" placeholder="auto-generated-from-title">
+
+                            <label class="form-label">SEO Title <span id="seoTitleCnt" class="text-muted" style="font-weight:400;">0/60</span></label>
+                            <input type="text" class="form-control mb-3" id="seoTitle" name="seo_title" maxlength="60" placeholder="Leave blank = press title">
+
+                            <label class="form-label">Meta Description <span id="seoDescCnt" class="text-muted" style="font-weight:400;">0/160</span></label>
+                            <textarea class="form-control mb-3" id="seoDesc" name="seo_description" rows="3" maxlength="160" placeholder="Short summary for search results"></textarea>
+
+                            <label class="form-label">Focus Keyword</label>
+                            <input type="text" class="form-control mb-3" name="focus_keyword" placeholder="e.g. rural microfinance Bangladesh">
+
+                            <label class="form-label">SEO Keywords</label>
+                            <input type="text" class="form-control mb-3" name="seo_keywords" placeholder="keyword1, keyword2">
+
+                            <label class="form-label">Canonical URL</label>
+                            <input type="url" class="form-control mb-3" name="canonical_url" placeholder="https://atmabiswas.org/press.php?id=… (optional)">
+
+                            <label class="form-label">Social Share Image URL</label>
+                            <input type="url" class="form-control" name="social_image" placeholder="https://… (optional, falls back to thumbnail)">
+                        </div>
+
                     </div>
                 </div>
+
+                <div class="sticky-actions">
+                    <button type="submit" name="post_status_action" value="draft" class="btn btn-outline-secondary">
+                        <i class="fas fa-save"></i> Save Draft
+                    </button>
+                    <button type="submit" name="post_status_action" value="published" class="btn btn-publish">
+                        <i class="fas fa-paper-plane"></i> Publish Press Post
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Preview Tab -->
+        <div id="preview-tab" style="display:none;">
+            <div class="preview-toolbar">
+                <button type="button" id="btnDesktopPreview" class="active" onclick="setPreviewMode('desktop')"><i class="fas fa-desktop"></i> Desktop</button>
+                <button type="button" id="btnMobilePreview" onclick="setPreviewMode('mobile')"><i class="fas fa-mobile-alt"></i> Mobile</button>
+            </div>
+            <div class="preview-frame" id="previewFrame">
+                <h1 id="previewTitle">Press Title</h1>
+                <div class="meta">
+                    <i class="fas fa-user"></i> By <?= htmlspecialchars($_SESSION['username'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?>
+                    &nbsp;·&nbsp; <i class="fas fa-calendar"></i> <span id="previewDate"><?= date('F j, Y') ?></span>
+                </div>
+                <div class="mb-4">
+                    <h5>Summary</h5>
+                    <div id="previewSummary" class="text-muted">Press summary will appear here…</div>
+                </div>
+                <div id="previewContent">Press content will appear here…</div>
             </div>
         </div>
+
     </div>
 
-    <!-- Loading Overlay -->
     <div id="loadingOverlay" class="loading">
         <div class="spinner"></div>
-        <p>Processing your request...</p>
+        <p>Processing your request…</p>
     </div>
-
-    <!-- Notification -->
     <div class="notification" id="notification"></div>
 
-    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Global variables
-        let activeEditor = 'content';
-        let isPreviewMode = false;
+    (function () {
+        const CSRF_TOKEN = <?= json_encode(csrf_token()) ?>;
 
-        // Initialize the application
-        document.addEventListener('DOMContentLoaded', function() {
+        // ── Custom checklist button (community TinyMCE has no native
+        // task-list plugin — this inserts the same markup the server
+        // sanitizer allows: <ul class="task-list"><li class="task-item">) ──
+        tinymce.PluginManager.add('atmachecklist', function (editor) {
+            editor.ui.registry.addButton('checklist', {
+                icon: 'checklist',
+                tooltip: 'Insert Checklist',
+                onAction: function () {
+                    editor.insertContent('<ul class="task-list"><li class="task-item">Task item</li></ul><p></p>');
+                }
+            });
+            editor.on('click', function (e) {
+                const li = e.target.closest && e.target.closest('.task-item');
+                if (li && editor.getBody().contains(li)) {
+                    li.classList.toggle('checked');
+                }
+            });
+        });
+
+        function uploadHandler(blobInfo) {
+            return new Promise(function (resolve, reject) {
+                const fd = new FormData();
+                fd.append('file', blobInfo.blob(), blobInfo.filename());
+                fd.append('csrf_token', CSRF_TOKEN);
+
+                fetch('../blogContentImage_upload.php', { method: 'POST', body: fd, credentials: 'same-origin' })
+                    .then(r => r.json())
+                    .then(json => {
+                        if (!json || !json.location) { reject(json && json.error ? json.error : 'Upload failed'); return; }
+                        resolve(json.location);
+                    })
+                    .catch(() => reject('Image upload failed. Please try again.'));
+            });
+        }
+
+        const sharedPlugins = 'advlist autolink lists link image charmap preview anchor ' +
+            'searchreplace visualblocks code fullscreen insertdatetime media table help ' +
+            'wordcount codesample directionality emoticons nonbreaking atmachecklist';
+
+        const contentToolbar =
+            'undo redo | blocks fontfamily fontsizeinput | ' +
+            'bold italic underline strikethrough superscript subscript | forecolor backcolor removeformat | ' +
+            'alignleft aligncenter alignright alignjustify | indent outdent | ' +
+            'bullist numlist checklist | link unlink image media table | ' +
+            'blockquote hr codesample | charmap emoticons | searchreplace | code fullscreen help';
+
+        window.tinymce.init({
+            selector: '#contentEditor',
+            plugins: sharedPlugins,
+            toolbar: contentToolbar,
+            toolbar_sticky: true,
+            menubar: false,
+            height: 480,
+            paste_data_images: true,
+            automatic_uploads: true,
+            images_upload_handler: uploadHandler,
+            images_upload_credentials: true,
+            default_link_target: '_blank',
+            link_assume_external_targets: true,
+            image_advtab: true,
+            content_style: 'body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:15px;line-height:1.7;} img{max-width:100%;height:auto;} table{border-collapse:collapse;} td,th{border:1px solid #e2e8f0;padding:6px;} .task-list{list-style:none;padding-left:.5rem;} .task-item::before{content:"\2610  ";} .task-item.checked::before{content:"\2611  ";color:#16a34a;}',
+            branding: false,
+            promotion: false,
+            setup: function (editor) {
+                editor.on('input undo redo SetContent', function () {
+                    updateWordCount('content');
+                });
+            }
+        });
+
+        window.tinymce.init({
+            selector: '#summaryEditor',
+            plugins: 'link lists autolink wordcount',
+            toolbar: 'bold italic underline | bullist numlist | link | removeformat',
+            menubar: false,
+            height: 180,
+            branding: false,
+            promotion: false,
+            setup: function (editor) {
+                editor.on('input undo redo SetContent', function () {
+                    updateWordCount('summary');
+                });
+            }
+        });
+
+        window.addEventListener('DOMContentLoaded', function () {
             setupEventListeners();
-            updateWordCount('summary');
-            updateWordCount('content');
+        });
+    })();
+
+    // ── Tabs ─────────────────────────────────────────────────────────
+    function showTab(name) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+        document.getElementById('editor-tab').style.display  = name === 'editor'  ? 'block' : 'none';
+        document.getElementById('preview-tab').style.display = name === 'preview' ? 'block' : 'none';
+        if (name === 'preview') updatePreview();
+    }
+
+    function setPreviewMode(mode) {
+        document.getElementById('previewFrame').classList.toggle('mobile', mode === 'mobile');
+        document.getElementById('btnDesktopPreview').classList.toggle('active', mode === 'desktop');
+        document.getElementById('btnMobilePreview').classList.toggle('active', mode === 'mobile');
+    }
+
+    function updatePreview() {
+        const title   = document.getElementById('blogTitle').value || 'Press Title';
+        const summary = tinymce.get('summaryEditor') ? tinymce.get('summaryEditor').getContent() : '';
+        const content = tinymce.get('contentEditor') ? tinymce.get('contentEditor').getContent() : '';
+        document.getElementById('previewTitle').textContent = title;
+        document.getElementById('previewSummary').innerHTML  = summary || 'Press summary will appear here…';
+        document.getElementById('previewContent').innerHTML  = content || 'Press content will appear here…';
+    }
+
+    // ── Setup ────────────────────────────────────────────────────────
+    function setupEventListeners() {
+        document.getElementById('blogTitle').addEventListener('input', function () {
+            document.getElementById('titleCount').textContent = this.value.length;
+            document.getElementById('previewTitle').textContent = this.value || 'Press Title';
         });
 
-        // Setup event listeners
-        function setupEventListeners() {
-            // Title character count
-            document.getElementById('blogTitle').addEventListener('input', function() {
-                const count = this.value.length;
-                document.getElementById('titleCount').textContent = count;
+        document.getElementById('blogForm').addEventListener('submit', handleFormSubmit);
+        document.getElementById('thumbnailInput').addEventListener('change', function () {});
 
-                // Update preview
-                document.getElementById('previewTitle').textContent = this.value || 'Press Title';
-            });
+        // Auto-generate slug from title
+        const titleEl = document.getElementById('blogTitle');
+        const slugEl  = document.getElementById('postSlug');
+        titleEl.addEventListener('input', function () {
+            if (slugEl.dataset.manual) return;
+            slugEl.value = this.value.toLowerCase()
+                .replace(/[^a-z0-9\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-')
+                .replace(/^-|-$/g, '');
+        });
+        slugEl.addEventListener('input', function () { this.dataset.manual = this.value ? '1' : ''; });
 
-            // Form submission
-            document.getElementById('blogForm').addEventListener('submit', handleFormSubmit);
+        // SEO counters
+        const seoTitle = document.getElementById('seoTitle');
+        const seoDesc  = document.getElementById('seoDesc');
+        seoTitle.addEventListener('input', function () { updateCounter(this, 'seoTitleCnt', 60); });
+        seoDesc.addEventListener('input',  function () { updateCounter(this, 'seoDescCnt', 160); });
 
-            // Image upload
-            document.getElementById('imageUpload').addEventListener('change', function(e) {
-                handleImage(e.target.files[0]);
-            });
+        setInterval(autoSave, 30000);
+        setTimeout(loadAutoSave, 1000);
+    }
 
-            // Auto-save (every 30 seconds)
-            setInterval(autoSave, 30000);
+    function updateCounter(el, counterId, max) {
+        const counter = document.getElementById(counterId);
+        const len = el.value.length;
+        counter.textContent = len + '/' + max;
+        counter.classList.toggle('warn', len > max * .9);
+    }
+
+    // ── Word count / reading time ───────────────────────────────────
+    function updateWordCount(type) {
+        const editor = tinymce.get(type === 'summary' ? 'summaryEditor' : 'contentEditor');
+        if (!editor) return;
+        const text  = editor.getContent({ format: 'text' }).trim();
+        const words = text ? text.split(/\s+/).length : 0;
+
+        if (type === 'summary') {
+            document.getElementById('summaryWordCount').textContent = 'Words: ' + words;
+        } else {
+            const minutes = Math.max(1, Math.ceil(words / 200));
+            document.getElementById('contentWordCount').textContent = 'Words: ' + words;
+            document.getElementById('readingTime').textContent = minutes + ' min read';
         }
 
-        // Tab management
-        function showTab(tabName) {
-            // Update tab buttons
-            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+        if (document.getElementById('preview-tab').style.display !== 'none') updatePreview();
+    }
 
-            // Show/hide content
-            document.getElementById('editor-tab').style.display = tabName === 'editor' ? 'block' : 'none';
-            document.getElementById('preview-tab').style.display = tabName === 'preview' ? 'block' : 'none';
+    // ── Thumbnail helpers ────────────────────────────────────────────
+    function handleThumbSelect(file) {
+        if (!file) return;
+        const allowed = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+        if (!allowed.includes(file.type)) { showNotification('Thumbnail must be JPG, PNG, or WebP.', 'error'); return; }
+        if (file.size > 3 * 1024 * 1024) { showNotification('Thumbnail must be under 3 MB.', 'error'); return; }
+        const reader = new FileReader();
+        reader.onload = function (ev) {
+            document.getElementById('thumbPreviewImg').src = ev.target.result;
+            document.getElementById('thumbPreviewWrap').style.display = 'block';
+            document.getElementById('thumbDropLabel').textContent = file.name;
+            document.getElementById('thumbDropZone').style.borderColor = '#198754';
+            document.getElementById('thumbDropZone').style.background  = '#f0fff4';
+            document.getElementById('thumbError').style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+    }
 
-            if (tabName === 'preview') {
-                updatePreview();
-            }
+    function handleThumbDrop(e) {
+        e.preventDefault();
+        e.currentTarget.style.borderColor = '#cbd5e1';
+        e.currentTarget.style.background  = '#fafbfc';
+        const file = e.dataTransfer.files[0];
+        if (file) {
+            const dt = new DataTransfer();
+            dt.items.add(file);
+            document.getElementById('thumbnailInput').files = dt.files;
+            handleThumbSelect(file);
+        }
+    }
+
+    function clearThumb() {
+        document.getElementById('thumbnailInput').value = '';
+        document.getElementById('thumbPreviewWrap').style.display = 'none';
+        document.getElementById('thumbDropLabel').textContent = 'Click or drag & drop';
+        document.getElementById('thumbDropZone').style.borderColor = '#cbd5e1';
+        document.getElementById('thumbDropZone').style.background  = '#fafbfc';
+    }
+
+    // ── Client-side belt-and-suspenders sanitization ─────────────────
+    // (The real security boundary is the server-side HTMLPurifier pass in
+    // blogUpload_process.php — this only strips obvious tags before send.)
+    function sanitizeHTML(html) {
+        const temp = document.createElement('div');
+        temp.innerHTML = html;
+        ['script', 'style', 'iframe', 'object', 'embed'].forEach(tag => {
+            const els = temp.getElementsByTagName(tag);
+            while (els[0]) els[0].parentNode.removeChild(els[0]);
+        });
+        return temp.innerHTML;
+    }
+
+    // ── Submit ────────────────────────────────────────────────────────
+    async function handleFormSubmit(e) {
+        e.preventDefault();
+
+        const title   = document.getElementById('blogTitle').value.trim();
+        const summary = tinymce.get('summaryEditor').getContent();
+        const content = tinymce.get('contentEditor').getContent();
+        const thumbInput = document.getElementById('thumbnailInput');
+
+        if (!title) { showNotification('Please enter a press title.', 'error'); return; }
+        if (!summary || summary === '<p></p>') { showNotification('Please write a press summary.', 'error'); return; }
+        if (!content || content === '<p></p>') { showNotification('Please write the press content.', 'error'); return; }
+
+        if (!thumbInput.files || !thumbInput.files[0]) {
+            document.getElementById('thumbError').style.display = 'block';
+            document.getElementById('thumbDropZone').style.borderColor = '#dc3545';
+            showNotification('Press thumbnail is required.', 'error');
+            return;
         }
 
-        // Update preview
-        function updatePreview() {
-            const title = document.getElementById('blogTitle').value || 'Press Title';
-            const summary = document.getElementById('summaryEditor').innerHTML || 'Press summary will appear here...';
-            const content = document.getElementById('contentEditor').innerHTML || 'Press content will appear here...';
+        showLoading(true);
 
-            document.getElementById('previewTitle').textContent = title;
-            document.getElementById('previewSummary').innerHTML = summary;
-            document.getElementById('previewContent').innerHTML = content;
-        }
+        document.getElementById('sanitizedContent').value = sanitizeHTML(content);
+        document.getElementById('sanitizedSummary').value  = sanitizeHTML(summary);
 
-        // Get active editor
-        function getActiveEditor() {
-            const summaryEditor = document.getElementById('summaryEditor');
-            const contentEditor = document.getElementById('contentEditor');
+        const formData = new FormData(e.target);
+        if (e.submitter && e.submitter.name) formData.set(e.submitter.name, e.submitter.value);
 
-            if (document.activeElement === summaryEditor) {
-                activeEditor = 'summary';
-                return summaryEditor;
-            }
-            if (document.activeElement === contentEditor) {
-                activeEditor = 'content';
-                return contentEditor;
-            }
+        try {
+            const response = await fetch(e.target.action, { method: 'POST', body: formData, credentials: 'same-origin' });
+            const result = await response.json();
 
-            // Default to content editor
-            activeEditor = 'content';
-            return contentEditor;
-        }
-
-        // Formatting functions
-        function formatText(command) {
-            const editor = getActiveEditor();
-            editor.focus();
-
-            try {
-                document.execCommand(command, false, null);
-                updateWordCount(activeEditor);
-            } catch (e) {
-                console.error("Formatting failed:", e);
-                showNotification("Formatting failed. Please try again.", 'error');
-            }
-        }
-
-        function changeColor(color) {
-            const editor = getActiveEditor();
-            editor.focus();
-
-            try {
-                document.execCommand("styleWithCSS", false, true);
-                document.execCommand("foreColor", false, color);
-            } catch (e) {
-                console.error("Color change failed:", e);
-                showNotification("Color change failed. Please try again.", 'error');
-            }
-        }
-
-        function alignText(alignType) {
-            const editor = getActiveEditor();
-            editor.focus();
-
-            try {
-                document.execCommand("styleWithCSS", false, true);
-                document.execCommand("justify" + alignType.charAt(0).toUpperCase() + alignType.slice(1), false, null);
-            } catch (e) {
-                console.error("Alignment failed:", e);
-                showNotification("Alignment failed. Please try again.", 'error');
-            }
-        }
-
-        function changeFont(font) {
-            const editor = getActiveEditor();
-            editor.focus();
-
-            try {
-                document.execCommand("fontName", false, font);
-            } catch (e) {
-                console.error("Font change failed:", e);
-                showNotification("Font change failed. Please try again.", 'error');
-            }
-        }
-
-        function changeFontSize(size) {
-            const editor = getActiveEditor();
-            editor.focus();
-
-            try {
-                document.execCommand("fontSize", false, size);
-            } catch (e) {
-                console.error("Font size change failed:", e);
-                showNotification("Font size change failed. Please try again.", 'error');
-            }
-        }
-
-        function createLink() {
-            const editor = getActiveEditor();
-            editor.focus();
-
-            const url = prompt("Enter the URL:");
-            if (url) {
-                try {
-                    document.execCommand("createLink", false, url);
-                } catch (e) {
-                    console.error("Link creation failed:", e);
-                    showNotification("Link creation failed. Please try again.", 'error');
-                }
-            }
-        }
-
-        function triggerUpload() {
-            document.getElementById("imageUpload").click();
-        }
-
-        // Image handling
-        function handleImage(file) {
-            if (!file) return;
-
-            if (!file.type.startsWith('image/')) {
-                showNotification('Please select a valid image file.', 'error');
-                return;
-            }
-
-            if (file.size > 5 * 1024 * 1024) { // 5MB limit
-                showNotification('Image size should be less than 5MB.', 'error');
-                return;
-            }
-
-            const editor = getActiveEditor();
-            editor.focus();
-
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const img = document.createElement("img");
-                img.src = e.target.result;
-                img.style.maxWidth = "100%";
-                img.style.borderRadius = "8px";
-                img.style.margin = "15px 0";
-                img.style.display = "block";
-
-                // Insert at cursor position
-                const selection = window.getSelection();
-                if (selection.rangeCount > 0) {
-                    const range = selection.getRangeAt(0);
-                    range.insertNode(img);
-
-                    // Move cursor after the image
-                    const newRange = document.createRange();
-                    newRange.setStartAfter(img);
-                    newRange.collapse(true);
-                    selection.removeAllRanges();
-                    selection.addRange(newRange);
-                } else {
-                    editor.appendChild(img);
-                }
-
-                updateWordCount(activeEditor);
-            };
-            reader.readAsDataURL(file);
-        }
-
-        // Drag and drop handlers
-        function handleDragOver(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            e.target.classList.add("drag-over");
-        }
-
-        function handleDragLeave(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            e.target.classList.remove("drag-over");
-        }
-
-        function handleDrop(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            e.target.classList.remove("drag-over");
-
-            const files = e.dataTransfer.files;
-            if (files.length > 0) {
-                const file = files[0];
-                if (file && file.type.startsWith("image/")) {
-                    handleImage(file);
-                }
-            }
-        }
-
-        // Word count functions
-        function countWords(text) {
-            const cleanText = text.replace(/<[^>]*>/g, ' ').trim();
-            const words = cleanText ? cleanText.split(/\s+/).length : 0;
-            const characters = cleanText.length;
-            return {
-                words,
-                characters
-            };
-        }
-
-        function updateWordCount(editorType) {
-            const editor = editorType === 'summary' ?
-                document.getElementById('summaryEditor') :
-                document.getElementById('contentEditor');
-
-            const wordCountElement = editorType === 'summary' ?
-                document.getElementById('summaryWordCount') :
-                document.getElementById('contentWordCount');
-
-            const {
-                words,
-                characters
-            } = countWords(editor.innerHTML);
-            wordCountElement.textContent = `Words: ${words} | Characters: ${characters}`;
-
-            // Update preview if visible
-            if (!document.getElementById('preview-tab').style.display === 'none') {
-                updatePreview();
-            }
-
-            // Highlight if summary is too short
-            if (editorType === 'summary') {
-                if (characters < 100) {
-                    wordCountElement.classList.add('low');
-                } else {
-                    wordCountElement.classList.remove('low');
-                }
-            }
-        }
-
-        // Form handling
-        function sanitizeHTML(html) {
-            const temp = document.createElement('div');
-            temp.innerHTML = html;
-
-            // Remove disallowed tags but keep their content
-            const disallowedTags = ['script', 'style', 'iframe', 'object', 'embed'];
-            disallowedTags.forEach(tag => {
-                const elements = temp.getElementsByTagName(tag);
-                while (elements[0]) {
-                    const parent = elements[0].parentNode;
-                    while (elements[0].firstChild) {
-                        parent.insertBefore(elements[0].firstChild, elements[0]);
-                    }
-                    parent.removeChild(elements[0]);
-                }
-            });
-
-            return temp.innerHTML;
-        }
-
-        // Thumbnail helpers
-        function handleThumbSelect(file) {
-            if (!file) return;
-            const allowed = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-            if (!allowed.includes(file.type)) {
-                showNotification('Thumbnail must be JPG, PNG, or WebP.', 'error');
-                return;
-            }
-            if (file.size > 3 * 1024 * 1024) {
-                showNotification('Thumbnail must be under 3 MB.', 'error');
-                return;
-            }
-            const reader = new FileReader();
-            reader.onload = function(ev) {
-                document.getElementById('thumbPreviewImg').src = ev.target.result;
-                document.getElementById('thumbPreviewWrap').style.display = 'block';
-                document.getElementById('thumbDropLabel').textContent = file.name;
-                document.getElementById('thumbDropZone').style.borderColor = '#198754';
-                document.getElementById('thumbDropZone').style.background = '#f0fff4';
-                document.getElementById('thumbError').style.display = 'none';
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function handleThumbDrop(e) {
-            e.preventDefault();
-            e.currentTarget.style.borderColor = '#ced4da';
-            e.currentTarget.style.background  = '#fafafa';
-            const file = e.dataTransfer.files[0];
-            if (file) {
-                const dt = new DataTransfer();
-                dt.items.add(file);
-                document.getElementById('thumbnailInput').files = dt.files;
-                handleThumbSelect(file);
-            }
-        }
-
-        function clearThumb() {
-            document.getElementById('thumbnailInput').value = '';
-            document.getElementById('thumbPreviewWrap').style.display = 'none';
-            document.getElementById('thumbDropLabel').textContent = 'Click or drag & drop to upload cover thumbnail';
-            document.getElementById('thumbDropZone').style.borderColor = '#ced4da';
-            document.getElementById('thumbDropZone').style.background  = '#fafafa';
-        }
-
-        async function handleFormSubmit(e) {
-            e.preventDefault();
-
-            // Validation
-            const title = document.getElementById('blogTitle').value.trim();
-            const summaryContent = document.getElementById('summaryEditor').innerHTML.trim();
-            const mainContent = document.getElementById('contentEditor').innerHTML.trim();
-            const thumbInput = document.getElementById('thumbnailInput');
-
-            if (!title) {
-                showNotification('Please enter a press title.', 'error');
-                return;
-            }
-
-            if (!summaryContent || summaryContent === '<br>') {
-                showNotification('Please write a press summary.', 'error');
-                return;
-            }
-
-            if (!mainContent || mainContent === '<br>') {
-                showNotification('Please write the press content.', 'error');
-                return;
-            }
-
-            // Thumbnail is required
-            if (!thumbInput.files || !thumbInput.files[0]) {
-                document.getElementById('thumbError').style.display = 'block';
-                document.getElementById('thumbDropZone').style.borderColor = '#dc3545';
-                showNotification('Press thumbnail is required.', 'error');
-                return;
-            }
-
-            // Show loading
-            showLoading(true);
-
-            // Sanitize and set hidden inputs
-            document.getElementById('sanitizedContent').value = sanitizeHTML(mainContent);
-            document.getElementById('sanitizedSummary').value = sanitizeHTML(summaryContent);
-
-            // Submit form (FormData includes the thumbnail file)
-            const formData = new FormData(e.target);
-
-            // Pass the submit button's value if it triggered the submit
-            if (e.submitter && e.submitter.name) {
-                formData.set(e.submitter.name, e.submitter.value);
-            }
-
-            try {
-                const response = await fetch(e.target.action, {
-                    method: 'POST',
-                    body: formData
-                });
-
-                const result = await response.json();
-
-                if (result.status === 'success') {
-                    localStorage.removeItem('blogAutoSave');
-                    showNotification('Press post published! Redirecting...', 'success');
-                    setTimeout(() => {
-                        window.location.href = 'blog_manager.php';
-                    }, 1800);
-                } else {
-                    throw new Error(result.message || 'Unknown error occurred');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                showNotification('Error publishing post: ' + error.message, 'error');
-            } finally {
-                showLoading(false);
-            }
-        }
-
-        // Save draft
-        async function saveDraft() {
-            const title = document.getElementById('blogTitle').value.trim();
-
-            if (!title) {
-                showNotification('Please enter a title before saving draft.', 'warning');
-                return;
-            }
-
-            document.getElementById('postStatus').value = 'draft';
-
-            // Temporarily change form action for draft save
-            const form = document.getElementById('blogForm');
-            const originalAction = form.action;
-
-            showNotification('Saving draft...', 'info');
-
-            try {
-                await handleFormSubmit({
-                    preventDefault: () => {},
-                    target: form
-                });
-                showNotification('Draft saved successfully!', 'success');
-            } catch (error) {
-                showNotification('Error saving draft: ' + error.message, 'error');
-            } finally {
-                document.getElementById('postStatus').value = 'published';
-                form.action = originalAction;
-            }
-        }
-
-        // Auto-save function
-        function autoSave() {
-            const title = document.getElementById('blogTitle').value.trim();
-            const summaryContent = document.getElementById('summaryEditor').innerHTML.trim();
-            const mainContent = document.getElementById('contentEditor').innerHTML.trim();
-
-            if (title && (summaryContent || mainContent)) {
-                // Save to localStorage as backup
-                const autoSaveData = {
-                    title: title,
-                    summary: summaryContent,
-                    content: mainContent,
-                    timestamp: new Date().toISOString()
-                };
-
-                localStorage.setItem('blogAutoSave', JSON.stringify(autoSaveData));
-                console.log('Auto-saved at', new Date().toLocaleTimeString());
-            }
-        }
-
-        // Load auto-saved data
-        function loadAutoSave() {
-            const autoSaveData = localStorage.getItem('blogAutoSave');
-            if (autoSaveData) {
-                const data = JSON.parse(autoSaveData);
-                const timestamp = new Date(data.timestamp);
-                const now = new Date();
-                const hoursDiff = (now - timestamp) / (1000 * 60 * 60);
-
-                if (hoursDiff < 24) { // Only load if less than 24 hours old
-                    if (confirm(`Auto-saved content found from ${timestamp.toLocaleString()}. Would you like to restore it?`)) {
-                        document.getElementById('blogTitle').value = data.title;
-                        document.getElementById('summaryEditor').innerHTML = data.summary;
-                        document.getElementById('contentEditor').innerHTML = data.content;
-
-                        updateWordCount('summary');
-                        updateWordCount('content');
-
-                        showNotification('Auto-saved content restored!', 'success');
-                    }
-                }
-            }
-        }
-
-
-
-
-
-        // Utility functions
-        function showLoading(show) {
-            const overlay = document.getElementById('loadingOverlay');
-            if (show) {
-                overlay.classList.add('show');
+            if (result.status === 'success') {
+                localStorage.removeItem('blogAutoSave');
+                showNotification('Press post saved! Redirecting…', 'success');
+                setTimeout(() => { window.location.href = 'blog_manager.php'; }, 1500);
             } else {
-                overlay.classList.remove('show');
+                throw new Error(result.message || 'Unknown error occurred');
             }
+        } catch (error) {
+            showNotification('Error saving post: ' + error.message, 'error');
+        } finally {
+            showLoading(false);
         }
+    }
 
-        function showNotification(message, type = 'success') {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.className = `notification ${type} show`;
+    // ── Auto-save ────────────────────────────────────────────────────
+    function autoSave() {
+        const title = document.getElementById('blogTitle').value.trim();
+        const summaryEd = tinymce.get('summaryEditor');
+        const contentEd = tinymce.get('contentEditor');
+        if (!summaryEd || !contentEd) return;
+        const summary = summaryEd.getContent();
+        const content = contentEd.getContent();
 
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 5000);
+        if (title && (summary || content)) {
+            localStorage.setItem('blogAutoSave', JSON.stringify({
+                title: title, summary: summary, content: content, timestamp: new Date().toISOString()
+            }));
         }
+    }
 
+    function loadAutoSave() {
+        const raw = localStorage.getItem('blogAutoSave');
+        if (!raw) return;
+        const data = JSON.parse(raw);
+        const hoursDiff = (new Date() - new Date(data.timestamp)) / 36e5;
+        if (hoursDiff >= 24) return;
 
+        if (confirm('Auto-saved content found from ' + new Date(data.timestamp).toLocaleString() + '. Restore it?')) {
+            document.getElementById('blogTitle').value = data.title;
+            document.getElementById('blogTitle').dispatchEvent(new Event('input'));
+            if (tinymce.get('summaryEditor')) tinymce.get('summaryEditor').setContent(data.summary || '');
+            if (tinymce.get('contentEditor')) tinymce.get('contentEditor').setContent(data.content || '');
+            showNotification('Auto-saved content restored!', 'success');
+        }
+    }
 
-        // Load auto-save on page load
-        window.addEventListener('load', function() {
-            setTimeout(loadAutoSave, 1000); // Delay to ensure page is fully loaded
-        });
+    // ── Utility ──────────────────────────────────────────────────────
+    function showLoading(show) { document.getElementById('loadingOverlay').classList.toggle('show', show); }
 
-        // Warn before leaving with unsaved changes
-        window.addEventListener('beforeunload', function(e) {
-            const title = document.getElementById('blogTitle').value.trim();
-            const summaryContent = document.getElementById('summaryEditor').innerHTML.trim();
-            const mainContent = document.getElementById('contentEditor').innerHTML.trim();
+    function showNotification(message, type) {
+        const el = document.getElementById('notification');
+        el.textContent = message;
+        el.className = 'notification ' + (type || 'success') + ' show';
+        setTimeout(() => el.classList.remove('show'), 5000);
+    }
 
-            if (title || summaryContent || mainContent) {
-                e.preventDefault();
-                e.returnValue = '';
-            }
-        });
+    window.addEventListener('beforeunload', function (e) {
+        const title = document.getElementById('blogTitle').value.trim();
+        if (title) { e.preventDefault(); e.returnValue = ''; }
+    });
     </script>
 </body>
-
 </html>

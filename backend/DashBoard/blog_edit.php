@@ -6,6 +6,8 @@ if (!isset($_SESSION['username'])) {
 }
 
 require_once '../../config.php';
+require_once 'csrf_helper.php';
+require_once __DIR__ . '/../blogSanitizer.php';
 
 $blog_id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 if (!$blog_id) {
@@ -43,9 +45,13 @@ $error   = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
+        if (!csrf_verify()) {
+            throw new Exception('Invalid or expired session token. Please reload the page and try again.');
+        }
+
         $title   = trim($_POST['blog_title']    ?? '');
-        $content = $_POST['blog_content']       ?? '';
-        $summary = $_POST['summary_content']    ?? '';
+        $content = sanitize_blog_html($_POST['blog_content']    ?? '');
+        $summary = sanitize_blog_html($_POST['summary_content'] ?? '');
 
         if (empty($title))   throw new Exception('Title is required.');
         if (empty($content)) throw new Exception('Content is required.');
@@ -125,6 +131,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $sets[]   = 'seo_description=?';
             $values[] = trim($_POST['seo_description'] ?? '');
         }
+        if (isset($has['focus_keyword'])) {
+            $sets[]   = 'focus_keyword=?';
+            $values[] = trim($_POST['focus_keyword'] ?? '');
+        }
+        if (isset($has['canonical_url'])) {
+            $sets[]   = 'canonical_url=?';
+            $values[] = trim($_POST['canonical_url'] ?? '');
+        }
         if (isset($has['reading_time'])) {
             $sets[]   = 'reading_time=?';
             $values[] = max(1, (int)ceil(str_word_count(strip_tags($content)) / 200));
@@ -162,6 +176,7 @@ $cat_options = [
 <link rel="icon" type="image/png" href="../images/logo/logo.png">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="assets/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
 <style>
 :root { --pri:#0073e6; --dark:#1e3a5f; }
 body { background:#f5f7fa; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; }
@@ -214,6 +229,7 @@ body { background:#f5f7fa; font-family:system-ui,-apple-system,'Segoe UI',sans-s
     <?php endif; ?>
 
     <form method="POST" id="editForm" enctype="multipart/form-data">
+    <?= csrf_field() ?>
     <div class="row g-3">
 
         <!-- Left column: content -->
@@ -230,34 +246,13 @@ body { background:#f5f7fa; font-family:system-ui,-apple-system,'Segoe UI',sans-s
             <!-- Summary -->
             <div class="panel">
                 <div class="panel-title">Summary <span class="text-danger">*</span></div>
-                <div class="toolbar">
-                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="fmt('bold')" title="Bold"><i class="fas fa-bold"></i></button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="fmt('italic')" title="Italic"><i class="fas fa-italic"></i></button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="fmt('underline')" title="Underline"><i class="fas fa-underline"></i></button>
-                </div>
-                <div id="summaryEditor" contenteditable="true" class="editor-area"
-                     style="min-height:100px"
-                     oninput="syncHidden('summary')"><?= $post['summary'] ?? '' ?></div>
-                <input type="hidden" name="summary_content" id="summaryHidden">
+                <textarea id="summaryEditor" name="summary_content"><?= $post['summary'] ?? '' ?></textarea>
             </div>
 
             <!-- Content -->
             <div class="panel">
                 <div class="panel-title">Press Content <span class="text-danger">*</span></div>
-                <div class="toolbar">
-                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="fmt('bold')"><i class="fas fa-bold"></i></button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="fmt('italic')"><i class="fas fa-italic"></i></button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="fmt('underline')"><i class="fas fa-underline"></i></button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="fmt('insertUnorderedList')"><i class="fas fa-list-ul"></i></button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="fmt('insertOrderedList')"><i class="fas fa-list-ol"></i></button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="insertLink()"><i class="fas fa-link"></i></button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="fmt('justifyLeft')"><i class="fas fa-align-left"></i></button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="fmt('justifyCenter')"><i class="fas fa-align-center"></i></button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="fmt('justifyRight')"><i class="fas fa-align-right"></i></button>
-                </div>
-                <div id="contentEditor" contenteditable="true" class="editor-area"
-                     oninput="syncHidden('content')"><?= $post['blog_content'] ?? '' ?></div>
-                <input type="hidden" name="blog_content" id="contentHidden">
+                <textarea id="contentEditor" name="blog_content"><?= $post['blog_content'] ?? '' ?></textarea>
             </div>
 
         </div>
@@ -398,13 +393,29 @@ body { background:#f5f7fa; font-family:system-ui,-apple-system,'Segoe UI',sans-s
                            oninput="document.getElementById('seoTitleCnt').textContent=this.value.length+'/60'">
                     <div class="char-counter"><span id="seoTitleCnt"><?= strlen($post['seo_title'] ?? '') ?>/60</span></div>
                 </div>
-                <div>
+                <div class="mb-2">
                     <label class="form-label">Meta Description</label>
                     <textarea class="form-control form-control-sm" name="seo_description"
                               maxlength="160" rows="3" id="seoDesc"
                               oninput="document.getElementById('seoDescCnt').textContent=this.value.length+'/160'"><?= htmlspecialchars($post['seo_description'] ?? '') ?></textarea>
                     <div class="char-counter"><span id="seoDescCnt"><?= strlen($post['seo_description'] ?? '') ?>/160</span></div>
                 </div>
+                <?php if (isset($has['focus_keyword'])): ?>
+                <div class="mb-2">
+                    <label class="form-label">Focus Keyword</label>
+                    <input type="text" class="form-control form-control-sm" name="focus_keyword"
+                           value="<?= htmlspecialchars($post['focus_keyword'] ?? '') ?>"
+                           placeholder="e.g. rural microfinance Bangladesh">
+                </div>
+                <?php endif; ?>
+                <?php if (isset($has['canonical_url'])): ?>
+                <div>
+                    <label class="form-label">Canonical URL</label>
+                    <input type="url" class="form-control form-control-sm" name="canonical_url"
+                           value="<?= htmlspecialchars($post['canonical_url'] ?? '') ?>"
+                           placeholder="https://atmabiswas.org/press.php?id=…">
+                </div>
+                <?php endif; ?>
             </div>
             <?php endif; ?>
 
@@ -415,41 +426,76 @@ body { background:#f5f7fa; font-family:system-ui,-apple-system,'Segoe UI',sans-s
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-let lastFocus = document.getElementById('contentEditor');
+(function () {
+    const CSRF_TOKEN = document.querySelector('input[name="csrf_token"]').value;
 
-['summaryEditor','contentEditor'].forEach(id => {
-    document.getElementById(id).addEventListener('focus', () => { lastFocus = document.getElementById(id); });
-});
+    tinymce.PluginManager.add('atmachecklist', function (editor) {
+        editor.ui.registry.addButton('checklist', {
+            icon: 'checklist',
+            tooltip: 'Insert Checklist',
+            onAction: function () {
+                editor.insertContent('<ul class="task-list"><li class="task-item">Task item</li></ul><p></p>');
+            }
+        });
+        editor.on('click', function (e) {
+            const li = e.target.closest && e.target.closest('.task-item');
+            if (li && editor.getBody().contains(li)) li.classList.toggle('checked');
+        });
+    });
 
-function fmt(cmd) {
-    lastFocus.focus();
-    document.execCommand(cmd, false, null);
-    syncHidden(lastFocus.id === 'summaryEditor' ? 'summary' : 'content');
-}
-
-function insertLink() {
-    lastFocus.focus();
-    const url = prompt('Enter URL:');
-    if (url) document.execCommand('createLink', false, url);
-}
-
-function syncHidden(type) {
-    if (type === 'summary') {
-        document.getElementById('summaryHidden').value = document.getElementById('summaryEditor').innerHTML;
-    } else {
-        document.getElementById('contentHidden').value = document.getElementById('contentEditor').innerHTML;
+    function uploadHandler(blobInfo) {
+        return new Promise(function (resolve, reject) {
+            const fd = new FormData();
+            fd.append('file', blobInfo.blob(), blobInfo.filename());
+            fd.append('csrf_token', CSRF_TOKEN);
+            fetch('../blogContentImage_upload.php', { method: 'POST', body: fd, credentials: 'same-origin' })
+                .then(r => r.json())
+                .then(json => {
+                    if (!json || !json.location) { reject(json && json.error ? json.error : 'Upload failed'); return; }
+                    resolve(json.location);
+                })
+                .catch(() => reject('Image upload failed. Please try again.'));
+        });
     }
-}
+
+    tinymce.init({
+        selector: '#contentEditor',
+        plugins: 'advlist autolink lists link image charmap preview anchor searchreplace ' +
+                 'visualblocks code fullscreen insertdatetime media table help wordcount ' +
+                 'codesample directionality emoticons nonbreaking atmachecklist',
+        toolbar: 'undo redo | blocks fontfamily fontsizeinput | ' +
+                 'bold italic underline strikethrough superscript subscript | forecolor backcolor removeformat | ' +
+                 'alignleft aligncenter alignright alignjustify | indent outdent | ' +
+                 'bullist numlist checklist | link unlink image media table | ' +
+                 'blockquote hr codesample | charmap emoticons | searchreplace | code fullscreen help',
+        toolbar_sticky: true,
+        menubar: false,
+        height: 420,
+        paste_data_images: true,
+        automatic_uploads: true,
+        images_upload_handler: uploadHandler,
+        images_upload_credentials: true,
+        image_advtab: true,
+        default_link_target: '_blank',
+        link_assume_external_targets: true,
+        content_style: 'body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:15px;line-height:1.7;} img{max-width:100%;height:auto;} table{border-collapse:collapse;} td,th{border:1px solid #e2e8f0;padding:6px;} .task-list{list-style:none;padding-left:.5rem;} .task-item::before{content:"\2610  ";} .task-item.checked::before{content:"\2611  ";color:#16a34a;}',
+        branding: false,
+        promotion: false
+    });
+
+    tinymce.init({
+        selector: '#summaryEditor',
+        plugins: 'link lists autolink wordcount',
+        toolbar: 'bold italic underline | bullist numlist | link | removeformat',
+        menubar: false,
+        height: 160,
+        branding: false,
+        promotion: false
+    });
+})();
 
 document.getElementById('editForm').addEventListener('submit', () => {
-    syncHidden('summary');
-    syncHidden('content');
-});
-
-// Init hidden inputs on load
-window.addEventListener('DOMContentLoaded', () => {
-    syncHidden('summary');
-    syncHidden('content');
+    tinymce.triggerSave();
 });
 
 function previewEditThumb(input) {
