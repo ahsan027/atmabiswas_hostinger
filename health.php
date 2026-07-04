@@ -178,14 +178,6 @@
             <p>We also value local partnerships and capacity building, working alongside existing health facilities, local government structures, and other community development organizations wherever possible rather than duplicating services. This sustainable, community-based approach is intended to leave communities better equipped to manage their own health going forward, not dependent on continued outside support.</p>
         </div>
 
-        <!-- Why Community Health Matters -->
-        <div class="card">
-            <h2>Why Community Health Matters</h2>
-            <p>Prevention is almost always more effective, and more affordable, than treating illness after it has already taken hold. Simple, well-understood practices — safe drinking water, proper hygiene, timely vaccination, balanced nutrition — can prevent many of the illnesses that place the greatest burden on rural families and the limited health services available to them.</p>
-            <p>Healthy communities are also stronger communities in every other sense. When people are not repeatedly falling ill, children attend school more consistently, adults are able to work and earn a stable income, and households are better able to invest in their own future rather than spending scarce resources on preventable health problems. In this way, community health is closely connected to education, livelihoods, and broader economic development.</p>
-            <p>Awareness and early intervention make a real difference here. Recognizing symptoms early, understanding when and where to seek care, and knowing basic preventive practices can be the difference between a manageable health issue and a serious one. ATMABISWAS's public health programme in Bangladesh focuses on building this awareness so that communities are better prepared, today and over the long term, to protect their own wellbeing.</p>
-        </div>
-
         <!-- Gallery Section -->
         <div class="card">
             <h2>Gallery</h2>
