@@ -82,7 +82,7 @@ if (empty($latest)) return;
                 </div>
                 <button class="ln-read-more" id="<?= $btnId ?>"
                         onclick="lnToggle('<?= $descId ?>','<?= $btnId ?>')">
-                    Read More <i class="fas fa-chevron-down"></i>
+                    <span class="ln-read-more-label" data-en="Read More" data-bn="আরও পড়ুন">Read More</span> <i class="fas fa-chevron-down"></i>
                 </button>
                 <?php endif; ?>
             </div>
@@ -98,8 +98,14 @@ function lnToggle(descId, btnId) {
     var open = wrap.classList.toggle('expanded');
     btn.classList.toggle('expanded', open);
     btn.querySelector('i').style.transform = open ? 'rotate(180deg)' : 'rotate(0deg)';
-    // Update text, keep icon
-    btn.childNodes[0].textContent = open ? 'Read Less ' : 'Read More ';
+    // Update label, keep icon
+    var label = btn.querySelector('.ln-read-more-label');
+    var lang  = window.atmaLang ? window.atmaLang.get() : 'en';
+    label.setAttribute('data-en', open ? 'Read Less' : 'Read More');
+    label.setAttribute('data-bn', open ? 'কম পড়ুন' : 'আরও পড়ুন');
+    label.textContent = lang === 'bn'
+        ? label.getAttribute('data-bn')
+        : label.getAttribute('data-en');
 }
 </script>
 

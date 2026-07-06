@@ -39,37 +39,39 @@
             <div class="number-card">
                 <div class="number-icon"><i class="fas fa-users"></i></div>
                 <h2 id="number1">0</h2>
-                <p>Employees</p>
+                <p data-en="Employees" data-bn="কর্মী">Employees</p>
             </div>
             <div class="number-card">
                 <div class="number-icon"><i class="fas fa-hands-helping"></i></div>
                 <h2 id="number2">0</h2>
-                <p>Served Clients</p>
+                <p data-en="Served Clients" data-bn="সেবাগ্রহীতা">Served Clients</p>
             </div>
             <div class="number-card">
                 <div class="number-icon"><i class="fas fa-code-branch"></i></div>
                 <h2 id="number3">0</h2>
-                <p>Branches</p>
+                <p data-en="Branches" data-bn="শাখা">Branches</p>
             </div>
             <div class="number-card">
                 <div class="number-icon"><i class="fas fa-calendar-check"></i></div>
                 <h2 id="number4">0</h2>
-                <p>Years of Foundation</p>
+                <p data-en="Years of Foundation" data-bn="প্রতিষ্ঠার বছর">Years of Foundation</p>
             </div>
         </div>
     </div>
     <div class="sectionalparts">
-        <h2>Our Goals</h2>
-        <p>Our mission is to work for progressive social transformation with the aim of institutionalizing a society
-            that place <strong>harmony, peace, justice and ecological balance together</strong></p>
+        <h2 data-en="Our Goals" data-bn="আমাদের লক্ষ্য">Our Goals</h2>
+        <p><span data-en="Our mission is to work for progressive social transformation with the aim of institutionalizing a society that place"
+                 data-bn="আমাদের লক্ষ্য হলো প্রগতিশীল সামাজিক রূপান্তরের জন্য কাজ করা, যার উদ্দেশ্য এমন একটি সমাজ প্রতিষ্ঠা করা যেখানে">Our mission is to work for progressive social transformation with the aim of institutionalizing a society
+            that place</span> <strong data-en="harmony, peace, justice and ecological balance together"
+                    data-bn="সম্প্রীতি, শান্তি, ন্যায়বিচার ও পরিবেশগত ভারসাম্য একসাথে বিরাজ করে">harmony, peace, justice and ecological balance together</strong></p>
 
 
     </div>
 
 
     <div class="sectionalpartsnew">
-        <h2>Latest</h2>
-        <p><strong>Find the latest news of ATMABISWAS here.</strong></p>
+        <h2 data-en="Latest" data-bn="সাম্প্রতিক">Latest</h2>
+        <p><strong data-en="Find the latest news of ATMABISWAS here." data-bn="এখানে আত্মবিশ্বাসের সাম্প্রতিক সংবাদ দেখুন।">Find the latest news of ATMABISWAS here.</strong></p>
     </div>
 
     <?php include 'test.php' ?>

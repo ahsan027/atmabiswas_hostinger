@@ -78,6 +78,24 @@
   ); /* Hover effect with white transparency */
 }
 
+.side-lang-toggle {
+  font-family: "Times New Roman", Times, serif;
+  color: #0d47a1;
+  background-color: #ffffff;
+  border: none;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin: 0 20px 16px 20px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  align-self: flex-start;
+}
+
+.side-lang-toggle:hover {
+  background-color: #e8eef8;
+}
+
 .sidedrop .mainsidedrop a {
   display: flex;
   justify-content: space-between;
