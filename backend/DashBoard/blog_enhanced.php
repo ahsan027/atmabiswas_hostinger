@@ -465,11 +465,24 @@ $cat_options = [
             'wordcount codesample directionality emoticons nonbreaking atmachecklist';
 
         const contentToolbar =
-            'undo redo | blocks fontfamily fontsizeinput | ' +
+            'undo redo | blocks fontfamily fontsize | ' +
             'bold italic underline strikethrough superscript subscript | forecolor backcolor removeformat | ' +
             'alignleft aligncenter alignright alignjustify | indent outdent | ' +
             'bullist numlist checklist | link unlink image media table | ' +
             'blockquote hr codesample | charmap emoticons | searchreplace | code fullscreen help';
+
+        // ── Debounce: avoid re-serializing the whole document on every
+        // single keystroke (was the cause of the editor feeling like it
+        // "buffers"/freezes while typing in long posts) ──
+        function debounce(fn, delay) {
+            let t;
+            return function (...args) {
+                clearTimeout(t);
+                t = setTimeout(() => fn.apply(this, args), delay);
+            };
+        }
+        const debouncedContentWordCount = debounce(() => updateWordCount('content'), 300);
+        const debouncedSummaryWordCount = debounce(() => updateWordCount('summary'), 300);
 
         window.tinymce.init({
             selector: '#contentEditor',
@@ -489,13 +502,15 @@ $cat_options = [
             default_link_target: '_blank',
             link_assume_external_targets: true,
             image_advtab: true,
+            // 5 preset text sizes for the Press Content toolbar's "Font size" dropdown
+            fontsize_formats: '12px 14px 16px 20px 28px',
+            color_cols: 8,
+            custom_colors: true,
             content_style: 'body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:15px;line-height:1.7;} img{max-width:100%;height:auto;} table{border-collapse:collapse;} td,th{border:1px solid #e2e8f0;padding:6px;} .task-list{list-style:none;padding-left:.5rem;} .task-item::before{content:"\2610  ";} .task-item.checked::before{content:"\2611  ";color:#16a34a;}',
             branding: false,
             promotion: false,
             setup: function (editor) {
-                editor.on('input undo redo SetContent', function () {
-                    updateWordCount('content');
-                });
+                editor.on('input undo redo SetContent', debouncedContentWordCount);
             }
         });
 
@@ -509,9 +524,7 @@ $cat_options = [
             branding: false,
             promotion: false,
             setup: function (editor) {
-                editor.on('input undo redo SetContent', function () {
-                    updateWordCount('summary');
-                });
+                editor.on('input undo redo SetContent', debouncedSummaryWordCount);
             }
         });
 
