@@ -61,7 +61,7 @@
             </div>
         </section>
 
-        <div class="othermembers">
+        <div class="othermembers eve-othermembers">
             <div class="executive-card">
                 <div class="exec-img-wrap">
                     <img src="Executives/ranabiswas.jpg?v=<?php echo filemtime(__DIR__ . '/Executives/ranabiswas.jpg'); ?>" loading="lazy" alt="Md. Iktiar Uddin" onerror="this.remove()">

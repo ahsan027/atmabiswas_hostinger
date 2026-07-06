@@ -1182,6 +1182,9 @@ img { max-width: 100%; height: auto; }
   .container      { padding: 1.5rem 1rem 3rem; }
   .oth            { flex-direction: column; align-items: center; }
   .othermembers   { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+  /* eve.php only — single column on mobile (higher specificity beats the
+     narrower .othermembers breakpoints below, regardless of source order) */
+  .othermembers.eve-othermembers { grid-template-columns: 1fr; }
   .gallery, .pic  { grid-template-columns: repeat(2, 1fr); }
   .services       { grid-template-columns: 1fr; }
   .agri-support-grid { grid-template-columns: 1fr; }
