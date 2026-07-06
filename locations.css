@@ -302,6 +302,30 @@ body {
     transform: translateY(-1px);
 }
 
+/* Pulse the "Other Branches" button while the HQ panel is open, to draw attention to it */
+.ct-hq-panel.active .ct-branch-btn {
+    -webkit-animation: ct-branch-pulse 1.7s ease-in-out infinite;
+    animation: ct-branch-pulse 1.7s ease-in-out infinite;
+}
+
+.ct-hq-panel.active .ct-branch-btn:hover {
+    -webkit-animation-play-state: paused;
+    animation-play-state: paused;
+}
+
+@-webkit-keyframes ct-branch-pulse {
+    0%, 100% { -webkit-transform: scale(1); transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 115, 230, .55); }
+    50%      { -webkit-transform: scale(1.06); transform: scale(1.06); box-shadow: 0 0 0 9px rgba(0, 115, 230, 0); }
+}
+@keyframes ct-branch-pulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 115, 230, .55); }
+    50%      { transform: scale(1.06); box-shadow: 0 0 0 9px rgba(0, 115, 230, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ct-hq-panel.active .ct-branch-btn { -webkit-animation: none; animation: none; }
+}
+
 /* Map */
 .ct-map {
     height: 250px;
