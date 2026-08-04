@@ -1,7 +1,4 @@
-const express = require('express');
-const cors = require('cors');
-require('dotenv').config();
-
+const path = require('path');
 const authRoutes = require('./routes/authRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
 const userRoutes = require('./routes/userRoutes');
@@ -16,6 +13,12 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Serve existing uploaded files and media directories without modifying files
+app.use('/uploads', express.static(path.join(__dirname, '../../uploads')));
+app.use('/pdf', express.static(path.join(__dirname, '../../pdf')));
+app.use('/LOGO', express.static(path.join(__dirname, '../../LOGO')));
+app.use('/Photos', express.static(path.join(__dirname, '../../Photos')));
 
 // API Routes
 app.use('/api/v1/auth', authRoutes);
