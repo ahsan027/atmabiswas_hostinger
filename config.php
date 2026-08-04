@@ -2,6 +2,15 @@
 // Configuration file for ATMABISWAS website
 // This ensures paths work correctly across different hosting environments
 
+// Ensure output buffering is active early to allow session_start and headers anywhere
+if (ob_get_level() === 0) {
+    ob_start();
+}
+
+if (session_status() === PHP_SESSION_NONE && !headers_sent()) {
+    @session_start();
+}
+
 // Belt-and-suspenders: PHP-level no-cache headers for all pages that include
 // this file. The .htaccess covers the full server, but PHP headers guarantee
 // these pages are never served from cache even if .htaccess is bypassed.

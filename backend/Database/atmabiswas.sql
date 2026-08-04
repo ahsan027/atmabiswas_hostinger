@@ -110,7 +110,7 @@ CREATE TABLE `jobs` (
   `salary_range` varchar(50) NOT NULL,
   `job_type` varchar(20) NOT NULL,
   `job_req` varchar(255) DEFAULT 'No job requirements specified',
-  `PostDate` date NOT NULL DEFAULT curdate(),
+  `PostDate` date NOT NULL DEFAULT (CURRENT_DATE),
   `deadline` date DEFAULT NULL,
   `job_dept` varchar(255) DEFAULT 'Manager',
   `job_code` varchar(255) DEFAULT NULL

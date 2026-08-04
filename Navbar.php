@@ -1,6 +1,8 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) session_start();
 require_once __DIR__ . '/config.php';
+if (session_status() === PHP_SESSION_NONE && !headers_sent()) {
+    @session_start();
+}
 ?>
 <link rel="stylesheet" href="<?= SITE_ROOT ?>/navbar.css?v=<?php echo filemtime(__DIR__ . '/navbar.css'); ?>">
 <link rel="stylesheet" href="<?= SITE_ROOT ?>/menutoggle.css?v=<?php echo filemtime(__DIR__ . '/menutoggle.css'); ?>">

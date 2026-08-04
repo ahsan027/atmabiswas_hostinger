@@ -42,7 +42,7 @@ class Db
         $requirements = [
             'pdo' => extension_loaded('pdo'),
             'pdo_mysql' => extension_loaded('pdo_mysql'),
-            'mysql_attr_init_command' => defined('PDO::MYSQL_ATTR_INIT_COMMAND')
+            'mysql_attr_init_command' => defined('Pdo\\Mysql::ATTR_INIT_COMMAND') || defined('PDO::MYSQL_ATTR_INIT_COMMAND')
         ];
 
         return $requirements;
@@ -51,37 +51,53 @@ class Db
     // Initialize the database connection
     private function initializeConnection()
     {
+        // Allow environment variables to override default credentials
+        if (getenv('DB_HOST')) $this->hostname = getenv('DB_HOST');
+        if (getenv('DB_USER')) $this->user     = getenv('DB_USER');
+        if (getenv('DB_PASS') !== false) $this->pswd = getenv('DB_PASS');
+        if (getenv('DB_NAME')) $this->dbname   = getenv('DB_NAME');
+
         // Check if PDO MySQL extension is loaded
         if (!extension_loaded('pdo_mysql')) {
             throw new Exception("PDO MySQL extension is not loaded. Please enable it in your PHP configuration.");
         }
 
+        // Build PDO options array safely (handling PHP 8.5+ deprecations)
+        $options = [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES => false
+        ];
+
+        if (defined('Pdo\\Mysql::ATTR_INIT_COMMAND')) {
+            $options[\Pdo\Mysql::ATTR_INIT_COMMAND] = "SET NAMES utf8mb4";
+        } elseif (defined('PDO::MYSQL_ATTR_INIT_COMMAND')) {
+            @$options[PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES utf8mb4";
+        }
+
         try {
-            // Build PDO options array
-            $options = [
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                PDO::ATTR_EMULATE_PREPARES => false
-            ];
-
-            // Add MySQL-specific options only if the constant is defined
-            if (defined('PDO::MYSQL_ATTR_INIT_COMMAND')) {
-                $options[PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES utf8mb4";
-            }
-
             $this->pdo = new PDO(
                 "mysql:host=$this->hostname;dbname=$this->dbname;charset=utf8mb4",
                 $this->user,
                 $this->pswd,
                 $options
             );
-
-            // Set charset manually if the constant wasn't available
-            if (!defined('PDO::MYSQL_ATTR_INIT_COMMAND')) {
-                $this->pdo->exec("SET NAMES utf8mb4");
+        } catch (PDOException $e) {
+            // Secondary fallback for local dev environments where root user with empty password might be used
+            if ($this->hostname === 'localhost' || $this->hostname === '127.0.0.1') {
+                try {
+                    $this->pdo = new PDO(
+                        "mysql:host=$this->hostname;dbname=$this->dbname;charset=utf8mb4",
+                        "root",
+                        "",
+                        $options
+                    );
+                    return;
+                } catch (PDOException $e2) {
+                    // Fallback failed as well, log original error
+                }
             }
 
-        } catch (PDOException $e) {
             error_log("Database connection failed: " . $e->getMessage());
             throw new Exception("Database connection failed. Please try again later.");
         }
