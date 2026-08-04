@@ -4,13 +4,14 @@ import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 
-// Auth & Dashboard Pages
+// Auth, Dashboard & User Management Pages
 import Login from './pages/Login';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import Profile from './pages/Profile';
 import ChangePassword from './pages/ChangePassword';
 import Dashboard from './pages/Dashboard';
+import UserManagement from './pages/UserManagement';
 
 function App() {
   return (
@@ -36,6 +37,9 @@ function App() {
           {/* Protected Routes */}
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/users" element={<UserManagement />} />
+            <Route path="/manage-admins" element={<UserManagement />} />
+            <Route path="/create-admin" element={<UserManagement />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/change-password" element={<ChangePassword />} />
           </Route>
