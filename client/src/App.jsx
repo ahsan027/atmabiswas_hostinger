@@ -4,7 +4,7 @@ import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 
-// Auth, Dashboard & User Management Pages
+// Auth, Dashboard, User Management & Blog Pages
 import Login from './pages/Login';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
@@ -12,6 +12,8 @@ import Profile from './pages/Profile';
 import ChangePassword from './pages/ChangePassword';
 import Dashboard from './pages/Dashboard';
 import UserManagement from './pages/UserManagement';
+import BlogManager from './pages/BlogManager';
+import BlogEditor from './pages/BlogEditor';
 
 function App() {
   return (
@@ -37,6 +39,10 @@ function App() {
           {/* Protected Routes */}
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/blogs" element={<BlogManager />} />
+            <Route path="/blog-manager" element={<BlogManager />} />
+            <Route path="/blog-editor" element={<BlogEditor />} />
+            <Route path="/blog-editor/:id" element={<BlogEditor />} />
             <Route path="/users" element={<UserManagement />} />
             <Route path="/manage-admins" element={<UserManagement />} />
             <Route path="/create-admin" element={<UserManagement />} />
