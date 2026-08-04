@@ -31,6 +31,14 @@ const Navbar = () => {
                 <LayoutDashboard className="w-4 h-4" />
                 <span>Dashboard</span>
               </Link>
+              <Link to="/jobs" className="flex items-center space-x-1 px-3 py-1.5 rounded-lg text-slate-300 hover:text-cyan-400 hover:bg-slate-800 transition-colors text-sm font-medium">
+                <Briefcase className="w-4 h-4" />
+                <span>Jobs</span>
+              </Link>
+              <Link to="/applications" className="flex items-center space-x-1 px-3 py-1.5 rounded-lg text-slate-300 hover:text-cyan-400 hover:bg-slate-800 transition-colors text-sm font-medium">
+                <FileCheck className="w-4 h-4" />
+                <span>CV Applications</span>
+              </Link>
               <Link to="/blogs" className="flex items-center space-x-1 px-3 py-1.5 rounded-lg text-slate-300 hover:text-cyan-400 hover:bg-slate-800 transition-colors text-sm font-medium">
                 <FileText className="w-4 h-4" />
                 <span>Press & News</span>

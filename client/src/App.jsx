@@ -4,7 +4,7 @@ import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 
-// Auth, Dashboard, User Management & Blog Pages
+// Auth, Dashboard, User Management, Blog & Career Pages
 import Login from './pages/Login';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
@@ -14,6 +14,9 @@ import Dashboard from './pages/Dashboard';
 import UserManagement from './pages/UserManagement';
 import BlogManager from './pages/BlogManager';
 import BlogEditor from './pages/BlogEditor';
+import JobManager from './pages/JobManager';
+import ApplicationsManager from './pages/ApplicationsManager';
+import PublicCareer from './pages/PublicCareer';
 
 function App() {
   return (
@@ -31,6 +34,9 @@ function App() {
           }}
         />
         <Routes>
+          {/* Public Routes */}
+          <Route path="/career" element={<PublicCareer />} />
+
           {/* Public Auth Routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -39,6 +45,9 @@ function App() {
           {/* Protected Routes */}
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/jobs" element={<JobManager />} />
+            <Route path="/manage-jobs" element={<JobManager />} />
+            <Route path="/applications" element={<ApplicationsManager />} />
             <Route path="/blogs" element={<BlogManager />} />
             <Route path="/blog-manager" element={<BlogManager />} />
             <Route path="/blog-editor" element={<BlogEditor />} />
