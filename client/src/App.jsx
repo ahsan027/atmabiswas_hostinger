@@ -4,7 +4,7 @@ import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 
-// Auth, Dashboard, User Management, Blog & Career Pages
+// Auth, Dashboard, User Management, Blog, Career & Directory Pages
 import Login from './pages/Login';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
@@ -17,6 +17,9 @@ import BlogEditor from './pages/BlogEditor';
 import JobManager from './pages/JobManager';
 import ApplicationsManager from './pages/ApplicationsManager';
 import PublicCareer from './pages/PublicCareer';
+import RegionalOffices from './pages/RegionalOffices';
+import BranchManager from './pages/BranchManager';
+import DivisionManager from './pages/DivisionManager';
 
 function App() {
   return (
@@ -45,6 +48,9 @@ function App() {
           {/* Protected Routes */}
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/regional-offices" element={<RegionalOffices />} />
+            <Route path="/branches" element={<BranchManager />} />
+            <Route path="/divisions" element={<DivisionManager />} />
             <Route path="/jobs" element={<JobManager />} />
             <Route path="/manage-jobs" element={<JobManager />} />
             <Route path="/applications" element={<ApplicationsManager />} />

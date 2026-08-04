@@ -31,6 +31,18 @@ const Navbar = () => {
                 <LayoutDashboard className="w-4 h-4" />
                 <span>Dashboard</span>
               </Link>
+              <Link to="/regional-offices" className="flex items-center space-x-1 px-3 py-1.5 rounded-lg text-slate-300 hover:text-cyan-400 hover:bg-slate-800 transition-colors text-sm font-medium">
+                <Building2 className="w-4 h-4" />
+                <span>Regional Offices</span>
+              </Link>
+              <Link to="/branches" className="flex items-center space-x-1 px-3 py-1.5 rounded-lg text-slate-300 hover:text-cyan-400 hover:bg-slate-800 transition-colors text-sm font-medium">
+                <GitBranch className="w-4 h-4" />
+                <span>Branches</span>
+              </Link>
+              <Link to="/divisions" className="flex items-center space-x-1 px-3 py-1.5 rounded-lg text-slate-300 hover:text-cyan-400 hover:bg-slate-800 transition-colors text-sm font-medium">
+                <Layers className="w-4 h-4" />
+                <span>Divisions</span>
+              </Link>
               <Link to="/jobs" className="flex items-center space-x-1 px-3 py-1.5 rounded-lg text-slate-300 hover:text-cyan-400 hover:bg-slate-800 transition-colors text-sm font-medium">
                 <Briefcase className="w-4 h-4" />
                 <span>Jobs</span>
